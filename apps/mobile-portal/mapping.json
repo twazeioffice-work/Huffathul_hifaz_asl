@@ -1,0 +1,38 @@
+{
+  "strict": {
+    "border-radius-1": 4,
+    "border-radius-2": 6,
+    "border-radius-3": 8
+  },
+  "components": {
+    "Card": {
+      "appearances": {
+        "filled": {
+          "mapping": {
+            "borderRadius": "border-radius-2",
+            "backgroundColor": "background-basic-color-2",
+            "borderColor": "border-basic-color-1"
+          }
+        }
+      }
+    },
+    "Button": {
+      "appearances": {
+        "filled": {
+          "mapping": {
+            "borderRadius": "border-radius-1"
+          }
+        }
+      }
+    },
+    "Input": {
+      "appearances": {
+        "default": {
+          "mapping": {
+            "borderRadius": "border-radius-1"
+          }
+        }
+      }
+    }
+  }
+}
