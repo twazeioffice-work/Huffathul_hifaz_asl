@@ -1,0 +1,60 @@
+{
+  "manifest_name": "Suffat-ul Huffaz Swarm Orchestration Runbook",
+  "version": "1.0.0",
+  "monorepo_root": "/suffat-erp-monorepo/",
+  "stages": [
+    {
+      "step": 1,
+      "phase": "Phase 1: Foundational Identity & Tenancy Vault",
+      "target_workspace": "packages/database",
+      "co_star_prompt_file": "phase-1-detailed-planning-costar-prompt.txt",
+      "validation_commands": [
+        "pnpm --filter database build",
+        "pnpm --filter database test"
+      ],
+      "fallback_script": "scripts/recover_database_migration.sh"
+    },
+    {
+      "step": 2,
+      "phase": "Phase 2: Core ERP Engine & Academic Hierarchy",
+      "target_workspace": "apps/internal-erp",
+      "co_star_prompt_file": "phase-2-detailed-planning-costar-prompt.txt",
+      "validation_commands": [
+        "pnpm --filter internal-erp build"
+      ],
+      "fallback_script": "scripts/rollback_erp_models.sh"
+    },
+    {
+      "step": 3,
+      "phase": "Phase 3: UI/UX & Frontend Component Engineering",
+      "target_workspace": "apps/internal-erp",
+      "co_star_prompt_file": "phase-3-ui-ux-design-blueprint.txt",
+      "validation_commands": [
+        "pnpm --filter internal-erp lint",
+        "pnpm --filter internal-erp build"
+      ],
+      "fallback_script": "scripts/fix_visual_regressions.sh"
+    },
+    {
+      "step": 4,
+      "phase": "Phase 4: Swarm MCP Vector Server & Agent Tooling",
+      "target_workspace": "apps/ai-swarm-mcp",
+      "co_star_prompt_file": "phase-4-swarm-mcp-vector-server-blueprint.txt",
+      "validation_commands": [
+        "pytest apps/ai-swarm-mcp/tests"
+      ],
+      "fallback_script": "scripts/heal_vector_indexing.sh"
+    },
+    {
+      "step": 5,
+      "phase": "Phase 5: Penetration Testing & DevSecOps",
+      "target_workspace": "/",
+      "co_star_prompt_file": "phase-5-detailed-planning-costar-prompt.txt",
+      "validation_commands": [
+        "semgrep --config=p/react apps/",
+        "npm audit --audit-level=high"
+      ],
+      "fallback_script": "scripts/neutralize_security_vulnerabilities.sh"
+    }
+  ]
+}
