@@ -4,7 +4,7 @@ from app.core.middleware.cors_sec import setup_cors
 
 app = FastAPI(title="Suffat-ul Huffaz Core API", version="1.0.0")
 
-from app.routers import admissions, sync, whatsapp_webhook, auth, academic, billing, affiliation, alumni, competition
+from app.routers import admissions, sync, whatsapp_webhook, auth, academic, billing, affiliation, alumni, competition, reports
 
 setup_cors(app)
 app.add_middleware(TenantInterceptorMiddleware)
@@ -18,6 +18,7 @@ app.include_router(whatsapp_webhook.router)
 app.include_router(affiliation.router)
 app.include_router(alumni.router)
 app.include_router(competition.router)
+app.include_router(reports.router)
 
 @app.get("/health")
 def health_check():
