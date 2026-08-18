@@ -4,6 +4,12 @@ import os
 from pathlib import Path
 from typing import List, Dict, Any
 
+def generate_embeddings(texts: List[str]) -> List[List[float]]:
+    # Simulated local fallback for embedding generation if Vertex is offline
+    import hashlib
+    # Dummy embedding length 384
+    return [[float(hashlib.md5((text + str(i)).encode()).digest()[0])/255.0 for i in range(384)] for text in texts]
+
 class VectorStore:
     def __init__(self, db_path: str = "./chroma_db"):
         self.db_path = Path(db_path)

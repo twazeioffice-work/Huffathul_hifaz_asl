@@ -1,0 +1,50 @@
+name: Project A - Public Website Production Deployment
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  validate-and-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js Runtime
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          cache: 'npm'
+          cache-dependency-path: 'apps/public-website/package.json'
+
+      - name: Install Dependencies
+        run: |
+          cd apps/public-website
+          npm ci
+
+      - name: Static Code Analysis (Type Check & Lint)
+        run: |
+          cd apps/public-website
+          npm run lint
+
+      - name: Run Unit Tests
+        run: |
+          cd apps/public-website
+          npm run test:unit
+
+      - name: Build Next.js Static & Dynamic Export
+        run: |
+          cd apps/public-website
+          npm run build
+        env:
+          NEXT_PUBLIC_MAPS_API_KEY: ${{ secrets.PROD_MAPS_API_KEY }}
+          INTERNAL_API_URL: ${{ secrets.PROD_INTERNAL_API_URL }}
+          PUBLIC_SIGNATURE_KEY: ${{ secrets.PROD_PUBLIC_SIGNATURE_KEY }}
+
+      - name: Deploy Production Release to Edge CDN Networks
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: |
+          echo "All validation gates passed. Deploying build artifacts to global edge networks..."

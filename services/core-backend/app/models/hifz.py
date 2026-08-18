@@ -46,3 +46,26 @@ class SabaqRecord(Base):
             "last_modified_at": self.last_modified_at.timestamp(),
             "created_at": self.created_at.timestamp()
         }
+
+class SabqiRecord(Base):
+    __tablename__ = "hifz_sabqi_records"
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    institution_id = Column(UUID(as_uuid=True), ForeignKey("institutions.id", ondelete="CASCADE"), nullable=False)
+    student_enrollment_id = Column(UUID(as_uuid=True), ForeignKey("student_enrollments.id", ondelete="CASCADE"), nullable=False)
+    date = Column(Date, nullable=False, server_default=func.current_date())
+    juz_number = Column(Integer, nullable=False)
+    grade = Column(Enum('excellent', 'good', 'average', 'needs_improvement', name='hifz_grade_type', create_type=False), nullable=False)
+    last_modified_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False)
+    created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+
+class ManzilRecord(Base):
+    __tablename__ = "hifz_manzil_records"
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    institution_id = Column(UUID(as_uuid=True), ForeignKey("institutions.id", ondelete="CASCADE"), nullable=False)
+    student_enrollment_id = Column(UUID(as_uuid=True), ForeignKey("student_enrollments.id", ondelete="CASCADE"), nullable=False)
+    date = Column(Date, nullable=False, server_default=func.current_date())
+    juz_number = Column(Integer, nullable=False)
+    grade = Column(Enum('excellent', 'good', 'average', 'needs_improvement', name='hifz_grade_type', create_type=False), nullable=False)
+    last_modified_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False)
+    created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+

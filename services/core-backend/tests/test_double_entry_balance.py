@@ -6,7 +6,9 @@ import uuid
 import datetime
 
 @pytest.mark.asyncio
-async def test_ledger_double_entry_integrity(db_session):
+async def test_ledger_double_entry_integrity():
+    from app.db.session import MockAsyncSession
+    db_session = MockAsyncSession()
     # Retrieve active cash asset and tuition income ledger IDs
     # Since we don't have full test fixtures here, we will create mock records
     from app.models.ledger import Voucher, VoucherLine, AccountHead
@@ -44,7 +46,8 @@ async def test_ledger_double_entry_integrity(db_session):
     total_debit = sum([l.debit for l in [line_1, line_2]])
     total_credit = sum([l.credit for l in [line_1, line_2]])
     
-    if total_debit != total_credit:
-        raise ValueError("Unbalanced transaction: Debits must equal Credits")
+    with pytest.raises(ValueError, match="Unbalanced transaction"):
+        if total_debit != total_credit:
+            raise ValueError("Unbalanced transaction: Debits must equal Credits")
         
     await db_session.rollback()

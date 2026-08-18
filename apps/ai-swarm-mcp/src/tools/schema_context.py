@@ -7,7 +7,7 @@ def retrieve_schema_context(arguments: dict) -> str:
     target = arguments.get("target_entity", "")
     
     client = get_chroma_client()
-    collection = client.get_collection("suffat_vault_ast")
+    collection = client.get_or_create_collection("suffat_vault_ast")
     
     query_vector = generate_embeddings([query])[0]
     
