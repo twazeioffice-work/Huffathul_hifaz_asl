@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 222.2 84% 4.9%; /* #0A0F1D */
+    --foreground: 210 40% 98%; /* #F8FAFC */
+    --card: 222.2 47.4% 11.2%; /* #111827 */
+    --card-foreground: 210 40% 98%;
+    --primary: 180 100% 50%; /* #00F0FF */
+    --primary-foreground: 222.2 84% 4.9%;
+    --border: 217.2 32.6% 17.5%; /* #1E293B */
+    --radius: 8px;
+    --accent: 180 100% 50%;
+    --accent-hover: 184 100% 42%;
+    --muted: 215 27.9% 16.9%;
+    --muted-foreground: 215 20.2% 65.1%;
+  }
+}
+
+@layer utilities {
+  .glass-panel {
+    background: rgba(17, 24, 39, 0.7);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(30, 41, 59, 0.6);
+  }
+
+  .focus-ring {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background;
+  }
+}

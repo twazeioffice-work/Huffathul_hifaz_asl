@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: suffat_db
+    environment:
+      POSTGRES_USER: suffat_admin
+      POSTGRES_PASSWORD: suffat_password
+      POSTGRES_DB: suffat_erp
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
