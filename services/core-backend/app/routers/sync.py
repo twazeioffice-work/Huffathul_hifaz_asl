@@ -1,108 +1,112 @@
-import uuid
-from datetime import datetime
-from fastapi import APIRouter, Depends, Query, HTTPException, status
-from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select, and_, or_
-from pydantic import BaseModel
+# Location: services/core-backend/app/routers/sync.py
+import datetime
 from typing import Dict, Any, List
-
+from uuid import UUID
+from fastapi import APIRouter, Depends, HTTPException, status
+from pydantic import BaseModel, Field
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy import select, update, insert
 from app.db.session import get_db_session
-from app.models.student import StudentProfile
+from app.models.hifz import SabaqRecord
 from app.models.sync import DeletedRecord
 
 router = APIRouter(prefix="/api/v1/sync")
 
-class PushChangesRequest(BaseModel):
-    changes: Dict[str, Any]
-    last_pulled_at: int
+class PushPayload(BaseModel):
+    last_pulled_at: float
+    changes: Dict[str, Dict[str, List[Dict[str, Any]]]] = Field(
+        ..., 
+        example={
+            "hifz_sabaq_records": {
+                "created": [{"id": "uuid-here", "student_enrollment_id": "...", "juz_number": 1}],
+                "updated": [{"id": "uuid-here", "grade": "excellent"}],
+                "deleted": ["uuid-here"]
+            }
+        }
+    )
 
 @router.get("/pull")
-async def pull_changes(
-    last_pulled_at: int = Query(0, description="Timestamp of last pull"),
-    session: AsyncSession = Depends(get_db_session)
+async def pull_delta(
+    last_pulled_at: float, 
+    institution_id: UUID,
+    db: AsyncSession = Depends(get_db_session)
 ):
-    """
-    WatermelonDB Pull Endpoint.
-    Returns changes since `last_pulled_at`.
-    Uses Last-Write-Wins (LWW) logic based on updated_at/created_at timestamps.
-    """
-    last_pulled_datetime = datetime.fromtimestamp(last_pulled_at)
+    # Convert epoch float to localized timezone-aware datetime
+    sync_time = datetime.datetime.fromtimestamp(last_pulled_at, tz=datetime.timezone.utc)
     
     # 1. Fetch created/updated records
-    # (Simplified for student_profiles as an example of sync)
-    stmt_profiles = select(StudentProfile).where(StudentProfile.created_at >= last_pulled_datetime)
-    profiles_result = await session.execute(stmt_profiles)
-    profiles = profiles_result.scalars().all()
-    
-    created_profiles = []
-    updated_profiles = []
-    for p in profiles:
-        # Simplistic approach: if created after last_pulled, it's created, else updated
-        if p.created_at.timestamp() >= last_pulled_at:
-             created_profiles.append({
-                 "id": str(p.id), 
-                 "admission_number": p.admission_number,
-                 "full_name": "Synced User" # Requires join with User in reality
-             })
-        else:
-             updated_profiles.append({
-                 "id": str(p.id), 
-                 "admission_number": p.admission_number,
-                 "full_name": "Synced User"
-             })
-             
-    # 2. Fetch deleted records from tombstone table
-    stmt_deleted = select(DeletedRecord).where(
-        and_(
-            DeletedRecord.table_name == 'student_profiles',
-            DeletedRecord.deleted_at >= last_pulled_datetime
-        )
+    sabaq_query = select(SabaqRecord).where(
+        SabaqRecord.institution_id == institution_id,
+        SabaqRecord.last_modified_at > sync_time
     )
-    deleted_result = await session.execute(stmt_deleted)
-    deleted_records = deleted_result.scalars().all()
-    deleted_ids = [str(r.record_id) for r in deleted_records]
-
-    current_timestamp = int(datetime.now().timestamp())
+    sabaq_result = await db.execute(sabaq_query)
+    sabaq_records = sabaq_result.scalars().all()
+    
+    # 2. Query tombstone deletions
+    tombstone_query = select(DeletedRecord).where(
+        DeletedRecord.institution_id == institution_id,
+        DeletedRecord.deleted_at > sync_time
+    )
+    tombstone_result = await db.execute(tombstone_query)
+    deleted_records = tombstone_result.scalars().all()
+    
+    server_time = datetime.datetime.now(datetime.timezone.utc).timestamp()
     
     return {
+        "timestamp": server_time,
         "changes": {
-            "student_profiles": {
-                "created": created_profiles,
-                "updated": updated_profiles,
-                "deleted": deleted_ids
+            "hifz_sabaq_records": {
+                "created": [r.to_dict() for r in sabaq_records if r.created_at > sync_time],
+                "updated": [r.to_dict() for r in sabaq_records if r.created_at <= sync_time],
+                "deleted": [d.record_id for d in deleted_records if d.table_name == "hifz_sabaq_records"]
             }
-        },
-        "timestamp": current_timestamp
+        }
     }
 
 @router.post("/push")
-async def push_changes(
-    payload: PushChangesRequest,
-    session: AsyncSession = Depends(get_db_session)
+async def push_delta(
+    payload: PushPayload,
+    institution_id: UUID,
+    db: AsyncSession = Depends(get_db_session)
 ):
-    """
-    WatermelonDB Push Endpoint.
-    Applies offline client changes to the server.
-    """
-    changes = payload.changes
-    
-    async with session.begin():
-        if "student_profiles" in changes:
-            profiles_changes = changes["student_profiles"]
+    async with db.begin(): # ACID-compliant transaction block
+        changes = payload.changes
+        sabaq_changes = changes.get("hifz_sabaq_records", {})
+        
+        # PROCESS CREATED RECORDS
+        for record_data in sabaq_changes.get("created", []):
+            record_data["institution_id"] = institution_id
+            await db.execute(insert(SabaqRecord).values(record_data))
             
-            # Apply creations
-            for created_record in profiles_changes.get("created", []):
-                # (In a real app, construct the SQLAlchemy model instance and insert)
-                pass 
+        # PROCESS UPDATED RECORDS WITH LAST-WRITE-WINS (LWW) CONFLICT CHECKS
+        for record_data in sabaq_changes.get("updated", []):
+            db_record = await db.get(SabaqRecord, record_data["id"])
+            if db_record:
+                # Compare server model last_modified_at to payload timestamp
+                client_modified = datetime.datetime.fromtimestamp(
+                    record_data.get("last_modified_at", 0), 
+                    tz=datetime.timezone.utc
+                )
+                if db_record.last_modified_at > client_modified:
+                    # Server has newer state; discard update to preserve audit integrity
+                    continue
                 
-            # Apply updates
-            for updated_record in profiles_changes.get("updated", []):
-                # Apply LWW: only update if the client's last_modified_at is > server's last_modified_at
-                pass
+                # Update attributes
+                for key, val in record_data.items():
+                    if hasattr(db_record, key) and key not in ['id', 'institution_id']:
+                        setattr(db_record, key, val)
+                    
+        # PROCESS DELETED RECORDS & POPULATE TOMBSTONES
+        for record_id in sabaq_changes.get("deleted", []):
+            db_record = await db.get(SabaqRecord, record_id)
+            if db_record:
+                await db.delete(db_record)
+                # Register tombstone for peer devices
+                tombstone = DeletedRecord(
+                    institution_id=institution_id,
+                    table_name="hifz_sabaq_records",
+                    record_id=record_id
+                )
+                db.add(tombstone)
                 
-            # Apply deletions (moves to tombstone)
-            for deleted_id in profiles_changes.get("deleted", []):
-                # Soft delete or move to DeletedRecord
-                pass
-                
-    return {"status": "ok"}
+    return {"status": "success", "timestamp": datetime.datetime.now(datetime.timezone.utc).timestamp()}
