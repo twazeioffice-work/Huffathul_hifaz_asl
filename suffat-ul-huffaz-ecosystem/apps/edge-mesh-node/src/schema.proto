@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package edge_sync;
+
+// Protobuf definition for lightweight, binary payloads over poor 3G/Satellite links
+message SyncDeltaPayload {
+    string tenant_id = 1;
+    string hardware_mac_address = 2;
+    repeated SyncRecord records = 3;
+}
+
+message SyncRecord {
+    string entity_type = 1;
+    string entity_id = 2;
+    bytes payload_blob = 3;
+    int64 timestamp = 4;
+}
