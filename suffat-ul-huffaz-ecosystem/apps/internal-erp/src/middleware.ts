@@ -14,17 +14,8 @@ export const config = {
 };
 
 export default function middleware(req: NextRequest) {
-  const url = req.nextUrl;
-
-  // Get hostname of request (e.g. portal.myschool.edu or erp.suffat.org)
-  const hostname = req.headers.get('host') || 'erp.suffat.org';
-
-  // If standard system domain, route normally
-  if (hostname.includes('suffat.org') || hostname.includes('localhost')) {
-    return NextResponse.next();
-  }
-
-  // Rewrite to dynamic path for custom domains
-  // Allows Next.js to map `portal.myschool.edu` to `app/app/[customDomain]/...` under the hood
-  return NextResponse.rewrite(new URL(`/app/${hostname}${url.pathname}`, req.url));
+  // TEMPORARILY DISABLED: Custom domain rewriting was blocking tunnel access.
+  // Re-enable when deploying to production with real custom domains (e.g. portal.myschool.edu).
+  // Original logic preserved in git history (commit before this change).
+  return NextResponse.next();
 }
