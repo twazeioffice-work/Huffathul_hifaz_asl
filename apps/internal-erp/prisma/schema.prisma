@@ -1,0 +1,149 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ----------------------------------------------------------------------
+// 1. MULTI-TENANCY & INFRASTRUCTURE
+// ----------------------------------------------------------------------
+
+model Institution {
+  id          String   @id @default(uuid())
+  code        String   @unique // e.g. "suffah-hq" (used in path routing)
+  name        String
+  domain      String?  @unique // e.g. "suffah-hq.org"
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  branches    Branch[]
+  users       User[]
+}
+
+model Branch {
+  id            String   @id @default(uuid())
+  institutionId String
+  code          String   // e.g. "north-campus"
+  name          String
+  location      String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  institution   Institution @relation(fields: [institutionId], references: [id], onDelete: Cascade)
+  assignments   UserBranchAssignment[]
+  classes       HifzClass[]
+
+  @@unique([institutionId, code]) // Path uniqueness: /[institutionCode]/[branchCode]/
+}
+
+// ----------------------------------------------------------------------
+// 2. ZERO-TRUST IDENTITY & RBAC
+// ----------------------------------------------------------------------
+
+enum GlobalRole {
+  SUPER_ADMIN
+  INSTITUTION_ADMIN
+  BRANCH_ADMIN
+  HIFZ_INSTRUCTOR
+  ACADEMIC_DIRECTOR
+  STUDENT
+  PARENT
+}
+
+model User {
+  id            String   @id @default(uuid())
+  institutionId String
+  email         String   @unique
+  passwordHash  String
+  firstName     String
+  lastName      String
+  globalRole    GlobalRole
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  institution   Institution @relation(fields: [institutionId], references: [id])
+  assignments   UserBranchAssignment[]
+  
+  // Relations depending on role
+  instructorProfile InstructorProfile?
+  studentProfile    StudentProfile?
+}
+
+model UserBranchAssignment {
+  id        String   @id @default(uuid())
+  userId    String
+  branchId  String
+  role      GlobalRole // Specific role overrides per branch
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  branch    Branch   @relation(fields: [branchId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, branchId])
+}
+
+// ----------------------------------------------------------------------
+// 3. HIFZ ACADEMICS (LMS CORE)
+// ----------------------------------------------------------------------
+
+model InstructorProfile {
+  id        String   @id @default(uuid())
+  userId    String   @unique
+  specialty String?
+  
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  classes   HifzClass[]
+}
+
+model StudentProfile {
+  id            String   @id @default(uuid())
+  userId        String   @unique
+  enrollmentNum String   @unique
+  currentJuz    Int      @default(30)
+  
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  enrollments   ClassEnrollment[]
+  evaluations   DailyEvaluation[]
+}
+
+model HifzClass {
+  id           String   @id @default(uuid())
+  branchId     String
+  instructorId String
+  name         String   // e.g. "Batch A - Morning"
+  schedule     String?  // JSON or string for days/times
+  
+  branch       Branch   @relation(fields: [branchId], references: [id], onDelete: Cascade)
+  instructor   InstructorProfile @relation(fields: [instructorId], references: [id])
+  students     ClassEnrollment[]
+}
+
+model ClassEnrollment {
+  id        String   @id @default(uuid())
+  classId   String
+  studentId String
+  enrolledAt DateTime @default(now())
+
+  class     HifzClass @relation(fields: [classId], references: [id], onDelete: Cascade)
+  student   StudentProfile @relation(fields: [studentId], references: [id], onDelete: Cascade)
+
+  @@unique([classId, studentId])
+}
+
+model DailyEvaluation {
+  id          String   @id @default(uuid())
+  studentId   String
+  evaluatorId String   // The instructor who graded
+  date        DateTime @default(now())
+  
+  sabq        String?  // New lesson
+  sabqi       String?  // Recent review
+  manzil      String?  // General review
+  
+  rating      Int      // 1-5 scale
+  notes       String?
+  synced      Boolean  @default(false) // Offline-first marker
+
+  student     StudentProfile @relation(fields: [studentId], references: [id], onDelete: Cascade)
+}
