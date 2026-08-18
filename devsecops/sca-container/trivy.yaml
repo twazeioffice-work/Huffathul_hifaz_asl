@@ -1,0 +1,10 @@
+# Location: devsecops/sca-container/trivy.yaml
+format: table
+exit-code: 1
+ignore-unfixed: true
+vuln-type:
+  - os
+  - library
+severity:
+  - CRITICAL
+  - HIGH

@@ -1,0 +1,22 @@
+# Location: devsecops/sast-dast/.semgrep.yaml
+rules:
+  - id: detect-raw-sql-concatenation
+    pattern: |
+      $DB.execute("..." + $VAL + "...")
+    message: "CRITICAL VULNERABILITY: Raw SQL string concatenation identified. Always use SQLAlchemy parameterized queries to prevent SQL injections."
+    languages: [python]
+    severity: ERROR
+
+  - id: bypass-jwt-signature-verification
+    pattern: |
+      jwt.decode($TOKEN, options={"verify_signature": False})
+    message: "CRITICAL SECURITY BREACH: Decoding JWT without cryptographical signature verification is strictly prohibited."
+    languages: [python]
+    severity: ERROR
+
+  - id: cors-wildcard-in-production
+    pattern: |
+      allow_origins=["*"]
+    message: "SECURITY VULNERABILITY: Permitting wildcard CORS origins (*) inside API configuration bypasses browser origin isolations."
+    languages: [python]
+    severity: WARNING

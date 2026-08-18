@@ -1,0 +1,57 @@
+# Location: .github/workflows/secops-pipeline.yml
+name: DevSecOps Delivery Pipeline
+
+on:
+  push:
+    branches: [ master, release/* ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  sast-dast:
+    name: Security Scan & Test Gates
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout Codebase
+        uses: actions/checkout@v4
+
+      - name: Initialize Python Runtime
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Linting & Security dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install semgrep bandit pytest pytest-cov httpx
+
+      # Gate 1: AST Codebase Audits (Semgrep)
+      - name: Run Semgrep Code Audit
+        run: semgrep --config=devsecops/sast-dast/.semgrep.yaml --error
+
+      # Gate 2: Python Code Base Audits (Bandit)
+      - name: Run Bandit Security Sweeper
+        run: bandit -r services/core-backend/app/ -v
+
+      # Gate 3: Node Packages SCA Checks
+      - name: Run Npm Security Audits
+        working-directory: apps/internal-erp
+        run: npm audit --audit-level=high
+
+      # Gate 4: Test Coverage Requirements
+      - name: Execute Pytest Validation & Coverage Checks
+        run: |
+          cd services/core-backend
+          pytest --cov=app --cov-report=term-missing --cov-fail-under=95 tests/
+
+      # Gate 5: Dynamic Container Analysis (Trivy Scan)
+      - name: Run Trivy Image Security Scan
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: 'gcr.io/suffat-erp/core-backend:latest'
+          format: 'table'
+          exit-code: '1'
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH'

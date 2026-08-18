@@ -1,0 +1,15 @@
+# Location: devsecops/sast-dast/bandit.yaml
+# Bandit Python AST security scanner configuration
+profile:
+  # Exclude test files
+  exclude:
+    - tests/
+    - venv/
+  # Exclude low severity rules
+  exclude_tests:
+    - B101 # Assert_used
+    - B105 # Hardcoded password string
+  # Include High severity targets
+  include:
+    - B608 # hardcoded SQL expressions
+    - B311 # standard pseudo-random generators
