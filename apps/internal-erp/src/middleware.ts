@@ -1,71 +1,50 @@
-import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
-import { jwtVerify } from 'jose'; 
-
-const BACKEND_REFRESH_URL = "https://api.suffat.org/api/v1/auth/refresh";
-// Mock PUBLIC_KEY for now
-const PUBLIC_JWT_KEY = new TextEncoder().encode(process.env.JWT_PUBLIC_KEY || "mock-public-key-bytes");
+// Location: apps/internal-erp/src/middleware.ts
+import { NextRequest, NextResponse } from "next/server";
 
 export async function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl;
-  
-  if (pathname.startsWith('/_next') || pathname.startsWith('/api/v1/auth') || pathname === '/login') {
+  const url = request.nextUrl;
+  const hostname = request.headers.get("host") || "";
+
+  // 1. Skip system base domains, static assets, and authentication endpoints
+  if (
+    hostname.includes("suffat.org") || 
+    hostname.includes("localhost") || 
+    url.pathname.startsWith("/_next") || 
+    url.pathname.startsWith("/api")
+  ) {
     return NextResponse.next();
   }
-  
-  const accessToken = request.cookies.get('access_token')?.value;
-  const refreshToken = request.cookies.get('refresh_token')?.value;
-  
-  if (!accessToken) {
-    return NextResponse.redirect(new URL('/login', request.url));
-  }
-  
+
+  // 2. Fetch mapping from Redis cache (Custom Domain -> Institution/Branch Code)
+  let tenantMapping = null;
   try {
-    const { payload } = await jwtVerify(accessToken, PUBLIC_JWT_KEY);
-    const exp = payload.exp as number;
-    const now = Math.floor(Date.now() / 1000);
-    
-    if (exp - now < 60) {
-      if (!refreshToken) {
-        throw new Error("Missing structural credentials required for edge updates.");
-      }
-      
-      const refreshResponse = await fetch(BACKEND_REFRESH_URL, {
-        method: "POST",
-        headers: {
-          "Cookie": `refresh_token=${refreshToken}`,
-          "Content-Type": "application/json"
-        }
-      });
-      
-      if (!refreshResponse.ok) {
-        throw new Error("Edge update failed.");
-      }
-      
-      const payloadData = await refreshResponse.json();
-      const nextAccessToken = payloadData.access_token;
-      
-      const response = NextResponse.next();
-      
-      response.cookies.set({
-        name: 'access_token',
-        value: nextAccessToken,
-        httpOnly: true,
-        secure: true,
-        sameSite: 'strict',
-        maxAge: 900 
-      });
-      
-      request.headers.set('Authorization', `Bearer ${nextAccessToken}`);
-      
-      return response;
+    const res = await fetch(`https://api.suffat.org/api/v1/branding/resolve-domain?domain=${hostname}`, {
+      headers: { "Content-Type": "application/json" }
+    });
+    if (res.ok) {
+      tenantMapping = await res.json(); // e.g. { institutionCode: "suh01", branchCode: "mn01" }
     }
   } catch (error) {
-    const failResponse = NextResponse.redirect(new URL('/login', request.url));
-    failResponse.cookies.delete('access_token');
-    failResponse.cookies.delete('refresh_token');
-    return failResponse;
+    console.error("Custom domain mapping lookup failed", error);
   }
-  
-  return NextResponse.next();
+
+  if (!tenantMapping) {
+    // Bounce client to system default fallback if domain is unmapped
+    return NextResponse.redirect(new URL("https://suffat.org/unmapped-domain", request.url));
+  }
+
+  const { institutionCode, branchCode } = tenantMapping;
+
+  // 3. Dynamic rewrite: map incoming request path internally to path-based tenant router
+  // e.g. 'custom-domain.org/erp/dashboard' -> '/app/suh01/mn01/erp/dashboard'
+  const rewrittenUrl = new URL(
+    `/app/${institutionCode}/${branchCode}${url.pathname}${url.search}`,
+    request.url
+  );
+
+  return NextResponse.rewrite(rewrittenUrl);
 }
+
+export const config = {
+  matcher: ["/((?!_next/static|_next/image|favicon.ico|public/).*)"],
+};
