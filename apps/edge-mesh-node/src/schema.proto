@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package suh.edge.sync;
+
+// Represents a single transaction mutation recorded locally
+message SyncTransaction {
+  int64 sequence_id = 1;
+  string transaction_uuid = 2;
+  string institution_id = 3;
+  string branch_id = 4;
+  string operator_user_id = 5;
+  string table_name = 6;
+  string action_type = 7;
+  string record_uuid = 8;
+  string payload_json = 9;
+  string client_timestamp = 10;
+}
+
+// Represents the bundle payload wrapper sent to the cloud
+message DeltaPacket {
+  string edge_node_uuid = 1;
+  int64 payload_generation_timestamp = 2;
+  repeated SyncTransaction transactions = 3;
+  bytes edge_signature = 4; // Ed25519 signature of the serialized transactions array
+}
