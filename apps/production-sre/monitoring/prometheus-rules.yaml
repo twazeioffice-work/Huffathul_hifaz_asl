@@ -1,0 +1,29 @@
+# Location: apps/production-sre/monitoring/prometheus-rules.yaml
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: suffat-sre-alerts
+  namespace: suffat-prod
+spec:
+  groups:
+  - name: gateway-vitals-alerts
+    rules:
+    # 1. API P99 LATENCY ALERT
+    - alert: ApiLatencyBurnRateHigh
+      expr: histogram_quantile(0.99, sum(rate(http_request_duration_seconds_bucket[5m])) by (le)) > 0.500
+      for: 2m
+      labels:
+        severity: critical
+      annotations:
+        summary: "High API Gateway Latency detected in Production environment"
+        description: "The 99th percentile of API response times has been above 500ms for 2 minutes (Current value: {{ $value }}s)."
+
+    # 2. DB CONNECTION POOL SATURATION ALERT
+    - alert: DatabasePoolSaturationCritical
+      expr: (pgbouncer_pools_server_active_connections / pgbouncer_pools_server_max_connections) * 100 > 85
+      for: 1m
+      labels:
+        severity: warning
+      annotations:
+        summary: "PgBouncer Connection Pool Saturation High"
+        description: "Active database server connection pooling has surpassed 85% of maximum limits (Current value: {{ $value }}%)."

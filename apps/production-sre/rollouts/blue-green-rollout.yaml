@@ -1,0 +1,37 @@
+# Location: apps/production-sre/rollouts/blue-green-rollout.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: suffat-backend-rollout
+  namespace: suffat-prod
+spec:
+  replicas: 4
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app: core-backend
+  template:
+    metadata:
+      labels:
+        app: core-backend
+    spec:
+      containers:
+      - name: core-backend
+        image: gcr.io/suffat-prod/core-backend:v1.12.0
+        ports:
+        - containerPort: 8000
+  strategy:
+    blueGreen:
+      activeService: suffat-backend-active
+      previewService: suffat-backend-preview
+      autoPromotionEnabled: false # Manual validation gate before production swap
+      antiAffinity:
+        preferredDuringSchedulingIgnoredDuringExecution:
+          nodeAntiAffinity: {}
+      # Perform real-time analysis on the Preview pods before promotion
+      analysis:
+        templates:
+        - templateName: ingress-health-analysis
+        args:
+        - name: service-name
+          value: suffat-backend-preview
