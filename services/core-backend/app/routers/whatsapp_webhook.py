@@ -1,62 +1,56 @@
-import os
+# Location: services/core-backend/app/routers/whatsapp_webhook.py
 import hmac
 import hashlib
-from fastapi import APIRouter, Request, Response, HTTPException, BackgroundTasks
-from app.core.tasks.inbound_processor import process_inbound_webhook
+from fastapi import APIRouter, Request, HTTPException, Query, BackgroundTasks, status
+from fastapi.responses import PlainTextResponse
+from app.core.tasks.inbound_processor import process_inbound_payload
 
-router = APIRouter(prefix="/api/v1/webhooks")
+router = APIRouter(prefix="/api/v1/webhooks/whatsapp")
 
-META_APP_SECRET = os.getenv("META_APP_SECRET", "MOCK_SECRET")
-VERIFY_TOKEN = os.getenv("META_WEBHOOK_VERIFY_TOKEN", "SUH_SECURE_TOKEN_2026")
+META_VERIFY_TOKEN = "your-configured-meta-verify-token"
+META_APP_SECRET = "your-meta-app-secret"
 
-@router.get("/whatsapp")
-async def verify_webhook(request: Request):
-    """
-    Handles Meta's initial verification request for the webhook URL.
-    """
-    mode = request.query_params.get("hub.mode")
-    token = request.query_params.get("hub.verify_token")
-    challenge = request.query_params.get("hub.challenge")
+@router.get("", response_class=PlainTextResponse)
+async def verify_webhook(
+    hub_mode: str = Query(None, alias="hub.mode"),
+    hub_verify_token: str = Query(None, alias="hub.verify_token"),
+    hub_challenge: str = Query(None, alias="hub.challenge")
+):
+    if hub_mode == "subscribe" and hub_verify_token == META_VERIFY_TOKEN:
+        return hub_challenge
+    raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Verification token mismatch")
 
-    if mode and token:
-        if mode == "subscribe" and token == VERIFY_TOKEN:
-            return Response(content=challenge, media_type="text/plain", status_code=200)
-        else:
-            raise HTTPException(status_code=403, detail="Verification failed")
-    
-    raise HTTPException(status_code=400, detail="Invalid request")
-
-@router.post("/whatsapp")
+@router.post("")
 async def receive_webhook(request: Request, background_tasks: BackgroundTasks):
-    """
-    Receives inbound messages and status updates from WhatsApp.
-    Enforces HMAC-SHA256 signature verification.
-    """
-    signature = request.headers.get("X-Hub-Signature-256")
-    if not signature:
-        raise HTTPException(status_code=401, detail="Missing signature")
-        
-    body_bytes = await request.body()
+    # 1. Read raw body bytes for HMAC verification
+    raw_body = await request.body()
+    signature_header = request.headers.get("X-Hub-Signature-256")
     
-    # Verify HMAC-SHA256
-    if META_APP_SECRET != "MOCK_SECRET":
-        expected_hash = hmac.new(
-            key=META_APP_SECRET.encode(),
-            msg=body_bytes,
-            digestmod=hashlib.sha256
-        ).hexdigest()
-        
-        expected_signature = f"sha256={expected_hash}"
-        
-        if not hmac.compare_digest(signature, expected_signature):
-            raise HTTPException(status_code=401, detail="Invalid signature")
-
-    # Fast-ACK: immediately dispatch to background worker and return 200 OK
-    # This prevents Meta API retry storms.
-    try:
-        payload = await request.json()
-        background_tasks.add_task(process_inbound_webhook, payload)
-    except Exception:
-        pass # Still return 200 to Meta
-        
-    return Response(status_code=200)
+    if not signature_header or not signature_header.startswith("sha256="):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Cryptographic signature header missing or malformed."
+        )
+    
+    # 2. Extract SHA256 signature hash from header
+    actual_signature = signature_header.split("sha256=")[1]
+    
+    # 3. Compute expected signature hash using SHA256 HMAC
+    expected_signature = hmac.new(
+        key=META_APP_SECRET.encode('utf-8'),
+        msg=raw_body,
+        digestmod=hashlib.sha256
+    ).hexdigest()
+    
+    if not hmac.compare_digest(actual_signature, expected_signature):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Signature verification failure. Payload spoofing blocked."
+        )
+    
+    # 4. Offload heavy processing payload asynchronously to Celery, return sub-3s Fast-ACK
+    payload = await request.json()
+    # Enqueue into background tasks (Using FastAPIs BackgroundTasks for immediate ACK or Celery)
+    background_tasks.add_task(process_inbound_payload, payload)
+    
+    return {"status": "enqueued_receipt"}

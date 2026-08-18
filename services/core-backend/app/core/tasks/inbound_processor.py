@@ -1,71 +1,78 @@
-import asyncio
-from typing import Dict, Any
-from app.db.session import async_session_maker
-from sqlalchemy import select
-from app.models.communication import CommunicationLog
-from app.models.student import StudentProfile
-from app.models.identity import User
+# Location: services/core-backend/app/core/tasks/inbound_processor.py
 
-async def process_inbound_webhook(payload: Dict[str, Any]):
+import json
+from celery import Celery
+import logging
+from sqlalchemy import select
+from app.db.session import SessionLocal
+from app.models.student import StudentProfile
+from app.models.staff import StaffProfile
+from app.models.communication import CommunicationLog
+from hashlib import sha256
+
+logger = logging.getLogger(__name__)
+
+async def process_inbound_payload(payload: dict):
     """
-    Background task to process inbound WhatsApp messages.
-    Resolves the phone number to a tenant identity and logs it.
+    Parses WhatsApp payload, verifies deduplication, resolves the sender to a tenant/profile, and logs the event.
     """
+    db = SessionLocal()
     try:
         entries = payload.get("entry", [])
         for entry in entries:
             changes = entry.get("changes", [])
             for change in changes:
                 value = change.get("value", {})
-                
-                # Handle Messages
                 messages = value.get("messages", [])
-                for message in messages:
-                    sender_phone = message.get("from")
-                    msg_id = message.get("id")
+                
+                for msg in messages:
+                    msg_id = msg.get("id")
+                    sender_phone = msg.get("from")
+                    body = msg.get("text", {}).get("body")
                     
-                    async with async_session_maker() as session:
-                        # 1. Resolve Identity
-                        # Very simplified identity resolution:
-                        stmt = select(User).where(User.phone_number == sender_phone)
-                        result = await session.execute(stmt)
-                        user = result.scalar_one_or_none()
-                        
-                        student_profile_id = None
-                        if user:
-                            # Assume user is a student for this simplified demo
-                            prof_stmt = select(StudentProfile).where(StudentProfile.user_id == user.id)
-                            prof_result = await session.execute(prof_stmt)
-                            profile = prof_result.scalar_one_or_none()
-                            if profile:
-                                student_profile_id = profile.id
-                        
-                        # 2. Log Communication
-                        log = CommunicationLog(
-                            student_profile_id=student_profile_id,
-                            direction="inbound",
-                            status="received",
-                            sender_phone=sender_phone or "unknown",
-                            whatsapp_message_id=msg_id,
-                            payload=message
-                        )
-                        session.add(log)
-                        await session.commit()
-                        
-                # Handle Status Updates (sent, delivered, read, failed)
-                statuses = value.get("statuses", [])
-                for status_update in statuses:
-                    msg_id = status_update.get("id")
-                    new_status = status_update.get("status") # sent, delivered, read, failed
+                    # 1. Deduplicate: Assert message ID does not already exist
+                    existing_log = db.query(CommunicationLog).filter(
+                        CommunicationLog.whatsapp_message_id == msg_id
+                    ).first()
                     
-                    async with async_session_maker() as session:
-                        stmt = select(CommunicationLog).where(CommunicationLog.whatsapp_message_id == msg_id)
-                        result = await session.execute(stmt)
-                        log = result.scalar_one_or_none()
+                    if existing_log:
+                        continue # Message already processed, skip
                         
-                        if log:
-                            log.status = new_status
-                            await session.commit()
-                            
+                    # 2. Multi-Tenant Identity Resolution: Check Student and Staff profiles
+                    student = db.query(StudentProfile).filter(
+                        StudentProfile.phone_number == sender_phone
+                    ).first()
+                    
+                    staff = db.query(StaffProfile).filter(
+                        StaffProfile.phone_number == sender_phone
+                    ).first()
+                    
+                    resolved_inst_id = None
+                    resolved_branch_id = None
+                    
+                    if student:
+                        resolved_inst_id = student.institution_id
+                        resolved_branch_id = student.branch_id
+                    elif staff:
+                        resolved_inst_id = staff.institution_id
+                        resolved_branch_id = staff.branch_id
+                        
+                    # 3. Log the message inside the multi-tenant ledger
+                    new_log = CommunicationLog(
+                        institution_id=resolved_inst_id,
+                        branch_id=resolved_branch_id,
+                        sender_phone=sender_phone,
+                        recipient_phone="system_gateway",
+                        direction="inbound",
+                        status="received",
+                        message_body=body,
+                        whatsapp_message_id=msg_id
+                    )
+                    db.add(new_log)
+                    db.commit()
+                    
     except Exception as e:
-        print(f"Error processing inbound webhook: {e}")
+        db.rollback()
+        logger.error(f"Failed processing payload: {e}")
+    finally:
+        db.close()
