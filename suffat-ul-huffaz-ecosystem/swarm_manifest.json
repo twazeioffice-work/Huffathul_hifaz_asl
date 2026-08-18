@@ -1,0 +1,81 @@
+{
+  "version": "1.0.0",
+  "project": "Suffat-ul Huffaz Digital Ecosystem",
+  "orchestrator": "MCP Swarm Controller",
+  "global_constraints": {
+    "package_manager": "pnpm",
+    "strict_mode": true,
+    "max_auto_retries": 3,
+    "fallback_model": "gemini-31-pro-high"
+  },
+  "execution_sequence": [
+    {
+      "phase": 1,
+      "name": "Zero-Trust Identity Vault & RBAC",
+      "assigned_agent": "Principal Database Architect",
+      "model": "gemini-31-pro-high",
+      "inputs": [
+        ".github/docs/phase-1-detailed-planning-costar-prompt.txt",
+        ".github/docs/phase-1-micro-detailed-execution-blueprint.txt"
+      ],
+      "target_workspace": "packages/database",
+      "validation_gates": [
+        "pnpm run lint",
+        "pytest tests/test_rls_policies.py --cov=src --cov-fail-under=95"
+      ],
+      "on_failure": "HALT_AND_REQUEST_HUMAN_REVIEW"
+    },
+    {
+      "phase": 2,
+      "name": "Core ERP Engine & Academic Hierarchy",
+      "assigned_agent": "Senior Backend SDE",
+      "model": "gemini-31-pro-high",
+      "inputs": [
+        ".github/docs/phase-2-detailed-planning-costar-prompt.txt",
+        ".github/docs/phase-2-micro-detailed-execution-blueprint.txt"
+      ],
+      "target_workspace": "apps/internal-erp/api",
+      "validation_gates": [
+        "pnpm run build",
+        "pytest tests/test_distributed_admissions.py"
+      ]
+    },
+    {
+      "phase": 3,
+      "name": "UI/UX & Frontend Component Engineering",
+      "assigned_agent": "Lead Frontend React Engineer",
+      "model": "gemini-3.7-flash-high",
+      "inputs": [
+        ".github/docs/ui-ux-design-generation-command.txt",
+        ".github/docs/phase-3-micro-detailed-execution-blueprint.txt"
+      ],
+      "target_workspace": "apps/internal-erp/src",
+      "validation_gates": [
+        "pnpm run tsc --noEmit",
+        "cypress run --spec 'cypress/integration/accessibility.spec.ts'"
+      ]
+    },
+    {
+      "phase": 4,
+      "name": "AI Swarm MCP Vector Server",
+      "assigned_agent": "Principal Tooling Engineer",
+      "model": "gemini-31-pro-high",
+      "inputs": [
+        ".github/docs/phase-4-swarm-mcp-vector-server-blueprint.txt",
+        ".github/docs/phase-4-micro-detailed-execution-blueprint.txt"
+      ],
+      "target_workspace": "apps/ai-swarm-mcp",
+      "validation_gates": [
+        "python -m mypy src/",
+        "pytest tests/test_ast_chunking.py"
+      ],
+      "post_execution_trigger": "START_CHROMADB_BACKGROUND_SERVICE"
+    },
+    {
+      "phase": "5_to_16",
+      "name": "Sequential Ecosystem Build Loop",
+      "instruction": "Iterate sequentially through Phases 5 to 16 using the standard Pro (Backend/Security) and Flash (Frontend/UI) assignment matrix. Require Pytest, ESLint, and Cypress validation gates for each boundary.",
+      "dynamic_input_pattern": ".github/docs/phase-{phase_number}-*.txt"
+    }
+  ]
+}
