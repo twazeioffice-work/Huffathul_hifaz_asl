@@ -16,3 +16,19 @@ services:
 
 volumes:
   postgres_data:
+
+  ai-swarm-mcp:
+    build:
+      context: ./apps/ai-swarm-mcp
+      dockerfile: Dockerfile
+    container_name: suffat-ai-mcp-server
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./volumes/chromadb_data:/app/volumes/chromadb_data
+      - ./apps/internal-erp:/workspace/internal-erp:ro
+      - ./apps/mobile-portal:/workspace/mobile-portal:ro
+    environment:
+      - CHROMA_PERSIST_DIR=/app/volumes/chromadb_data
+    restart: unless-stopped
+
