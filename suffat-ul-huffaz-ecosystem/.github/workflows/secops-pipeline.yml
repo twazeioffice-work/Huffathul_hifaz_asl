@@ -1,0 +1,43 @@
+name: DevSecOps Master Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  security-gates:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install Turborepo & pnpm
+        run: |
+          npm install -g pnpm turbo
+          pnpm install
+
+      - name: Run PyTest with Coverage (Gate: 95%)
+        run: |
+          pip install pytest pytest-cov
+          # Mock test runner mapping
+          echo "Simulating PyTest execution..."
+          pytest packages/database/tests/test_rls_policies.py --cov=packages/database/src --cov-fail-under=95
+
+      - name: Static Application Security Testing (Bandit)
+        run: |
+          pip install bandit
+          bandit -r apps/ai-swarm-mcp/src/ -ll
+
+      - name: Node.js Component Security Audit
+        run: |
+          pnpm audit --audit-level=high
+
+      - name: Linting Constraints
+        run: |
+          pnpm turbo run lint
