@@ -1,0 +1,36 @@
+# Location: apps/production-ops/configs/prometheus-alerts.yaml
+groups:
+  - name: SuffatErpSlaAlerts
+    rules:
+      # 1. API Latency SLA Alert (p99 Response Limit)
+      - alert: HighApiLatencyP99
+        expr: histogram_quantile(0.99, sum(rate(http_request_duration_seconds_bucket[5m])) by (le, path, tenant_id)) > 0.500
+        for: 2m
+        labels:
+          severity: critical
+          tier: api
+        annotations:
+          summary: "p99 API Latency Breach Detected"
+          description: "Tenant API path {{ $labels.path }} for Tenant ID {{ $labels.tenant_id }} is responding above 500ms SLA (current: {{ $value | humanizeDuration }})."
+
+      # 2. Database Connection Pool Saturation Safeguard
+      - alert: DatabasePoolSaturated
+        expr: pgbouncer_pools_active_connections{pool="transaction"} / pgbouncer_pools_max_connections{pool="transaction"} * 100 > 85.0
+        for: 1m
+        labels:
+          severity: warning
+          tier: database
+        annotations:
+          summary: "PgBouncer Connection Pool Saturation Above 85%"
+          description: "Database connection pool is operating at {{ $value | printf \"%.2f\" }}% saturation. High risk of queue blocks."
+
+      # 3. Cross-Tenant Data Leak Detection
+      - alert: CrossTenantAccessAnomaly
+        expr: sum(rate(audit_logs_unauthorized_tenant_access_total[5m])) by (tenant_id) > 0
+        for: 0s
+        labels:
+          severity: page-red
+          tier: security
+        annotations:
+          summary: "CRITICAL: Cross-Tenant Isolation Breach Attempt"
+          description: "Security perimeter has blocked dynamic path-based access spoofing on Tenant {{ $labels.tenant_id }}. Immediate SRE triage required."
