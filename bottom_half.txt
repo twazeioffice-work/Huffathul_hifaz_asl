@@ -1,0 +1,20 @@
+﻿      {/* 6. APPLE COMPLIANCE FOOTER */}
+      <footer className="bg-[#050506] border-t border-[#2C2C2E]/40 py-12 px-8">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center text-[10px] text-[#86868B] space-y-4 md:space-y-0">
+          <div>
+            <p>Copyright Â© 2026 Suffat-ul Huffaz Central Board. All rights reserved [cite: 231].</p>
+            <p className="mt-1 font-mono text-[9px]">GCP Region: asia-south1 (Mumbai) â€¢ Secure Cluster Isolation [cite: 53, 78].</p>
+          </div>
+          <div className="flex space-x-4 font-mono">
+            <span className="hover:text-white cursor-pointer transition-colors">Privacy Policy</span>
+            <span>â€¢</span>
+            <span className="hover:text-white cursor-pointer transition-colors">SLA Monitoring</span>
+            <span>â€¢</span>
+            <span className="hover:text-white cursor-pointer transition-colors">Zero-Trust Registry</span>
+          </div>
+        </div>
+      </footer>
+
+    </div>
+  );
+}
