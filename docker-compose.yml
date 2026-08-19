@@ -14,9 +14,6 @@ services:
       - postgres_data:/var/lib/postgresql/data
     restart: unless-stopped
 
-volumes:
-  postgres_data:
-
   ai-swarm-mcp:
     build:
       context: ./apps/ai-swarm-mcp
@@ -32,3 +29,5 @@ volumes:
       - CHROMA_PERSIST_DIR=/app/volumes/chromadb_data
     restart: unless-stopped
 
+volumes:
+  postgres_data:
