@@ -164,7 +164,7 @@ export default function DashboardCommandCenter() {
         <div className="fixed inset-0 z-40 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
           <div className="glass-panel w-full max-w-2xl rounded-2xl p-6 border border-slate-700 shadow-2xl">
             <div className="flex items-center justify-between border-b border-slate-800 pb-4 mb-4">
-              <h2 className="text-lg font-bold text-white">
+              <h2 className="text-lg font-bold text-white flex items-center gap-2">
                 {activeModal === 'admissions' && '📋 Live Admissions Processing Queue'}
                 {activeModal === 'vault' && '🔐 Double-Entry Financial Vault Inspector'}
                 {activeModal === 'mesh' && '🌐 Edge Mesh Node Real-time Telemetry'}
@@ -182,7 +182,7 @@ export default function DashboardCommandCenter() {
               <div className="space-y-4">
                 <p className="text-xs text-slate-400">
                   Reviewing {queue.length} pending cross-tenant applicants across Indian campuses.
-                  <span className="text-cyan-400 ml-1">Click a student name to inspect full Indian profile &amp; address →</span>
+                  <span className="text-cyan-400 ml-1">Click a student name or button to inspect full Indian profile &amp; address →</span>
                 </p>
 
                 {queue.length === 0 ? (
@@ -197,7 +197,7 @@ export default function DashboardCommandCenter() {
                           {/* ★ CLICKABLE NAME → OPENS INSPECTOR DRAWER */}
                           <button
                             onClick={() => {
-                              setActiveModal(null); // close modal first
+                              setActiveModal(null);
                               setTimeout(() => inspect(app.id, 'student_admission'), 150);
                             }}
                             className="group text-left focus:outline-none"
@@ -216,9 +216,9 @@ export default function DashboardCommandCenter() {
                             setActiveModal(null);
                             setTimeout(() => inspect(app.id, 'student_admission'), 150);
                           }}
-                          className="px-3 py-1.5 rounded-lg bg-emerald-500 text-slate-950 text-xs font-bold hover:bg-emerald-400 transition-colors"
+                          className="px-3 py-1.5 rounded-lg bg-emerald-500 text-slate-950 text-xs font-bold hover:bg-emerald-400 transition-colors shadow-glow-emerald"
                         >
-                          Inspect &amp; Enroll
+                          Inspect &amp; Enroll &rarr;
                         </button>
                       </div>
                     ))}
@@ -249,9 +249,9 @@ export default function DashboardCommandCenter() {
                         }}
                         className="p-3.5 flex items-center justify-between hover:bg-slate-800/60 transition-all cursor-pointer group"
                       >
-                        <div className="space-y-0.5">
+                        <div className="space-y-1">
                           <div className="flex items-center gap-2">
-                            <span className="font-mono font-bold text-emerald-400 group-hover:underline underline-offset-2">
+                            <span className="font-mono font-bold text-emerald-400 group-hover:underline underline-offset-2 flex items-center gap-1">
                               {tx.entry}
                             </span>
                             <span className="text-[10px] font-mono text-slate-500 bg-slate-950 px-1.5 py-0.5 rounded border border-slate-800">
@@ -260,9 +260,21 @@ export default function DashboardCommandCenter() {
                           </div>
                           <p className="text-slate-400 text-[11px]">{tx.desc}</p>
                         </div>
-                        <div className="text-right shrink-0">
-                          <span className="font-mono font-bold text-white text-xs block">{tx.amt}</span>
-                          <span className="text-[10px] text-slate-500 font-mono">{tx.date}</span>
+                        <div className="text-right shrink-0 flex items-center gap-3">
+                          <div>
+                            <span className="font-mono font-bold text-white text-xs block">{tx.amt}</span>
+                            <span className="text-[10px] text-slate-500 font-mono">{tx.date}</span>
+                          </div>
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setActiveModal(null);
+                              setTimeout(() => inspectTransaction(tx.id), 150);
+                            }}
+                            className="px-2.5 py-1 rounded-lg bg-teal-950/80 border border-teal-500/40 text-emerald-300 text-[10px] font-bold group-hover:bg-emerald-500 group-hover:text-slate-950 transition-all"
+                          >
+                            Inspect &rarr;
+                          </button>
                         </div>
                       </div>
                     ))}
