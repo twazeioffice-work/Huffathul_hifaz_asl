@@ -6,6 +6,7 @@ import ApprovalInspectorDrawer from '@/components/erp/ApprovalInspectorDrawer';
 import { useLedgerInspector } from '@/hooks/useLedgerInspector';
 import LedgerTransactionDrawer from '@/components/LedgerTransactionDrawer';
 import { OverviewMetricsGrid } from '@/components/dashboard/OverviewMetricsGrid';
+import { FleetTelemetryCard } from '@/components/dashboard/FleetTelemetryCard';
 
 const ADMISSION_QUEUE = [
   { id: 'stud_bilal_101', name: 'Muhammad Bilal Khan', branch: 'Bengaluru Campus (Jayanagar)', hifzLevel: 'Para 12', time: '10m ago' },
@@ -153,6 +154,13 @@ export default function DashboardCommandCenter() {
             Open Financial Vault &rarr;
           </button>
         </div>
+      </div>
+
+      {/* ═══════════════════════════════════════════════════════════════════
+       *  3. ACTIVE TRANSPORT FLEET OPERATIONAL TRACE ENGINE
+       * ═══════════════════════════════════════════════════════════════════ */}
+      <div className="pt-2">
+        <FleetTelemetryCard />
       </div>
 
       {/* ═══════════════════════════════════════════════════════════════════
