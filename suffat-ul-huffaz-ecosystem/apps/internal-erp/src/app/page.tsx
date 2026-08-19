@@ -15,6 +15,7 @@ import {
   Activity, ArrowUpRight, DollarSign, Users, Award, ShieldAlert,
   Sliders, MessageSquare, Compass, PhoneCall, Calendar, HelpCircle
 } from "lucide-react";
+import { StudentProgressTracker } from "@/components/dashboard/StudentProgressTracker";
 
 // ============================================================================
 // 1. TYPOGRAPHY & ESTHETIC PALETTE (Apple Design System Ref)
@@ -226,6 +227,8 @@ export default function AppleEnterpriseDashboard() {
           </div>
         )}
       </AnimatePresence>
+
+      <StudentProgressTracker />
 
       {/* 6. APPLE COMPLIANCE FOOTER */}
       <footer className="bg-[#050506] border-t border-[#2C2C2E]/40 py-12 px-8">
