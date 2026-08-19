@@ -5,7 +5,7 @@ import { useApprovalInspector } from '@/hooks/useApprovalInspector';
 import ApprovalInspectorDrawer from '@/components/erp/ApprovalInspectorDrawer';
 import { useLedgerInspector } from '@/hooks/useLedgerInspector';
 import LedgerTransactionDrawer from '@/components/LedgerTransactionDrawer';
-import { OverviewMetricsGrid } from '@/components/dashboard/OverviewMetricsGrid';
+import { FinancialRealtimeAuditedTracker } from '@/components/dashboard/FinancialRealtimeAuditedTracker';
 import { FleetTelemetryCard } from '@/components/dashboard/FleetTelemetryCard';
 
 const ADMISSION_QUEUE = [
@@ -103,7 +103,7 @@ export default function DashboardCommandCenter() {
       </div>
 
       {/* ═══════════════════════════════════════════════════════════════════
-       *  1. INTERACTIVE OVERVIEW METRICS GRID (4 Deep-Dive Cards)
+       *  1. INTERACTIVE OVERVIEW METRICS GRID (V2: FINANCIAL & ASSETS REFACTOR)
        * ═══════════════════════════════════════════════════════════════════ */}
       <div className="space-y-3">
         <div className="flex items-center justify-between">
@@ -112,7 +112,7 @@ export default function DashboardCommandCenter() {
           </h3>
           <span className="text-[11px] text-cyan-400">Click any metric card below to open deep audit drawer &rarr;</span>
         </div>
-        <OverviewMetricsGrid />
+        <FinancialRealtimeAuditedTracker />
       </div>
 
       {/* ═══════════════════════════════════════════════════════════════════
