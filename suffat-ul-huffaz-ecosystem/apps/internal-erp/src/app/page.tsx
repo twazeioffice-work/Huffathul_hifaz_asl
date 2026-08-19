@@ -5,8 +5,6 @@ import { useApprovalInspector } from '@/hooks/useApprovalInspector';
 import ApprovalInspectorDrawer from '@/components/erp/ApprovalInspectorDrawer';
 import { useLedgerInspector } from '@/hooks/useLedgerInspector';
 import LedgerTransactionDrawer from '@/components/LedgerTransactionDrawer';
-import { useEdgeTelemetryInspector } from '@/hooks/useEdgeTelemetryInspector';
-import EdgeNodeInspectorDrawer from '@/components/EdgeNodeInspectorDrawer';
 import { OverviewMetricsGrid } from '@/components/dashboard/OverviewMetricsGrid';
 
 const ADMISSION_QUEUE = [
@@ -19,13 +17,6 @@ const LEDGER_TRANSACTIONS = [
   { id: 'tx_94821034', entry: 'JE-2026-0819-001', hash: '8f7e2a4b9c1d...', amt: '₹28,500.00', desc: 'Hifz Tuition Collection - Student ID: SUH-2026-0421 (Hyderabad)', date: '09:15 UTC' },
   { id: 'tx_94821035', entry: 'JE-2026-0819-002', hash: '2c3d4e5f6a7b...', amt: '₹65,000.00', desc: 'Teacher Honorarium & Faculty Disbursement (Bengaluru)', date: '10:30 UTC' },
   { id: 'tx_94821036', entry: 'JE-2026-0819-003', hash: 'e3b0c44298fc...', amt: '₹36,000.00', desc: 'Campus Solar Grid Maintenance & Battery Servicing (Mumbai)', date: '12:00 UTC' }
-];
-
-const EDGE_NODES = [
-  { id: "EDGENODE-KL-04", location: "Kerala Central Campus (Kozhikode)", status: "ONLINE", queue: 0, link: "SATELLITE", latency: "12ms" },
-  { id: "EDGENODE-UP-09", location: "Lucknow Rural Branch (Uttar Pradesh)", status: "SYNCING", queue: 42, link: "CELLULAR", latency: "48ms" },
-  { id: "EDGENODE-KA-12", location: "Bengaluru Main Campus (Jayanagar)", status: "ONLINE", queue: 0, link: "BROADBAND", latency: "4ms" },
-  { id: "EDGENODE-JK-01", location: "Srinagar Edge Facility (Jammu & Kashmir)", status: "DEGRADED", queue: 119, link: "SATELLITE", latency: "145ms" },
 ];
 
 export default function DashboardCommandCenter() {
@@ -46,16 +37,6 @@ export default function DashboardCommandCenter() {
     isLoading: isLedgerLoading,
     error: ledgerError,
   } = useLedgerInspector();
-
-  // 3. Edge Mesh Telemetry Inspector hook (WireGuard Local Mesh)
-  const {
-    isDrawerOpen: isTelemetryDrawerOpen,
-    activeNode: activeTelemetryNode,
-    isLoading: isTelemetryLoading,
-    error: telemetryError,
-    openInspector: openTelemetryInspector,
-    closeInspector: closeTelemetryInspector,
-  } = useEdgeTelemetryInspector();
 
   const showToast = (msg: string) => {
     setToastMessage(msg);
@@ -136,7 +117,7 @@ export default function DashboardCommandCenter() {
       {/* ═══════════════════════════════════════════════════════════════════
        *  2. OPERATIONAL WORKFLOW HUBS (Admissions, Vault, Edge Mesh)
        * ═══════════════════════════════════════════════════════════════════ */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
         {/* Admissions Card */}
         <div className="glass-card p-6 rounded-2xl relative overflow-hidden group hover:border-cyan-500/40 transition-all">
           <div className="flex items-center justify-between text-xs text-slate-400 font-semibold mb-2">
@@ -172,24 +153,6 @@ export default function DashboardCommandCenter() {
             Open Financial Vault &rarr;
           </button>
         </div>
-
-        {/* Mesh Card */}
-        <div className="glass-card p-6 rounded-2xl relative overflow-hidden group hover:border-indigo-500/40 transition-all">
-          <div className="flex items-center justify-between text-xs text-slate-400 font-semibold mb-2">
-            <span>EDGE INFRASTRUCTURE</span>
-            <span className="px-2 py-0.5 rounded-full bg-indigo-950 text-indigo-400 border border-indigo-500/30 text-[10px]">4 Connected</span>
-          </div>
-          <div className="text-3xl font-black text-white tracking-tight mb-1">
-            4 <span className="text-xs font-normal text-slate-400">Regional Hubs Online</span>
-          </div>
-          <p className="text-xs text-slate-400 mb-6">Kerala, Lucknow, Bengaluru, &amp; Srinagar edge nodes operating with WireGuard sync.</p>
-          <button
-            onClick={() => setActiveModal('mesh')}
-            className="w-full py-2.5 rounded-xl bg-slate-900/80 border border-slate-700/60 hover:border-indigo-500/50 text-indigo-300 text-xs font-semibold flex items-center justify-center gap-2 group-hover:bg-indigo-950/30 transition-all"
-          >
-            View Node Mesh &rarr;
-          </button>
-        </div>
       </div>
 
       {/* ═══════════════════════════════════════════════════════════════════
@@ -202,7 +165,6 @@ export default function DashboardCommandCenter() {
               <h2 className="text-lg font-bold text-white flex items-center gap-2">
                 {activeModal === 'admissions' && '📋 Live Admissions Processing Queue'}
                 {activeModal === 'vault' && '🔐 Double-Entry Financial Vault Inspector'}
-                {activeModal === 'mesh' && '📡 Edge Mesh Node Real-time Telemetry (WireGuard)'}
               </h2>
               <button
                 onClick={() => setActiveModal(null)}
@@ -317,74 +279,6 @@ export default function DashboardCommandCenter() {
               </div>
             )}
 
-            {/* ── MESH (INTERACTIVE WIREGUARD TELEMETRY TRACEBACK) ── */}
-            {activeModal === 'mesh' && (
-              <div className="space-y-4 text-xs">
-                <div className="flex items-center justify-between text-slate-300 font-semibold">
-                  <span>Physical Raspberry Pi 5 Edge Fleet:</span>
-                  <span className="text-[11px] text-[#00E5FF] font-normal">Click any node to stream live Pi 5 thermals &amp; sync queues &rarr;</span>
-                </div>
-                <div className="overflow-x-auto">
-                  <table className="w-full text-left border-collapse">
-                    <thead>
-                      <tr className="border-b border-slate-800 text-slate-400 text-[10px] tracking-wider uppercase font-mono bg-slate-900/80">
-                        <th className="py-2.5 px-3">Node ID</th>
-                        <th className="py-2.5 px-3">Location</th>
-                        <th className="py-2.5 px-3">Link</th>
-                        <th className="py-2.5 px-3">Queue</th>
-                        <th className="py-2.5 px-3">Status</th>
-                        <th className="py-2.5 px-3 text-right">Action</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-slate-800 bg-slate-900/50">
-                      {EDGE_NODES.map((node) => (
-                        <tr
-                          key={node.id}
-                          onClick={() => {
-                            setActiveModal(null);
-                            setTimeout(() => openTelemetryInspector(node.id), 150);
-                          }}
-                          className="hover:bg-slate-800/60 transition cursor-pointer group"
-                        >
-                          <td className="py-3 px-3 font-mono font-bold text-slate-200 group-hover:text-[#00E5FF] group-hover:underline">
-                            {node.id}
-                          </td>
-                          <td className="py-3 px-3 text-slate-300">{node.location}</td>
-                          <td className="py-3 px-3 text-slate-400 font-mono">{node.link} ({node.latency})</td>
-                          <td className="py-3 px-3 font-mono">
-                            <span className={node.queue > 0 ? "text-amber-400 font-bold" : "text-emerald-400"}>
-                              {node.queue} deltas
-                            </span>
-                          </td>
-                          <td className="py-3 px-3">
-                            <span className={`px-2 py-0.5 rounded text-[10px] font-bold font-mono ${
-                              node.status === "ONLINE" ? "bg-emerald-950/60 text-emerald-400 border border-emerald-500/30" :
-                              node.status === "SYNCING" ? "bg-amber-950/60 text-amber-400 border border-amber-500/30" :
-                              "bg-rose-950/60 text-rose-400 border border-rose-500/30"
-                            }`}>
-                              {node.status}
-                            </span>
-                          </td>
-                          <td className="py-3 px-3 text-right">
-                            <button
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setActiveModal(null);
-                                setTimeout(() => openTelemetryInspector(node.id), 150);
-                              }}
-                              className="px-2.5 py-1 rounded bg-teal-950/80 border border-teal-500/40 text-[#00E5FF] text-[10px] font-bold group-hover:bg-[#00E5FF] group-hover:text-slate-950 transition"
-                            >
-                              Inspect &rarr;
-                            </button>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            )}
-
             <div className="mt-6 pt-4 border-t border-slate-800 flex justify-end">
               <button
                 onClick={() => setActiveModal(null)}
@@ -419,16 +313,6 @@ export default function DashboardCommandCenter() {
         error={ledgerError}
       />
 
-      {/* ═══════════════════════════════════════════════════════════════════
-       *  EDGE NODE TELEMETRY DRAWER (global mount point for WireGuard Mesh)
-       * ═══════════════════════════════════════════════════════════════════ */}
-      <EdgeNodeInspectorDrawer
-        isOpen={isTelemetryDrawerOpen}
-        isLoading={isTelemetryLoading}
-        error={telemetryError}
-        node={activeTelemetryNode}
-        onClose={closeTelemetryInspector}
-      />
     </div>
   );
 }
