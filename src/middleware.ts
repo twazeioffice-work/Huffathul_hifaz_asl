@@ -2,7 +2,7 @@
  * Suffat-ul Huffaz — Edge Middleware
  * ===================================
  * Layers:
- *   1. Static asset exclusion
+ *   1. Dynamic Timeout Budget Header Injection (`X-Timeout-Budget: 6000`)
  *   2. Rate limiting on intake/mutation endpoints (Upstash sliding window)
  *   3. Direct-host passthrough (GCP VM, Cloudflare Tunnel, localhost)
  *   4. Tenant subdomain routing via Upstash cache or DB fallback
@@ -35,6 +35,9 @@ const DEV_DOMAINS = [
   "railway.app",
 ];
 
+// Initial timeout budget for Next.js BFF request lifecycle
+const INITIAL_BUDGET_MS = "6000";
+
 // ── Rate Limiting (lazy-loaded to avoid import errors when deps missing) ────
 
 async function checkRateLimit(ip: string, pathname: string): Promise<NextResponse | null> {
@@ -65,6 +68,7 @@ async function checkRateLimit(ip: string, pathname: string): Promise<NextRespons
           headers: {
             "Content-Type": "application/json",
             "Retry-After": Math.ceil((reset - Date.now()) / 1000).toString(),
+            "X-Timeout-Budget": INITIAL_BUDGET_MS,
           },
         }
       );
@@ -111,7 +115,9 @@ export default async function middleware(req: NextRequest) {
     hostname === "";
 
   if (isDirectHost) {
-    return NextResponse.next();
+    const res = NextResponse.next();
+    res.headers.set("X-Timeout-Budget", INITIAL_BUDGET_MS);
+    return res;
   }
 
   // ─── Layer 3: Tenant Subdomain Routing (Upstash Cache → DB Fallback) ──
@@ -121,14 +127,18 @@ export default async function middleware(req: NextRequest) {
   if (!isStaticAsset) {
     const tenantId = await lookupTenantFromCache(hostname);
     if (tenantId) {
-      return NextResponse.rewrite(
+      const res = NextResponse.rewrite(
         new URL("/app/" + tenantId + url.pathname, req.url)
       );
+      res.headers.set("X-Timeout-Budget", INITIAL_BUDGET_MS);
+      return res;
     }
   }
 
   // ─── Layer 4: Custom Domain Fallback (directory-based routing) ────────
-  return NextResponse.rewrite(
+  const res = NextResponse.rewrite(
     new URL("/app/" + hostname + url.pathname, req.url)
   );
+  res.headers.set("X-Timeout-Budget", INITIAL_BUDGET_MS);
+  return res;
 }
