@@ -102,7 +102,10 @@ export default function AppleEnterpriseDashboard() {
       <section className="max-w-7xl mx-auto px-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 py-4">
         
         {/* Bento 1: Total Portfolio Value */}
-        <div className="relative group overflow-hidden bg-[#0F0F12] border border-[#2C2C2E]/40 hover:border-[#86868B]/40 p-6 rounded-2xl transition-all duration-300 flex flex-col justify-between h-[135px]">
+        <div 
+          onClick={() => setActiveTab("ledger")}
+          className="relative group overflow-hidden bg-[#0F0F12] border border-[#2C2C2E]/40 hover:border-[#86868B]/40 p-6 rounded-2xl transition-all duration-300 flex flex-col justify-between h-[135px] cursor-pointer hover:ring-1 hover:ring-[#0071E3]"
+        >
           <div className="flex justify-between items-start">
             <div className="h-8 w-8 rounded-lg bg-[#1C1C1E]/80 border border-[#2C2C2E]/50 flex items-center justify-center">
               <Landmark className="h-4 w-4 text-[#86868B] group-hover:text-[#0071E3] transition-colors" />
@@ -119,7 +122,10 @@ export default function AppleEnterpriseDashboard() {
         </div>
 
         {/* Bento 2: Active Transport Fleet */}
-        <div className="relative group overflow-hidden bg-[#0F0F12] border border-[#2C2C2E]/40 hover:border-[#86868B]/40 p-6 rounded-2xl transition-all duration-300 flex flex-col justify-between h-[135px]">
+        <div 
+          onClick={() => setActiveTab("fleet")}
+          className="relative group overflow-hidden bg-[#0F0F12] border border-[#2C2C2E]/40 hover:border-[#86868B]/40 p-6 rounded-2xl transition-all duration-300 flex flex-col justify-between h-[135px] cursor-pointer hover:ring-1 hover:ring-[#0071E3]"
+        >
           <div className="flex justify-between items-start">
             <div className="h-8 w-8 rounded-lg bg-[#1C1C1E]/80 border border-[#2C2C2E]/50 flex items-center justify-center">
               <Layers className="h-4 w-4 text-[#86868B] group-hover:text-[#0071E3] transition-colors" />
@@ -136,7 +142,10 @@ export default function AppleEnterpriseDashboard() {
         </div>
 
         {/* Bento 3: Dormitory Bed Capacity */}
-        <div className="relative group overflow-hidden bg-[#0F0F12] border border-[#2C2C2E]/40 hover:border-[#86868B]/40 p-6 rounded-2xl transition-all duration-300 flex flex-col justify-between h-[135px]">
+        <div 
+          onClick={() => setActiveTab("affiliations")}
+          className="relative group overflow-hidden bg-[#0F0F12] border border-[#2C2C2E]/40 hover:border-[#86868B]/40 p-6 rounded-2xl transition-all duration-300 flex flex-col justify-between h-[135px] cursor-pointer hover:ring-1 hover:ring-[#0071E3]"
+        >
           <div className="flex justify-between items-start">
             <div className="h-8 w-8 rounded-lg bg-[#1C1C1E]/80 border border-[#2C2C2E]/50 flex items-center justify-center">
               <Users className="h-4 w-4 text-[#86868B] group-hover:text-[#0071E3] transition-colors" />
@@ -153,7 +162,10 @@ export default function AppleEnterpriseDashboard() {
         </div>
 
         {/* Bento 4: Active Edge Nodes */}
-        <div className="relative group overflow-hidden bg-[#0F0F12] border border-[#2C2C2E]/40 hover:border-[#86868B]/40 p-6 rounded-2xl transition-all duration-300 flex flex-col justify-between h-[135px]">
+        <div 
+          onClick={() => setActiveTab("helpdesk")}
+          className="relative group overflow-hidden bg-[#0F0F12] border border-[#2C2C2E]/40 hover:border-[#86868B]/40 p-6 rounded-2xl transition-all duration-300 flex flex-col justify-between h-[135px] cursor-pointer hover:ring-1 hover:ring-[#0071E3]"
+        >
           <div className="flex justify-between items-start">
             <div className="h-8 w-8 rounded-lg bg-[#1C1C1E]/80 border border-[#2C2C2E]/50 flex items-center justify-center">
               <Radio className="h-4 w-4 text-[#86868B] group-hover:text-[#0071E3] transition-colors" />
