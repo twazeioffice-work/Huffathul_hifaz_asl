@@ -1,27 +1,24 @@
 import * as Sentry from "@sentry/nextjs";
 
+const SENTRY_DSN = process.env.NEXT_PUBLIC_SENTRY_DSN || process.env.SENTRY_DSN;
+
 Sentry.init({
-  dsn: process.env.SENTRY_DSN || process.env.NEXT_PUBLIC_SENTRY_DSN || "",
+  dsn: SENTRY_DSN,
 
-  // Server-side tracing for API routes and SSR
-  tracesSampleRate: process.env.NODE_ENV === "production" ? 0.1 : 1.0,
+  // Performance tracing
+  tracesSampleRate: 0.2,
 
-  // GDPR & student privacy compliance
-  sendDefaultPii: false,
+  environment: process.env.NODE_ENV || "production",
 
-  environment: process.env.APP_ENVIRONMENT || "development",
+  // Enable profiling of server-side operations
+  profilesSampleRate: 0.1,
 
-  // Attach server context to every event
   beforeSend(event) {
-    // Strip any accidentally-attached student PII from breadcrumbs
-    if (event.breadcrumbs) {
-      event.breadcrumbs = event.breadcrumbs.map((crumb) => {
-        if (crumb.data && crumb.data.body) {
-          delete crumb.data.body;
-        }
-        return crumb;
-      });
-    }
+    // Flag server-side anomalies specifically
+    event.tags = {
+      ...event.tags,
+      server_runtime: "nodejs",
+    };
     return event;
   },
 });

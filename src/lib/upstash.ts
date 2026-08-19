@@ -1,92 +1,49 @@
-/**
- * Upstash Serverless Redis Client
- * ================================
- * Edge-compatible REST-based Redis client for:
- *   - Tenant subdomain cache lookups (sub-5ms)
- *   - Rate limiter backing store
- *   - Session/token caching
- *
- * Environment Variables Required:
- *   UPSTASH_REDIS_REST_URL   — Upstash REST endpoint
- *   UPSTASH_REDIS_REST_TOKEN — Upstash REST auth token
- */
-
 import { Redis } from "@upstash/redis";
 import { Ratelimit } from "@upstash/ratelimit";
 
-// ── Singleton Redis Client ──────────────────────────────────────────────────
+// ── Singleton Upstash Redis REST Client ─────────────────────────────────────
+export const redis = new Redis({
+  url: process.env.UPSTASH_REDIS_REST_URL || "https://placeholder-url.upstash.io",
+  token: process.env.UPSTASH_REDIS_REST_TOKEN || "placeholder-token",
+});
 
-let _redis: Redis | null = null;
+// ── Sliding-Window Rate Limiter (5 requests per 60 seconds per IP) ──────────
+export const publicFormLimiter = new Ratelimit({
+  redis: redis,
+  limiter: Ratelimit.slidingWindow(5, "60 s"),
+  analytics: true,
+  prefix: "suh_ratelimit",
+});
+
+// ── Cache TTL Definitions ───────────────────────────────────────────────────
+export const CACHE_TTL_TENANT = 3600; // 1 Hour cache for domain resolution
+
+// ── Backward Compatible Factory Methods ─────────────────────────────────────
 
 export function getRedis(): Redis {
-  if (!_redis) {
-    const url = process.env.UPSTASH_REDIS_REST_URL;
-    const token = process.env.UPSTASH_REDIS_REST_TOKEN;
-
-    if (!url || !token) {
-      console.warn(
-        "⚠️  UPSTASH_REDIS_REST_URL or UPSTASH_REDIS_REST_TOKEN not set. " +
-        "Redis operations will fail gracefully."
-      );
-    }
-
-    _redis = new Redis({
-      url: url || "",
-      token: token || "",
-    });
-  }
-  return _redis;
+  return redis;
 }
 
-// ── Rate Limiter Factory ────────────────────────────────────────────────────
-
-let _ratelimit: Ratelimit | null = null;
-
-/**
- * Returns a sliding-window rate limiter: 5 requests per 60 seconds per key.
- * Used in edge middleware to protect intake/mutation endpoints.
- */
 export function getRateLimiter(): Ratelimit {
-  if (!_ratelimit) {
-    _ratelimit = new Ratelimit({
-      redis: getRedis(),
-      limiter: Ratelimit.slidingWindow(5, "60 s"),
-      analytics: true,
-      prefix: "suh_rate_limit",
-    });
-  }
-  return _ratelimit;
+  return publicFormLimiter;
 }
 
-// ── Tenant Cache Helpers ────────────────────────────────────────────────────
-
-/**
- * Looks up a tenant ID by custom domain hostname from Upstash cache.
- * Returns null if not found or on connection failure (graceful degradation).
- */
-export async function getCachedTenantId(
-  hostname: string
-): Promise<string | null> {
+export async function getCachedTenantId(hostname: string): Promise<string | null> {
   try {
-    const redis = getRedis();
-    const tenantId = await redis.get<string>(`tenant_domain:${hostname}`);
-    return tenantId;
+    const tenantData = await redis.get<string>(`tenant_domain:${hostname}`);
+    return tenantData;
   } catch (error) {
     console.error("Upstash tenant lookup failed, falling through:", error);
     return null;
   }
 }
 
-/**
- * Caches a tenant domain → tenant ID mapping with a 5-minute TTL.
- */
 export async function cacheTenantMapping(
   hostname: string,
   tenantId: string
 ): Promise<void> {
   try {
-    const redis = getRedis();
-    await redis.set(`tenant_domain:${hostname}`, tenantId, { ex: 300 });
+    await redis.set(`tenant_domain:${hostname}`, tenantId, { ex: CACHE_TTL_TENANT });
   } catch (error) {
     console.error("Upstash tenant cache write failed:", error);
   }

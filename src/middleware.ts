@@ -1,25 +1,17 @@
-/**
- * Suffat-ul Huffaz — Edge Middleware
- * ===================================
- * Layers:
- *   1. Dynamic Timeout Budget Header Injection (`X-Timeout-Budget: 6000`)
- *   2. Rate limiting on intake/mutation endpoints (Upstash sliding window)
- *   3. Direct-host passthrough (GCP VM, Cloudflare Tunnel, localhost)
- *   4. Tenant subdomain routing via Upstash cache or DB fallback
- *
- * Graceful degradation: if Upstash is unreachable, all requests pass through.
- */
-
-import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+import { redis, publicFormLimiter, CACHE_TTL_TENANT } from "./lib/upstash";
 
 export const config = {
   matcher: [
+    /*
+     * Match all request paths except for the ones starting with:
+     * - _next/static (static files)
+     * - _next/image (image optimization files)
+     * - favicon.ico, sitemap.xml, robots.txt
+     */
     "/((?!_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)",
   ],
 };
-
-// ── Host Detection ──────────────────────────────────────────────────────────
 
 const IPV4_REGEX = /^(?:[0-9]{1,3}\.){3}[0-9]{1,3}(?::[0-9]+)?$/;
 const DEV_DOMAINS = [
@@ -35,110 +27,121 @@ const DEV_DOMAINS = [
   "railway.app",
 ];
 
-// Initial timeout budget for Next.js BFF request lifecycle
 const INITIAL_BUDGET_MS = "6000";
 
-// ── Rate Limiting (lazy-loaded to avoid import errors when deps missing) ────
-
-async function checkRateLimit(ip: string, pathname: string): Promise<NextResponse | null> {
-  try {
-    const { getRateLimiter } = await import("@/lib/upstash");
-    const limiter = getRateLimiter();
-    const { success, reset } = await limiter.limit(ip);
-
-    if (!success) {
-      // Optionally capture in Sentry (if SDK is loaded)
-      try {
-        const Sentry = await import("@sentry/nextjs");
-        Sentry.captureMessage(
-          `Rate limit breached by IP: ${ip} on route: ${pathname}`,
-          "warning"
-        );
-      } catch {
-        // Sentry not installed yet — skip silently
-      }
-
-      return new NextResponse(
-        JSON.stringify({
-          error: "Too many registration attempts. Please try again shortly.",
-          retry_after: reset,
-        }),
-        {
-          status: 429,
-          headers: {
-            "Content-Type": "application/json",
-            "Retry-After": Math.ceil((reset - Date.now()) / 1000).toString(),
-            "X-Timeout-Budget": INITIAL_BUDGET_MS,
-          },
-        }
-      );
-    }
-  } catch {
-    // Upstash unreachable — graceful fallback, allow request through
-  }
-  return null;
-}
-
-// ── Tenant Cache Lookup ─────────────────────────────────────────────────────
-
-async function lookupTenantFromCache(hostname: string): Promise<string | null> {
-  try {
-    const { getCachedTenantId } = await import("@/lib/upstash");
-    return await getCachedTenantId(hostname);
-  } catch {
-    return null;
-  }
-}
-
-// ── Main Middleware ──────────────────────────────────────────────────────────
-
-export default async function middleware(req: NextRequest) {
-  const url = req.nextUrl;
-  const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || req.ip || "127.0.0.1";
-  const rawHost =
-    req.headers.get("x-forwarded-host") || req.headers.get("host") || "";
+export async function middleware(request: NextRequest) {
+  const url = request.nextUrl.clone();
+  const rawHost = request.headers.get("x-forwarded-host") || request.headers.get("host") || "";
   const hostname = rawHost.split(":")[0].toLowerCase();
+  const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || request.ip || "127.0.0.1";
 
-  // ─── Layer 1: Rate Limiting on Intake Endpoints ───────────────────────
+  // 1. PUBLIC GATEWAY SECURITY: Sliding-Window Rate Limiting on Ingestion Routes
   if (
+    url.pathname.startsWith("/api/public/") ||
     url.pathname.includes("/api/admission-ingest") ||
     url.pathname.includes("/api/lead-ingest")
   ) {
-    const blocked = await checkRateLimit(ip, url.pathname);
-    if (blocked) return blocked;
+    try {
+      const { success, limit, reset, remaining } = await publicFormLimiter.limit(ip);
+
+      if (!success) {
+        return new NextResponse(
+          JSON.stringify({
+            error: "Too many attempts. Please wait before retrying.",
+            reset_time: new Date(reset).toISOString(),
+          }),
+          {
+            status: 429,
+            headers: {
+              "Content-Type": "application/json",
+              "X-RateLimit-Limit": limit.toString(),
+              "X-RateLimit-Remaining": remaining.toString(),
+              "X-RateLimit-Reset": reset.toString(),
+              "X-Timeout-Budget": INITIAL_BUDGET_MS,
+            },
+          }
+        );
+      }
+    } catch (redisError) {
+      // Fail-open strategy: If Upstash cluster is unreachable, do not block users
+      console.error("Upstash Redis connection failed. Failing open:", redisError);
+    }
   }
 
-  // ─── Layer 2: Direct-Host Passthrough (GCP / Tunnel / Dev) ────────────
+  // 2. DIRECT-HOST PASSTHROUGH (GCP VM, Cloudflare Tunnel, Staging, Localhost)
   const isDirectHost =
     IPV4_REGEX.test(rawHost) ||
     DEV_DOMAINS.some((domain) => hostname.endsWith(domain)) ||
     hostname === "";
 
   if (isDirectHost) {
-    const res = NextResponse.next();
-    res.headers.set("X-Timeout-Budget", INITIAL_BUDGET_MS);
-    return res;
+    const response = NextResponse.next();
+    response.headers.set("X-Timeout-Budget", INITIAL_BUDGET_MS);
+    return response;
   }
 
-  // ─── Layer 3: Tenant Subdomain Routing (Upstash Cache → DB Fallback) ──
-  const isStaticAsset =
-    url.pathname.match(/\.(svg|png|jpg|jpeg|css|js|ico|woff2?)$/) !== null;
+  // Ignore static files and API routes for tenant domain rewrites
+  if (url.pathname.startsWith("/api/") || url.pathname.includes(".")) {
+    const response = NextResponse.next();
+    response.headers.set("X-Timeout-Budget", INITIAL_BUDGET_MS);
+    return response;
+  }
 
-  if (!isStaticAsset) {
-    const tenantId = await lookupTenantFromCache(hostname);
-    if (tenantId) {
-      const res = NextResponse.rewrite(
-        new URL("/app/" + tenantId + url.pathname, req.url)
-      );
-      res.headers.set("X-Timeout-Budget", INITIAL_BUDGET_MS);
-      return res;
+  // 3. MULTI-TENANCY CACHED LOOKUP ENGINE
+  try {
+    const cacheKey = `tenant_domain:${hostname}`;
+
+    // Attempt to pull resolved tenant domain context from Upstash cache
+    let tenantData: string | null = await redis.get(cacheKey);
+
+    if (!tenantData) {
+      // Cache-Miss: Resolve hostname from backend API if configured
+      if (process.env.INTERNAL_API_URL) {
+        try {
+          const resolveRes = await fetch(
+            `${process.env.INTERNAL_API_URL}/api/v1/tenants/resolve?domain=${encodeURIComponent(hostname)}`,
+            {
+              headers: {
+                "X-Server-Token": process.env.INTERNAL_SERVER_TOKEN || "",
+              },
+            }
+          );
+
+          if (resolveRes.ok) {
+            const payload = await resolveRes.json();
+            tenantData = JSON.stringify({
+              institutionCode: payload.institution_code,
+              branchCode: payload.branch_code,
+            });
+
+            // Write resolved mapping back to Upstash Redis with a 1-hour TTL
+            await redis.set(cacheKey, tenantData, { ex: CACHE_TTL_TENANT });
+          }
+        } catch {
+          // Backend offline - proceed to fallback directory rewrite
+        }
+      }
     }
-  }
 
-  // ─── Layer 4: Custom Domain Fallback (directory-based routing) ────────
-  const res = NextResponse.rewrite(
-    new URL("/app/" + hostname + url.pathname, req.url)
-  );
-  res.headers.set("X-Timeout-Budget", INITIAL_BUDGET_MS);
-  return res;
+    if (tenantData) {
+      const parsed = typeof tenantData === "string" ? JSON.parse(tenantData) : tenantData;
+      const institutionCode = parsed.institutionCode || hostname;
+      const branchCode = parsed.branchCode || "main";
+
+      const targetPath = `/app/${institutionCode}/${branchCode}${url.pathname}${url.search}`;
+      const response = NextResponse.rewrite(new URL(targetPath, request.url));
+      response.headers.set("X-Timeout-Budget", INITIAL_BUDGET_MS);
+      return response;
+    }
+
+    // Default fallback directory rewrite
+    const response = NextResponse.rewrite(new URL(`/app/${hostname}${url.pathname}`, request.url));
+    response.headers.set("X-Timeout-Budget", INITIAL_BUDGET_MS);
+    return response;
+  } catch (error) {
+    console.error("Middleware multi-tenant routing error:", error);
+    const response = NextResponse.next();
+    response.headers.set("X-Timeout-Budget", INITIAL_BUDGET_MS);
+    return response;
+  }
 }
