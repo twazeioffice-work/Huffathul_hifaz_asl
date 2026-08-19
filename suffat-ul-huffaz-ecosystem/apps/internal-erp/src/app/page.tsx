@@ -7,6 +7,7 @@ import { useLedgerInspector } from '@/hooks/useLedgerInspector';
 import LedgerTransactionDrawer from '@/components/LedgerTransactionDrawer';
 import { useEdgeTelemetryInspector } from '@/hooks/useEdgeTelemetryInspector';
 import EdgeNodeInspectorDrawer from '@/components/EdgeNodeInspectorDrawer';
+import { OverviewMetricsGrid } from '@/components/dashboard/OverviewMetricsGrid';
 
 const ADMISSION_QUEUE = [
   { id: 'stud_bilal_101', name: 'Muhammad Bilal Khan', branch: 'Bengaluru Campus (Jayanagar)', hifzLevel: 'Para 12', time: '10m ago' },
@@ -119,8 +120,23 @@ export default function DashboardCommandCenter() {
         </div>
       </div>
 
-      {/* KPI Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {/* ═══════════════════════════════════════════════════════════════════
+       *  1. INTERACTIVE OVERVIEW METRICS GRID (4 Deep-Dive Cards)
+       * ═══════════════════════════════════════════════════════════════════ */}
+      <div className="space-y-3">
+        <div className="flex items-center justify-between">
+          <h3 className="text-sm font-bold uppercase tracking-wider text-slate-300 flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-cyan-400"></span> Institutional Telemetry &amp; Asset Portfolios
+          </h3>
+          <span className="text-[11px] text-cyan-400">Click any metric card below to open deep audit drawer &rarr;</span>
+        </div>
+        <OverviewMetricsGrid />
+      </div>
+
+      {/* ═══════════════════════════════════════════════════════════════════
+       *  2. OPERATIONAL WORKFLOW HUBS (Admissions, Vault, Edge Mesh)
+       * ═══════════════════════════════════════════════════════════════════ */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
         {/* Admissions Card */}
         <div className="glass-card p-6 rounded-2xl relative overflow-hidden group hover:border-cyan-500/40 transition-all">
           <div className="flex items-center justify-between text-xs text-slate-400 font-semibold mb-2">
