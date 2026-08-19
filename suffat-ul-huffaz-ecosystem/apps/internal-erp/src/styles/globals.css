@@ -1,4 +1,4 @@
-﻿@tailwind base;
+@tailwind base;
 @tailwind components;
 @tailwind utilities;
 
@@ -42,4 +42,15 @@
 
 .shadow-glow-emerald {
   box-shadow: 0 0 20px -3px rgba(16, 185, 129, 0.35);
+}
+
+/* Approval Inspector Drawer Animations */
+@keyframes slideInRight {
+  from { transform: translateX(100%); }
+  to   { transform: translateX(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }

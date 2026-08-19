@@ -1,21 +1,33 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useApprovalInspector } from '@/hooks/useApprovalInspector';
+import ApprovalInspectorDrawer from '@/components/erp/ApprovalInspectorDrawer';
+
+const ADMISSION_QUEUE = [
+  { id: 'stud_bilal_101', name: 'Muhammad Bilal Khan', branch: 'Gulshan Branch', hifzLevel: 'Para 12', time: '10m ago' },
+  { id: 'stud_abdullah_102', name: 'Abdullah Siddiqui', branch: 'North Nazimabad', hifzLevel: 'Beginner Nazra', time: '35m ago' },
+  { id: 'stud_zainab_103', name: 'Zainab Fatima', branch: 'Girls Campus Main', hifzLevel: 'Para 5', time: '1h ago' },
+];
 
 export default function DashboardCommandCenter() {
   const [activeModal, setActiveModal] = useState<string | null>(null);
-  const [admissionsCount, setAdmissionsCount] = useState(14);
+  const [queue, setQueue] = useState(ADMISSION_QUEUE);
   const [syncStatus, setSyncStatus] = useState<'idle' | 'syncing' | 'synced'>('idle');
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+
+  // Approval Inspector hook
+  const { isInspectorOpen, inspectedId, inspectorType, inspect, closeInspector } = useApprovalInspector();
 
   const showToast = (msg: string) => {
     setToastMessage(msg);
     setTimeout(() => setToastMessage(null), 3500);
   };
 
-  const handleApproveAdmission = (name: string) => {
-    setAdmissionsCount(prev => Math.max(0, prev - 1));
-    showToast(`Application for ${name} approved & enrolled successfully!`);
+  const handleApproveSuccess = (id: string) => {
+    const student = queue.find(s => s.id === id);
+    setQueue(prev => prev.filter(s => s.id !== id));
+    showToast(`✅ ${student?.name || 'Student'} approved & enrolled successfully!`);
   };
 
   const handleTriggerSync = () => {
@@ -28,14 +40,16 @@ export default function DashboardCommandCenter() {
   };
 
   return (
-    <div className="space-y-8 animate-in fade-in duration-500">
+    <div className="space-y-8">
+      {/* Toast Notification */}
       {toastMessage && (
-        <div className="fixed bottom-6 right-6 z-50 flex items-center gap-3 px-5 py-3 rounded-xl bg-slate-900/90 border border-cyan-500/40 text-cyan-200 shadow-glow-cyan backdrop-blur-xl">
+        <div className="fixed bottom-6 right-6 z-40 flex items-center gap-3 px-5 py-3 rounded-xl bg-slate-900/90 border border-cyan-500/40 text-cyan-200 shadow-glow-cyan backdrop-blur-xl">
           <span className="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
           <span className="text-xs font-semibold">{toastMessage}</span>
         </div>
       )}
 
+      {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-800/80 pb-6">
         <div>
           <div className="flex items-center gap-2 text-cyan-400 text-xs font-semibold uppercase tracking-widest mb-1">
@@ -50,7 +64,7 @@ export default function DashboardCommandCenter() {
         </div>
 
         <div className="flex items-center gap-3">
-          <button 
+          <button
             onClick={handleTriggerSync}
             disabled={syncStatus === 'syncing'}
             className="flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-900 border border-cyan-500/30 text-cyan-300 text-xs font-semibold hover:bg-cyan-950/50 hover:border-cyan-400 transition-all shadow-glow-cyan active:scale-95 disabled:opacity-50"
@@ -58,8 +72,8 @@ export default function DashboardCommandCenter() {
             <span className={`w-2 h-2 rounded-full ${syncStatus === 'syncing' ? 'bg-amber-400 animate-spin' : 'bg-emerald-400'}`}></span>
             {syncStatus === 'syncing' ? 'Syncing Node Mesh...' : syncStatus === 'synced' ? 'Mesh Synced ✓' : 'Trigger Edge Sync'}
           </button>
-          
-          <button 
+
+          <button
             onClick={() => setActiveModal('admissions')}
             className="px-4 py-2 rounded-xl bg-gradient-to-r from-cyan-500 to-emerald-500 text-slate-950 text-xs font-bold hover:brightness-110 shadow-glow-cyan transition-all active:scale-95"
           >
@@ -68,17 +82,19 @@ export default function DashboardCommandCenter() {
         </div>
       </div>
 
+      {/* KPI Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {/* Admissions Card */}
         <div className="glass-card p-6 rounded-2xl relative overflow-hidden group hover:border-cyan-500/40 transition-all">
           <div className="flex items-center justify-between text-xs text-slate-400 font-semibold mb-2">
             <span>CAMPUS INTAKE</span>
             <span className="px-2 py-0.5 rounded-full bg-cyan-950 text-cyan-400 border border-cyan-500/30 text-[10px]">Live</span>
           </div>
           <div className="text-3xl font-black text-white tracking-tight mb-1">
-            {admissionsCount} <span className="text-xs font-normal text-slate-400">Pending Reviews</span>
+            {queue.length} <span className="text-xs font-normal text-slate-400">Pending Reviews</span>
           </div>
-          <p className="text-xs text-slate-400 mb-6">Cross-campus Hifz intake applications awaiting biometric & parent verification.</p>
-          <button 
+          <p className="text-xs text-slate-400 mb-6">Cross-campus Hifz intake applications awaiting biometric &amp; parent verification.</p>
+          <button
             onClick={() => setActiveModal('admissions')}
             className="w-full py-2.5 rounded-xl bg-slate-900/80 border border-slate-700/60 hover:border-cyan-500/50 text-cyan-300 text-xs font-semibold flex items-center justify-center gap-2 group-hover:bg-cyan-950/30 transition-all"
           >
@@ -86,6 +102,7 @@ export default function DashboardCommandCenter() {
           </button>
         </div>
 
+        {/* Vault Card */}
         <div className="glass-card p-6 rounded-2xl relative overflow-hidden group hover:border-emerald-500/40 transition-all">
           <div className="flex items-center justify-between text-xs text-slate-400 font-semibold mb-2">
             <span>DOUBLE-ENTRY VAULT</span>
@@ -95,7 +112,7 @@ export default function DashboardCommandCenter() {
             $14,200 <span className="text-xs font-normal text-slate-400">Aug Net Revenue</span>
           </div>
           <p className="text-xs text-slate-400 mb-6">Immutable zero-discrepancy ledger: 100% Debit/Credit equilibrium verified.</p>
-          <button 
+          <button
             onClick={() => setActiveModal('vault')}
             className="w-full py-2.5 rounded-xl bg-slate-900/80 border border-slate-700/60 hover:border-emerald-500/50 text-emerald-300 text-xs font-semibold flex items-center justify-center gap-2 group-hover:bg-emerald-950/30 transition-all"
           >
@@ -103,6 +120,7 @@ export default function DashboardCommandCenter() {
           </button>
         </div>
 
+        {/* Mesh Card */}
         <div className="glass-card p-6 rounded-2xl relative overflow-hidden group hover:border-indigo-500/40 transition-all">
           <div className="flex items-center justify-between text-xs text-slate-400 font-semibold mb-2">
             <span>EDGE INFRASTRUCTURE</span>
@@ -111,8 +129,8 @@ export default function DashboardCommandCenter() {
           <div className="text-3xl font-black text-white tracking-tight mb-1">
             3 <span className="text-xs font-normal text-slate-400">Regional Nodes Online</span>
           </div>
-          <p className="text-xs text-slate-400 mb-6">North Nazimabad, Gulshan, & Clifton nodes operating with IPSec offline sync.</p>
-          <button 
+          <p className="text-xs text-slate-400 mb-6">North Nazimabad, Gulshan, &amp; Clifton nodes operating with IPSec offline sync.</p>
+          <button
             onClick={() => setActiveModal('mesh')}
             className="w-full py-2.5 rounded-xl bg-slate-900/80 border border-slate-700/60 hover:border-indigo-500/50 text-indigo-300 text-xs font-semibold flex items-center justify-center gap-2 group-hover:bg-indigo-950/30 transition-all"
           >
@@ -121,8 +139,11 @@ export default function DashboardCommandCenter() {
         </div>
       </div>
 
+      {/* ═══════════════════════════════════════════════════════════════════
+       *  MODAL OVERLAYS (Admissions, Vault, Mesh)
+       * ═══════════════════════════════════════════════════════════════════ */}
       {activeModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+        <div className="fixed inset-0 z-40 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
           <div className="glass-panel w-full max-w-2xl rounded-2xl p-6 border border-slate-700 shadow-2xl">
             <div className="flex items-center justify-between border-b border-slate-800 pb-4 mb-4">
               <h2 className="text-lg font-bold text-white">
@@ -130,7 +151,7 @@ export default function DashboardCommandCenter() {
                 {activeModal === 'vault' && '🔐 Double-Entry Financial Vault Inspector'}
                 {activeModal === 'mesh' && '🌐 Edge Mesh Node Real-time Telemetry'}
               </h2>
-              <button 
+              <button
                 onClick={() => setActiveModal(null)}
                 className="w-8 h-8 rounded-lg bg-slate-800 text-slate-400 hover:text-white hover:bg-slate-700 flex items-center justify-center text-sm font-bold"
               >
@@ -138,32 +159,57 @@ export default function DashboardCommandCenter() {
               </button>
             </div>
 
+            {/* ── ADMISSIONS QUEUE ── */}
             {activeModal === 'admissions' && (
               <div className="space-y-4">
-                <p className="text-xs text-slate-400">Reviewing {admissionsCount} pending cross-tenant applicants:</p>
-                <div className="space-y-2 max-h-64 overflow-y-auto pr-2">
-                  {[
-                    { name: 'Muhammad Bilal Khan', branch: 'Gulshan Branch', hifzLevel: 'Para 12', time: '10m ago' },
-                    { name: 'Abdullah Siddiqui', branch: 'North Nazimabad', hifzLevel: 'Beginner Nazra', time: '35m ago' },
-                    { name: 'Zainab Fatima', branch: 'Girls Campus Main', hifzLevel: 'Para 5', time: '1h ago' },
-                  ].map((app, idx) => (
-                    <div key={idx} className="flex items-center justify-between p-3 rounded-xl bg-slate-900/60 border border-slate-800 hover:border-cyan-500/30 transition-all">
-                      <div>
-                        <div className="text-sm font-bold text-slate-200">{app.name}</div>
-                        <div className="text-xs text-slate-400">{app.branch} • Target: <span className="text-cyan-400">{app.hifzLevel}</span> ({app.time})</div>
+                <p className="text-xs text-slate-400">
+                  Reviewing {queue.length} pending cross-tenant applicants.
+                  <span className="text-cyan-400 ml-1">Click a name to inspect full profile →</span>
+                </p>
+
+                {queue.length === 0 ? (
+                  <div className="text-center py-8 text-slate-400 text-sm">
+                    🎉 All pending admissions have been processed for this shift.
+                  </div>
+                ) : (
+                  <div className="space-y-2 max-h-64 overflow-y-auto pr-2">
+                    {queue.map((app) => (
+                      <div key={app.id} className="flex items-center justify-between p-3 rounded-xl bg-slate-900/60 border border-slate-800 hover:border-cyan-500/30 transition-all">
+                        <div>
+                          {/* ★ CLICKABLE NAME → OPENS INSPECTOR DRAWER */}
+                          <button
+                            onClick={() => {
+                              setActiveModal(null); // close modal first
+                              setTimeout(() => inspect(app.id, 'student_admission'), 150);
+                            }}
+                            className="group text-left focus:outline-none"
+                            aria-label={`Inspect ${app.name}`}
+                          >
+                            <span className="text-sm font-bold text-slate-200 group-hover:text-[#00F0FF] group-hover:underline underline-offset-4 decoration-[#00F0FF] transition-all cursor-pointer">
+                              {app.name}
+                            </span>
+                          </button>
+                          <div className="text-xs text-slate-400">
+                            {app.branch} • Target: <span className="text-cyan-400">{app.hifzLevel}</span> ({app.time})
+                          </div>
+                        </div>
+                        <button
+                          onClick={() => {
+                            setActiveModal(null);
+                            setTimeout(() => inspect(app.id, 'student_admission'), 150);
+                          }}
+                          className="px-3 py-1.5 rounded-lg bg-emerald-500 text-slate-950 text-xs font-bold hover:bg-emerald-400 transition-colors"
+                        >
+                          Inspect &amp; Enroll
+                        </button>
                       </div>
-                      <button 
-                        onClick={() => handleApproveAdmission(app.name)}
-                        className="px-3 py-1.5 rounded-lg bg-emerald-500 text-slate-950 text-xs font-bold hover:bg-emerald-400 transition-colors"
-                      >
-                        Approve & Enroll
-                      </button>
-                    </div>
-                  ))}
-                </div>
+                    ))}
+                  </div>
+                )}
               </div>
             )}
 
+            {/* ── VAULT ── */}
             {activeModal === 'vault' && (
               <div className="space-y-4 text-xs">
                 <div className="grid grid-cols-2 gap-3 p-4 rounded-xl bg-emerald-950/30 border border-emerald-500/30 text-emerald-200">
@@ -181,6 +227,7 @@ export default function DashboardCommandCenter() {
               </div>
             )}
 
+            {/* ── MESH ── */}
             {activeModal === 'mesh' && (
               <div className="space-y-3 text-xs">
                 {[
@@ -203,7 +250,7 @@ export default function DashboardCommandCenter() {
             )}
 
             <div className="mt-6 pt-4 border-t border-slate-800 flex justify-end">
-              <button 
+              <button
                 onClick={() => setActiveModal(null)}
                 className="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 hover:text-white hover:bg-slate-700 text-xs font-semibold"
               >
@@ -213,6 +260,17 @@ export default function DashboardCommandCenter() {
           </div>
         </div>
       )}
+
+      {/* ═══════════════════════════════════════════════════════════════════
+       *  APPROVAL INSPECTOR DRAWER (global mount point)
+       * ═══════════════════════════════════════════════════════════════════ */}
+      <ApprovalInspectorDrawer
+        isOpen={isInspectorOpen}
+        itemId={inspectedId}
+        type={inspectorType}
+        onClose={closeInspector}
+        onApproveSuccess={handleApproveSuccess}
+      />
     </div>
   );
 }
