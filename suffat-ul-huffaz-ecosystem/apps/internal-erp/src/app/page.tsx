@@ -3,11 +3,19 @@
 import React, { useState } from 'react';
 import { useApprovalInspector } from '@/hooks/useApprovalInspector';
 import ApprovalInspectorDrawer from '@/components/erp/ApprovalInspectorDrawer';
+import { useLedgerInspector } from '@/hooks/useLedgerInspector';
+import LedgerTransactionDrawer from '@/components/LedgerTransactionDrawer';
 
 const ADMISSION_QUEUE = [
   { id: 'stud_bilal_101', name: 'Muhammad Bilal Khan', branch: 'Bengaluru Campus (Jayanagar)', hifzLevel: 'Para 12', time: '10m ago' },
   { id: 'stud_abdullah_102', name: 'Abdullah Siddiqui', branch: 'Hyderabad Campus (Tolichowki)', hifzLevel: 'Beginner Nazra', time: '35m ago' },
   { id: 'stud_zainab_103', name: 'Zainab Fatima', branch: 'Mumbai Campus (Bandra West)', hifzLevel: 'Para 5', time: '1h ago' },
+];
+
+const LEDGER_TRANSACTIONS = [
+  { id: 'tx_94821034', entry: 'JE-2026-0819-001', hash: '8f7e2a4b9c1d...', amt: '₹28,500.00', desc: 'Hifz Tuition Collection - Student ID: SUH-2026-0421 (Hyderabad)', date: '09:15 UTC' },
+  { id: 'tx_94821035', entry: 'JE-2026-0819-002', hash: '2c3d4e5f6a7b...', amt: '₹65,000.00', desc: 'Teacher Honorarium & Faculty Disbursement (Bengaluru)', date: '10:30 UTC' },
+  { id: 'tx_94821036', entry: 'JE-2026-0819-003', hash: 'e3b0c44298fc...', amt: '₹36,000.00', desc: 'Campus Solar Grid Maintenance & Battery Servicing (Mumbai)', date: '12:00 UTC' }
 ];
 
 export default function DashboardCommandCenter() {
@@ -16,8 +24,18 @@ export default function DashboardCommandCenter() {
   const [syncStatus, setSyncStatus] = useState<'idle' | 'syncing' | 'synced'>('idle');
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
-  // Approval Inspector hook
+  // Approval Inspector hook (Admissions)
   const { isInspectorOpen, inspectedId, inspectorType, inspect, closeInspector } = useApprovalInspector();
+
+  // Ledger Inspector hook (Cryptographic Double-Entry Vault)
+  const {
+    inspectTransaction,
+    closeInspector: closeLedgerInspector,
+    isDrawerOpen: isLedgerDrawerOpen,
+    activeTransaction,
+    isLoading: isLedgerLoading,
+    error: ledgerError,
+  } = useLedgerInspector();
 
   const showToast = (msg: string) => {
     setToastMessage(msg);
@@ -209,7 +227,7 @@ export default function DashboardCommandCenter() {
               </div>
             )}
 
-            {/* ── VAULT ── */}
+            {/* ── VAULT (INTERACTIVE CRYPTOGRAPHIC AUDIT ROWS) ── */}
             {activeModal === 'vault' && (
               <div className="space-y-4 text-xs">
                 <div className="grid grid-cols-2 gap-3 p-4 rounded-xl bg-emerald-950/30 border border-emerald-500/30 text-emerald-200">
@@ -217,11 +235,37 @@ export default function DashboardCommandCenter() {
                   <div><strong>Total Ledger Credits:</strong> ₹40,50,000.00</div>
                 </div>
                 <div className="space-y-2">
-                  <div className="font-semibold text-slate-300">Recent Cryptographic Ledger Entries (INR):</div>
-                  <div className="font-mono p-3 bg-slate-900 rounded-lg text-slate-400 space-y-1">
-                    <div>TX-8921: Student Fee (Hyderabad) → +₹28,500 [DEBIT] | Cash Vault → +₹28,500 [CREDIT] ✓</div>
-                    <div>TX-8922: Teacher Honorarium → -₹65,000 [CREDIT] | Payroll Acct → +₹65,000 [DEBIT] ✓</div>
-                    <div>TX-8923: Campus Solar Maintenance → -₹36,000 [CREDIT] | Facility Ops → +₹36,000 [DEBIT] ✓</div>
+                  <div className="flex items-center justify-between text-slate-300 font-semibold">
+                    <span>Recent Cryptographic Ledger Entries (INR):</span>
+                    <span className="text-[11px] text-emerald-400 font-normal">Click any entry to inspect audit trail &rarr;</span>
+                  </div>
+                  <div className="divide-y divide-slate-800 bg-slate-900/80 rounded-xl border border-slate-800 overflow-hidden">
+                    {LEDGER_TRANSACTIONS.map((tx) => (
+                      <div
+                        key={tx.id}
+                        onClick={() => {
+                          setActiveModal(null);
+                          setTimeout(() => inspectTransaction(tx.id), 150);
+                        }}
+                        className="p-3.5 flex items-center justify-between hover:bg-slate-800/60 transition-all cursor-pointer group"
+                      >
+                        <div className="space-y-0.5">
+                          <div className="flex items-center gap-2">
+                            <span className="font-mono font-bold text-emerald-400 group-hover:underline underline-offset-2">
+                              {tx.entry}
+                            </span>
+                            <span className="text-[10px] font-mono text-slate-500 bg-slate-950 px-1.5 py-0.5 rounded border border-slate-800">
+                              {tx.hash}
+                            </span>
+                          </div>
+                          <p className="text-slate-400 text-[11px]">{tx.desc}</p>
+                        </div>
+                        <div className="text-right shrink-0">
+                          <span className="font-mono font-bold text-white text-xs block">{tx.amt}</span>
+                          <span className="text-[10px] text-slate-500 font-mono">{tx.date}</span>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>
@@ -254,7 +298,7 @@ export default function DashboardCommandCenter() {
                 onClick={() => setActiveModal(null)}
                 className="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 hover:text-white hover:bg-slate-700 text-xs font-semibold"
               >
-                Close Inspector
+                Close
               </button>
             </div>
           </div>
@@ -262,7 +306,7 @@ export default function DashboardCommandCenter() {
       )}
 
       {/* ═══════════════════════════════════════════════════════════════════
-       *  APPROVAL INSPECTOR DRAWER (global mount point)
+       *  APPROVAL INSPECTOR DRAWER (global mount point for Admissions)
        * ═══════════════════════════════════════════════════════════════════ */}
       <ApprovalInspectorDrawer
         isOpen={isInspectorOpen}
@@ -270,6 +314,17 @@ export default function DashboardCommandCenter() {
         type={inspectorType}
         onClose={closeInspector}
         onApproveSuccess={handleApproveSuccess}
+      />
+
+      {/* ═══════════════════════════════════════════════════════════════════
+       *  LEDGER TRANSACTION DRAWER (global mount point for Financial Vault)
+       * ═══════════════════════════════════════════════════════════════════ */}
+      <LedgerTransactionDrawer
+        isOpen={isLedgerDrawerOpen}
+        onClose={closeLedgerInspector}
+        transaction={activeTransaction}
+        isLoading={isLedgerLoading}
+        error={ledgerError}
       />
     </div>
   );
