@@ -1,0 +1,95 @@
+{
+  "$schema": "https://railway.app/railway.schema.json",
+  "version": 2,
+  "build": {
+    "builder": "NIXPACKS"
+  },
+  "services": {
+    "postgres-db": {
+      "name": "PostgreSQL 16 High-Security Vault",
+      "source": {
+        "image": "postgres:16-alpine"
+      },
+      "variables": {
+        "POSTGRES_DB": "aimantiss_db",
+        "POSTGRES_USER": "railway_admin"
+      },
+      "deploy": {
+        "restartPolicyType": "ON_FAILURE"
+      },
+      "networking": {
+        "private": true
+      }
+    },
+    "core-backend": {
+      "name": "FastAPI Secure Gateway",
+      "source": {
+        "directory": "services/core-backend"
+      },
+      "build": {
+        "builder": "NIXPACKS"
+      },
+      "deploy": {
+        "numReplicas": 2,
+        "restartPolicyType": "ON_FAILURE",
+        "healthcheckPath": "/api/v1/health"
+      },
+      "variables": {
+        "APP_ENVIRONMENT": "production",
+        "DATABASE_URL": "postgresql://railway_admin:${{postgres-db.POSTGRES_PASSWORD}}@${{postgres-db.RAILWAY_PRIVATE_DOMAIN}}:5432/aimantiss_db",
+        "UPSTASH_REDIS_REST_URL": "${{shared.UPSTASH_REDIS_REST_URL}}",
+        "UPSTASH_REDIS_REST_TOKEN": "${{shared.UPSTASH_REDIS_REST_TOKEN}}",
+        "SENTRY_DSN": "${{shared.SENTRY_BACKEND_DSN}}",
+        "PORT": "8000"
+      },
+      "networking": {
+        "private": true
+      }
+    },
+    "internal-erp": {
+      "name": "Next.js Internal ERP Dashboard",
+      "source": {
+        "directory": "apps/internal-erp"
+      },
+      "build": {
+        "builder": "NIXPACKS"
+      },
+      "deploy": {
+        "numReplicas": 1,
+        "restartPolicyType": "ON_FAILURE"
+      },
+      "variables": {
+        "INTERNAL_API_URL": "http://${{core-backend.RAILWAY_PRIVATE_DOMAIN}}:8000",
+        "NEXT_PUBLIC_API_URL": "https://${{RAILWAY_STATIC_URL}}",
+        "NEXT_PUBLIC_SENTRY_DSN": "${{shared.SENTRY_FRONTEND_DSN}}",
+        "SENTRY_DSN": "${{shared.SENTRY_FRONTEND_DSN}}",
+        "UPSTASH_REDIS_REST_URL": "${{shared.UPSTASH_REDIS_REST_URL}}",
+        "UPSTASH_REDIS_REST_TOKEN": "${{shared.UPSTASH_REDIS_REST_TOKEN}}",
+        "NEXT_PUBLIC_APP_ENVIRONMENT": "production",
+        "APP_ENVIRONMENT": "production"
+      }
+    },
+    "public-website": {
+      "name": "Next.js Public Portal",
+      "source": {
+        "directory": "apps/public-website"
+      },
+      "build": {
+        "builder": "NIXPACKS"
+      },
+      "deploy": {
+        "numReplicas": 1,
+        "restartPolicyType": "ON_FAILURE"
+      },
+      "variables": {
+        "INTERNAL_API_URL": "http://${{core-backend.RAILWAY_PRIVATE_DOMAIN}}:8000",
+        "NEXT_PUBLIC_API_URL": "https://${{RAILWAY_STATIC_URL}}",
+        "NEXT_PUBLIC_SENTRY_DSN": "${{shared.SENTRY_FRONTEND_DSN}}",
+        "UPSTASH_REDIS_REST_URL": "${{shared.UPSTASH_REDIS_REST_URL}}",
+        "UPSTASH_REDIS_REST_TOKEN": "${{shared.UPSTASH_REDIS_REST_TOKEN}}",
+        "NEXT_PUBLIC_APP_ENVIRONMENT": "production",
+        "APP_ENVIRONMENT": "production"
+      }
+    }
+  }
+}

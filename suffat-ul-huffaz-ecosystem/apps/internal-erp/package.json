@@ -9,7 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@sentry/nextjs": "^10.70.0",
     "@tailwindcss/postcss": "^4.3.3",
+    "@upstash/ratelimit": "^2.0.8",
+    "@upstash/redis": "^1.38.2",
     "autoprefixer": "^10.5.4",
     "next": "^14.1.0",
     "postcss": "^8.5.26",
