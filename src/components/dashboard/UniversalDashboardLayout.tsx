@@ -38,8 +38,10 @@ export interface TableRowConfig {
     key: string;
     value: React.ReactNode;
     styleClass?: string;
+    isAction?: boolean;
   }[];
   onClick?: () => void;
+  metaData?: any;
 }
 
 export interface TableConfig {
@@ -80,14 +82,16 @@ export interface UniversalDashboardSchema {
 
 interface LayoutProps {
   schema: UniversalDashboardSchema;
-  sidebarLinks: SidebarLink[];
+  sidebarLinks?: SidebarLink[];
   onSidebarClick?: (id: string) => void;
+  onRowActionClick?: (rowId: string, metaData?: any) => void;
 }
 
 export const UniversalDashboardLayout: React.FC<LayoutProps> = ({
   schema,
-  sidebarLinks,
-  onSidebarClick
+  sidebarLinks = [],
+  onSidebarClick,
+  onRowActionClick
 }) => {
   const [selectedRowId, setSelectedRowId] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
@@ -313,7 +317,11 @@ export const UniversalDashboardLayout: React.FC<LayoutProps> = ({
                         {schema.primaryTable.rows.map((row) => (
                           <tr
                             key={row.id}
-                            onClick={() => row.onClick ? row.onClick() : setSelectedRowId(row.id)}
+                            onClick={() => {
+                              if (row.onClick) row.onClick();
+                              if (onRowActionClick) onRowActionClick(row.id, row.metaData);
+                              setSelectedRowId(row.id);
+                            }}
                             className="hover:bg-white/[0.01] transition-all cursor-pointer group"
                           >
                             {row.columns.map((col, idx) => (

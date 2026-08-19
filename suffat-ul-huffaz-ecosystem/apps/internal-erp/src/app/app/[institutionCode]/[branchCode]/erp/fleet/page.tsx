@@ -3,7 +3,7 @@
 import React from "react";
 import { notFound } from "next/navigation";
 import { UniversalDashboardLayout } from "@/components/dashboard/UniversalDashboardLayout";
-import { affiliationDashboardSchema } from "@/components/dashboard/universal-page-schemas";
+import { fleetDashboardSchema } from "@/components/dashboard/universal-page-schemas";
 
 interface PageProps {
   params: {
@@ -12,7 +12,7 @@ interface PageProps {
   };
 }
 
-export default function AffiliationsPage({ params }: PageProps) {
+export default function FleetPage({ params }: PageProps) {
   const tenant = `${params.institutionCode}-${params.branchCode}`;
 
   if (!tenant || tenant.trim() === "-") {
@@ -20,7 +20,7 @@ export default function AffiliationsPage({ params }: PageProps) {
   }
 
   const pageSchema = {
-    ...affiliationDashboardSchema,
+    ...fleetDashboardSchema,
     tenantName: tenant.toUpperCase(),
   };
 
@@ -28,7 +28,7 @@ export default function AffiliationsPage({ params }: PageProps) {
     <UniversalDashboardLayout
       schema={pageSchema}
       onRowActionClick={(rowId, metaData) => {
-        console.log(`[ACCREDITATION AUDIT INITIATED] Tenant ${tenant} evaluating: ${rowId}`, metaData);
+        console.log(`[FLEET RECOVERY DISPATCH] Tenant ${tenant} tracking asset: ${rowId}`, metaData);
       }}
     />
   );
