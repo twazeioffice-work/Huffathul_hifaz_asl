@@ -3,19 +3,37 @@ import type { NextRequest } from 'next/server';
 
 export const config = {
   matcher: [
-    /*
-     * Match all request paths except for the ones starting with:
-     * - api (API routes)
-     * - _next/static (static files)
-     * - favicon.ico (favicon file)
-     */
-    '/((?!api|_next/static|_next/image|favicon.ico).*)',
+    '/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)',
   ],
 };
 
+const IPV4_REGEX = /^(?:[0-9]{1,3}\.){3}[0-9]{1,3}(?::[0-9]+)?$/;
+const DEV_DOMAINS = [
+  'localhost',
+  '127.0.0.1',
+  'suffat.org',
+  'loca.lt',
+  'pinggy.link',
+  'pinggy.net',
+  'trycloudflare.com',
+  'serveousercontent.com',
+  'vercel.app',
+];
+
 export default function middleware(req: NextRequest) {
-  // TEMPORARILY DISABLED: Custom domain rewriting was blocking tunnel access.
-  // Re-enable when deploying to production with real custom domains (e.g. portal.myschool.edu).
-  // Original logic preserved in git history (commit before this change).
-  return NextResponse.next();
+  const url = req.nextUrl;
+  const rawHost = req.headers.get('x-forwarded-host') || req.headers.get('host') || '';
+  const hostname = rawHost.split(':')[0].toLowerCase();
+
+  const isDirectHost = 
+    IPV4_REGEX.test(rawHost) || 
+    DEV_DOMAINS.some((domain) => hostname.endsWith(domain)) ||
+    hostname === '';
+
+  if (isDirectHost) {
+    return NextResponse.next();
+  }
+
+  // Multi-Tenant Custom Domain Routing
+  return NextResponse.rewrite(new URL('/app/' + hostname + url.pathname, req.url));
 }

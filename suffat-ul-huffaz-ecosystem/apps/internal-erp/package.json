@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@tailwindcss/postcss": "^4.3.3",
     "autoprefixer": "^10.5.4",
     "next": "^14.1.0",
     "postcss": "^8.5.26",

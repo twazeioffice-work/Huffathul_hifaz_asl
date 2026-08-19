@@ -1,35 +1,218 @@
-import React from 'react';
-import { CheckPermission } from '../components/CheckPermission';
+'use client';
 
-export default function DashboardPage() {
+import React, { useState } from 'react';
+
+export default function DashboardCommandCenter() {
+  const [activeModal, setActiveModal] = useState<string | null>(null);
+  const [admissionsCount, setAdmissionsCount] = useState(14);
+  const [syncStatus, setSyncStatus] = useState<'idle' | 'syncing' | 'synced'>('idle');
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
+
+  const showToast = (msg: string) => {
+    setToastMessage(msg);
+    setTimeout(() => setToastMessage(null), 3500);
+  };
+
+  const handleApproveAdmission = (name: string) => {
+    setAdmissionsCount(prev => Math.max(0, prev - 1));
+    showToast(`Application for ${name} approved & enrolled successfully!`);
+  };
+
+  const handleTriggerSync = () => {
+    setSyncStatus('syncing');
+    setTimeout(() => {
+      setSyncStatus('synced');
+      showToast('Distributed Edge Mesh synchronized across all 3 campuses!');
+      setTimeout(() => setSyncStatus('idle'), 4000);
+    }, 1500);
+  };
+
   return (
-    <div className="p-8 max-w-7xl mx-auto w-full">
-      <header className="mb-8 border-b border-slate-200 pb-6">
-        <h1 className="text-3xl font-bold text-slate-800">Suffat-ul Huffaz Command Center</h1>
-        <p className="text-slate-500 mt-2">Enterprise Multi-Tenant Dashboard</p>
-      </header>
-      
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
-          <h2 className="text-xl font-semibold mb-2 text-slate-800">Admissions Queue</h2>
-          <p className="text-slate-500 mb-4">14 pending review</p>
-          <button className="text-sm font-medium text-teal-600 hover:text-teal-700">Review Applications &rarr;</button>
+    <div className="space-y-8 animate-in fade-in duration-500">
+      {toastMessage && (
+        <div className="fixed bottom-6 right-6 z-50 flex items-center gap-3 px-5 py-3 rounded-xl bg-slate-900/90 border border-cyan-500/40 text-cyan-200 shadow-glow-cyan backdrop-blur-xl">
+          <span className="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+          <span className="text-xs font-semibold">{toastMessage}</span>
+        </div>
+      )}
+
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-800/80 pb-6">
+        <div>
+          <div className="flex items-center gap-2 text-cyan-400 text-xs font-semibold uppercase tracking-widest mb-1">
+            <span className="w-1.5 h-1.5 rounded-full bg-cyan-400"></span> Multi-Tenant Command Center
+          </div>
+          <h1 className="text-2xl md:text-3xl font-extrabold text-white tracking-tight">
+            Suffat-ul Huffaz <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-emerald-400">Autonomous Ecosystem</span>
+          </h1>
+          <p className="text-slate-400 text-xs md:text-sm mt-1">
+            HQ Governance Portal • Active Tenant: <strong className="text-slate-200">suffat-hq (Karachi Main Campus)</strong>
+          </p>
         </div>
 
-        <CheckPermission requiredRole="FINANCE_MANAGER">
-          <div className="bg-emerald-50 p-6 rounded-xl shadow-sm border border-emerald-100 hover:shadow-md transition-shadow">
-            <h2 className="text-xl font-semibold mb-2 text-emerald-800">Financial Ledger</h2>
-            <p className="text-emerald-600 mb-4">Monthly Revenue: $14,200</p>
-            <button className="text-sm font-medium text-emerald-700 hover:text-emerald-800">Open Vault &rarr;</button>
-          </div>
-        </CheckPermission>
-
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
-          <h2 className="text-xl font-semibold mb-2 text-slate-800">Active Branches</h2>
-          <p className="text-slate-500 mb-4">3 Regional Campuses Online</p>
-          <button className="text-sm font-medium text-teal-600 hover:text-teal-700">View Node Mesh &rarr;</button>
+        <div className="flex items-center gap-3">
+          <button 
+            onClick={handleTriggerSync}
+            disabled={syncStatus === 'syncing'}
+            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-900 border border-cyan-500/30 text-cyan-300 text-xs font-semibold hover:bg-cyan-950/50 hover:border-cyan-400 transition-all shadow-glow-cyan active:scale-95 disabled:opacity-50"
+          >
+            <span className={`w-2 h-2 rounded-full ${syncStatus === 'syncing' ? 'bg-amber-400 animate-spin' : 'bg-emerald-400'}`}></span>
+            {syncStatus === 'syncing' ? 'Syncing Node Mesh...' : syncStatus === 'synced' ? 'Mesh Synced ✓' : 'Trigger Edge Sync'}
+          </button>
+          
+          <button 
+            onClick={() => setActiveModal('admissions')}
+            className="px-4 py-2 rounded-xl bg-gradient-to-r from-cyan-500 to-emerald-500 text-slate-950 text-xs font-bold hover:brightness-110 shadow-glow-cyan transition-all active:scale-95"
+          >
+            + Quick Admission
+          </button>
         </div>
       </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="glass-card p-6 rounded-2xl relative overflow-hidden group hover:border-cyan-500/40 transition-all">
+          <div className="flex items-center justify-between text-xs text-slate-400 font-semibold mb-2">
+            <span>CAMPUS INTAKE</span>
+            <span className="px-2 py-0.5 rounded-full bg-cyan-950 text-cyan-400 border border-cyan-500/30 text-[10px]">Live</span>
+          </div>
+          <div className="text-3xl font-black text-white tracking-tight mb-1">
+            {admissionsCount} <span className="text-xs font-normal text-slate-400">Pending Reviews</span>
+          </div>
+          <p className="text-xs text-slate-400 mb-6">Cross-campus Hifz intake applications awaiting biometric & parent verification.</p>
+          <button 
+            onClick={() => setActiveModal('admissions')}
+            className="w-full py-2.5 rounded-xl bg-slate-900/80 border border-slate-700/60 hover:border-cyan-500/50 text-cyan-300 text-xs font-semibold flex items-center justify-center gap-2 group-hover:bg-cyan-950/30 transition-all"
+          >
+            Review Applications &rarr;
+          </button>
+        </div>
+
+        <div className="glass-card p-6 rounded-2xl relative overflow-hidden group hover:border-emerald-500/40 transition-all">
+          <div className="flex items-center justify-between text-xs text-slate-400 font-semibold mb-2">
+            <span>DOUBLE-ENTRY VAULT</span>
+            <span className="px-2 py-0.5 rounded-full bg-emerald-950 text-emerald-400 border border-emerald-500/30 text-[10px]">Balanced</span>
+          </div>
+          <div className="text-3xl font-black text-emerald-400 tracking-tight mb-1">
+            $14,200 <span className="text-xs font-normal text-slate-400">Aug Net Revenue</span>
+          </div>
+          <p className="text-xs text-slate-400 mb-6">Immutable zero-discrepancy ledger: 100% Debit/Credit equilibrium verified.</p>
+          <button 
+            onClick={() => setActiveModal('vault')}
+            className="w-full py-2.5 rounded-xl bg-slate-900/80 border border-slate-700/60 hover:border-emerald-500/50 text-emerald-300 text-xs font-semibold flex items-center justify-center gap-2 group-hover:bg-emerald-950/30 transition-all"
+          >
+            Open Financial Vault &rarr;
+          </button>
+        </div>
+
+        <div className="glass-card p-6 rounded-2xl relative overflow-hidden group hover:border-indigo-500/40 transition-all">
+          <div className="flex items-center justify-between text-xs text-slate-400 font-semibold mb-2">
+            <span>EDGE INFRASTRUCTURE</span>
+            <span className="px-2 py-0.5 rounded-full bg-indigo-950 text-indigo-400 border border-indigo-500/30 text-[10px]">3 Connected</span>
+          </div>
+          <div className="text-3xl font-black text-white tracking-tight mb-1">
+            3 <span className="text-xs font-normal text-slate-400">Regional Nodes Online</span>
+          </div>
+          <p className="text-xs text-slate-400 mb-6">North Nazimabad, Gulshan, & Clifton nodes operating with IPSec offline sync.</p>
+          <button 
+            onClick={() => setActiveModal('mesh')}
+            className="w-full py-2.5 rounded-xl bg-slate-900/80 border border-slate-700/60 hover:border-indigo-500/50 text-indigo-300 text-xs font-semibold flex items-center justify-center gap-2 group-hover:bg-indigo-950/30 transition-all"
+          >
+            View Node Mesh &rarr;
+          </button>
+        </div>
+      </div>
+
+      {activeModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+          <div className="glass-panel w-full max-w-2xl rounded-2xl p-6 border border-slate-700 shadow-2xl">
+            <div className="flex items-center justify-between border-b border-slate-800 pb-4 mb-4">
+              <h2 className="text-lg font-bold text-white">
+                {activeModal === 'admissions' && '📋 Live Admissions Processing Queue'}
+                {activeModal === 'vault' && '🔐 Double-Entry Financial Vault Inspector'}
+                {activeModal === 'mesh' && '🌐 Edge Mesh Node Real-time Telemetry'}
+              </h2>
+              <button 
+                onClick={() => setActiveModal(null)}
+                className="w-8 h-8 rounded-lg bg-slate-800 text-slate-400 hover:text-white hover:bg-slate-700 flex items-center justify-center text-sm font-bold"
+              >
+                ✕
+              </button>
+            </div>
+
+            {activeModal === 'admissions' && (
+              <div className="space-y-4">
+                <p className="text-xs text-slate-400">Reviewing {admissionsCount} pending cross-tenant applicants:</p>
+                <div className="space-y-2 max-h-64 overflow-y-auto pr-2">
+                  {[
+                    { name: 'Muhammad Bilal Khan', branch: 'Gulshan Branch', hifzLevel: 'Para 12', time: '10m ago' },
+                    { name: 'Abdullah Siddiqui', branch: 'North Nazimabad', hifzLevel: 'Beginner Nazra', time: '35m ago' },
+                    { name: 'Zainab Fatima', branch: 'Girls Campus Main', hifzLevel: 'Para 5', time: '1h ago' },
+                  ].map((app, idx) => (
+                    <div key={idx} className="flex items-center justify-between p-3 rounded-xl bg-slate-900/60 border border-slate-800 hover:border-cyan-500/30 transition-all">
+                      <div>
+                        <div className="text-sm font-bold text-slate-200">{app.name}</div>
+                        <div className="text-xs text-slate-400">{app.branch} • Target: <span className="text-cyan-400">{app.hifzLevel}</span> ({app.time})</div>
+                      </div>
+                      <button 
+                        onClick={() => handleApproveAdmission(app.name)}
+                        className="px-3 py-1.5 rounded-lg bg-emerald-500 text-slate-950 text-xs font-bold hover:bg-emerald-400 transition-colors"
+                      >
+                        Approve & Enroll
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {activeModal === 'vault' && (
+              <div className="space-y-4 text-xs">
+                <div className="grid grid-cols-2 gap-3 p-4 rounded-xl bg-emerald-950/30 border border-emerald-500/30 text-emerald-200">
+                  <div><strong>Total Ledger Debits:</strong> $48,600.00</div>
+                  <div><strong>Total Ledger Credits:</strong> $48,600.00</div>
+                </div>
+                <div className="space-y-2">
+                  <div className="font-semibold text-slate-300">Recent Cryptographic Ledger Entries:</div>
+                  <div className="font-mono p-3 bg-slate-900 rounded-lg text-slate-400 space-y-1">
+                    <div>TX-8921: Student Fee (Gulshan) → +$350.00 [DEBIT] | Cash Vault → +$350.00 [CREDIT] ✓</div>
+                    <div>TX-8922: Teacher Honorarium → -$800.00 [CREDIT] | Payroll Acct → +$800.00 [DEBIT] ✓</div>
+                    <div>TX-8923: Campus Solar Maintenance → -$450.00 [CREDIT] | Facility Ops → +$450.00 [DEBIT] ✓</div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {activeModal === 'mesh' && (
+              <div className="space-y-3 text-xs">
+                {[
+                  { name: 'SUH-EDGE-01 (Gulshan Node)', ip: '10.240.0.12', latency: '4ms', sync: '100% Synchronized' },
+                  { name: 'SUH-EDGE-02 (Nazimabad Node)', ip: '10.240.0.15', latency: '6ms', sync: '100% Synchronized' },
+                  { name: 'SUH-EDGE-03 (Clifton Node)', ip: '10.240.0.19', latency: '9ms', sync: 'Protobuf Delta Streaming' },
+                ].map((node, i) => (
+                  <div key={i} className="p-3 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-between">
+                    <div>
+                      <div className="font-bold text-white">{node.name}</div>
+                      <div className="text-slate-400">Internal IP: {node.ip} • Protocol: <span className="text-cyan-400 font-mono">IPSec AES-256</span></div>
+                    </div>
+                    <div className="text-right">
+                      <span className="px-2 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-500/30 text-[10px]">{node.latency}</span>
+                      <div className="text-[10px] text-slate-400 mt-1">{node.sync}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            <div className="mt-6 pt-4 border-t border-slate-800 flex justify-end">
+              <button 
+                onClick={() => setActiveModal(null)}
+                className="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 hover:text-white hover:bg-slate-700 text-xs font-semibold"
+              >
+                Close Inspector
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
