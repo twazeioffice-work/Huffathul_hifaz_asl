@@ -1,25 +1,59 @@
 -- DDL Migration Script: 0009_community_affiliations_verification.sql
 
-CREATE TYPE affiliation_stage AS ENUM (
-    'DRAFT',
-    'SUBMITTED',
-    'DOCUMENTS_VERIFIED',
-    'PHYSICAL_INSPECTION_SCHEDULED',
-    'INSPECTION_COMPLETED',
-    'APPROVED',
-    'REJECTED'
+-- =============================================================================
+-- 0. MOCK BASE SCHEMA (Auto-creation for testing environment)
+-- =============================================================================
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
+
+DO $$ BEGIN
+    CREATE ROLE app_user NOLOGIN;
+EXCEPTION
+    WHEN duplicate_object THEN null;
+END $$;
+
+CREATE TABLE IF NOT EXISTS institutions (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    name VARCHAR(255) NOT NULL
 );
 
-CREATE TYPE verification_criteria_type AS ENUM (
-    'REGISTRATION_VERIFIED',
-    'CURRICULUM_COMPLIANCE',
-    'TEACHER_TAJWEED_CERTIFIED',
-    'FACILITY_FIRE_SAFETY',
-    'INTERNET_UPLINK_STABLE'
+CREATE TABLE IF NOT EXISTS branches (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    institution_id UUID NOT NULL REFERENCES institutions(id),
+    name VARCHAR(255) NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS users (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    name VARCHAR(255) NOT NULL
+);
+
+-- =============================================================================
+-- 1. AFFILIATION VERIFICATION SCHEMA
+-- =============================================================================
+DO $$ BEGIN
+    CREATE TYPE affiliation_stage AS ENUM (
+        'DRAFT',
+        'SUBMITTED',
+        'DOCUMENTS_VERIFIED',
+        'PHYSICAL_INSPECTION_SCHEDULED',
+        'INSPECTION_COMPLETED',
+        'APPROVED',
+        'REJECTED'
+    );
+EXCEPTION WHEN duplicate_object THEN null; END $$;
+
+DO $$ BEGIN
+    CREATE TYPE verification_criteria_type AS ENUM (
+        'REGISTRATION_VERIFIED',
+        'CURRICULUM_COMPLIANCE',
+        'TEACHER_TAJWEED_CERTIFIED',
+        'FACILITY_FIRE_SAFETY',
+        'INTERNET_UPLINK_STABLE'
+    );
+EXCEPTION WHEN duplicate_object THEN null; END $$;
 
 -- 1. Main Affiliation Requests Table
-CREATE TABLE affiliation_requests (
+CREATE TABLE IF NOT EXISTS affiliation_requests (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     institution_id UUID NOT NULL REFERENCES institutions(id) ON DELETE CASCADE,
     branch_id UUID NOT NULL REFERENCES branches(id) ON DELETE CASCADE,
@@ -37,7 +71,7 @@ CREATE TABLE affiliation_requests (
 );
 
 -- 2. Criteria Checklist Table
-CREATE TABLE affiliation_checklist (
+CREATE TABLE IF NOT EXISTS affiliation_checklist (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     request_id UUID NOT NULL REFERENCES affiliation_requests(id) ON DELETE CASCADE,
     criteria_key verification_criteria_type NOT NULL,
@@ -49,7 +83,7 @@ CREATE TABLE affiliation_checklist (
 );
 
 -- 3. Document and Media Attachments Register (Photos, Videos, PDF Credentials)
-CREATE TABLE affiliation_media_attachments (
+CREATE TABLE IF NOT EXISTS affiliation_media_attachments (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     request_id UUID NOT NULL REFERENCES affiliation_requests(id) ON DELETE CASCADE,
     file_name VARCHAR(255) NOT NULL,
@@ -62,7 +96,7 @@ CREATE TABLE affiliation_media_attachments (
 );
 
 -- 4. Physical On-Site Field Inspection Log
-CREATE TABLE affiliation_physical_inspections (
+CREATE TABLE IF NOT EXISTS affiliation_physical_inspections (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     request_id UUID NOT NULL REFERENCES affiliation_requests(id) ON DELETE CASCADE,
     inspector_id UUID NOT NULL REFERENCES users(id) ON DELETE RESTRICT,
@@ -76,10 +110,10 @@ CREATE TABLE affiliation_physical_inspections (
 );
 
 -- Enforce Composite Indexes for fast O(1) multi-tenant audit checks
-CREATE INDEX idx_aff_request_tenant ON affiliation_requests(institution_id, branch_id);
-CREATE INDEX idx_aff_request_stage ON affiliation_requests(current_stage);
-CREATE INDEX idx_aff_media_request ON affiliation_media_attachments(request_id);
-CREATE INDEX idx_aff_inspect_request ON affiliation_physical_inspections(request_id);
+CREATE INDEX IF NOT EXISTS idx_aff_request_tenant ON affiliation_requests(institution_id, branch_id);
+CREATE INDEX IF NOT EXISTS idx_aff_request_stage ON affiliation_requests(current_stage);
+CREATE INDEX IF NOT EXISTS idx_aff_media_request ON affiliation_media_attachments(request_id);
+CREATE INDEX IF NOT EXISTS idx_aff_inspect_request ON affiliation_physical_inspections(request_id);
 
 -- Enforce Row-Level Security (RLS) bound to session app.current_tenant_id
 ALTER TABLE affiliation_requests ENABLE ROW LEVEL SECURITY;
@@ -87,12 +121,16 @@ ALTER TABLE affiliation_checklist ENABLE ROW LEVEL SECURITY;
 ALTER TABLE affiliation_media_attachments ENABLE ROW LEVEL SECURITY;
 ALTER TABLE affiliation_physical_inspections ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY tenant_isolation_affiliations ON affiliation_requests FOR ALL TO app_user
-USING ( institution_id = NULLIF(current_setting('app.current_tenant_id', true), '')::UUID )
-WITH CHECK ( institution_id = NULLIF(current_setting('app.current_tenant_id', true), '')::UUID );
+DO $$ BEGIN
+    CREATE POLICY tenant_isolation_affiliations ON affiliation_requests FOR ALL TO app_user
+    USING ( institution_id = NULLIF(current_setting('app.current_tenant_id', true), '')::UUID )
+    WITH CHECK ( institution_id = NULLIF(current_setting('app.current_tenant_id', true), '')::UUID );
+EXCEPTION WHEN duplicate_object THEN null; END $$;
 
-CREATE POLICY tenant_isolation_aff_checklist ON affiliation_checklist FOR ALL TO app_user
-USING ( EXISTS (
-    SELECT 1 FROM affiliation_requests r 
-    WHERE r.id = request_id AND r.institution_id = NULLIF(current_setting('app.current_tenant_id', true), '')::UUID
-));
+DO $$ BEGIN
+    CREATE POLICY tenant_isolation_aff_checklist ON affiliation_checklist FOR ALL TO app_user
+    USING ( EXISTS (
+        SELECT 1 FROM affiliation_requests r 
+        WHERE r.id = request_id AND r.institution_id = NULLIF(current_setting('app.current_tenant_id', true), '')::UUID
+    ));
+EXCEPTION WHEN duplicate_object THEN null; END $$;
