@@ -5,9 +5,9 @@ import { useApprovalInspector } from '@/hooks/useApprovalInspector';
 import ApprovalInspectorDrawer from '@/components/erp/ApprovalInspectorDrawer';
 
 const ADMISSION_QUEUE = [
-  { id: 'stud_bilal_101', name: 'Muhammad Bilal Khan', branch: 'Gulshan Branch', hifzLevel: 'Para 12', time: '10m ago' },
-  { id: 'stud_abdullah_102', name: 'Abdullah Siddiqui', branch: 'North Nazimabad', hifzLevel: 'Beginner Nazra', time: '35m ago' },
-  { id: 'stud_zainab_103', name: 'Zainab Fatima', branch: 'Girls Campus Main', hifzLevel: 'Para 5', time: '1h ago' },
+  { id: 'stud_bilal_101', name: 'Muhammad Bilal Khan', branch: 'Bengaluru Campus (Jayanagar)', hifzLevel: 'Para 12', time: '10m ago' },
+  { id: 'stud_abdullah_102', name: 'Abdullah Siddiqui', branch: 'Hyderabad Campus (Tolichowki)', hifzLevel: 'Beginner Nazra', time: '35m ago' },
+  { id: 'stud_zainab_103', name: 'Zainab Fatima', branch: 'Mumbai Campus (Bandra West)', hifzLevel: 'Para 5', time: '1h ago' },
 ];
 
 export default function DashboardCommandCenter() {
@@ -34,7 +34,7 @@ export default function DashboardCommandCenter() {
     setSyncStatus('syncing');
     setTimeout(() => {
       setSyncStatus('synced');
-      showToast('Distributed Edge Mesh synchronized across all 3 campuses!');
+      showToast('Distributed Edge Mesh synchronized across Bengaluru, Hyderabad & Mumbai!');
       setTimeout(() => setSyncStatus('idle'), 4000);
     }, 1500);
   };
@@ -59,7 +59,7 @@ export default function DashboardCommandCenter() {
             Suffat-ul Huffaz <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-emerald-400">Autonomous Ecosystem</span>
           </h1>
           <p className="text-slate-400 text-xs md:text-sm mt-1">
-            HQ Governance Portal • Active Tenant: <strong className="text-slate-200">suffat-hq (Karachi Main Campus)</strong>
+            HQ Governance Portal • Active Tenant: <strong className="text-slate-200">suffat-hq (Hyderabad Central Campus, India)</strong>
           </p>
         </div>
 
@@ -109,7 +109,7 @@ export default function DashboardCommandCenter() {
             <span className="px-2 py-0.5 rounded-full bg-emerald-950 text-emerald-400 border border-emerald-500/30 text-[10px]">Balanced</span>
           </div>
           <div className="text-3xl font-black text-emerald-400 tracking-tight mb-1">
-            $14,200 <span className="text-xs font-normal text-slate-400">Aug Net Revenue</span>
+            ₹11,85,000 <span className="text-xs font-normal text-slate-400">Aug Net Revenue</span>
           </div>
           <p className="text-xs text-slate-400 mb-6">Immutable zero-discrepancy ledger: 100% Debit/Credit equilibrium verified.</p>
           <button
@@ -127,9 +127,9 @@ export default function DashboardCommandCenter() {
             <span className="px-2 py-0.5 rounded-full bg-indigo-950 text-indigo-400 border border-indigo-500/30 text-[10px]">3 Connected</span>
           </div>
           <div className="text-3xl font-black text-white tracking-tight mb-1">
-            3 <span className="text-xs font-normal text-slate-400">Regional Nodes Online</span>
+            3 <span className="text-xs font-normal text-slate-400">Regional Hubs Online</span>
           </div>
-          <p className="text-xs text-slate-400 mb-6">North Nazimabad, Gulshan, &amp; Clifton nodes operating with IPSec offline sync.</p>
+          <p className="text-xs text-slate-400 mb-6">Bengaluru, Hyderabad, &amp; Mumbai edge nodes operating with IPSec offline sync.</p>
           <button
             onClick={() => setActiveModal('mesh')}
             className="w-full py-2.5 rounded-xl bg-slate-900/80 border border-slate-700/60 hover:border-indigo-500/50 text-indigo-300 text-xs font-semibold flex items-center justify-center gap-2 group-hover:bg-indigo-950/30 transition-all"
@@ -163,8 +163,8 @@ export default function DashboardCommandCenter() {
             {activeModal === 'admissions' && (
               <div className="space-y-4">
                 <p className="text-xs text-slate-400">
-                  Reviewing {queue.length} pending cross-tenant applicants.
-                  <span className="text-cyan-400 ml-1">Click a name to inspect full profile →</span>
+                  Reviewing {queue.length} pending cross-tenant applicants across Indian campuses.
+                  <span className="text-cyan-400 ml-1">Click a student name to inspect full Indian profile &amp; address →</span>
                 </p>
 
                 {queue.length === 0 ? (
@@ -213,15 +213,15 @@ export default function DashboardCommandCenter() {
             {activeModal === 'vault' && (
               <div className="space-y-4 text-xs">
                 <div className="grid grid-cols-2 gap-3 p-4 rounded-xl bg-emerald-950/30 border border-emerald-500/30 text-emerald-200">
-                  <div><strong>Total Ledger Debits:</strong> $48,600.00</div>
-                  <div><strong>Total Ledger Credits:</strong> $48,600.00</div>
+                  <div><strong>Total Ledger Debits:</strong> ₹40,50,000.00</div>
+                  <div><strong>Total Ledger Credits:</strong> ₹40,50,000.00</div>
                 </div>
                 <div className="space-y-2">
-                  <div className="font-semibold text-slate-300">Recent Cryptographic Ledger Entries:</div>
+                  <div className="font-semibold text-slate-300">Recent Cryptographic Ledger Entries (INR):</div>
                   <div className="font-mono p-3 bg-slate-900 rounded-lg text-slate-400 space-y-1">
-                    <div>TX-8921: Student Fee (Gulshan) → +$350.00 [DEBIT] | Cash Vault → +$350.00 [CREDIT] ✓</div>
-                    <div>TX-8922: Teacher Honorarium → -$800.00 [CREDIT] | Payroll Acct → +$800.00 [DEBIT] ✓</div>
-                    <div>TX-8923: Campus Solar Maintenance → -$450.00 [CREDIT] | Facility Ops → +$450.00 [DEBIT] ✓</div>
+                    <div>TX-8921: Student Fee (Hyderabad) → +₹28,500 [DEBIT] | Cash Vault → +₹28,500 [CREDIT] ✓</div>
+                    <div>TX-8922: Teacher Honorarium → -₹65,000 [CREDIT] | Payroll Acct → +₹65,000 [DEBIT] ✓</div>
+                    <div>TX-8923: Campus Solar Maintenance → -₹36,000 [CREDIT] | Facility Ops → +₹36,000 [DEBIT] ✓</div>
                   </div>
                 </div>
               </div>
@@ -231,9 +231,9 @@ export default function DashboardCommandCenter() {
             {activeModal === 'mesh' && (
               <div className="space-y-3 text-xs">
                 {[
-                  { name: 'SUH-EDGE-01 (Gulshan Node)', ip: '10.240.0.12', latency: '4ms', sync: '100% Synchronized' },
-                  { name: 'SUH-EDGE-02 (Nazimabad Node)', ip: '10.240.0.15', latency: '6ms', sync: '100% Synchronized' },
-                  { name: 'SUH-EDGE-03 (Clifton Node)', ip: '10.240.0.19', latency: '9ms', sync: 'Protobuf Delta Streaming' },
+                  { name: 'SUH-EDGE-01 (Bengaluru Hub)', ip: '10.240.0.12', latency: '4ms', sync: '100% Synchronized' },
+                  { name: 'SUH-EDGE-02 (Hyderabad Hub)', ip: '10.240.0.15', latency: '6ms', sync: '100% Synchronized' },
+                  { name: 'SUH-EDGE-03 (Mumbai Central Hub)', ip: '10.240.0.19', latency: '8ms', sync: 'Protobuf Delta Streaming' },
                 ].map((node, i) => (
                   <div key={i} className="p-3 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-between">
                     <div>

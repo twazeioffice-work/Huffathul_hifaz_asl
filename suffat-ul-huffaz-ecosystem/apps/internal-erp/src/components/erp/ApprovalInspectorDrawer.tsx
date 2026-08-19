@@ -3,9 +3,7 @@
 import React, { useEffect, useState } from "react";
 
 /* ────────────────────────────────────────────────────────────────────────────
- * MOCK DATA STORE
- * In production, replace with real API calls. For now, simulated fetch with
- * a 600ms artificial latency to demonstrate loading states.
+ * MOCK DATA STORE (Indian Regional Localization)
  * ──────────────────────────────────────────────────────────────────────────── */
 const MOCK_STUDENT_DB: Record<string, any> = {
   stud_bilal_101: {
@@ -13,18 +11,18 @@ const MOCK_STUDENT_DB: Record<string, any> = {
     gender: "Male",
     date_of_birth: "2014-03-15",
     blood_group: "B+",
-    branch_name: "Gulshan Branch",
+    branch_name: "Bengaluru Main Campus (Jayanagar)",
     target_program: "Hifz-ul-Quran (Para 12)",
     academic_year: "2026-2027",
     batch_name: "Batch Kauthar-A",
     guardian_name: "Ahmed Khan",
-    phone: "+92 300 1234567",
+    phone: "+91 98450 12345",
     email: "ahmed.khan@gmail.com",
     address: {
-      street: "Block 14, Gulshan-e-Iqbal",
-      city: "Karachi",
-      state: "Sindh",
-      postal_code: "75300",
+      street: "42, 14th Main Road, 4th Block, Jayanagar",
+      city: "Bengaluru",
+      state: "Karnataka",
+      postal_code: "560041",
     },
   },
   stud_abdullah_102: {
@@ -32,18 +30,18 @@ const MOCK_STUDENT_DB: Record<string, any> = {
     gender: "Male",
     date_of_birth: "2016-07-22",
     blood_group: "O+",
-    branch_name: "North Nazimabad Campus",
+    branch_name: "Hyderabad Central Branch (Tolichowki)",
     target_program: "Nazra Beginner",
     academic_year: "2026-2027",
     batch_name: "Batch Salsabil-C",
     guardian_name: "Tariq Siddiqui",
-    phone: "+92 321 9876543",
+    phone: "+91 98480 98765",
     email: "tariq.siddiqui@outlook.com",
     address: {
-      street: "Sector 11-C/1, North Nazimabad",
-      city: "Karachi",
-      state: "Sindh",
-      postal_code: "74700",
+      street: "Plot 18, Paramount Hills, Tolichowki",
+      city: "Hyderabad",
+      state: "Telangana",
+      postal_code: "500008",
     },
   },
   stud_zainab_103: {
@@ -51,40 +49,39 @@ const MOCK_STUDENT_DB: Record<string, any> = {
     gender: "Female",
     date_of_birth: "2015-11-08",
     blood_group: "A+",
-    branch_name: "Girls Campus Main (Clifton)",
+    branch_name: "Mumbai Girls Campus (Bandra West)",
     target_program: "Hifz-ul-Quran (Para 5)",
     academic_year: "2026-2027",
     batch_name: "Batch Tasnim-B",
     guardian_name: "Fatima Noor",
-    phone: "+92 333 4567890",
+    phone: "+91 98200 45678",
     email: null,
     address: {
-      street: "Sea View Apartments, Block 2",
-      city: "Karachi",
-      state: "Sindh",
-      postal_code: "75600",
+      street: "12, Hill Road, Bandra West",
+      city: "Mumbai",
+      state: "Maharashtra",
+      postal_code: "400050",
     },
   },
 };
 
 const MOCK_AFFILIATION_DB: Record<string, any> = {
   aff_darul_uloom_01: {
-    academy_name: "Darul Uloom Karachi",
-    principal_name: "Mufti Usman Ghani",
+    academy_name: "Darul Uloom Deoband (Affiliated Academy)",
+    principal_name: "Mufti Salman Qasmi",
     student_strength: 450,
-    location: "Korangi Industrial Area, Karachi",
+    location: "Saharanpur Road, Deoband, Uttar Pradesh - 247554",
   },
   aff_madinah_02: {
-    academy_name: "Madinah Institute of Technology",
-    principal_name: "Dr. Khalid Mehmood",
+    academy_name: "Al-Mahad Al-Aali Al-Islami",
+    principal_name: "Dr. Khalid Mehmood Nadwi",
     student_strength: 280,
-    location: "Islamabad, Capital Territory",
+    location: "Wadi-e-Huda, Shaheen Nagar, Hyderabad, Telangana - 500005",
   },
 };
 
 /* ────────────────────────────────────────────────────────────────────────────
  * INLINE SVG ICON COMPONENTS
- * Avoids lucide-react dependency while preserving exact visual fidelity.
  * ──────────────────────────────────────────────────────────────────────────── */
 function IconShield({ className }: { className?: string }) {
   return (
@@ -179,7 +176,7 @@ export default function ApprovalInspectorDrawer({
   const [error, setError] = useState<string | null>(null);
   const [approving, setApproving] = useState(false);
 
-  // Simulated API fetch using mock data store
+  // Simulated API fetch with Indian mock data
   useEffect(() => {
     if (!isOpen || !itemId || !type) return;
 
@@ -367,7 +364,7 @@ export default function ApprovalInspectorDrawer({
                       </div>
                       <div className="flex justify-between">
                         <span className="text-[#94A3B8]">Phone Number:</span>
-                        <span className="font-medium text-[#F8FAFC]">{data.phone}</span>
+                        <span className="font-medium text-emerald-400 font-mono">{data.phone}</span>
                       </div>
                       <div className="flex justify-between">
                         <span className="text-[#94A3B8]">Email Address:</span>
@@ -381,12 +378,12 @@ export default function ApprovalInspectorDrawer({
                     <div className="flex items-center gap-3 border-b border-[#1E293B] pb-2">
                       <IconMapPin className="w-5 h-5 text-[#94A3B8]" />
                       <span className="font-semibold text-sm uppercase text-[#94A3B8] tracking-wider">
-                        Address
+                        Indian Residential Address
                       </span>
                     </div>
                     <p className="text-sm text-[#F8FAFC] leading-relaxed">
                       {data.address?.street}, {data.address?.city},{" "}
-                      {data.address?.state} - {data.address?.postal_code}
+                      {data.address?.state} - <strong className="text-cyan-400">{data.address?.postal_code}</strong>
                     </p>
                   </div>
                 </>
