@@ -1,52 +1,49 @@
-# Location: services/core-backend/tests/test_sync_concurrency.py
 import pytest
-import datetime
-from fastapi.testclient import TestClient
-import sys
-import os
+from datetime import datetime, timezone, timedelta
+from app.models.lms import LMSOfflineSyncEngine
+from app.routers.sync import sync_push_endpoint
 
-# Append app to path for test running if needed
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-
-from app.main import app
-
-# Create a test client
-client = TestClient(app)
-
-@pytest.mark.asyncio
-async def test_push_synchronization_conflict_resolution():
-    # Setup test identifiers
-    inst_id = "00000000-0000-0000-0000-000000000000"
-    sabaq_id = "00000000-0000-0000-0000-000000000001"
+def test_sync_concurrency_lww():
+    """
+    Validation Gate: Ensures Last-Write-Wins (LWW) conflict resolution
+    prevents stale offline client data from overwriting newer server data.
+    """
+    now = datetime.now(timezone.utc)
+    old_time = now - timedelta(hours=2)
     
-    # 1. Simulate an update on the web app at 10:05 AM (UTC)
-    web_time = datetime.datetime(2026, 8, 17, 10, 5, 0, tzinfo=datetime.timezone.utc).timestamp()
-    
-    # 2. Submit a stale offline push from a mobile device at 10:00 AM (UTC)
-    mobile_time = datetime.datetime(2026, 8, 17, 10, 0, 0, tzinfo=datetime.timezone.utc).timestamp()
-    
-    push_payload = {
-        "last_pulled_at": 1787047200.0,
-        "changes": {
-            "hifz_sabaq_records": {
-                "created": [],
-                "updated": [
-                    {
-                        "id": sabaq_id,
-                        "grade": "average", # Stale offline grade
-                        "last_modified_at": mobile_time
-                    }
-                ],
-                "deleted": []
-            }
-        }
+    mock_server_db = {
+        "record_1": {"id": "record_1", "grade": "excellent", "last_modified_at": now}
     }
     
-    # Note: In a real test environment, the database would be seeded with the web_time record.
-    # This is an integration test scaffold testing the API shape.
-    response = client.post(
-        f"/api/v1/sync/push?institution_id={inst_id}", 
-        json=push_payload
-    )
+    # Client was offline for 3 hours, edits an old record and pushes it now
+    client_pushes = [
+        {"id": "record_1", "grade": "average", "last_modified_at": old_time}
+    ]
     
-    assert response.status_code in [200, 422, 500] # Depending on if DB is actually live during pytest.
+    response = sync_push_endpoint(client_pushes, mock_server_db)
+    
+    # The server should REJECT the client push because server time > client time
+    assert response["applied_records"] == 0
+    assert mock_server_db["record_1"]["grade"] == "excellent" # Not overwritten
+
+def test_sync_valid_update():
+    """
+    Validation Gate: Ensures fresh offline client data is accepted.
+    """
+    now = datetime.now(timezone.utc)
+    new_time = now + timedelta(hours=1)
+    
+    mock_server_db = {
+        "record_2": {"id": "record_2", "grade": "average", "last_modified_at": now}
+    }
+    
+    # Client has a newer timestamp
+    client_pushes = [
+        {"id": "record_2", "grade": "excellent", "last_modified_at": new_time}
+    ]
+    
+    response = sync_push_endpoint(client_pushes, mock_server_db)
+    
+    # Server accepts the update
+    assert response["applied_records"] == 1
+    assert mock_server_db["record_2"]["grade"] == "excellent"

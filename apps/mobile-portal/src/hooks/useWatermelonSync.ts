@@ -1,51 +1,30 @@
-// Location: apps/mobile-portal/src/hooks/useWatermelonSync.ts
-import { useState, useCallback } from 'react';
-// import { synchronize } from '@nozbe/watermelondb/sync';
-// import { database } from '../models/schema';
+import { synchronize } from '@nozbe/watermelondb/sync'
+import { database } from '../database'
+import { apiClient } from '../apiClient' // Mutex-wrapped API client
 
-export function useWatermelonSync(institutionId: string) {
-  const [isSyncing, setIsSyncing] = useState(false);
-  const [lastSyncTime, setLastSyncTime] = useState<Date | null>(null);
-  const [error, setError] = useState<Error | null>(null);
-
-  const performSync = useCallback(async () => {
-    setIsSyncing(true);
-    setError(null);
-    try {
-      /*
-      await synchronize({
-        database,
-        pullChanges: async ({ lastPulledAt }) => {
-          const response = await fetch(`http://10.0.2.2:8000/api/v1/sync/pull?last_pulled_at=${lastPulledAt || 0}&institution_id=${institutionId}`);
-          if (!response.ok) {
-            throw new Error(await response.text());
-          }
-          const { changes, timestamp } = await response.json();
-          return { changes, timestamp };
-        },
-        pushChanges: async ({ changes, lastPulledAt }) => {
-          const response = await fetch(`http://10.0.2.2:8000/api/v1/sync/push?institution_id=${institutionId}`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ changes, last_pulled_at: lastPulledAt }),
-          });
-          if (!response.ok) {
-            throw new Error(await response.text());
-          }
-        },
-        migrationsEnabledAtVersion: 1,
-      });
-      */
+export async function useWatermelonSync() {
+  await synchronize({
+    database,
+    pullChanges: async ({ lastPulledAt }) => {
+      // Normalize timestamp to Unix seconds if not null
+      const timestamp = lastPulledAt ? Math.floor(lastPulledAt / 1000) : null
       
-      // Simulated delay for UI interaction demonstration without actual watermelonDB setup
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      setLastSyncTime(new Date());
-    } catch (err: any) {
-      setError(err);
-    } finally {
-      setIsSyncing(false);
-    }
-  }, [institutionId]);
-
-  return { isSyncing, lastSyncTime, error, performSync };
+      const response = await apiClient.get(`/api/v1/sync?lastPulledAt=${timestamp || ''}`)
+      if (!response.ok) {
+        throw new Error('Failed to pull changes')
+      }
+      
+      const { changes, timestamp: serverTimestamp } = await response.json()
+      return { changes, timestamp: serverTimestamp }
+    },
+    pushChanges: async ({ changes, lastPulledAt }) => {
+      const response = await apiClient.post('/api/v1/sync', {
+        changes,
+        lastPulledAt: lastPulledAt ? Math.floor(lastPulledAt / 1000) : null
+      })
+      if (!response.ok) {
+        throw new Error('Failed to push changes')
+      }
+    },
+  })
 }

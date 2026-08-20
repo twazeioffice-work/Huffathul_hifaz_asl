@@ -1,22 +1,32 @@
 import pytest
-from app.db.session import MockAsyncSession
-from app.models.asset import Asset
-from sqlalchemy import select
+import hmac
+import hashlib
+from app.routers.asset import register_physical_asset
+from app.routers.telemetry import ingest_gps_coordinate
 
-@pytest.mark.asyncio
-async def test_multi_tenant_asset_rls_bounds():
+def test_asset_registration_tenant_bounds():
     """
-    Simulates the RLS check for tenant isolation boundaries in physical ledger.
-    (Uses the mock session behavior matching our testing architecture).
+    Validation Gate: Ensures assets cannot be registered without active tenant IDs.
     """
-    session = MockAsyncSession()
-    # In a real async test against PG, we would SET app.current_tenant_id.
-    # We verify the model is correctly isolated.
+    with pytest.raises(PermissionError, match="Cross-Tenant Isolation Breach"):
+        register_physical_asset(None, {"name": "School Bus A", "value": 50000.00})
+
+def test_telemetry_webhook_security():
+    """
+    Validation Gate: Validates that HMAC-SHA256 signatures are strictly enforced
+    for incoming IoT data.
+    """
+    payload = {"lat": 24.8607, "lng": 67.0011}
+    secret = "fleet_secret_123"
     
-    query = select(Asset).where(Asset.institution_id == "tenant-A-uuid-0000-000000000000")
-    # Execute query
-    result = await session.execute(query)
+    # Calculate valid signature
+    payload_str = str(payload["lat"]) + str(payload["lng"])
+    valid_sig = hmac.new(secret.encode(), payload_str.encode(), hashlib.sha256).hexdigest()
     
-    # Normally this would fetch and assert. 
-    # For MockAsyncSession, we ensure the test structure passes the security gate logic
-    assert True, "SUCCESS: Row-Level Security bound blocks cross-tenant physical asset traversal."
+    # Test valid ingest
+    res = ingest_gps_coordinate(payload, valid_sig)
+    assert res["status"] == "SUCCESS"
+    
+    # Test forged/invalid ingest
+    with pytest.raises(PermissionError, match="HMAC Signature Invalid"):
+        ingest_gps_coordinate(payload, "forged_invalid_signature")

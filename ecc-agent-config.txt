@@ -1,0 +1,154 @@
+﻿# ==============================================================================
+# SUFFAT-UL HUFFAZ DIGITAL ERP & LMS - ECC WORKSPACE CONFIGURATION
+# File: agent.yaml (Enterprise Agent Control Center Configuration)
+# Target Environment: Turborepo Monorepo (Next.js apps & FastAPI core-backend)
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# 1. Base Metadata & Global Workspace Definition
+# ------------------------------------------------------------------------------
+harness:
+  identity: "suffat-harness-ops"
+  version: "2.1.0"
+  provider: "claude-code"            # Can adapt dynamically to cursor/zed
+  mode: "development"
+
+project:
+  name: "suffat-ul-huffaz-digital-erp"
+  framework: "turborepo-monorepo"
+  roots:
+    - apps/internal-erp             # Premium Next.js App Router admin console
+    - apps/public-portal            # Dynamic branding and admission landing
+    - services/core-backend         # FastAPI Serverless / GCP Cloud Run core
+    - packages/db-schema            # Shared PostgreSQL 16 migrations & Prisma/SQLAlchemy models
+    - packages/shared-ui            # Shared Apple-spec Tailwind components
+    - apps/ai-swarm-mcp             # Tree-sitter AST vector semantic server
+
+# ------------------------------------------------------------------------------
+# 2. Token, Context, & Budget Controls (Context Economics Guard)
+# ------------------------------------------------------------------------------
+context_budget:
+  max_session_tokens: 180000        # Safeguards against deep recursive loop context explosion
+  warning_threshold: 120000         # Issues telemetry alert before hard cutoff
+  compression:
+    enabled: true
+    strategy: "summarize-history"   # Auto-summarizes redundant transcripts using memory vault
+    retain_paths:
+      - "services/core-backend/app/models/"   # Strictly protect RLS models from compaction
+      - "services/core-backend/app/routers/"  # Protect route gating logic
+      - "apps/internal-erp/src/middleware.ts" # Protect dynamic cookie handling
+
+# ------------------------------------------------------------------------------
+# 3. Model Routing & Provider Configurations
+# ------------------------------------------------------------------------------
+model_routing:
+  default_model: "claude-3-5-sonnet-latest"
+  overrides:
+    planning_tasks: "claude-3-5-sonnet-latest"
+    refactoring_tasks: "claude-3-5-sonnet-latest"
+    security_reviews: "claude-3-5-sonnet-latest"
+    simple_build_fixes: "claude-3-5-haiku-latest"
+
+# ------------------------------------------------------------------------------
+# 4. Agent Profiles & Scoped Tool Capabilities
+# ------------------------------------------------------------------------------
+agents:
+  - profile: "planner"
+    enabled: true
+    tools:
+      - "ecc-plan-canvas"           # Interactive browser-based plan drawing engine
+      - "file_search"
+    rules_pack: "common"
+
+  - profile: "architect"
+    enabled: true
+    tools:
+      - "file_read"
+      - "file_write"
+      - "suffat-swarm-vector-gateway.query_schema_context"
+    rules_pack: "common"
+
+  - profile: "tdd-guide"
+    enabled: true
+    tools:
+      - "run-tests"                 # Custom package script testing hook
+      - "file_write"
+    rules_pack: "typescript"
+    custom_instincts:
+      - "Always execute local pytest/jest before claiming implementation green"
+
+  - profile: "security-reviewer"
+    enabled: true
+    tools:
+      - "agentshield_scan"          # In-house compliance scan engine
+      - "file_read"
+    rules_pack: "common"
+
+# ------------------------------------------------------------------------------
+# 5. Model Context Protocol (MCP) Integration
+# ------------------------------------------------------------------------------
+mcp:
+  enabled: true
+  servers:
+    suffat-swarm-vector-gateway:
+      command: "python"
+      args: ["-m", "src.main"]
+      cwd: "apps/ai-swarm-mcp"
+      env:
+        CHROMADB_VOLUME_PATH: "/workspace/scratch/chromadb"
+        PYTHONPATH: "."
+      tools:
+        - "query_schema_context"    # Exposes localized AST database schemas
+        - "query_component_library" # Exposes Next.js component visual layouts
+        - "query_transaction_logic" # Exposes backend transaction sequence flows
+
+# ------------------------------------------------------------------------------
+# 6. Runtime Hooks & Session Interceptors
+# ------------------------------------------------------------------------------
+hooks:
+  profile: "standard"               # Active hook execution profile (minimal | standard | strict)
+  handlers:
+    on_session_start:
+      - action: "validate-env"
+        script: "node scripts/ecc.js doctor"
+      - action: "load-memories"
+        script: "ecc memory search 'active tasks' --target-harness claude"
+
+    on_pre_commit:
+      - action: "lint-lockfile"
+        script: "npx lockfile-lint --path pnpm-lock.yaml --allowed-hosts npmjs.org --validate-https"
+      - action: "security-scan"
+        script: "npx ecc-agentshield scan --path ./services/core-backend"
+
+    on_session_stop:
+      - action: "summarize-learnings"
+        script: "ecc memory handoff --from claude --target project --title 'Session Handoff Ledger'"
+
+# ------------------------------------------------------------------------------
+# 7. AgentShield Attack-Surface Configurations
+# ------------------------------------------------------------------------------
+agentshield:
+  enabled: true
+  scan_paths:
+    - "services/core-backend/"
+    - "apps/internal-erp/src/"
+  policies:
+    allow_shell_commands: false     # Blocks arbitrary execution blocks in agent requests
+    allow_custom_mcps: true         # Permits Whitelisted MCP servers only
+    enforce_pii_redaction: true     # Automatically masks phone numbers, passwords, and tokens
+    enforce_rls_integrity: true     # Raises critical block if standard user role query misses tenant_id
+
+# ------------------------------------------------------------------------------
+# 8. Local Workspace Custom Rules Loading
+# ------------------------------------------------------------------------------
+rules:
+  paths:
+    - ".claude/rules/ecc/common"
+    - ".claude/rules/ecc/typescript"
+    - ".claude/rules/ecc/python"
+  exclude_patterns:
+    - "**/node_modules/**"
+    - "**/dist/**"
+    - "**/build/**"
+    - "**/.next/**"
+    - "**/scratch/**"

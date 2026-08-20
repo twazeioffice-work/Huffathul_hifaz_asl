@@ -1,23 +1,39 @@
-# Location: services/core-backend/tests/test_tenant_affiliation_bounds.py
 import pytest
-from app.main import app
-from httpx import AsyncClient, ASGITransport
+from app.models.affiliation import AffiliationRequestMock, AffiliationStatus, AffiliationWorkflowEngine
+from app.core.tasks.broadcast_worker import BroadcastDispatchWorker
 
-@pytest.mark.asyncio
-async def test_affiliation_tenant_boundary_enforcement():
-    # Attempt status modification targeting Tenant B request ID using Tenant A's token
-    tamper_payload = {
-        "request_id": "8bcb36e3-7219-480c-ae5a-44229dd6ae02", # ID belonging strictly to Tenant B
-        "new_status": "APPROVED",
-        "notes": "Malicious boundary bypass attempt."
-    }
+def test_tenant_affiliation_bounds():
+    """
+    Validation Gate: Ensures cross-tenant boundary isolation during
+    community affiliation approvals.
+    """
+    req = AffiliationRequestMock(
+        id="AFF-001",
+        source_institution="TENANT_A",
+        target_institution="TENANT_B",
+        status=AffiliationStatus.PENDING_VERIFICATION
+    )
     
-    headers = {"Authorization": "Bearer MOCK_TOKEN_A"}
-    
-    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
-        attack_res = await client.post("/api/v1/affiliations/transition", json=tamper_payload, headers=headers)
+    # Simulating TENANT_A trying to approve its own outbound request
+    with pytest.raises(PermissionError, match="Cross-Tenant Violation"):
+        AffiliationWorkflowEngine.approve_affiliation(req, active_tenant_id="TENANT_A")
         
-    # In a full fixture test, it would hit the database and return 404 or 403.
-    # Since we use a mock DB session, it should return 404 since the mock returns None for the record lookup
-    assert attack_res.status_code in (403, 404)
-    print("SUCCESS: Cross-tenant state mutation blocked at interceptor boundary.")
+    # Simulating TENANT_B (the target) approving the request
+    assert AffiliationWorkflowEngine.approve_affiliation(req, active_tenant_id="TENANT_B") == True
+    assert req.status == AffiliationStatus.APPROVED
+
+def test_bulk_broadcast_limits():
+    """
+    Validation Gate: Ensures broadcast queues block massive spam payloads
+    to preserve SMS/Meta API domain reputation.
+    """
+    recipients = ["user@example.com"] * 501
+    
+    response = BroadcastDispatchWorker.dispatch_community_announcement(
+        tenant_id="TENANT_A",
+        message="Eid Mubarak!",
+        recipients=recipients
+    )
+    
+    assert response["status"] == "RATE_LIMITED"
+    assert "exceeds" in response["error"]

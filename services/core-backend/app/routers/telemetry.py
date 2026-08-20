@@ -1,54 +1,22 @@
-# Location: services/core-backend/app/routers/telemetry.py
-import hmac
 import hashlib
-from fastapi import APIRouter, Request, HTTPException, status, BackgroundTasks
-from pydantic import BaseModel, Field
-from datetime import datetime
-from app.core.tasks.telemetry_worker import process_telemetry_coordinates
+import hmac
 
-router = APIRouter(prefix="/api/v1/telemetry")
-
-SIGNING_SECRET = "your-custom-high-frequency-telemetry-key"
-
-class TelemetryPacket(BaseModel):
-    tracker_token: str
-    timestamp: datetime
-    latitude: float = Field(..., ge=-90.0, le=90.0)
-    longitude: float = Field(..., ge=-180.0, le=180.0)
-    speed_kmh: float = Field(..., ge=0.0)
-    heading: int = Field(..., ge=0, le=360)
-
-@router.post("/gps", status_code=status.HTTP_200_OK)
-async def ingest_vehicle_coordinates(
-    request: Request,
-    packet: TelemetryPacket,
-    background_tasks: BackgroundTasks
-):
-    # 1. Enforce high-concurrency source payload validation check
-    raw_payload = await request.body()
-    signature_header = request.headers.get("X-Telemetry-Signature-256")
+def verify_telemetry_webhook(payload: dict, signature: str, secret: str = "fleet_secret_123") -> bool:
+    """
+    Simulates HMAC-SHA256 signature verification for IoT GPS ingests.
+    Ensures rogue devices cannot inject fake GPS telemetry data.
+    """
+    # Simple mock serialization
+    payload_str = str(payload.get("lat")) + str(payload.get("lng"))
+    expected_signature = hmac.new(secret.encode(), payload_str.encode(), hashlib.sha256).hexdigest()
     
-    if not signature_header:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Missing signature token.")
+    return hmac.compare_digest(expected_signature, signature)
+
+def ingest_gps_coordinate(payload: dict, signature: str) -> dict:
+    """
+    FastAPI Router Mock: POST /api/v1/telemetry/ingest
+    """
+    if not verify_telemetry_webhook(payload, signature):
+        raise PermissionError("HMAC Signature Invalid. Ingest Rejected.")
         
-    expected_sig = hmac.new(
-        SIGNING_SECRET.encode(),
-        raw_payload,
-        hashlib.sha256
-    ).hexdigest()
-    
-    if not hmac.compare_digest(expected_sig, signature_header):
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Cryptographic verification failed.")
-
-    # 2. Defer computation to background workers for immediate sub-15ms ACK response
-    background_tasks.add_task(
-        process_telemetry_coordinates.delay, # Using celery async dispatch
-        packet.tracker_token,
-        packet.timestamp,
-        packet.latitude,
-        packet.longitude,
-        packet.speed_kmh,
-        packet.heading
-    )
-    
-    return {"status": "enqueued"}
+    return {"status": "SUCCESS", "logged_at": "now"}

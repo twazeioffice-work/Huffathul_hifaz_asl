@@ -1,34 +1,30 @@
 {
-  "name": "internal-erp",
+  "name": "suffat-ul-huffaz-ecosystem",
   "version": "1.0.0",
   "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
-  "dependencies": {
-    "autoprefixer": "^10.5.4",
-    "next": "^14.1.0",
-    "postcss": "^8.5.26",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "tailwindcss": "^3.4.1"
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "test": "turbo run test"
   },
   "devDependencies": {
-    "@types/node": "^20.11.16",
-    "@types/react": "^18.2.55",
-    "@types/react-dom": "^18.2.19",
-    "typescript": "^5.3.3"
+    "turbo": "^1.13.0",
+    "typescript": "^5.3.3",
+    "eslint": "^8.56.0"
   },
-  "description": "",
-  "main": "index.js",
-  "directories": {
-    "test": "tests"
+  "pnpm": {
+    "overrides": {
+      "postcss": "^8.4.38",
+      "postcss-load-config": "^4.0.2"
+    }
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs"
+  "overrides": {
+    "postcss": "^8.4.38",
+    "postcss-load-config": "^4.0.2"
+  }
 }

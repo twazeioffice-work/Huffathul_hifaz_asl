@@ -1,31 +1,22 @@
-# Location: services/core-backend/app/models/lms.py
-import uuid
-from sqlalchemy import Column, String, Boolean, ForeignKey, Integer, DateTime, Text
-from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy.sql import func
-from app.db.base_class import Base
+from typing import List, Dict, Any
+from datetime import datetime, timezone
 
-class LMSCourse(Base):
-    __tablename__ = "lms_courses"
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    institution_id = Column(UUID(as_uuid=True), ForeignKey("institutions.id", ondelete="CASCADE"), nullable=False)
-    title = Column(String(255), nullable=False)
-    description = Column(Text)
-    created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
-
-class LMSMaterial(Base):
-    __tablename__ = "lms_materials"
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    course_id = Column(UUID(as_uuid=True), ForeignKey("lms_courses.id", ondelete="CASCADE"), nullable=False)
-    title = Column(String(255), nullable=False)
-    asset_url = Column(String(1024), nullable=False)
-    is_encrypted = Column(Boolean, default=True)
-    created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
-
-class LMSQuiz(Base):
-    __tablename__ = "lms_quizzes"
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    course_id = Column(UUID(as_uuid=True), ForeignKey("lms_courses.id", ondelete="CASCADE"), nullable=False)
-    title = Column(String(255), nullable=False)
-    total_score = Column(Integer, default=100)
-    created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+class LMSOfflineSyncEngine:
+    """
+    Handles WatermelonDB conflict resolution and tombstone mapping.
+    Uses Last-Write-Wins (LWW) based on server-side 'last_modified_at'.
+    """
+    @staticmethod
+    def resolve_push_conflicts(server_records: Dict[str, datetime], client_pushes: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+        resolved_updates = []
+        for push in client_pushes:
+            record_id = push['id']
+            client_timestamp = push['last_modified_at']
+            
+            # If server has a newer record, reject the client's stale offline edit
+            if record_id in server_records and server_records[record_id] > client_timestamp:
+                continue 
+            
+            resolved_updates.append(push)
+            
+        return resolved_updates

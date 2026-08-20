@@ -1,56 +1,9 @@
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
-.Python
-env/
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-# Python virtualenv lib dirs
-/lib/
-/lib64/
-!**/src/lib/**
-parts/
-sdist/
-var/
-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-.pytest_cache/
-.coverage
-htmlcov/
-.venv
-venv/
-ENV/
-
-# Node / Next.js
-node_modules/
-.next/
-out/
-build/
-dist/
-*.tsbuildinfo
-next-env.d.ts
-
-# Environments & Secrets
+node_modules
+.next
+dist
+build
 .env
 .env.local
-.env.development.local
-.env.test.local
-.env.production.local
-*.pem
-
-# Volumes & Databases
-apps/volumes/
-*.sqlite3
-chroma_db/
-
-# OS
-.DS_Store
-Thumbs.db
+coverage
+apps/ai-swarm-mcp/chroma_db/*
+!apps/ai-swarm-mcp/chroma_db/.keep

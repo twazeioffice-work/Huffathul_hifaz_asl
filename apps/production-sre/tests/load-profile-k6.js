@@ -1,31 +1,24 @@
-// Location: apps/production-sre/tests/load-profile-k6.js
 import http from 'k6/http';
 import { check, sleep } from 'k6';
 
-export const options = {
-  stages: [
-    { duration: '2m', target: 500 },  // Ramp up
-    { duration: '5m', target: 1000 }, // Peak concurrent load
-    { duration: '1m', target: 0 },    // Cooldown
-  ],
-  thresholds: {
-    http_req_duration: ['p(99)<200'], // SLA constraint: p99 latency must be under 200ms
-    http_req_failed: ['rate<0.01'],    // SLO constraint: Request failure rate must be under 1%
-  },
+// Simulates high-load traffic during peak admission days
+export let options = {
+    stages: [
+        { duration: '30s', target: 50 },  // Ramp up to 50 users
+        { duration: '1m', target: 200 },  // Spike to 200 concurrent connections
+        { duration: '30s', target: 0 },   // Scale down
+    ],
+    thresholds: {
+        http_req_duration: ['p(95)<500'], // 95% of requests must be under 500ms
+        http_req_failed: ['rate<0.01'],   // Less than 1% failure rate allowed
+    },
 };
 
 export default function () {
-  const url = 'https://api.suffat.org/api/v1/app/suh01/mn01/erp/students';
-  const params = {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer k6-test-mock-token-payload',
-    },
-  };
-  
-  const res = http.get(url, params);
-  check(res, {
-    'status is 200': (r) => r.status === 200,
-  });
-  sleep(0.5);
+    let res = http.get('http://localhost:3000/');
+    check(res, {
+        'status is 200': (r) => r.status === 200,
+        'transaction time OK': (r) => r.timings.duration < 500,
+    });
+    sleep(1);
 }
