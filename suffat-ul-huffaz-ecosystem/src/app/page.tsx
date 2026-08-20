@@ -28,7 +28,7 @@ import { StudentProgressTracker } from "@/components/dashboard/StudentProgressTr
 
 export default function AppleEnterpriseDashboard() {
   const { isOpen, activeType, branchContext, openInspector, closeInspector } = useDashboardInspector();
-  const [activeTab, setActiveTab] = useState<string | null>(null);
+  
   const [selectedBranch, setSelectedBranch] = useState<string>("ALL");
   const [isSyncing, setIsSyncing] = useState<boolean>(false);
   const [selectedRecordId, setSelectedRecordId] = useState<string | null>(null);
@@ -187,7 +187,7 @@ export default function AppleEnterpriseDashboard() {
 
         {/* Bento 5: Community Event Orchestrator */}
         <div 
-          onClick={() => setActiveTab("events")}
+          onClick={() => openInspector('PORTFOLIO_VALUE')}
           className="relative group overflow-hidden bg-[#0F0F12] border border-[#2C2C2E]/40 hover:border-[#86868B]/40 p-6 rounded-2xl transition-all duration-300 flex flex-col justify-between h-[135px] cursor-pointer hover:ring-1 hover:ring-[#0071E3]"
         >
           <div className="flex justify-between items-start">
@@ -207,7 +207,7 @@ export default function AppleEnterpriseDashboard() {
 
         {/* Bento 6: Fundraising & Community Donations */}
         <div 
-          onClick={() => setActiveTab("fundraising")}
+          onClick={() => openInspector('PORTFOLIO_VALUE')}
           className="relative group overflow-hidden bg-[#0F0F12] border border-[#2C2C2E]/40 hover:border-[#86868B]/40 p-6 rounded-2xl transition-all duration-300 flex flex-col justify-between h-[135px] cursor-pointer hover:ring-1 hover:ring-[#0071E3]"
         >
           <div className="flex justify-between items-start">
@@ -233,53 +233,7 @@ export default function AppleEnterpriseDashboard() {
         branchContext={branchContext}
         onClose={closeInspector}
       />
-      {/* 5. INTERACTIVE POPUP MODAL */}
-      <AnimatePresence>
-        {activeTab && (
-          <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="bg-[#0F0F12] border border-[#2C2C2E]/60 rounded-3xl p-8 max-w-lg w-full shadow-2xl relative"
-            >
-              <button 
-                onClick={() => setActiveTab(null)}
-                className="absolute top-4 right-4 p-2 text-[#86868B] hover:text-white rounded-full hover:bg-[#1C1C1E] transition-colors"
-              >
-                <X className="h-5 w-5" />
-              </button>
-              <div className="text-center space-y-4 pt-4">
-                 <div className="mx-auto h-16 w-16 bg-[#1C1C1E] rounded-2xl border border-[#2C2C2E]/50 flex items-center justify-center mb-4">
-                   {activeTab === 'ledger' && <Landmark className="h-8 w-8 text-[#0071E3]" />}
-                   {activeTab === 'fleet' && <Layers className="h-8 w-8 text-[#0071E3]" />}
-                   {activeTab === 'affiliations' && <Users className="h-8 w-8 text-[#0071E3]" />}
-                   {activeTab === 'helpdesk' && <Radio className="h-8 w-8 text-[#0071E3]" />}
-                   {activeTab === 'events' && <Calendar className="h-8 w-8 text-[#0071E3]" />}
-                   {activeTab === 'fundraising' && <DollarSign className="h-8 w-8 text-[#0071E3]" />}
-                 </div>
-                 <h2 className="text-xl font-semibold text-white">
-                   {activeTab === 'ledger' && 'Financial Vault Inspector'}
-                   {activeTab === 'fleet' && 'Active Transport Fleet'}
-                   {activeTab === 'affiliations' && 'Affiliation Approvals'}
-                   {activeTab === 'helpdesk' && 'Mesh Infrastructure'}
-                   {activeTab === 'events' && 'Community Event Orchestrator'}
-                   {activeTab === 'fundraising' && 'Fundraising & Community Donations Engine'}
-                 </h2>
-                 <p className="text-sm text-[#86868B] leading-relaxed">
-                   This module is currently being re-engineered for the Apple-spec ecosystem. Production telemetry routes will be attached in the next sprint.
-                 </p>
-                 <button 
-                   onClick={() => setActiveTab(null)}
-                   className="mt-6 w-full py-3 bg-[#0071E3] hover:bg-[#0077ED] text-white rounded-xl text-xs font-semibold transition-colors"
-                 >
-                   Close Window
-                 </button>
-              </div>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
+      
 
       <StudentProgressTracker />
 
