@@ -29,11 +29,11 @@ const DEV_DOMAINS = [
 
 const INITIAL_BUDGET_MS = "6000";
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const url = request.nextUrl.clone();
   const rawHost = request.headers.get("x-forwarded-host") || request.headers.get("host") || "";
   const hostname = rawHost.split(":")[0].toLowerCase();
-  const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || request.ip || "127.0.0.1";
+  const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || request.headers.get("x-real-ip") || "127.0.0.1";
 
   // 1. PUBLIC GATEWAY SECURITY: Sliding-Window Rate Limiting on Ingestion Routes
   if (
