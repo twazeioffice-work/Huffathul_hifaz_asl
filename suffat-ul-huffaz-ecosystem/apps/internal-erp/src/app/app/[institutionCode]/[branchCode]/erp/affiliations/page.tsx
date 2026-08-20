@@ -1,18 +1,19 @@
 "use client";
 
-import React from "react";
+import React, { use } from "react";
 import { notFound } from "next/navigation";
 import { UniversalDashboardLayout } from "@/components/dashboard/UniversalDashboardLayout";
 import { affiliationDashboardSchema } from "@/components/dashboard/universal-page-schemas";
 
 interface PageProps {
-  params: {
+  params: Promise<{
     institutionCode: string;
     branchCode: string;
-  };
+  }>;
 }
 
-export default function AffiliationsPage({ params }: PageProps) {
+export default function AffiliationsPage(props: PageProps) {
+  const params = use(props.params);
   const tenant = `${params.institutionCode}-${params.branchCode}`;
 
   if (!tenant || tenant.trim() === "-") {

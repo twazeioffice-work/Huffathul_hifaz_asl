@@ -1,18 +1,19 @@
 "use client";
 
-import React from "react";
+import React, { use } from "react";
 import { notFound } from "next/navigation";
 import { UniversalDashboardLayout } from "@/components/dashboard/UniversalDashboardLayout";
 import { academicsDashboardSchema } from "@/components/dashboard/universal-page-schemas";
 
 interface PageProps {
-  params: {
+  params: Promise<{
     institutionCode: string;
     branchCode: string;
-  };
+  }>;
 }
 
-export default function AcademicsPage({ params }: PageProps) {
+export default function AcademicsPage(props: PageProps) {
+  const params = use(props.params);
   const tenant = `${params.institutionCode}-${params.branchCode}`;
 
   if (!tenant || tenant.trim() === "-") {

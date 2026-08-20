@@ -97,9 +97,9 @@ const NODE_TELEMETRY_DATA: Record<string, any> = {
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { nodeId: string } }
+  { params }: { params: Promise<{ nodeId: string }> }
 ) {
-  const nodeId = params.nodeId;
+  const { nodeId } = await params;
   const node = NODE_TELEMETRY_DATA[nodeId];
 
   if (!node) {
