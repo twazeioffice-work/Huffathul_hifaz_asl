@@ -1,0 +1,37 @@
+﻿name: "Supply-Chain & Lock-File Integrity Auditor"
+
+on:
+  pull_request:
+    branches: [ "main" ]
+  push:
+    branches: [ "main" ]
+
+jobs:
+  devsecops-audit:
+    name: "Zero-Trust DevSecOps Gate"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Registry Policy Enforcement (lockfile-lint)
+        run: |
+          npx lockfile-lint --path package-lock.json --type npm --allowed-hosts npm --validate-https
+
+      - name: Strict Frozen-Lockfile Assertion
+        run: |
+          npm ci --ignore-scripts
+
+      - name: Static CVE Deep Inspection (Trivy Scan)
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'table'
+          exit-code: '1'
+          severity: 'CRITICAL,HIGH'
