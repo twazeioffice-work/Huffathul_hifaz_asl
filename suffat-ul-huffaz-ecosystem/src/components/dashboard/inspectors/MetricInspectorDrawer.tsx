@@ -120,6 +120,33 @@ const mockFetcher = (type: MetricInspectorType, branch: string | null): Promise<
             },
           });
           break;
+        
+        case 'MESH_INFRASTRUCTURE':
+          resolve({
+            title: 'Mesh Infrastructure Node Health',
+            subtitle: 'IPSec VPN & Database Sync Tunnels',
+            summaryStats: [
+              { label: 'Active Edge Nodes', value: '3 / 4 Online', trend: '75% Capacity' },
+              { label: 'Avg Latency', value: '18ms', trend: 'Healthy' },
+              { label: 'Pending Packet Loss', value: '0.01%', trend: 'Minimal' },
+            ],
+            metaFields: [
+              { key: 'Network Architect', value: 'SRE Team Lead' },
+              { key: 'Encryption Protocol', value: 'IPSec SHA-256' },
+              { key: 'Tunnel Status', value: 'Live / Synchronizing' },
+            ],
+            detailsTable: {
+              headers: ['Node ID', 'Location', 'IP Range', 'Status', 'Uptime'],
+              rows: [
+                ['NODE-CAL-01', 'Calicut HQ', '10.0.1.0/24', 'Online / Stable', '99.99%'],
+                ['NODE-MUM-02', 'Mumbai Campus', '10.0.2.0/24', 'Online / Stable', '99.95%'],
+                ['NODE-DUB-03', 'Dubai Chapter', '10.0.3.0/24', 'Online / Stable', '99.90%'],
+                ['NODE-MAL-04', 'Malappuram Branch', '10.0.4.0/24', 'Offline (Maintenance)', '85.20%'],
+              ],
+            },
+          });
+          break;
+
         default:
           resolve({
             title: 'Metric Deep-Dive',
@@ -152,10 +179,26 @@ export const MetricInspectorDrawer: React.FC<MetricInspectorDrawerProps> = ({
   useEffect(() => {
     if (isOpen && activeType) {
       setLoading(true);
-      mockFetcher(activeType, branchContext).then((res) => {
-        setData(res);
-        setLoading(false);
-      });
+      mockFetcher(activeType, branchContext)
+        .then((res) => {
+          setData(res);
+          setLoading(false);
+        })
+        .catch((err) => {
+          // Fallback to "Maintenance Mode" if the API fetch fails, keeping the UI unbreakable
+          setData({
+            title: 'Module Under Maintenance',
+            subtitle: 'This module is currently being re-engineered or the connection dropped.',
+            summaryStats: [
+              { label: 'System Status', value: 'Degraded', trend: 'Maintenance Mode' }
+            ],
+            metaFields: [
+              { key: 'Status', value: 'Production routes will be attached next sprint.' }
+            ],
+            detailsTable: { headers: [], rows: [] }
+          });
+          setLoading(false);
+        });
     }
   }, [isOpen, activeType, branchContext]);
 

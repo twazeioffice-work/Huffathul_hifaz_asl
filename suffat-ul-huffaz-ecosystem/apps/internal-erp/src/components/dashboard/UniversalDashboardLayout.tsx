@@ -15,6 +15,7 @@ import {
   Search, Bell, Settings, LogOut, ChevronDown, CheckCircle, 
   Info, TrendingUp, DollarSign, Users, ClipboardList
 } from "lucide-react";
+import { ConnectionStatusBanner } from "./ConnectionStatusBanner";
 
 // ============================================================================
 // 1. SCHEMAS & INTERFACES FOR DYNAMIC GENERATION
@@ -166,6 +167,9 @@ export const UniversalDashboardLayout: React.FC<LayoutProps> = ({
           </div>
         </div>
       </nav>
+
+      {/* Real-Time Connection Alert Banner */}
+      <ConnectionStatusBanner tenantId={schema.tenantName || "CALICUT-HUB"} enableLiveSync={true} />
 
       {/* 2. Global Dual-Pane Workspace */}
       <div className="flex min-h-[calc(100vh-53px)]">

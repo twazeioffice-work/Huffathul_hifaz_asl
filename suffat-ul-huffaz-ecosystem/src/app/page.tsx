@@ -9,6 +9,8 @@
 
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useDashboardInspector } from "@/hooks/useDashboardInspector";
+import { MetricInspectorDrawer } from "@/components/dashboard/inspectors/MetricInspectorDrawer";
 import { 
   ShieldCheck, Database, Landmark, Layers, ChevronRight, X, 
   AlertTriangle, RefreshCw, FileText, Send, Radio, User, MapPin, 
@@ -25,7 +27,8 @@ import { StudentProgressTracker } from "@/components/dashboard/StudentProgressTr
 // ============================================================================
 
 export default function AppleEnterpriseDashboard() {
-  const [activeTab, setActiveTab] = useState<"ledger" | "fleet" | "affiliations" | "helpdesk" | "events" | "fundraising" | null>(null);
+  const { isOpen, activeType, branchContext, openInspector, closeInspector } = useDashboardInspector();
+  const [activeTab, setActiveTab] = useState<string | null>(null);
   const [selectedBranch, setSelectedBranch] = useState<string>("ALL");
   const [isSyncing, setIsSyncing] = useState<boolean>(false);
   const [selectedRecordId, setSelectedRecordId] = useState<string | null>(null);
@@ -58,10 +61,10 @@ export default function AppleEnterpriseDashboard() {
           {/* Navigation Links */}
           <div className="hidden md:flex items-center space-x-6 text-[11px] font-medium text-[#86868B] tracking-tight">
             <span className="text-white cursor-pointer transition-colors hover:text-white">Command Center</span>
-            <span className="cursor-pointer transition-colors hover:text-white" onClick={() => setActiveTab("helpdesk")}>Omnichannel Gateway</span>
-            <span className="cursor-pointer transition-colors hover:text-white" onClick={() => setActiveTab("fleet")}>Assets & Fleet</span>
+            <span className="cursor-pointer transition-colors hover:text-white" onClick={() => openInspector('MESH_INFRASTRUCTURE')}>Omnichannel Gateway</span>
+            <span className="cursor-pointer transition-colors hover:text-white" onClick={() => openInspector('TRANSPORT_FLEET')}>Assets & Fleet</span>
             <span className="cursor-pointer transition-colors hover:text-white">Analytics Hub</span>
-            <span className="cursor-pointer transition-colors hover:text-white" onClick={() => setActiveTab("affiliations")}>Community Network</span>
+            <span className="cursor-pointer transition-colors hover:text-white" onClick={() => openInspector('DORMITORY_CAPACITY')}>Community Network</span>
           </div>
         </div>
 
@@ -104,7 +107,7 @@ export default function AppleEnterpriseDashboard() {
         
         {/* Bento 1: Total Portfolio Value */}
         <div 
-          onClick={() => setActiveTab("ledger")}
+          onClick={() => openInspector('PORTFOLIO_VALUE')}
           className="relative group overflow-hidden bg-[#0F0F12] border border-[#2C2C2E]/40 hover:border-[#86868B]/40 p-6 rounded-2xl transition-all duration-300 flex flex-col justify-between h-[135px] cursor-pointer hover:ring-1 hover:ring-[#0071E3]"
         >
           <div className="flex justify-between items-start">
@@ -124,7 +127,7 @@ export default function AppleEnterpriseDashboard() {
 
         {/* Bento 2: Active Transport Fleet */}
         <div 
-          onClick={() => setActiveTab("fleet")}
+          onClick={() => openInspector('TRANSPORT_FLEET')}
           className="relative group overflow-hidden bg-[#0F0F12] border border-[#2C2C2E]/40 hover:border-[#86868B]/40 p-6 rounded-2xl transition-all duration-300 flex flex-col justify-between h-[135px] cursor-pointer hover:ring-1 hover:ring-[#0071E3]"
         >
           <div className="flex justify-between items-start">
@@ -144,7 +147,7 @@ export default function AppleEnterpriseDashboard() {
 
         {/* Bento 3: Dormitory Bed Capacity */}
         <div 
-          onClick={() => setActiveTab("affiliations")}
+          onClick={() => openInspector('DORMITORY_CAPACITY')}
           className="relative group overflow-hidden bg-[#0F0F12] border border-[#2C2C2E]/40 hover:border-[#86868B]/40 p-6 rounded-2xl transition-all duration-300 flex flex-col justify-between h-[135px] cursor-pointer hover:ring-1 hover:ring-[#0071E3]"
         >
           <div className="flex justify-between items-start">
@@ -164,7 +167,7 @@ export default function AppleEnterpriseDashboard() {
 
         {/* Bento 4: Active Edge Nodes */}
         <div 
-          onClick={() => setActiveTab("helpdesk")}
+          onClick={() => openInspector('MESH_INFRASTRUCTURE')}
           className="relative group overflow-hidden bg-[#0F0F12] border border-[#2C2C2E]/40 hover:border-[#86868B]/40 p-6 rounded-2xl transition-all duration-300 flex flex-col justify-between h-[135px] cursor-pointer hover:ring-1 hover:ring-[#0071E3]"
         >
           <div className="flex justify-between items-start">
@@ -224,6 +227,12 @@ export default function AppleEnterpriseDashboard() {
 
       </section>
 
+            <MetricInspectorDrawer
+        isOpen={isOpen}
+        activeType={activeType}
+        branchContext={branchContext}
+        onClose={closeInspector}
+      />
       {/* 5. INTERACTIVE POPUP MODAL */}
       <AnimatePresence>
         {activeTab && (

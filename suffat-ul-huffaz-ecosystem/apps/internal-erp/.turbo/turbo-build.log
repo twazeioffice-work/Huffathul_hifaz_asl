@@ -1,0 +1,40 @@
+
+> internal-erp@1.0.0 build
+> next build
+
+▲ Next.js 16.3.1 (Turbopack)
+✓ Running next.config.mjs took 104ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 65s
+  Running TypeScript ...
+  Finished TypeScript in 16.7s ...
+  Collecting page data using 3 workers ...
+  Generating static pages using 3 workers (0/4) ...
+  Generating static pages using 3 workers (1/4) 
+  Generating static pages using 3 workers (2/4) 
+  Generating static pages using 3 workers (3/4) 
+✓ Generating static pages using 3 workers (4/4) in 373ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ƒ /api/admissions
+├ ƒ /api/v1/telemetry/nodes/[nodeId]
+├ ƒ /app/[institutionCode]/[branchCode]/erp/academics
+├ ƒ /app/[institutionCode]/[branchCode]/erp/affiliations
+├ ƒ /app/[institutionCode]/[branchCode]/erp/assets
+├ ƒ /app/[institutionCode]/[branchCode]/erp/communication
+├ ƒ /app/[institutionCode]/[branchCode]/erp/community
+├ ƒ /app/[institutionCode]/[branchCode]/erp/community/alumni
+├ ƒ /app/[institutionCode]/[branchCode]/erp/finance
+├ ƒ /app/[institutionCode]/[branchCode]/erp/fleet
+└ ƒ /app/[institutionCode]/[branchCode]/erp/reports
+
+
+ƒ Proxy (Middleware)
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+

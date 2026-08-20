@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export type MetricInspectorType = 'PORTFOLIO_VALUE' | 'TRANSPORT_FLEET' | 'DORMITORY_CAPACITY' | 'PHYSICAL_ASSETS' | null;
+export type MetricInspectorType = 'PORTFOLIO_VALUE' | 'TRANSPORT_FLEET' | 'DORMITORY_CAPACITY' | 'PHYSICAL_ASSETS' | 'MESH_INFRASTRUCTURE' | null;
 
 export interface InspectorState {
   isOpen: boolean;
