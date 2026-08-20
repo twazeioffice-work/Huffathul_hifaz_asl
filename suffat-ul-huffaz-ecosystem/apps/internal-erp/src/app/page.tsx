@@ -25,7 +25,7 @@ import { StudentProgressTracker } from "@/components/dashboard/StudentProgressTr
 // ============================================================================
 
 export default function AppleEnterpriseDashboard() {
-  const [activeTab, setActiveTab] = useState<"ledger" | "fleet" | "affiliations" | "helpdesk" | null>(null);
+  const [activeTab, setActiveTab] = useState<"ledger" | "fleet" | "affiliations" | "helpdesk" | "events" | "fundraising" | null>(null);
   const [selectedBranch, setSelectedBranch] = useState<string>("ALL");
   const [isSyncing, setIsSyncing] = useState<boolean>(false);
   const [selectedRecordId, setSelectedRecordId] = useState<string | null>(null);
@@ -100,7 +100,7 @@ export default function AppleEnterpriseDashboard() {
       </header>
 
       {/* 3. BENTO GRID OF CORE PORTFOLIO METRICS (Visual Cleanliness & Space) */}
-      <section className="max-w-7xl mx-auto px-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 py-4">
+      <section className="max-w-7xl mx-auto px-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 py-4">
         
         {/* Bento 1: Total Portfolio Value */}
         <div 
@@ -182,6 +182,46 @@ export default function AppleEnterpriseDashboard() {
           </div>
         </div>
 
+        {/* Bento 5: Community Event Orchestrator */}
+        <div 
+          onClick={() => setActiveTab("events")}
+          className="relative group overflow-hidden bg-[#0F0F12] border border-[#2C2C2E]/40 hover:border-[#86868B]/40 p-6 rounded-2xl transition-all duration-300 flex flex-col justify-between h-[135px] cursor-pointer hover:ring-1 hover:ring-[#0071E3]"
+        >
+          <div className="flex justify-between items-start">
+            <div className="h-8 w-8 rounded-lg bg-[#1C1C1E]/80 border border-[#2C2C2E]/50 flex items-center justify-center">
+              <Calendar className="h-4 w-4 text-[#86868B] group-hover:text-[#0071E3] transition-colors" />
+            </div>
+            <span className="text-[9px] bg-purple-500/10 text-purple-400 border border-purple-500/20 px-2 py-0.5 rounded-full font-mono font-medium">
+              4 Upcoming
+            </span>
+          </div>
+          <div className="space-y-1">
+            <span className="text-[10px] text-[#86868B] block uppercase tracking-wider font-semibold">Community Events</span>
+            <span className="text-2xl font-light tracking-tight font-mono text-white">4 Scheduled</span>
+            <span className="text-[9px] text-[#A1A1A6] block mt-0.5">RSVPs & Attendance Tracking</span>
+          </div>
+        </div>
+
+        {/* Bento 6: Fundraising & Community Donations */}
+        <div 
+          onClick={() => setActiveTab("fundraising")}
+          className="relative group overflow-hidden bg-[#0F0F12] border border-[#2C2C2E]/40 hover:border-[#86868B]/40 p-6 rounded-2xl transition-all duration-300 flex flex-col justify-between h-[135px] cursor-pointer hover:ring-1 hover:ring-[#0071E3]"
+        >
+          <div className="flex justify-between items-start">
+            <div className="h-8 w-8 rounded-lg bg-[#1C1C1E]/80 border border-[#2C2C2E]/50 flex items-center justify-center">
+              <DollarSign className="h-4 w-4 text-[#86868B] group-hover:text-[#0071E3] transition-colors" />
+            </div>
+            <span className="text-[9px] bg-rose-500/10 text-rose-400 border border-rose-500/20 px-2 py-0.5 rounded-full font-mono font-medium">
+              Active Campaign
+            </span>
+          </div>
+          <div className="space-y-1">
+            <span className="text-[10px] text-[#86868B] block uppercase tracking-wider font-semibold">Fundraising Engine</span>
+            <span className="text-2xl font-light tracking-tight font-mono text-white">₹14.2 L</span>
+            <span className="text-[9px] text-[#A1A1A6] block mt-0.5">Raised this quarter</span>
+          </div>
+        </div>
+
       </section>
 
       {/* 5. INTERACTIVE POPUP MODAL */}
@@ -206,12 +246,16 @@ export default function AppleEnterpriseDashboard() {
                    {activeTab === 'fleet' && <Layers className="h-8 w-8 text-[#0071E3]" />}
                    {activeTab === 'affiliations' && <Users className="h-8 w-8 text-[#0071E3]" />}
                    {activeTab === 'helpdesk' && <Radio className="h-8 w-8 text-[#0071E3]" />}
+                   {activeTab === 'events' && <Calendar className="h-8 w-8 text-[#0071E3]" />}
+                   {activeTab === 'fundraising' && <DollarSign className="h-8 w-8 text-[#0071E3]" />}
                  </div>
                  <h2 className="text-xl font-semibold text-white">
                    {activeTab === 'ledger' && 'Financial Vault Inspector'}
                    {activeTab === 'fleet' && 'Active Transport Fleet'}
                    {activeTab === 'affiliations' && 'Affiliation Approvals'}
                    {activeTab === 'helpdesk' && 'Mesh Infrastructure'}
+                   {activeTab === 'events' && 'Community Event Orchestrator'}
+                   {activeTab === 'fundraising' && 'Fundraising & Community Donations Engine'}
                  </h2>
                  <p className="text-sm text-[#86868B] leading-relaxed">
                    This module is currently being re-engineered for the Apple-spec ecosystem. Production telemetry routes will be attached in the next sprint.
