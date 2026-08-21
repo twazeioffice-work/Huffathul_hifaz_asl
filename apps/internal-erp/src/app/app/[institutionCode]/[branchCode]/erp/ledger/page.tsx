@@ -1,13 +1,14 @@
+"use client";
 import React from 'react';
 import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Input, Button, Tabs, Tab } from '@heroui/react';
 import Link from 'next/link';
 
-export default async function LedgerPage({
+export default function LedgerPage({
   params
 }: {
   params: { institutionCode: string; branchCode: string }
 }) {
-  const { institutionCode, branchCode } = await params;
+  const { institutionCode, branchCode } = React.use(params as any);
 
   return (
     <div className="p-8 w-full">
@@ -80,3 +81,5 @@ export default async function LedgerPage({
     </div>
   );
 }
+
+

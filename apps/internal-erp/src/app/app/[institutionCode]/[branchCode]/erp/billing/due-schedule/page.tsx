@@ -1,13 +1,14 @@
+"use client";
 import React from 'react';
 import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Input, Button } from '@heroui/react';
 import Link from 'next/link';
 
-export default async function DueSchedulePage({
+export default function DueSchedulePage({
   params
 }: {
   params: { institutionCode: string; branchCode: string }
 }) {
-  const { institutionCode, branchCode } = await params;
+  const { institutionCode, branchCode } = React.use(params as any);
 
   // Mock data for the static UI
   const schedules = [
@@ -72,3 +73,5 @@ export default async function DueSchedulePage({
     </div>
   );
 }
+
+

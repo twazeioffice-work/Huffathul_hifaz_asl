@@ -1,13 +1,14 @@
+"use client";
 import React from 'react';
 import { Card, CardHeader, CardBody, Divider } from '@heroui/react';
 import Link from 'next/link';
 
-export default async function BillingDashboardPage({
+export default function BillingDashboardPage({
   params
 }: {
   params: { institutionCode: string; branchCode: string }
 }) {
-  const { institutionCode, branchCode } = await params;
+  const { institutionCode, branchCode } = React.use(params as any);
   
   return (
     <div className="p-8 w-full">
@@ -64,3 +65,5 @@ export default async function BillingDashboardPage({
     </div>
   );
 }
+
+
