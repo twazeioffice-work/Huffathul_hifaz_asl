@@ -157,7 +157,10 @@ export const UniversalDashboardLayout: React.FC<LayoutProps> = ({
                     <button className="w-full text-left px-3 py-1.5 text-xs text-neutral-400 hover:text-white hover:bg-white/[0.03] rounded-md transition-all flex items-center">
                       <Settings className="h-3.5 w-3.5 mr-2" /> Systems Settings
                     </button>
-                    <button className="w-full text-left px-3 py-1.5 text-xs text-rose-400 hover:text-rose-300 hover:bg-rose-950/10 rounded-md transition-all flex items-center">
+                    <button 
+                      onClick={() => window.location.href = '/login'}
+                      className="w-full text-left px-3 py-1.5 text-xs text-rose-400 hover:text-rose-300 hover:bg-rose-950/10 rounded-md transition-all flex items-center"
+                    >
                       <LogOut className="h-3.5 w-3.5 mr-2" /> Lock Terminal Session
                     </button>
                   </div>

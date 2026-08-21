@@ -129,7 +129,7 @@ export function TopNavigationBar({
             </DropdownItem>
             <DropdownItem key="settings" className="text-muted-foreground hover:text-white">My Settings</DropdownItem>
             <DropdownItem key="team_settings" className="text-muted-foreground hover:text-white">Center Settings</DropdownItem>
-            <DropdownItem key="logout" color="danger" className="text-danger hover:bg-danger/10">
+            <DropdownItem key="logout" color="danger" href="/login" className="text-danger hover:bg-danger/10">
               Sign Out
             </DropdownItem>
           </DropdownMenu>
