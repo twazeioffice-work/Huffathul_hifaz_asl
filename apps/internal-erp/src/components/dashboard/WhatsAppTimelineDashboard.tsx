@@ -224,8 +224,56 @@ export const WhatsAppTimelineDashboard: React.FC<{ tenantId: string }> = ({ tena
     setInputMessage("");
   };
 
+  const [showAiSettings, setShowAiSettings] = useState(false);
+
   return (
-    <div className="flex h-screen w-full overflow-hidden bg-[#050506] font-sans text-slate-100">
+    <div className="flex h-screen w-full overflow-hidden bg-[#050506] font-sans text-slate-100 relative">
+      
+      {/* AI Settings Modal Overlay */}
+      <AnimatePresence>
+        {showAiSettings && (
+          <motion.div 
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            className="absolute inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
+          >
+            <motion.div 
+              initial={{ scale: 0.95, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.95, opacity: 0 }}
+              className="w-full max-w-lg bg-[#0A0A0C] border border-neutral-800 rounded-2xl shadow-2xl p-6"
+            >
+              <div className="flex justify-between items-start mb-6">
+                <div>
+                  <h2 className="text-lg font-bold text-white flex items-center"><Bot className="mr-2 h-5 w-5 text-purple-400" /> WhatsApp AI Bot Settings</h2>
+                  <p className="text-xs text-neutral-400 mt-1">Configure your WATI Webhook and Gemini LLM parameters.</p>
+                </div>
+                <button onClick={() => setShowAiSettings(false)} className="text-neutral-500 hover:text-white">&times;</button>
+              </div>
+
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-[10px] uppercase font-bold text-neutral-500 mb-1.5">WATI Webhook URL (Paste in WATI Dashboard)</label>
+                  <div className="flex items-center space-x-2">
+                    <input readOnly value="https://your-domain.com/api/v1/webhooks/wati" className="flex-1 bg-[#151518] border border-neutral-800 rounded-lg px-3 py-2 text-xs text-slate-300 font-mono" />
+                    <button className="bg-neutral-800 hover:bg-neutral-700 px-3 py-2 rounded-lg text-xs font-bold transition-all">Copy</button>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-[10px] uppercase font-bold text-neutral-500 mb-1.5">Gemini System Prompt</label>
+                  <textarea readOnly rows={4} className="w-full bg-[#151518] border border-neutral-800 rounded-lg px-3 py-2 text-xs text-slate-300 font-mono" defaultValue="You are an empathetic, professional Islamic school coordinator... Write in WhatsApp Markdown." />
+                </div>
+
+                <div className="pt-2 flex items-center justify-between">
+                  <div className="flex items-center space-x-2">
+                    <div className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+                    <span className="text-xs font-bold text-emerald-400">Service Active</span>
+                  </div>
+                  <button onClick={() => setShowAiSettings(false)} className="bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold px-4 py-2 rounded-lg">Save Configuration</button>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
       
       {/* LEFT COLUMN: RESOLVED THREADS LIST (Width 380px) */}
       <div className="flex w-[380px] flex-col border-r border-neutral-800 bg-[#0A0A0C]">
@@ -236,6 +284,13 @@ export const WhatsAppTimelineDashboard: React.FC<{ tenantId: string }> = ({ tena
             <MessageSquare className="h-4 w-4 text-emerald-400" />
             <span>Omnichannel Helpdesk</span>
           </div>
+          <button 
+            onClick={() => setShowAiSettings(true)}
+            className="flex items-center space-x-1.5 bg-purple-500/10 hover:bg-purple-500/20 text-purple-400 text-[10px] font-bold px-2.5 py-1.5 rounded-lg transition-all border border-purple-500/20"
+          >
+            <Bot className="h-3 w-3" />
+            <span>AI Bot Settings</span>
+          </button>
         </div>
 
         {/* Search header panel */}
