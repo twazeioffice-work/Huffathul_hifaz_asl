@@ -1,13 +1,14 @@
+"use client";
+
 import Link from "next/link";
 import { CheckPermission } from "@/components/CheckPermission";
 import { Plus, Search, Filter } from "lucide-react";
+import { useParams } from "next/navigation";
 
-export default async function StaffDirectory({
-  params,
-}: {
-  params: Promise<{ institutionCode: string; branchCode: string }>;
-}) {
-  const { institutionCode, branchCode } = await params;
+export default function StaffDirectory() {
+  const params = useParams();
+  const institutionCode = params.institutionCode as string;
+  const branchCode = params.branchCode as string;
   const basePath = `/app/${institutionCode}/${branchCode}/erp`;
 
   return (

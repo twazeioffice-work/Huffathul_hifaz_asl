@@ -4,11 +4,7 @@ import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Input,
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 
-export default function DueSchedulePage({
-  params
-}: {
-  params: { institutionCode: string; branchCode: string }
-}) {
+export default function Page() {
   const { institutionCode, branchCode } = useParams() as { institutionCode: string; branchCode: string };
 
   // Mock data for the static UI

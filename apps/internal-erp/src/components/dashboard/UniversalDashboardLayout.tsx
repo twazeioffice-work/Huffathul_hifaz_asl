@@ -174,44 +174,6 @@ export const UniversalDashboardLayout: React.FC<LayoutProps> = ({
       {/* 2. Global Dual-Pane Workspace */}
       <div className="flex min-h-[calc(100vh-53px)]">
         
-        {/* Sidebar Navigation Panel */}
-        <aside className="w-64 border-r border-white/[0.06] bg-[#050506] p-4 hidden lg:flex flex-col justify-between">
-          <div className="space-y-6">
-            <span className="text-[10px] font-bold tracking-wider text-neutral-500 uppercase px-3">
-              Modules Registry
-            </span>
-            <div className="space-y-1">
-              {sidebarLinks.map((link) => {
-                const Icon = link.icon;
-                return (
-                  <button
-                    key={link.id}
-                    onClick={() => onSidebarClick && onSidebarClick(link.id)}
-                    className={`w-full flex items-center space-x-3 px-3.5 py-2 rounded-xl text-xs font-semibold transition-all ${
-                      link.isActive
-                        ? "bg-[#121214] text-white border-l-2 border-blue-500 pl-4.5"
-                        : "text-neutral-400 hover:text-white hover:bg-white/[0.02]"
-                    }`}
-                  >
-                    <Icon className="h-4 w-4" />
-                    <span>{link.label}</span>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Secure Environment Banner */}
-          <div className="bg-[#0E0F12] border border-white/[0.06] p-3.5 rounded-2xl flex flex-col space-y-2">
-            <div className="flex items-center text-emerald-400 text-xs font-bold">
-              <ShieldCheck className="h-4 w-4 mr-1.5 animate-pulse" /> RLS Enforcement Active
-            </div>
-            <p className="text-[10px] text-neutral-500 leading-relaxed font-mono">
-              Database rows locked to active tenant session. Cryptographic double-entry validation operational.
-            </p>
-          </div>
-        </aside>
-
         {/* 3. Main Dashboard Workspace */}
         <main className="flex-1 p-6 md:p-8 space-y-8 overflow-x-hidden">
           

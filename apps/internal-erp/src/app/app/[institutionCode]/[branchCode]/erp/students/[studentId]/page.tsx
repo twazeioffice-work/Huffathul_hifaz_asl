@@ -1,14 +1,50 @@
-export default function StudentProfile({ params }: { params: { studentId: string } }) {
+"use client";
+
+import React, { use } from "react";
+import StudentPortalDashboard from "@/app/portal/student/Dashboard";
+
+export default function Page() {
+    
+    // Seeded data for visual verification
+    const notices = [
+      {
+        id: "1",
+        title: "Annual Qira'at Competition",
+        content: "The final rounds will take place in the main hall after Asr.",
+        category: "COMPETITION" as const,
+        eventDate: "2026-09-15"
+      },
+      {
+        id: "2",
+        title: "Dastaar Bandi Function",
+        content: "Graduation ceremony for the completing class of 2026.",
+        category: "FUNCTION" as const,
+        eventDate: "2026-10-01"
+      }
+    ];
+
+    const resolvedParams = use(params);
+
     return (
-        <div className="p-8 max-w-7xl mx-auto space-y-6">
-            <header className="pb-4 border-b">
-                <h1 className="text-3xl font-extrabold text-slate-900">Student Profile</h1>
-                <p className="text-slate-500">ID: {params.studentId}</p>
-            </header>
-            
-            <section className="bg-white rounded-xl border border-slate-200 shadow-sm p-6 text-slate-700">
-                <p>Profile data will be synced via WatermelonDB.</p>
-            </section>
-        </div>
+      <StudentPortalDashboard 
+        studentName="Saeed Al-Hasan"
+        rollNumber={resolvedParams.studentId}
+        centerName="Suffat-ul Huffaz HQ"
+        sabaqGrade="A+"
+        sabaqJuz={15}
+        sabaqPages="12-14"
+        enabledModules={{
+          halqa: true,
+          namaz: true,
+          cleanliness: true,
+          kithab: true,
+          other_capabilities: false
+        }}
+        notices={notices}
+        onComplaintSubmit={async (data) => {
+          console.log("Complaint submitted (mock):", data);
+          return { success: true };
+        }}
+      />
     );
 }

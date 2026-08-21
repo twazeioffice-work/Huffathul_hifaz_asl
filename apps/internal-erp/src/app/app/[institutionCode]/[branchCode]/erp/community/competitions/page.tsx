@@ -4,13 +4,14 @@ import { redirect } from "next/navigation";
 import { getSession } from "@/lib/auth";
 
 interface PageProps {
-  params: {
+  params: Promise<{
     institutionCode: string;
     branchCode: string;
-  };
+  }>;
 }
 
-export default async function CompetitionsPage({ params }: PageProps) {
+export default async function CompetitionsPage(props: any) {
+  const params = await props.params;
   const session = await getSession();
   if (!session) redirect("/login");
 

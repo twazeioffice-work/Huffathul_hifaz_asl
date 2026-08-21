@@ -1,13 +1,15 @@
+"use client";
 import { CheckPermission } from "@/components/CheckPermission";
 import Link from "next/link";
 import { ArrowLeft, Save } from "lucide-react";
+import { use } from "react";
 
-export default async function AdmissionsWizard({
+export default function AdmissionsWizard({
   params,
 }: {
   params: Promise<{ institutionCode: string; branchCode: string }>;
 }) {
-  const { institutionCode, branchCode } = await params;
+  const { institutionCode, branchCode } = use(params);
   const basePath = `/app/${institutionCode}/${branchCode}/erp`;
 
   return (

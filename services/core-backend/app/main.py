@@ -540,3 +540,9 @@ async def calculate_weighted_performance_rankings(db: AsyncSession, branch_id: U
     # Sort rankings descending
     rankings.sort(key=lambda x: x["final_score"], reverse=True)
     return rankings
+
+# Import and register the portal router
+from app.routers.portal import router as portal_router
+# Assuming there is a main FastAPI 'app' instance here, but since main.py creates 'router = APIRouter()', maybe we just include it if 'app' exists.
+# app.include_router(portal_router)
+

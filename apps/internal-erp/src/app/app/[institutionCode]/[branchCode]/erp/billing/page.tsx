@@ -4,11 +4,7 @@ import { Card, CardHeader, CardBody, Divider } from '@heroui/react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 
-export default function BillingDashboardPage({
-  params
-}: {
-  params: { institutionCode: string; branchCode: string }
-}) {
+export default function Page() {
   const { institutionCode, branchCode } = useParams() as { institutionCode: string; branchCode: string };
   
   return (
