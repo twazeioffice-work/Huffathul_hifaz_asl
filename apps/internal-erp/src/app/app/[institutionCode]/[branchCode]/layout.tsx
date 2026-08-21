@@ -16,13 +16,8 @@ export default async function TenantLayout({ children, params }: TenantLayoutPro
   }
 
   return (
-    <div className="tenant-wrapper" data-institution={institutionCode} data-branch={branchCode}>
-      <header className="tenant-header">
-        <h1>{institutionCode.toUpperCase()} - {branchCode.toUpperCase()}</h1>
-      </header>
-      <main className="tenant-main">
-        {children}
-      </main>
+    <div data-institution={institutionCode} data-branch={branchCode}>
+      {children}
     </div>
   );
 }

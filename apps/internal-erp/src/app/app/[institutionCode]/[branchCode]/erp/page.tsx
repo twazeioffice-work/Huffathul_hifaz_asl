@@ -1,4 +1,6 @@
-import { BarChart3, Users, BookOpen, Clock } from "lucide-react";
+import React from "react";
+import { Card, CardBody, CardHeader, Button, Progress } from "@heroui/react";
+import { TopNavigationBar } from "@/components/navigation/TopNavigationBar";
 
 export default async function InstitutionDashboard({
   params,
@@ -6,99 +8,159 @@ export default async function InstitutionDashboard({
   params: Promise<{ institutionCode: string; branchCode: string }>;
 }) {
   const { institutionCode, branchCode } = await params;
+
+  const tenantName = `${institutionCode.toUpperCase()} — ${branchCode.toUpperCase()}`;
+  const mockUser = {
+    name: "Br. Tariq Mehmood",
+    email: "tariq@huffaz.org",
+    role: "NAZIM" as const,
+  };
+
+  const statCards = [
+    { title: "Total Student Enrollment", value: "312", change: "+12% this month", progress: 85 },
+    { title: "Overall Attendance Rate", value: "96.4%", change: "Within target (95%)", progress: 96 },
+    { title: "Sadaqah Ledger Balance", value: "₹45,230.00", change: "+₹14,500 today", progress: 72 },
+    { title: "Active Halqa Classes", value: "14", change: "2 newly established", progress: 100 },
+  ];
+
+  const recentTransactions = [
+    { id: "TXN-001", account: "General Tuition Credit", amount: "+₹1,200.00", date: "Today, 10:22 AM", status: "COMPLETED" },
+    { id: "TXN-002", account: "Sadaqah Donation Credit", amount: "+₹5,000.00", date: "Today, 09:15 AM", status: "COMPLETED" },
+    { id: "TXN-003", account: "Ustad Payroll Outflow", amount: "-₹22,000.00", date: "Yesterday, 04:30 PM", status: "COMPLETED" },
+    { id: "TXN-004", account: "Kitchen Supplies Expense", amount: "-₹4,500.00", date: "Yesterday, 11:00 AM", status: "COMPLETED" },
+  ];
+
   return (
-    <div className="space-y-6">
-      <h2 className="text-2xl font-bold tracking-tight">Overview</h2>
-      
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-        {/* Metric Cards */}
-        <div className="glass-panel rounded-xl p-6 shadow-sm">
-          <div className="flex items-center justify-between space-y-0 pb-2">
-            <h3 className="tracking-tight text-sm font-medium text-muted-foreground">Total Students</h3>
-            <Users className="h-4 w-4 text-muted-foreground" />
+    <div className="min-h-screen bg-background text-foreground flex flex-col">
+      {/* 1. Global Navigation */}
+      <TopNavigationBar
+        institutionCode={institutionCode}
+        branchCode={branchCode}
+        currentTenantName={tenantName}
+        userRole={mockUser.role}
+        userName={mockUser.name}
+        userEmail={mockUser.email}
+      />
+
+      {/* 2. Main Dashboard Workspace */}
+      <main className="flex-1 max-w-7xl w-full mx-auto px-6 py-10 flex flex-col gap-10">
+        {/* Dynamic Gradient Title Section */}
+        <div className="flex flex-col gap-2">
+          <div className="flex items-center gap-2">
+            <span className="w-2.5 h-2.5 rounded-full bg-primary animate-pulse" />
+            <span className="text-xs font-bold font-mono text-primary tracking-wider uppercase">
+              System Operations Active
+            </span>
           </div>
-          <div className="text-2xl font-bold">1,245</div>
-          <p className="text-xs text-muted-foreground mt-1">+12% from last month</p>
+          <h1 className="text-4xl font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-100 to-cyan-400 bg-clip-text text-transparent">
+            Welcome back, {mockUser.name}
+          </h1>
+          <p className="text-muted-foreground text-sm tracking-tight max-w-xl">
+            Administrative insights, financial metrics, and academic records for your assigned boundary.
+          </p>
         </div>
 
-        <div className="glass-panel rounded-xl p-6 shadow-sm">
-          <div className="flex items-center justify-between space-y-0 pb-2">
-            <h3 className="tracking-tight text-sm font-medium text-muted-foreground">Active Staff</h3>
-            <UserIcon className="h-4 w-4 text-muted-foreground" />
-          </div>
-          <div className="text-2xl font-bold">142</div>
-          <p className="text-xs text-muted-foreground mt-1">+2 new hires</p>
+        {/* High-End Stat Cards Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {statCards.map((card, i) => (
+            <Card
+              key={i}
+              shadow="none"
+              className="apple-glass-panel hover:border-primary/30 transition-all duration-300 relative overflow-hidden group"
+            >
+              <div className="absolute top-0 left-0 w-full h-[1.5px] bg-gradient-to-r from-transparent via-primary/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <CardHeader className="flex flex-col items-start gap-1 pb-2">
+                <span className="text-xs font-bold text-muted-foreground tracking-tight">{card.title}</span>
+                <span className="text-3xl font-extrabold tracking-tighter text-white">{card.value}</span>
+              </CardHeader>
+              <CardBody className="pt-0 flex flex-col gap-3">
+                <Progress size="sm" value={card.progress} color="primary" className="max-w-md" />
+                <span className="text-xs font-semibold text-primary font-mono tracking-tight flex items-center gap-1">
+                  {card.change}
+                </span>
+              </CardBody>
+            </Card>
+          ))}
         </div>
 
-        <div className="glass-panel rounded-xl p-6 shadow-sm">
-          <div className="flex items-center justify-between space-y-0 pb-2">
-            <h3 className="tracking-tight text-sm font-medium text-muted-foreground">Active Courses</h3>
-            <BookOpen className="h-4 w-4 text-muted-foreground" />
-          </div>
-          <div className="text-2xl font-bold">24</div>
-          <p className="text-xs text-muted-foreground mt-1">Across 3 departments</p>
-        </div>
+        {/* Bottom Dual-Section Table Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Recent Double-Entry Ledger */}
+          <Card shadow="none" className="apple-glass-panel lg:col-span-2">
+            <CardHeader className="flex flex-col items-start gap-1 border-b border-white/5 pb-4">
+              <span className="text-xs font-bold text-primary tracking-widest uppercase">Financial Activity Ledger</span>
+              <span className="text-xl font-bold text-white tracking-tight">Recent Ledger Postings</span>
+            </CardHeader>
+            <CardBody className="p-0">
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="border-b border-white/5 text-muted-foreground font-mono text-xs">
+                    <th className="px-6 py-4 font-semibold">Voucher ID</th>
+                    <th className="px-6 py-4 font-semibold">Account Category</th>
+                    <th className="px-6 py-4 font-semibold">Amount</th>
+                    <th className="px-6 py-4 font-semibold text-right">Status</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-white/5">
+                  {recentTransactions.map((tx, idx) => (
+                    <tr key={idx} className="hover:bg-white/[0.02] transition-colors duration-150">
+                      <td className="px-6 py-4 font-mono text-sm text-white font-medium">{tx.id}</td>
+                      <td className="px-6 py-4 flex flex-col">
+                        <span className="text-sm font-semibold text-white">{tx.account}</span>
+                        <span className="text-xs text-muted-foreground">{tx.date}</span>
+                      </td>
+                      <td className={`px-6 py-4 font-mono text-sm font-bold ${
+                        tx.amount.startsWith("+") ? "text-emerald-400" : "text-rose-400"
+                      }`}>
+                        {tx.amount}
+                      </td>
+                      <td className="px-6 py-4 text-right">
+                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                          <span className="w-1 h-1 rounded-full bg-emerald-400" />
+                          {tx.status}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </CardBody>
+          </Card>
 
-        <div className="glass-panel rounded-xl p-6 shadow-sm">
-          <div className="flex items-center justify-between space-y-0 pb-2">
-            <h3 className="tracking-tight text-sm font-medium text-muted-foreground">Sync Status</h3>
-            <Clock className="h-4 w-4 text-muted-foreground" />
-          </div>
-          <div className="text-2xl font-bold">Optimal</div>
-          <p className="text-xs text-muted-foreground mt-1">WatermelonDB synced</p>
-        </div>
-      </div>
-
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-7">
-        <div className="glass-panel rounded-xl col-span-4 p-6">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-medium">Enrollment Activity</h3>
-            <BarChart3 className="h-5 w-5 text-muted-foreground" />
-          </div>
-          <div className="h-[250px] w-full bg-muted/20 rounded-md flex items-center justify-center text-muted-foreground">
-            [Chart Canvas Placeholder]
-          </div>
-        </div>
-        <div className="glass-panel rounded-xl col-span-3 p-6">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-medium">Recent Operations</h3>
-          </div>
-          <div className="space-y-4">
-            {[1,2,3,4].map((i) => (
-              <div key={i} className="flex items-center gap-4">
-                <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center">
-                  <span className="text-xs text-primary">Log</span>
+          {/* SLA Alerts & Escalation Queue */}
+          <Card shadow="none" className="apple-glass-panel">
+            <CardHeader className="flex flex-col items-start gap-1 border-b border-white/5 pb-4">
+              <span className="text-xs font-bold text-red-400 tracking-widest uppercase">Branch SLA Escapes</span>
+              <span className="text-xl font-bold text-white tracking-tight">Active Escalation Queue</span>
+            </CardHeader>
+            <CardBody className="flex flex-col gap-4 py-4">
+              <div className="p-4 rounded-lg bg-red-500/10 border border-red-500/20 flex flex-col gap-2">
+                <div className="flex justify-between items-center">
+                  <span className="text-xs font-bold text-red-400 font-mono">SEVERE COMPLAINT (SLA GONE)</span>
+                  <span className="text-[10px] font-bold bg-red-500/20 text-red-300 px-2 py-0.5 rounded-full">48h Passed</span>
                 </div>
-                <div className="flex-1 space-y-1">
-                  <p className="text-sm font-medium leading-none">Admission #{1000 + i}</p>
-                  <p className="text-xs text-muted-foreground">Synced successfully.</p>
+                <p className="text-sm font-semibold text-white">Financial auditing delay reported</p>
+                <div className="flex items-center justify-between mt-2 pt-2 border-t border-red-500/10">
+                  <span className="text-xs text-muted-foreground">Against: Admin Desk</span>
+                  <Button size="sm" variant="shadow" color="danger" className="font-bold">Escalate</Button>
                 </div>
-                <div className="text-xs text-muted-foreground">2m ago</div>
               </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
 
-function UserIcon(props: any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
-      <circle cx="12" cy="7" r="4" />
-    </svg>
+              <div className="p-4 rounded-lg bg-yellow-500/5 border border-yellow-500/10 flex flex-col gap-2">
+                <div className="flex justify-between items-center">
+                  <span className="text-xs font-bold text-yellow-500 font-mono">Open Task</span>
+                  <span className="text-[10px] font-bold bg-yellow-500/10 text-yellow-300 px-2 py-0.5 rounded-full">New</span>
+                </div>
+                <p className="text-sm font-semibold text-white">Daily Hifz Sync backlog (3 students pending)</p>
+                <div className="flex items-center justify-between mt-2 pt-2 border-t border-yellow-500/10">
+                  <span className="text-xs text-muted-foreground">Ustad: Br. Salim Khan</span>
+                  <Button size="sm" variant="flat" color="warning" className="font-bold">Sync Ledger</Button>
+                </div>
+              </div>
+            </CardBody>
+          </Card>
+        </div>
+      </main>
+    </div>
   );
 }
