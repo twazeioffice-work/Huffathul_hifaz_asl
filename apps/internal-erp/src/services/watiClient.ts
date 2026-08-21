@@ -1,36 +1,43 @@
-export async function sendWatiMessage(phone: string, text: string) {
-  const watiEndpoint = process.env.WATI_API_ENDPOINT;
-  const watiToken = process.env.WATI_ACCESS_TOKEN;
+export interface WatiMessagePayload {
+  whatsappNumber: string;
+  messageText: string;
+}
 
-  if (!watiEndpoint || !watiToken) {
-    console.warn("[WATI] Integration missing credentials. Mocking send to:", phone);
-    console.log("[WATI] Message:\n", text);
-    return { success: true, mocked: true };
+/**
+ * Dispatches a WhatsApp Session message back to the parent using the WATI API.
+ */
+export async function sendWatiSessionMessage(payload: WatiMessagePayload): Promise<boolean> {
+  const watiApiUrl = process.env.WATI_API_ENDPOINT; // e.g., https://live-server.wati.io/api/v1
+  const accessToken = process.env.WATI_ACCESS_TOKEN;
+
+  if (!watiApiUrl || !accessToken) {
+    console.warn("WATI API credentials missing. Simulating output logs in Development Mode.");
+    console.log(`[WATI MOCK SEND] To: ${payload.whatsappNumber}\nBody:\n${payload.messageText}`);
+    return true;
   }
 
+  const normalizedPhone = payload.whatsappNumber.replace(/[^0-9]/g, "");
+
+  // Execute outbound dispatch
   try {
-    // Standard format requires stripping '+' from phone
-    const cleanPhone = phone.replace(/\D/g, "");
-    
-    // Check WATI docs for exact endpoint structure; usually /api/v1/sendSessionMessage/{waId}
-    const url = `${watiEndpoint.replace(/\/$/, '')}/api/v1/sendSessionMessage/${cleanPhone}`;
-    const response = await fetch(url, {
+    const response = await fetch(`${watiApiUrl}/api/v1/sendSessionMessage/${normalizedPhone}`, {
       method: "POST",
       headers: {
-        "Authorization": watiToken,
-        "Content-Type": "application/json-patch+json" // WATI often requires this content type
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
       },
-      body: JSON.stringify({ messageText: text })
+      body: JSON.stringify({ messageText: payload.messageText }),
     });
 
     if (!response.ok) {
-      throw new Error(`WATI API returned ${response.status}`);
+      const errorMsg = await response.text();
+      throw new Error(`WATI API returned status ${response.status}: ${errorMsg}`);
     }
 
-    const data = await response.json();
-    return { success: true, data };
+    const result = await response.json();
+    return result.result === "success" || result.valid === true;
   } catch (error) {
-    console.error("[WATI] Failed to send message:", error);
-    return { success: false, error };
+    console.error(`CRITICAL: Failed to dispatch WhatsApp payload to WATI client (${normalizedPhone}):`, error);
+    return false;
   }
 }

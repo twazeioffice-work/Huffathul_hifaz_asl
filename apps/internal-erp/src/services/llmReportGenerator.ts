@@ -1,60 +1,130 @@
-import { GoogleGenAI } from "@google/genai";
+export interface StudentProgressData {
+  studentName: string;
+  rollNumber: string;
+  centerName: string;
+  hifzStats: {
+    currentJuz: number;
+    completedPages: number;
+    averageGrade: string;
+    recentLessons: Array<{
+      date: string;
+      juzNumber: number;
+      pageStart: number;
+      pageEnd: number;
+      grade: string;
+      teacherNotes?: string;
+    }>;
+  };
+  attendanceStats: {
+    presentCount: number;
+    totalCount: number;
+    recentPrayers: Array<{
+      date: string;
+      fajr: string;
+      dhuhr: string;
+      asr: string;
+      maghrib: string;
+      isha: string;
+    }>;
+  };
+  behaviorStats: {
+    adabScore: number; // Out of 10
+    cleanlinessScore: number; // Out of 10
+    respectScore: number; // Out of 10
+    recentWarnings?: string[];
+  };
+  enabledModules?: {
+    halqa?: boolean;
+    namaz?: boolean;
+  };
+}
 
-export async function generateReportCard(
-  studentName: string,
-  parentMessage: string,
-  progressData: {
-    sabaq: any[];
-    attendance: any[];
-    adab: number;
-  }
+/**
+ * Invokes Google Gemini 1.5 Flash to generate a highly encouraging, multilingual progress report.
+ * Dynamically detects the parent's language based on their incoming message or defaults to English.
+ */
+export async function generateAIReportCard(
+  studentData: StudentProgressData,
+  incomingParentMessage: string
 ): Promise<string> {
   const apiKey = process.env.GEMINI_API_KEY;
-  
   if (!apiKey) {
-    console.warn("[LLM] GEMINI_API_KEY missing. Returning mock report.");
-    return `*Progress Report: ${studentName}*\n\nAlhamdulillah, your child is doing well! (This is a mock response because the Gemini API key is not configured in .env).`;
+    throw new Error("Missing GEMINI_API_KEY environment variable.");
   }
 
-  const ai = new GoogleGenAI({ apiKey });
+  // Constructing a detailed prompt passing raw database metrics
+  const systemInstructions = `
+You are an empathetic, professional, and supportive Islamic Madrasah Coordinator at Suffat-ul Huffaz.
+Your goal is to write a personalized student progress update for a parent based on the provided raw data.
 
-  const systemPrompt = `
-You are an empathetic, professional, and encouraging Islamic school coordinator.
-A parent has reached out on WhatsApp asking about their child's progress.
-Write a well-structured, warm WhatsApp message summarizing their child's progress.
+CRITICAL FORMATTING RULES:
+1. Use WhatsApp-friendly Markdown only (*bold* for highlights, _italics_ for emphasis, inline code if needed). Do NOT use HTML or standard headers (###).
+2. Start with a warm Islamic greeting (e.g., "Assalamoalaikum Warahmatullahi Wabarakatuh").
+3. Use bullet points and appropriate emojis (📖, 🟢, 🕌, ✨, 🌟) to make the report card visually clear, tidy, and highly readable on mobile screens.
+4. Keep the tone encouraging, respectful, and balanced, providing constructive advice if behavior or attendance needs improvement.
+5. Do NOT fabricate any statistics, dates, or grades not present in the raw data.
 
-Rules:
-1. Use WhatsApp markdown formatting (*bold*, _italics_, ~strikethrough~).
-2. Include tasteful emojis (✨, 📚, 🕌, etc.).
-3. Start with an Islamic greeting (e.g., As-salamu alaykum).
-4. Reply in the SAME language the parent used in their message.
-5. Keep it concise, highlighting their recent memorization (Sabaq), attendance, and behavior (Adab).
-6. End with a polite closing, offering further assistance if needed.
+MULTILINGUAL TRANSLATION INSTRUCTION:
+Analyze the incoming message from the parent: "${incomingParentMessage}".
+- If the message is in Urdu, write the entire response in clean, professional Urdu script.
+- If in Arabic, write in elegant Arabic.
+- Otherwise, default to English, but keep terms like "Sabaq", "Manzil", and "Adab" intact to preserve cultural context.
 `;
 
-  const dataContext = `
-Student Name: ${studentName}
-Recent Attendance: ${JSON.stringify(progressData.attendance)}
-Recent Sabaq (Memorization): ${JSON.stringify(progressData.sabaq)}
-Overall Adab/Behavior Score (Out of 10): ${progressData.adab}
+  const userPrompt = `
+RAW STUDENT RECORD:
+- Student: ${studentData.studentName} (Roll: ${studentData.rollNumber})
+- Center: ${studentData.centerName}
+- Current Hifz Progress: Juz ${studentData.hifzStats.currentJuz}, ${studentData.hifzStats.completedPages} pages logged.
+- Recent Lessons: ${JSON.stringify(studentData.hifzStats.recentLessons)}
+- Attendance Performance: ${studentData.attendanceStats.presentCount}/${studentData.attendanceStats.totalCount} days present.
+- Recent Prayer Logs: ${JSON.stringify(studentData.attendanceStats.recentPrayers)}
+- Behavior & Adab (Out of 10):
+  * Adab: ${studentData.behaviorStats.adabScore}
+  * Cleanliness: ${studentData.behaviorStats.cleanlinessScore}
+  * Respect: ${studentData.behaviorStats.respectScore}
+  * Remarks: ${JSON.stringify(studentData.behaviorStats.recentWarnings || [])}
 
-Parent's incoming message: "${parentMessage}"
+Generate the final WhatsApp response message now:
 `;
 
   try {
-    const response = await ai.models.generateContent({
-      model: "gemini-2.5-flash",
-      contents: [
-        { role: "user", parts: [{ text: systemPrompt + "\n\n" + dataContext }] }
-      ],
-      config: {
-        temperature: 0.7,
+    const response = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          contents: [
+            {
+              parts: [
+                { text: systemInstructions + "\n" + userPrompt }
+              ]
+            }
+          ],
+          generationConfig: {
+            temperature: 0.3, // Muted temperature for strict factual alignment
+            maxOutputTokens: 1024,
+          }
+        }),
       }
-    });
+    );
 
-    return response.text || "Report generation failed.";
-  } catch (error) {
-    console.error("[LLM] Failed to generate report:", error);
-    return "Assalamu alaykum. We are currently experiencing an issue retrieving the detailed report. Please contact the administration directly.";
+    if (!response.ok) {
+      const errorBody = await response.text();
+      throw new Error(`Gemini API error: ${response.status} - ${errorBody}`);
+    }
+
+    const result = await response.json();
+    const candidateText = result.candidates?.[0]?.content?.parts?.[0]?.text;
+    if (!candidateText) {
+      throw new Error("Malformed payload returned from Gemini API.");
+    }
+
+    return candidateText.trim();
+  } catch (err) {
+    console.error("LLM Report Generation Exception:", err);
+    // Bulletproof fallback message in case of API failure
+    return `Assalamoalaikum Warahmatullahi Wabarakatuh.\n\nThank you for reaching out regarding *${studentData.studentName}*'s progress. Our system is currently experiencing a temporary server update. \n\n*Current Academic Standing:*\n📖 *Current Juz:* ${studentData.hifzStats.currentJuz}\n🕌 *Class Attendance:* ${studentData.attendanceStats.presentCount}/${studentData.attendanceStats.totalCount} days.\n\nOur Ustadh will message you shortly with detailed notes. JazakAllah khair!`;
   }
 }
