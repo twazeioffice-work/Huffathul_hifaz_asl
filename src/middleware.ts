@@ -77,6 +77,7 @@ export async function middleware(request: NextRequest) {
   if (isDirectHost) {
     const response = NextResponse.next();
     response.headers.set("X-Timeout-Budget", INITIAL_BUDGET_MS);
+    await handleTokenRotation(request, response);
     return response;
   }
 
@@ -84,6 +85,7 @@ export async function middleware(request: NextRequest) {
   if (url.pathname.startsWith("/api/") || url.pathname.includes(".")) {
     const response = NextResponse.next();
     response.headers.set("X-Timeout-Budget", INITIAL_BUDGET_MS);
+    await handleTokenRotation(request, response);
     return response;
   }
 
@@ -131,17 +133,93 @@ export async function middleware(request: NextRequest) {
       const targetPath = `/app/${institutionCode}/${branchCode}${url.pathname}${url.search}`;
       const response = NextResponse.rewrite(new URL(targetPath, request.url));
       response.headers.set("X-Timeout-Budget", INITIAL_BUDGET_MS);
+      await handleTokenRotation(request, response);
       return response;
     }
 
     // Default fallback directory rewrite
     const response = NextResponse.rewrite(new URL(`/app/${hostname}${url.pathname}`, request.url));
     response.headers.set("X-Timeout-Budget", INITIAL_BUDGET_MS);
+    await handleTokenRotation(request, response);
     return response;
   } catch (error) {
     console.error("Middleware multi-tenant routing error:", error);
     const response = NextResponse.next();
     response.headers.set("X-Timeout-Budget", INITIAL_BUDGET_MS);
+    await handleTokenRotation(request, response);
     return response;
+  }
+}
+
+// 4. EDGE MIDDLEWARE: TOKEN ROTATION & DUAL-HEADER INJECTION
+function parseJwtExp(token: string): number | null {
+  try {
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+    const payload = JSON.parse(jsonPayload);
+    return payload.exp || null;
+  } catch (e) {
+    return null;
+  }
+}
+
+async function handleTokenRotation(request: NextRequest, response: NextResponse) {
+  const token = request.cookies.get('access_token')?.value;
+  const refreshToken = request.cookies.get('refresh_token')?.value;
+
+  if (token && refreshToken) {
+    const exp = parseJwtExp(token);
+    const now = Math.floor(Date.now() / 1000);
+
+    // If expiring within 60 seconds
+    if (exp && (exp - now) < 60) {
+      try {
+        // Proxy to FastAPI backend to rotate token
+        const backendUrl = process.env.INTERNAL_API_URL || 'http://localhost:8000';
+        const refreshRes = await fetch(`${backendUrl}/api/v1/auth/refresh`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Cookie': `refresh_token=${refreshToken}`
+          }
+        });
+
+        if (refreshRes.ok) {
+          const data = await refreshRes.json();
+          const newAccessToken = data.access_token;
+          const newRefreshToken = data.refresh_token;
+
+          // Dual-Header Injection
+          // 1. Update browser cookies via Set-Cookie
+          response.cookies.set('access_token', newAccessToken, {
+            httpOnly: true,
+            secure: true,
+            sameSite: 'lax',
+            path: '/'
+          });
+          if (newRefreshToken) {
+            response.cookies.set('refresh_token', newRefreshToken, {
+              httpOnly: true,
+              secure: true,
+              sameSite: 'lax',
+              path: '/'
+            });
+          }
+
+          // 2. Overwrite Authorization header for upstream backend requests
+          response.headers.set('Authorization', `Bearer ${newAccessToken}`);
+          request.headers.set('Authorization', `Bearer ${newAccessToken}`);
+        }
+      } catch (err) {
+        console.error("Edge token rotation failed:", err);
+      }
+    } else if (token) {
+      // Inject Authorization header if valid
+      response.headers.set('Authorization', `Bearer ${token}`);
+      request.headers.set('Authorization', `Bearer ${token}`);
+    }
   }
 }
