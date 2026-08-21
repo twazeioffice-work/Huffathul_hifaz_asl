@@ -44,6 +44,7 @@ export function TopNavigationBar({
     { name: "Billing", href: `${basePath}/billing`, roles: ["SUPER_ADMIN", "NAZIM"] },
     { name: "Ledger", href: `${basePath}/ledger`, roles: ["SUPER_ADMIN", "NAZIM"] },
     { name: "Assets & Fleet", href: `${basePath}/assets`, roles: ["SUPER_ADMIN"] },
+    { name: "Communication", href: `${basePath}/communication`, roles: ["SUPER_ADMIN", "NAZIM"] },
     { name: "Reports", href: `${basePath}/reports`, roles: ["SUPER_ADMIN", "NAZIM"] },
   ];
 
