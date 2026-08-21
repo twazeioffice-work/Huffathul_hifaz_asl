@@ -129,9 +129,19 @@ export default function LoginPage() {
             Protected by PostgreSQL RLS & Edge JWT Interception.
           </p>
           <div className="flex justify-center space-x-4 text-[10px] text-[#54A3FF]">
-            <span className="cursor-pointer hover:underline">Forgot Key?</span>
+            <button 
+              onClick={() => alert("System Notice: Password reset protocol requires hardware token verification by the Central Board. Please contact your Regional Nazim.")}
+              className="cursor-pointer hover:underline hover:text-white transition-colors focus:outline-none"
+            >
+              Forgot Key?
+            </button>
             <span className="text-[#2C2C2E]">|</span>
-            <span className="cursor-pointer hover:underline">Request Access</span>
+            <button 
+              onClick={() => alert("Security Alert: Access requests are currently paused until Phase 7 deployment is complete. New enrollments must be done via the Admissions Engine.")}
+              className="cursor-pointer hover:underline hover:text-white transition-colors focus:outline-none"
+            >
+              Request Access
+            </button>
           </div>
         </div>
       </motion.div>
