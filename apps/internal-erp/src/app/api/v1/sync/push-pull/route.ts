@@ -13,13 +13,9 @@ export async function POST(request: Request) {
     // Return a successful sync acknowledgment back to the PWA
     return NextResponse.json({
       status: "success",
-      server_deltas: {
-        sabaq: [],
-        attendance: [],
-        roster: [],
-        deleted_ids: []
-      },
-      next_pull_token: new Date().toISOString()
+      sabaq_deltas: [],
+      attendance_deltas: [],
+      server_time: new Date().toISOString()
     }, { status: 200 });
 
   } catch (error) {
