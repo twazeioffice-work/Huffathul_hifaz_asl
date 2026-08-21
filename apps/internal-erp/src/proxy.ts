@@ -3,12 +3,6 @@ import { redis, publicFormLimiter, CACHE_TTL_TENANT } from "./lib/upstash";
 
 export const config = {
   matcher: [
-    /*
-     * Match all request paths except for the ones starting with:
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico, sitemap.xml, robots.txt
-     */
     "/((?!_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)",
   ],
 };
@@ -29,13 +23,108 @@ const DEV_DOMAINS = [
 
 const INITIAL_BUDGET_MS = "6000";
 
+// Simple, edge-compatible JWT helper to decode claims without Node.js dependencies
+function decodeJwtPayload(token: string): any {
+  try {
+    const parts = token.split(".");
+    if (parts.length !== 3) return null;
+    
+    // Replace URL-safe characters and decode base64
+    const base64Url = parts[1];
+    const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+    const jsonPayload = decodeURIComponent(
+      atob(base64)
+        .split("")
+        .map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
+        .join("")
+    );
+    
+    return JSON.parse(jsonPayload);
+  } catch (err) {
+    return null;
+  }
+}
+
 export async function proxy(request: NextRequest) {
   const url = request.nextUrl.clone();
   const rawHost = request.headers.get("x-forwarded-host") || request.headers.get("host") || "";
   const hostname = rawHost.split(":")[0].toLowerCase();
   const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || request.headers.get("x-real-ip") || "127.0.0.1";
+  const { pathname } = request.nextUrl;
 
-  // 1. PUBLIC GATEWAY SECURITY: Sliding-Window Rate Limiting on Ingestion Routes
+  // ==============================================================================
+  // STEP 3: EDGE ROUTE-GATING & ZERO-TRUST AUTHENTICATION
+  // ==============================================================================
+  
+  const isAuthOrAsset = pathname.startsWith("/_next") || 
+                        pathname.startsWith("/api/v1/auth") ||
+                        pathname.includes(".");
+                        
+  if (!isAuthOrAsset && (pathname.startsWith("/app") || pathname === "/login")) {
+    const tokenCookie = request.cookies.get("access_token");
+    
+    if (!tokenCookie && pathname !== "/login") {
+      // Session missing: Redirect unauthenticated user back to unified login
+      return NextResponse.redirect(new URL("/login", request.url));
+    }
+
+    if (tokenCookie) {
+      const token = tokenCookie.value;
+      const claims = decodeJwtPayload(token);
+
+      // If token is invalid or parsing fails, purge and redirect to login
+      if (!claims) {
+        const response = NextResponse.redirect(new URL("/login", request.url));
+        response.cookies.delete("access_token");
+        return response;
+      }
+
+      // Guard Against URL Path-Tampering (Multi-Tenant Isolation)
+      const appRouteRegex = /^\/app\/([^/]+)\/([^/]+)\/erp/;
+      const match = pathname.match(appRouteRegex);
+
+      if (match) {
+        const urlTenant = match[1];
+        const urlBranch = match[2];
+
+        const userRole = claims.role;
+        const userTenant = claims.tenant_id;
+        const userBranch = claims.branch_id;
+
+        // Rule A: Super Admin bypasses all path restrictions
+        if (userRole !== "SUPER_ADMIN") {
+          // Rule B: Standard roles must strictly match their registered tenant ID
+          if (urlTenant !== userTenant) {
+            return NextResponse.redirect(new URL("/login", request.url));
+          }
+
+          // Rule C: Nazim and Ustad roles must strictly match their assigned branch ID
+          if (userRole !== "GLOBAL_ACCOUNTANT" && urlBranch !== userBranch) {
+            return NextResponse.redirect(new URL("/login", request.url));
+          }
+        }
+      }
+
+      // If an authenticated user tries to hit /login, fast-track them to their landing dashboard
+      if (pathname === "/login") {
+        let redirectUrl = "/app/suffat-hq/main/erp"; // Fallback HQ
+        
+        if (claims.role === "NAZIM" || claims.role === "CENTER_ADMIN") {
+          redirectUrl = `/app/${claims.tenant_id}/${claims.branch_id}/erp`;
+        } else if (claims.role === "USTAD") {
+          redirectUrl = `/app/${claims.tenant_id}/${claims.branch_id}/erp/academics`;
+        } else if (claims.role === "STUDENT") {
+          redirectUrl = `/app/${claims.tenant_id}/${claims.branch_id}/portal/student`;
+        }
+        
+        return NextResponse.redirect(new URL(redirectUrl, request.url));
+      }
+    }
+  }
+
+  // ==============================================================================
+  // PUBLIC GATEWAY SECURITY: Sliding-Window Rate Limiting on Ingestion Routes
+  // ==============================================================================
   if (
     url.pathname.startsWith("/api/public/") ||
     url.pathname.includes("/api/admission-ingest") ||
@@ -68,7 +157,9 @@ export async function proxy(request: NextRequest) {
     }
   }
 
-  // 2. DIRECT-HOST PASSTHROUGH (GCP VM, Cloudflare Tunnel, Staging, Localhost)
+  // ==============================================================================
+  // DIRECT-HOST PASSTHROUGH (GCP VM, Cloudflare Tunnel, Staging, Localhost)
+  // ==============================================================================
   const isDirectHost =
     IPV4_REGEX.test(rawHost) ||
     DEV_DOMAINS.some((domain) => hostname.endsWith(domain)) ||
@@ -87,7 +178,9 @@ export async function proxy(request: NextRequest) {
     return response;
   }
 
-  // 3. MULTI-TENANCY CACHED LOOKUP ENGINE
+  // ==============================================================================
+  // MULTI-TENANCY CACHED LOOKUP ENGINE
+  // ==============================================================================
   try {
     const cacheKey = `tenant_domain:${hostname}`;
 

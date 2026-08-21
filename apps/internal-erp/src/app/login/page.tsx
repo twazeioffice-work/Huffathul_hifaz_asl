@@ -1,149 +1,151 @@
 "use client";
 
 import React, { useState } from "react";
-import { ShieldCheck, Lock, User, ChevronRight, Activity } from "lucide-react";
-import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function LoginPage() {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [successPath, setSuccessPath] = useState<string | null>(null);
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    
-    // Simulate API call and token generation
-    setTimeout(() => {
-      if (email === "admin@suffat.org" && password === "superadmin2026") {
-        document.cookie = "access_token=mock_access_token_admin; path=/; max-age=3600";
-        document.cookie = "refresh_token=mock_refresh_token; path=/; max-age=86400";
-        window.location.href = "/app/suffat/main/erp";
-      } else if (email === "nazim@suffat.org" && password === "nazim2026") {
-        document.cookie = "access_token=mock_access_token_nazim; path=/; max-age=3600";
-        window.location.href = "/app/suffat/main/erp";
-      } else if (email === "centeradmin@suffat.org" && password === "center2026") {
-        document.cookie = "access_token=mock_access_token_centeradmin; path=/; max-age=3600";
-        window.location.href = "/app/suffat/main/erp";
-      } else if (email === "ustadh@suffat.org" && password === "ustadh2026") {
-        document.cookie = "access_token=mock_access_token_ustadh; path=/; max-age=3600";
-        window.location.href = "/app/suffat/main/erp/academics";
-      } else if (email === "student@suffat.org" && password === "student2026") {
-        document.cookie = "access_token=mock_access_token_student; path=/; max-age=3600";
-        window.location.href = "/app/suffat/main/erp/students/1001";
-      } else {
-        setError("Invalid cryptographic credentials.");
-        setIsLoading(false);
+    setErrorMsg(null);
+
+    try {
+      // 1. Post credentials to our FastAPI Step 2 Auth Controller
+      const response = await fetch("/api/v1/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.detail || "Authentication failed. Please verify credentials.");
       }
-    }, 1200);
+
+      // 2. Auth Success: The FastAPI backend has synchronously set the secure, HttpOnly, 
+      //    SameSite=Strict cookie containing our multi-tenant JWT token.
+      setSuccessPath(data.redirect_url);
+      
+      // 3. Perform soft, animated router redirection to their dynamic landing path
+      setTimeout(() => {
+        router.push(data.redirect_url);
+      }, 800);
+
+    } catch (err: any) {
+      setErrorMsg(err.message || "A network error occurred. Please try again.");
+      setIsLoading(false);
+    }
   };
 
   return (
-    <div className="min-h-screen bg-[#050506] text-white flex items-center justify-center p-6 font-sans">
-      {/* Background ambient light */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#0071E3]/5 rounded-full blur-3xl pointer-events-none" />
+    <div className="min-h-screen w-full bg-[#000000] flex items-center justify-center relative overflow-hidden font-sans">
+      {/* 1. Glassmorphic Radial Background Orbs */}
+      <div className="absolute top-1/4 left-1/4 w-[400px] h-[400px] bg-blue-500/15 rounded-full filter blur-[100px] animate-pulse" />
+      <div className="absolute bottom-1/4 right-1/4 w-[350px] h-[350px] bg-emerald-500/10 rounded-full filter blur-[120px] animate-pulse" />
 
-      <motion.div 
+      {/* 2. Main Login Card Container */}
+      <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
-        className="w-full max-w-md relative z-10"
+        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }} // Apple Spring curve
+        className="w-full max-w-[420px] p-8 mx-4 rounded-2xl bg-white/[0.02] backdrop-blur-xl relative z-10 border border-white/10"
       >
-        <div className="flex flex-col items-center mb-10 space-y-4">
-          <div className="h-16 w-16 rounded-2xl bg-gradient-to-tr from-[#0071E3] to-[#54A3FF] flex items-center justify-center shadow-2xl shadow-[#0071E3]/30">
-            <span className="text-3xl font-black tracking-tight text-white font-mono">S</span>
+        {/* logo and Header */}
+        <div className="text-center mb-8">
+          <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-tr from-blue-500 to-[#00F0FF] p-[1px] mb-4">
+            <div className="w-full h-full bg-[#050506] rounded-xl flex items-center justify-center">
+              <span className="text-xl font-bold bg-gradient-to-r from-blue-500 to-[#00F0FF] bg-clip-text text-transparent">SH</span>
+            </div>
           </div>
-          <div className="text-center">
-            <h1 className="text-2xl font-light tracking-tight">Suffat-ul Huffaz</h1>
-            <p className="text-[11px] text-[#86868B] font-mono tracking-widest uppercase mt-1">Enterprise Command Center</p>
-          </div>
+          <h1 className="text-2xl font-semibold text-white tracking-tight">Suffat-ul Huffaz</h1>
+          <p className="text-sm text-neutral-400 mt-1">Unified Digital Gateway & ERP Portal</p>
         </div>
 
-        <div className="bg-[#0F0F12] border border-[#2C2C2E]/60 p-8 rounded-3xl shadow-2xl backdrop-blur-xl">
-          <div className="flex items-center space-x-2 mb-8 justify-center">
-            <div className="h-2 w-2 rounded-full bg-[#30D158] animate-pulse" />
-            <span className="text-xs text-[#30D158] font-mono font-semibold tracking-wider uppercase">Zero-Trust Gateway</span>
+        {/* Auth Forms */}
+        <form onSubmit={handleSubmit} className="space-y-5">
+          <div>
+            <label className="block text-xs font-semibold uppercase text-neutral-400 mb-1.5 tracking-wider">
+              Email Address
+            </label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              disabled={isLoading || !!successPath}
+              className="w-full px-4 py-3 bg-[#0c0c0e] border border-[#222226] focus:border-[#00F0FF] rounded-lg text-base text-white placeholder-white/20 transition duration-150 ease-in-out outline-none focus:ring-1 focus:ring-[#00F0FF]"
+              placeholder="name@suffat.org"
+            />
           </div>
 
-          <form onSubmit={handleLogin} className="space-y-5">
-            {error && (
-              <div className="bg-red-500/10 border border-red-500/20 text-red-400 text-xs p-3 rounded-lg flex items-center space-x-2">
-                <ShieldCheck className="h-4 w-4" />
-                <span>{error}</span>
-              </div>
+          <div>
+            <label className="block text-xs font-semibold uppercase text-neutral-400 mb-1.5 tracking-wider">
+              Password
+            </label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              disabled={isLoading || !!successPath}
+              className="w-full px-4 py-3 bg-[#0c0c0e] border border-[#222226] focus:border-[#00F0FF] rounded-lg text-base text-white placeholder-white/20 transition duration-150 ease-in-out outline-none focus:ring-1 focus:ring-[#00F0FF]"
+              placeholder="••••••••"
+            />
+          </div>
+
+          {/* Animate Errors and Feedback */}
+          <AnimatePresence mode="wait">
+            {errorMsg && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                className="p-3 bg-red-500/10 border border-red-500/20 rounded-lg flex items-center gap-2.5 text-sm text-red-400"
+              >
+                <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-ping" />
+                <p className="flex-1">{errorMsg}</p>
+              </motion.div>
             )}
-            
-            <div className="space-y-1.5">
-              <label className="text-[10px] text-[#86868B] uppercase tracking-wider font-semibold px-1">Institutional ID</label>
-              <div className="relative">
-                <User className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#86868B]" />
-                <input 
-                  type="email" 
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="w-full bg-[#1C1C1E]/50 border border-[#2C2C2E] rounded-xl py-3 pl-10 pr-4 text-sm focus:outline-none focus:border-[#0071E3] focus:ring-1 focus:ring-[#0071E3] transition-all text-white placeholder-[#86868B]"
-                  placeholder="admin@suffat.org"
-                  required
-                />
+
+            {successPath && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                className="p-3 bg-emerald-500/10 border border-emerald-500/20 rounded-lg flex items-center gap-2.5 text-sm text-emerald-400"
+              >
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping" />
+                <p className="flex-1">Verification secure. Access granted, redirecting...</p>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* Action Trigger */}
+          <button
+            type="submit"
+            disabled={isLoading || !!successPath}
+            className="w-full py-3 rounded-lg bg-blue-600 hover:bg-blue-500 transition duration-150 font-medium text-base text-white disabled:opacity-40 disabled:hover:bg-blue-600 relative overflow-hidden"
+          >
+            {isLoading ? (
+              <div className="flex items-center justify-center gap-2">
+                <span className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin" />
+                <span>SECUREING CHANNEL...</span>
               </div>
-            </div>
-
-            <div className="space-y-1.5">
-              <label className="text-[10px] text-[#86868B] uppercase tracking-wider font-semibold px-1">Cryptographic Key</label>
-              <div className="relative">
-                <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#86868B]" />
-                <input 
-                  type="password" 
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="w-full bg-[#1C1C1E]/50 border border-[#2C2C2E] rounded-xl py-3 pl-10 pr-4 text-sm focus:outline-none focus:border-[#0071E3] focus:ring-1 focus:ring-[#0071E3] transition-all text-white placeholder-[#86868B]"
-                  placeholder="••••••••"
-                  required
-                />
-              </div>
-            </div>
-
-            <button 
-              type="submit" 
-              disabled={isLoading}
-              className="w-full bg-white text-black font-semibold rounded-xl py-3.5 text-sm flex items-center justify-center space-x-2 hover:bg-[#F5F5F7] transition-all active:scale-[0.98] disabled:opacity-70 mt-4"
-            >
-              {isLoading ? (
-                <>
-                  <Activity className="h-4 w-4 animate-pulse text-[#0071E3]" />
-                  <span>Authenticating via BFF...</span>
-                </>
-              ) : (
-                <>
-                  <span>Initiate Secure Handshake</span>
-                  <ChevronRight className="h-4 w-4" />
-                </>
-              )}
-            </button>
-          </form>
-        </div>
-
-        <div className="mt-8 text-center space-y-2">
-          <p className="text-[10px] text-[#86868B]">
-            Protected by PostgreSQL RLS & Edge JWT Interception.
-          </p>
-          <div className="flex justify-center space-x-4 text-[10px] text-[#54A3FF]">
-            <button 
-              onClick={() => alert("System Notice: Password reset protocol requires hardware token verification by the Central Board. Please contact your Regional Nazim.")}
-              className="cursor-pointer hover:underline hover:text-white transition-colors focus:outline-none"
-            >
-              Forgot Key?
-            </button>
-            <span className="text-[#2C2C2E]">|</span>
-            <button 
-              onClick={() => alert("Security Alert: Access requests are currently paused until Phase 7 deployment is complete. New enrollments must be done via the Admissions Engine.")}
-              className="cursor-pointer hover:underline hover:text-white transition-colors focus:outline-none"
-            >
-              Request Access
-            </button>
-          </div>
-        </div>
+            ) : (
+              <span>SIGN IN</span>
+            )}
+          </button>
+        </form>
       </motion.div>
     </div>
   );
