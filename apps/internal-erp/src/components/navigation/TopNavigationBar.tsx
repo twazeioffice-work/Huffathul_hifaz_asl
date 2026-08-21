@@ -66,31 +66,9 @@ export function TopNavigationBar({
         </Link>
       </NavbarBrand>
 
-      {/* Main Navigation Links */}
+      {/* Main Navigation Links (Moved to LeftSidebar) */}
       <NavbarContent className="hidden md:flex gap-6" justify="center">
-        {navLinks.map((link) => {
-          if (!link.roles.includes(userRole)) return null;
-          const isActive = link.href === basePath
-            ? pathname === basePath || pathname === basePath + "/"
-            : pathname.startsWith(link.href);
-          return (
-            <NavbarItem key={link.href}>
-              <Link
-                href={link.href}
-                className={`text-sm font-semibold tracking-tight transition-all duration-200 py-2 px-1 relative ${
-                  isActive
-                    ? "text-primary"
-                    : "text-muted-foreground hover:text-white"
-                }`}
-              >
-                {link.name}
-                {isActive && (
-                  <span className="absolute bottom-0 left-0 w-full h-[2px] bg-primary rounded-full" />
-                )}
-              </Link>
-            </NavbarItem>
-          );
-        })}
+        {/* Horizontal tabs removed in favor of LeftSidebar */}
       </NavbarContent>
 
       {/* User Actions & Role Badges */}

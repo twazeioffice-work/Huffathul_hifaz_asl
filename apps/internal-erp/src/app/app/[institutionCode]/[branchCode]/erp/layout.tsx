@@ -3,6 +3,7 @@ import { cookies } from "next/headers";
 import { TopNavigationBar } from "@/components/navigation/TopNavigationBar";
 import { MobileBottomBar } from "@/components/navigation/MobileBottomBar";
 import { DemoRoleSwitcher } from "@/components/navigation/DemoRoleSwitcher";
+import { LeftSidebar } from "@/components/navigation/LeftSidebar";
 
 interface LayoutProps {
   children: ReactNode;
@@ -31,8 +32,14 @@ export default async function ERPWorkspaceLayout({ children, params }: LayoutPro
         />
       )}
 
-      {/* Main Content Area (Scrollable) */}
-      <div className="flex flex-1 flex-col overflow-hidden relative">
+
+      {/* Main Content Area with Left Sidebar */}
+      <div className="flex flex-1 overflow-hidden relative">
+        <LeftSidebar 
+          institutionCode={institutionCode} 
+          branchCode={branchCode} 
+          userRole={userRole} 
+        />
         <main className="flex-1 overflow-y-auto bg-gradient-to-b from-background to-card/10 pb-20 md:pb-0">
           {children}
         </main>
