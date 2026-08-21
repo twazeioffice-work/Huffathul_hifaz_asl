@@ -1,86 +1,118 @@
 "use client";
 
-import Link from "next/link";
-import { CheckPermission } from "@/components/CheckPermission";
-import { Plus, Search, Filter } from "lucide-react";
+import React from "react";
 import { useParams } from "next/navigation";
+import { UniversalDashboardLayout } from "@/components/dashboard/UniversalDashboardLayout";
+import { getSidebarLinks } from "@/components/dashboard/universal-page-schemas";
+import { Users, Briefcase, MapPin, ShieldCheck, Plus } from "lucide-react";
 
 export default function StaffDirectory() {
   const params = useParams();
   const institutionCode = params.institutionCode as string;
   const branchCode = params.branchCode as string;
-  const basePath = `/app/${institutionCode}/${branchCode}/erp`;
+
+  const tenant = `${institutionCode}-${branchCode}`;
+
+  const pageSchema = {
+    tenantName: tenant.toUpperCase(),
+    pageTitle: "Staff Directory",
+    pageSubtitle: "Manage employees, center assignments, and job descriptions.",
+    metrics: [
+      {
+        id: "staff-m1",
+        title: "Total Staff",
+        value: "48",
+        changeLabel: "+2 this month",
+        isPositive: true,
+        statusText: "Active",
+        statusType: "success" as const,
+        icon: Users
+      },
+      {
+        id: "staff-m2",
+        title: "Academic Faculty",
+        value: "35",
+        statusText: "Teachers & Ustads",
+        statusType: "info" as const,
+        icon: Briefcase
+      },
+      {
+        id: "staff-m3",
+        title: "Active Centers",
+        value: "4",
+        statusText: "Operating Locations",
+        statusType: "success" as const,
+        icon: MapPin
+      },
+      {
+        id: "staff-m4",
+        title: "Super Admins",
+        value: "2",
+        statusText: "System Root Access",
+        statusType: "warning" as const,
+        icon: ShieldCheck
+      }
+    ],
+    primaryTable: {
+      title: "Active Employees",
+      subtitle: "Comprehensive roster across all centers",
+      actions: (
+        <button className="flex items-center space-x-1 px-3 py-1.5 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-xs font-bold transition-all shadow-[0_0_15px_rgba(37,99,235,0.2)]">
+          <Plus className="h-4 w-4" />
+          <span>Add Employee</span>
+        </button>
+      ),
+      headers: ["Employee ID", "Name", "Department", "Center/Branch", "Job Description", "Role", "Actions"],
+      rows: [
+        {
+          id: "EMP-3001",
+          columns: [
+            { key: "id", value: "EMP-3001", styleClass: "font-mono text-blue-400 font-bold" },
+            { key: "name", value: "Ustad Bilal" },
+            { key: "department", value: "Academic" },
+            { key: "center", value: "MAIN CAMPUS" },
+            { key: "job", value: "Senior Hifz Instructor" },
+            { key: "role", value: "Teacher", styleClass: "text-emerald-400 text-xs font-bold uppercase" },
+            { key: "action", value: "Edit Profile" }
+          ]
+        },
+        {
+          id: "EMP-3002",
+          columns: [
+            { key: "id", value: "EMP-3002", styleClass: "font-mono text-blue-400 font-bold" },
+            { key: "name", value: "Abdullah Siddiqui" },
+            { key: "department", value: "Administration" },
+            { key: "center", value: "ALL CENTERS" },
+            { key: "job", value: "ERP Systems Administrator" },
+            { key: "role", value: "Super Admin", styleClass: "text-rose-400 text-xs font-bold uppercase" },
+            { key: "action", value: "Edit Profile" }
+          ]
+        },
+        {
+          id: "EMP-3003",
+          columns: [
+            { key: "id", value: "EMP-3003", styleClass: "font-mono text-blue-400 font-bold" },
+            { key: "name", value: "Sheikh Tariq" },
+            { key: "department", value: "Academic" },
+            { key: "center", value: "NORTH BRANCH" },
+            { key: "job", value: "Tajweed Specialist" },
+            { key: "role", value: "Teacher", styleClass: "text-emerald-400 text-xs font-bold uppercase" },
+            { key: "action", value: "Edit Profile" }
+          ]
+        }
+      ]
+    }
+  };
+
+  const sidebarLinks = getSidebarLinks("staff");
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-2xl font-bold tracking-tight">Staff Directory</h2>
-          <p className="text-muted-foreground text-sm">
-            Manage employees and department assignments.
-          </p>
-        </div>
-        <CheckPermission 
-          permission="staff.create" 
-          institutionCode={institutionCode} 
-          branchCode={branchCode}
-        >
-          <button
-            className="inline-flex h-9 items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 gap-2"
-          >
-            <Plus className="h-4 w-4" />
-            Add Employee
-          </button>
-        </CheckPermission>
-      </div>
-
-      <div className="glass-panel rounded-lg p-4">
-        {/* Table Toolbar */}
-        <div className="flex items-center justify-between pb-4">
-          <div className="relative w-72">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-            <input
-              type="text"
-              placeholder="Search staff..."
-              className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm placeholder:text-muted-foreground pl-8"
-            />
-          </div>
-        </div>
-
-        {/* Data Table */}
-        <div className="rounded-md border">
-          <table className="w-full text-sm">
-            <thead className="border-b bg-muted/50 text-muted-foreground">
-              <tr>
-                <th className="h-10 px-4 text-left font-medium">Employee ID</th>
-                <th className="h-10 px-4 text-left font-medium">Name</th>
-                <th className="h-10 px-4 text-left font-medium">Department</th>
-                <th className="h-10 px-4 text-left font-medium">Role</th>
-                <th className="h-10 px-4 text-right font-medium">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {[1, 2, 3].map((i) => (
-                <tr key={i} className="border-b transition-colors hover:bg-muted/50">
-                  <td className="p-4 align-middle font-mono">EMP-{3000 + i}</td>
-                  <td className="p-4 align-middle font-medium">
-                    Faculty Member {i}
-                  </td>
-                  <td className="p-4 align-middle">Academic</td>
-                  <td className="p-4 align-middle">
-                    <span className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold bg-accent/10 text-accent">
-                      Teacher
-                    </span>
-                  </td>
-                  <td className="p-4 align-middle text-right">
-                    <button className="text-muted-foreground hover:text-primary">Edit</button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
+    <UniversalDashboardLayout
+      schema={pageSchema}
+      sidebarLinks={sidebarLinks}
+      onSidebarClick={(id) => {
+        window.location.href = `/app/${institutionCode}/${branchCode}/erp/${id === 'dashboard' ? '' : id}`;
+      }}
+    />
   );
 }
