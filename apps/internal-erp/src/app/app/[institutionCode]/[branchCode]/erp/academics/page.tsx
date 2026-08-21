@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { 
   BookOpen, Calendar, CheckSquare, Eye, Award, Sparkles, 
   ChevronRight, X, AlertTriangle, RefreshCw, FileText, 
-  Wifi, WifiOff, Users, Star, CheckCircle, Save, Phone
+  Wifi, WifiOff, Users, Star, CheckCircle, Save, Phone, Lock
 } from "lucide-react";
 import { useBrowserSync, type SyncStatusState } from "@/hooks/useBrowserSync";
 import { pwaDb, type LocalSabaqDraft, type LocalAttendanceDraft } from "@/db/pwaDb";
@@ -629,18 +629,38 @@ function UstadDashboardComponent({
                   )}
                 </div>
 
-                {/* Historical Notes */}
-                <div className="space-y-2">
-                  <span className="text-[9px] text-slate-500 font-mono uppercase tracking-wider block">Historical Ustad Notes</span>
-                  <div className="space-y-2 max-h-32 overflow-y-auto pr-1">
+                {/* Secure Evaluation Notes */}
+                <div className="space-y-3 pt-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[9px] text-slate-500 font-mono uppercase tracking-wider block">Staff Evaluation Notes</span>
+                    <div className="flex items-center space-x-1 bg-amber-500/10 px-1.5 py-0.5 rounded border border-amber-500/20">
+                      <Lock className="w-3 h-3 text-amber-500" />
+                      <span className="text-[8px] font-bold text-amber-500 uppercase tracking-wide">Hidden from Student</span>
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <textarea 
+                      placeholder="Write a private evaluation or observation..." 
+                      className="w-full h-20 bg-slate-900/50 border border-slate-800 rounded-lg p-2.5 text-xs text-slate-300 placeholder:text-slate-600 focus:outline-none focus:ring-1 focus:ring-cyan-500 focus:border-cyan-500 transition-all resize-none"
+                    ></textarea>
+                    <div className="flex justify-end">
+                      <button className="px-3 py-1.5 bg-cyan-600 hover:bg-cyan-500 text-white text-[10px] font-bold rounded-md transition-colors flex items-center space-x-1 shadow-lg shadow-cyan-500/20">
+                        <Save className="w-3 h-3" />
+                        <span>Save Private Note</span>
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2 max-h-32 overflow-y-auto pr-1 mt-4">
                     {[
                       { date: "2026-08-15", author: "Ustad Bilal", text: "Struggling to maintain proper Tajweed over long breath transitions." },
                       { date: "2026-08-01", author: "Ustad Bilal", text: "Excellent concentration during manzil sessions today." }
                     ].map((note, idx) => (
                       <div key={idx} className="p-2.5 bg-slate-950 border border-slate-900 rounded-lg text-[10px] space-y-1">
                         <div className="flex justify-between text-slate-400">
-                          <span className="font-semibold">{note.author}</span>
-                          <span className="font-mono">{note.date}</span>
+                          <span className="font-semibold text-cyan-500/80">{note.author}</span>
+                          <span className="font-mono text-slate-500">{note.date}</span>
                         </div>
                         <p className="text-slate-300 leading-relaxed italic">"{note.text}"</p>
                       </div>
