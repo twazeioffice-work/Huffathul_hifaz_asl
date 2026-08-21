@@ -1,15 +1,16 @@
+"use client";
+
 import React from "react";
 import { Card, CardBody, CardHeader, Button, Progress } from "@heroui/react";
 import { TopNavigationBar } from "@/components/navigation/TopNavigationBar";
+import { useParams } from "next/navigation";
 
-export default async function InstitutionDashboard({
-  params,
-}: {
-  params: Promise<{ institutionCode: string; branchCode: string }>;
-}) {
-  const { institutionCode, branchCode } = await params;
+export default function InstitutionDashboard() {
+  const params = useParams();
+  const institutionCode = params.institutionCode as string;
+  const branchCode = params.branchCode as string;
 
-  const tenantName = `${institutionCode.toUpperCase()} — ${branchCode.toUpperCase()}`;
+  const tenantName = `${institutionCode?.toUpperCase() || ''} — ${branchCode?.toUpperCase() || ''}`;
   const mockUser = {
     name: "Br. Tariq Mehmood",
     email: "tariq@huffaz.org",
