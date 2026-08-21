@@ -36,7 +36,9 @@
   },
   "overrides": {
     "postcss": "^8.4.38",
-    "postcss-load-config": "^4.0.2"
+    "postcss-load-config": "^4.0.2",
+    "braces": "^3.0.3",
+    "ws": "^8.17.1"
   },
   "description": "",
   "main": "index.js",
