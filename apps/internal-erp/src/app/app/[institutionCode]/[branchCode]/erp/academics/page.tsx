@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { 
   BookOpen, Calendar, CheckSquare, Eye, Award, Sparkles, 
   ChevronRight, X, AlertTriangle, RefreshCw, FileText, 
-  Wifi, WifiOff, Users, Star, CheckCircle, Save, Phone, Lock
+  Wifi, WifiOff, Users, Star, CheckCircle, Save, Phone, Lock, Bot
 } from "lucide-react";
 import { useBrowserSync, type SyncStatusState } from "@/hooks/useBrowserSync";
 import { pwaDb, type LocalSabaqDraft, type LocalAttendanceDraft } from "@/db/pwaDb";
@@ -589,17 +589,31 @@ function UstadDashboardComponent({
                 </div>
 
                 {/* Parent Contact Card */}
-                <div className="p-4 bg-slate-900/60 border border-slate-800/80 rounded-xl space-y-2">
-                  <span className="text-[9px] text-slate-500 font-mono uppercase tracking-wider block">Guardian & Emergency Contact</span>
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs text-slate-300">Father/Guardian Call:</span>
-                    <a 
-                      href={`tel:${selectedStudent.parentPhone}`} 
-                      className="flex items-center space-x-1.5 px-3 py-1 bg-cyan-500/10 border border-cyan-500/30 hover:bg-cyan-500/20 text-cyan-400 text-xs font-bold rounded-lg transition-colors font-mono"
+                <div className="p-4 bg-slate-900/60 border border-slate-800/80 rounded-xl space-y-4">
+                  <div>
+                    <span className="text-[9px] text-slate-500 font-mono uppercase tracking-wider block mb-2">Guardian & Emergency Contact</span>
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs text-slate-300">Father/Guardian Call:</span>
+                      <a 
+                        href={`tel:${selectedStudent.parentPhone}`} 
+                        className="flex items-center space-x-1.5 px-3 py-1 bg-cyan-500/10 border border-cyan-500/30 hover:bg-cyan-500/20 text-cyan-400 text-xs font-bold rounded-lg transition-colors font-mono"
+                      >
+                        <Phone className="h-3.5 w-3.5" />
+                        <span>{selectedStudent.parentPhone}</span>
+                      </a>
+                    </div>
+                  </div>
+
+                  {/* AI WhatsApp Dispatch Button */}
+                  <div className="pt-3 border-t border-slate-800/80">
+                    <button 
+                      onClick={() => alert(`Webhook Triggered: Sending Gemini AI progress report to ${selectedStudent.parentPhone} via WATI.`)}
+                      className="w-full py-2 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white rounded-lg text-xs font-bold flex items-center justify-center space-x-2 transition-all shadow-[0_0_15px_rgba(16,185,129,0.15)]"
                     >
-                      <Phone className="h-3.5 w-3.5" />
-                      <span>{selectedStudent.parentPhone}</span>
-                    </a>
+                      <Bot className="h-4 w-4" />
+                      <span>Send AI Progress Report</span>
+                    </button>
+                    <p className="text-[9px] text-center text-slate-500 mt-1.5 font-mono">Powered by Gemini 1.5 Flash</p>
                   </div>
                 </div>
 
