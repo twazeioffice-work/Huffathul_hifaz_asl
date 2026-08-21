@@ -54,8 +54,7 @@ const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
   // Ensure Next.js listens strictly to non-collision ports (like Port 3001)
-  // PM2 relies on this to boot the Next daemon on the correct port for the Cloudflare tunnel
-  port: process.env.PORT || 3001,
+  // PM2 relies on the CLI argument to boot the Next daemon on the correct port for the Cloudflare tunnel
   env: {
     INTERNAL_API_URL: process.env.INTERNAL_API_URL || "http://localhost:8000",
   },
