@@ -16,6 +16,27 @@ import { MemorizationPaceChart } from "@/components/dashboard/MemorizationPaceCh
 // 1. DATA TYPES & PROP INTERFACES
 // ==============================================================================
 
+function LiveTimestamp() {
+  const [time, setTime] = useState<Date | null>(null);
+
+  useEffect(() => {
+    setTime(new Date());
+    const interval = setInterval(() => setTime(new Date()), 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  if (!time) return <div className="px-4 py-2 font-mono font-medium text-slate-300 text-xs">Loading...</div>;
+
+  return (
+    <div className="flex items-center bg-slate-900 border border-slate-800 rounded-xl px-4 py-2 text-xs font-mono font-medium text-slate-300">
+      <span className="text-cyan-500 mr-2">●</span>
+      {time.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}
+      <span className="mx-2 text-slate-600">|</span>
+      {time.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
+    </div>
+  );
+}
+
 export interface StudentRosterItem {
   id: string; // student_enrollment_id
   name: string;
@@ -287,32 +308,8 @@ function UstadDashboardComponent({
             </span>
           </div>
 
-          {/* Date Selector */}
-          <div className="flex items-center bg-slate-900 border border-slate-800 rounded-xl overflow-hidden text-xs">
-            <button 
-              onClick={() => {
-                const prev = new Date(selectedDate);
-                prev.setDate(prev.getDate() - 1);
-                setSelectedDate(prev.toISOString().split("T")[0]);
-              }}
-              className="p-2.5 hover:bg-slate-800 border-r border-slate-800 transition-colors"
-            >
-              ◀
-            </button>
-            <span className="px-4 font-mono font-medium text-slate-300">
-              {selectedDate === new Date().toISOString().split("T")[0] ? "Today" : selectedDate}
-            </span>
-            <button 
-              onClick={() => {
-                const next = new Date(selectedDate);
-                next.setDate(next.getDate() + 1);
-                setSelectedDate(next.toISOString().split("T")[0]);
-              }}
-              className="p-2.5 hover:bg-slate-800 border-l border-slate-800 transition-colors"
-            >
-              ▶
-            </button>
-          </div>
+          {/* Fixed Timestamp Clock (Ensures strict chronological logging) */}
+          <LiveTimestamp />
         </div>
       </div>
 
