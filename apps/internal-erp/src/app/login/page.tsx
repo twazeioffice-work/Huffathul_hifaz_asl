@@ -17,13 +17,21 @@ export default function LoginPage() {
     // Simulate API call and token generation
     setTimeout(() => {
       if (email === "admin@suffat.org" && password === "superadmin2026") {
-        // Set dummy cookies to bypass middleware checks
-        document.cookie = "access_token=mock_access_token; path=/; max-age=3600";
+        document.cookie = "access_token=mock_access_token_admin; path=/; max-age=3600";
         document.cookie = "refresh_token=mock_refresh_token; path=/; max-age=86400";
         window.location.href = "/app/suffat/main/erp";
       } else if (email === "nazim@suffat.org" && password === "nazim2026") {
         document.cookie = "access_token=mock_access_token_nazim; path=/; max-age=3600";
         window.location.href = "/app/suffat/main/erp";
+      } else if (email === "centeradmin@suffat.org" && password === "center2026") {
+        document.cookie = "access_token=mock_access_token_centeradmin; path=/; max-age=3600";
+        window.location.href = "/app/suffat/main/erp";
+      } else if (email === "ustadh@suffat.org" && password === "ustadh2026") {
+        document.cookie = "access_token=mock_access_token_ustadh; path=/; max-age=3600";
+        window.location.href = "/app/suffat/main/erp/academics";
+      } else if (email === "student@suffat.org" && password === "student2026") {
+        document.cookie = "access_token=mock_access_token_student; path=/; max-age=3600";
+        window.location.href = "/app/suffat/main/erp/students/1001";
       } else {
         setError("Invalid cryptographic credentials.");
         setIsLoading(false);
