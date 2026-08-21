@@ -1,6 +1,7 @@
 "use client";
 
 import React, { use } from "react";
+import { useParams } from "next/navigation";
 import StudentPortalDashboard from "@/app/portal/student/Dashboard";
 
 export default function Page() {
@@ -23,7 +24,7 @@ export default function Page() {
       }
     ];
 
-    const resolvedParams = use(params);
+    const resolvedParams = useParams() as { studentId: string };
 
     return (
       <StudentPortalDashboard 

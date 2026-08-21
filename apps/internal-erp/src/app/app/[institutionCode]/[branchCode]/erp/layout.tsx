@@ -1,6 +1,8 @@
 import { ReactNode } from "react";
+import { cookies } from "next/headers";
 import { TopNavigationBar } from "@/components/navigation/TopNavigationBar";
 import { MobileBottomBar } from "@/components/navigation/MobileBottomBar";
+import { DemoRoleSwitcher } from "@/components/navigation/DemoRoleSwitcher";
 
 interface LayoutProps {
   children: ReactNode;
@@ -12,18 +14,22 @@ interface LayoutProps {
 
 export default async function ERPWorkspaceLayout({ children, params }: LayoutProps) {
   const { institutionCode, branchCode } = await params;
+  const cookieStore = await cookies();
+  const userRole = (cookieStore.get("demo_auth_role")?.value || "SUPER_ADMIN") as "SUPER_ADMIN" | "NAZIM" | "USTAD";
 
   return (
     <div className="flex h-[100dvh] w-screen overflow-hidden bg-background text-foreground flex-col">
       {/* Top Navigation (Links hidden on Mobile, Logo & Profile visible) */}
-      <TopNavigationBar 
-        institutionCode={institutionCode}
-        branchCode={branchCode}
-        currentTenantName={branchCode.toUpperCase()}
-        userRole="SUPER_ADMIN" // TODO: Dynamically inject from session
-        userName="Admin"
-        userEmail="admin@suffat.com"
-      />
+      {userRole !== "USTAD" && (
+        <TopNavigationBar 
+          institutionCode={institutionCode}
+          branchCode={branchCode}
+          currentTenantName={branchCode.toUpperCase()}
+          userRole={userRole}
+          userName={userRole === "SUPER_ADMIN" ? "Admin" : "Ustad Bilal"}
+          userEmail={userRole === "SUPER_ADMIN" ? "admin@suffat.com" : "bilal@suffat.com"}
+        />
+      )}
 
       {/* Main Content Area (Scrollable) */}
       <div className="flex flex-1 flex-col overflow-hidden relative">
@@ -37,6 +43,8 @@ export default async function ERPWorkspaceLayout({ children, params }: LayoutPro
         institutionCode={institutionCode}
         branchCode={branchCode}
       />
+
+      <DemoRoleSwitcher currentRole={userRole} />
     </div>
   );
 }
