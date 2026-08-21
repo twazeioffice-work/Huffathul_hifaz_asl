@@ -56,7 +56,7 @@ export interface UstadDashboardProps {
   initialRoster: StudentRosterItem[];
 }
 
-export type CommandTab = "ATTENDANCE" | "SABAQ" | "SABQI" | "MANZIL" | "ADAB";
+export type CommandTab = "ATTENDANCE" | "SABAQ" | "SABQI" | "MANZIL" | "ADAB" | "COMMUNICATION";
 
 // ==============================================================================
 // 2. MAIN INTEGRATED USTAD DASHBOARD COMPONENT
@@ -322,7 +322,8 @@ function UstadDashboardComponent({
           { id: "SABQI", label: "Sabqi (Recent)" },
           { id: "MANZIL", label: "Manzil (Revision)" },
           { id: "ATTENDANCE", label: "Attendance & Prayers" },
-          { id: "ADAB", label: "Adab & Behavior" }
+          { id: "ADAB", label: "Adab & Behavior" },
+          { id: "COMMUNICATION", label: "WhatsApp Reports" }
         ].map((tab) => (
           <button
             key={tab.id}
@@ -497,11 +498,28 @@ function UstadDashboardComponent({
                       </div>
                     </div>
                   )}
+
+                  {/* TAB 4: COMMUNICATION AI DISPATCH */}
+                  {activeTab === "COMMUNICATION" && (
+                    <div className="flex items-center justify-end space-x-4 w-full">
+                      <div className="flex flex-col text-right hidden sm:flex">
+                        <span className="text-[10px] text-emerald-400 font-semibold tracking-wide uppercase">WATI Webhook Active</span>
+                        <span className="text-[9px] text-slate-500 font-mono">Gemini 1.5 Flash</span>
+                      </div>
+                      <button 
+                        onClick={() => alert(`Webhook Triggered: Sending Gemini AI progress report to ${student.parentPhone} via WATI.`)}
+                        className="px-4 py-2.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white rounded-xl text-xs font-bold flex items-center space-x-2 transition-all shadow-[0_0_15px_rgba(16,185,129,0.15)]"
+                      >
+                        <Bot className="h-4 w-4" />
+                        <span>Send WhatsApp Report</span>
+                      </button>
+                    </div>
+                  )}
                 </div>
               </div>
 
               {/* Collapsed/Expandable Note Footer */}
-              {activeTab !== "ATTENDANCE" && activeTab !== "ADAB" && sBuffer && (
+              {activeTab !== "ATTENDANCE" && activeTab !== "ADAB" && activeTab !== "COMMUNICATION" && sBuffer && (
                 <div className="mt-3 border-t border-slate-900 pt-3 flex items-center space-x-2">
                   <span className="text-[10px] text-slate-500 uppercase font-mono select-none">Notes:</span>
                   <input
