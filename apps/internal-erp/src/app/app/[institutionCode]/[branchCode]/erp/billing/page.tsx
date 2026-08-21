@@ -2,13 +2,14 @@
 import React from 'react';
 import { Card, CardHeader, CardBody, Divider } from '@heroui/react';
 import Link from 'next/link';
+import { useParams } from 'next/navigation';
 
 export default function BillingDashboardPage({
   params
 }: {
   params: { institutionCode: string; branchCode: string }
 }) {
-  const { institutionCode, branchCode } = React.use(params as any);
+  const { institutionCode, branchCode } = useParams() as { institutionCode: string; branchCode: string };
   
   return (
     <div className="p-8 w-full">
@@ -65,5 +66,6 @@ export default function BillingDashboardPage({
     </div>
   );
 }
+
 
 

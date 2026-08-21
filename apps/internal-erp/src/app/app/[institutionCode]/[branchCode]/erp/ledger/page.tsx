@@ -2,13 +2,14 @@
 import React from 'react';
 import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Input, Button, Tabs, Tab } from '@heroui/react';
 import Link from 'next/link';
+import { useParams } from 'next/navigation';
 
 export default function LedgerPage({
   params
 }: {
   params: { institutionCode: string; branchCode: string }
 }) {
-  const { institutionCode, branchCode } = React.use(params as any);
+  const { institutionCode, branchCode } = useParams() as { institutionCode: string; branchCode: string };
 
   return (
     <div className="p-8 w-full">
@@ -81,5 +82,6 @@ export default function LedgerPage({
     </div>
   );
 }
+
 
 

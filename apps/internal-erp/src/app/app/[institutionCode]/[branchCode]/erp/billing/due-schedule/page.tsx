@@ -2,13 +2,14 @@
 import React from 'react';
 import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Input, Button } from '@heroui/react';
 import Link from 'next/link';
+import { useParams } from 'next/navigation';
 
 export default function DueSchedulePage({
   params
 }: {
   params: { institutionCode: string; branchCode: string }
 }) {
-  const { institutionCode, branchCode } = React.use(params as any);
+  const { institutionCode, branchCode } = useParams() as { institutionCode: string; branchCode: string };
 
   // Mock data for the static UI
   const schedules = [
@@ -73,5 +74,6 @@ export default function DueSchedulePage({
     </div>
   );
 }
+
 
 
