@@ -10,6 +10,13 @@ import {
   Calendar, FileCheck, ClipboardList, ShieldAlert, Award, BookOpen, Users
 } from "lucide-react";
 
+export const getSidebarLinks = (activeId: string) => [
+  { id: "dashboard", label: "Central Dashboard", icon: Activity, isActive: activeId === "dashboard" },
+  { id: "academics", label: "Academics", icon: BookOpen, isActive: activeId === "academics" },
+  { id: "finance", label: "Financial Vault", icon: DollarSign, isActive: activeId === "finance" },
+  { id: "students", label: "Student Roster", icon: Users, isActive: activeId === "students" },
+];
+
 // ============================================================================
 // 1. FINANCIAL VAULT DASHBOARD SCHEMA [cite: 123, 223]
 // ============================================================================

@@ -3,6 +3,7 @@
 import React, { use } from "react";
 import { notFound, useParams } from "next/navigation";
 import { UniversalDashboardLayout } from "@/components/dashboard/UniversalDashboardLayout";
+import { getSidebarLinks } from "@/components/dashboard/universal-page-schemas";
 import { Activity, Users, DollarSign, BookOpen } from "lucide-react";
 
 export default function InstitutionDashboard() {
@@ -113,21 +114,17 @@ export default function InstitutionDashboard() {
     }
   };
 
-  // We add the generic sidebar links so the layout renders the left sidebar menu
-  const sidebarLinks = [
-    { id: "dashboard", label: "Central Dashboard", icon: Activity, isActive: true },
-    { id: "academics", label: "Academics", icon: BookOpen },
-    { id: "finance", label: "Financial Vault", icon: DollarSign },
-    { id: "students", label: "Student Roster", icon: Users },
-  ];
+  const sidebarLinks = getSidebarLinks("dashboard");
 
   return (
     <UniversalDashboardLayout
       schema={pageSchema}
       sidebarLinks={sidebarLinks}
       onSidebarClick={(id) => {
+        if (id === 'dashboard') window.location.href = `/app/${institutionCode}/${branchCode}/erp`;
         if (id === 'academics') window.location.href = `/app/${institutionCode}/${branchCode}/erp/academics`;
         if (id === 'finance') window.location.href = `/app/${institutionCode}/${branchCode}/erp/finance`;
+        if (id === 'students') window.location.href = `/app/${institutionCode}/${branchCode}/erp/students`;
       }}
       onRowActionClick={(rowId, metaData) => {
         console.log(`Row clicked: ${rowId}`, metaData);
