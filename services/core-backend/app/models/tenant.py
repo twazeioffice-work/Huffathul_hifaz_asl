@@ -1,36 +1,23 @@
-import uuid
-from sqlalchemy import Column, String, Boolean, DateTime, ForeignKey, Index, UniqueConstraint
-from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy.sql import func
+from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
-from app.db.base_class import Base
+from app.models.base import BaseModel
 
-class Institution(Base):
+class Institution(BaseModel):
     __tablename__ = "institutions"
+    name = Column(String(255), nullable=False)
     
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    code = Column(String(16), unique=True, nullable=False, index=True)
-    name = Column(String(128), nullable=False)
-    is_active = Column(Boolean, nullable=False, default=True)
-    created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
-    updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False)
-    
-    branches = relationship("Branch", back_populates="institution", cascade="all, delete")
+    # Relationships
+    branches = relationship("Branch", back_populates="institution", cascade="all, delete-orphan")
 
-class Branch(Base):
+
+class Branch(BaseModel):
     __tablename__ = "branches"
+    name = Column(String(255), nullable=False)
     
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    # Foreign Keys
+    from sqlalchemy import ForeignKey
+    from sqlalchemy.dialects.postgresql import UUID
     institution_id = Column(UUID(as_uuid=True), ForeignKey("institutions.id", ondelete="CASCADE"), nullable=False)
-    code = Column(String(16), nullable=False)
-    name = Column(String(128), nullable=False)
-    is_active = Column(Boolean, nullable=False, default=True)
-    created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
-    updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False)
     
+    # Relationships
     institution = relationship("Institution", back_populates="branches")
-    
-    __table_args__ = (
-        UniqueConstraint('institution_id', 'code', name='uq_institution_branch'),
-        Index('idx_branches_tenant', 'institution_id', 'code'),
-    )

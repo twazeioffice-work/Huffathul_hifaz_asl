@@ -1,111 +1,165 @@
-from fastapi import APIRouter, Cookie, Response, HTTPException, status, Depends
+from fastapi import APIRouter, Depends, HTTPException, status, Header
 from pydantic import BaseModel
-from hashlib import sha256
-from app.core.security import generate_tokens, decode_refresh_jwt, verify_password
-from app.db.session import get_db
-from app.models.identity import User, UserSession
-import datetime
-import uuid
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy import select, text
+from typing import Dict, Any, Optional, List
+from uuid import UUID
+from datetime import datetime, timezone
 
-router = APIRouter(prefix="/api/v1/auth")
+from app.core.security import (
+    hash_password,
+    verify_password,
+    create_access_token,
+    create_refresh_token,
+    decode_token
+)
+
+router = APIRouter(prefix="/api/v1/auth", tags=["Authentication"])
+
+# Unified single-entry dynamic landing redirection map
+REDIRECTION_MAP = {
+    "SUPER_ADMIN": "/app/suffat-hq/main/erp",
+    "GLOBAL_ACCOUNTANT": "/app/suffat-hq/main/erp/finance",
+    "CENTER_ADMIN": "/app/{institution_code}/{branch_code}/erp",
+    "NAZIM": "/app/{institution_code}/{branch_code}/erp",
+    "USTAD": "/app/{institution_code}/{branch_code}/erp/academics",
+    "STUDENT": "/app/{institution_code}/{branch_code}/portal/student",
+}
 
 class LoginRequest(BaseModel):
-    email: str
+    username_or_email: str
     password: str
 
-class VerifyMFARequest(BaseModel):
-    email: str
-    totp: str
-    mfa_token: str
+class TokenResponse(BaseModel):
+    access_token: str
+    refresh_token: str
+    token_type: str = "bearer"
+    role: str
+    landing_url: str
+    user_metadata: Dict[str, Any]
 
-@router.post("/login")
-async def login(req: LoginRequest, db = Depends(get_db)):
-    user = db.query(User).filter(User.email == req.email).first()
-    if not user or not verify_password(req.password, user.password_hash):
-        raise HTTPException(status_code=400, detail="Invalid credentials")
+# RLS context session wrapper
+async def set_db_tenant_context(db: AsyncSession, tenant_id: Optional[str], role: str):
+    """
+    Sets session-level context parameters in PostgreSQL.
+    Enforces Row-Level Security (RLS) policies based on the active transaction scope.
+    """
+    if tenant_id:
+        # Prevent SQL injections by parsing as text bind parameters or direct UUID cast
+        await db.execute(
+            text("SET LOCAL app.current_tenant_id = :tenant_id"),
+            {"tenant_id": tenant_id}
+        )
+    else:
+        await db.execute(text("SET LOCAL app.current_tenant_id = ''"))
         
-    return {"status": "Step 2 MFA Challenge Verification Required", "mfa_token": "mock-mfa-token-123"}
-
-@router.post("/verify-mfa")
-async def verify_mfa(req: VerifyMFARequest, response: Response, db = Depends(get_db)):
-    if req.totp != "123456":
-        raise HTTPException(status_code=400, detail="Invalid TOTP")
-    
-    user = db.query(User).filter(User.email == req.email).first()
-    family_id = uuid.uuid4()
-    tenants = [{"inst_code": "suh01", "br_code": "mn01", "inst_id": "00000000-0000-0000-0000-000000000000"}] # Mocked for simplicity
-    
-    access_token, refresh_token, expires = generate_tokens(user.id, family_id, tenants)
-    
-    new_hash = sha256(refresh_token.encode('utf-8')).hexdigest()
-    session_record = UserSession(
-        user_id=user.id,
-        institution_id=uuid.UUID("00000000-0000-0000-0000-000000000000"),
-        branch_id=uuid.UUID("00000000-0000-0000-0000-000000000000"),
-        token_family_id=family_id,
-        refresh_token_hash=new_hash,
-        expires_at=expires,
-        is_revoked=False
+    await db.execute(
+        text("SET LOCAL app.current_role = :role"),
+        {"role": role}
     )
-    db.add(session_record)
-    db.commit()
-    
-    response.set_cookie(key="refresh_token", value=refresh_token, httponly=True, secure=True, samesite="Strict", expires=expires)
-    return {"access_token": access_token}
 
-@router.post("/refresh")
-async def rotate_tokens(
-    response: Response,
-    refresh_token: str = Cookie(None, alias="refresh_token"),
-    db = Depends(get_db)
-):
-    if not refresh_token:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Session context missing. Refresh token cookie not found.")
-        
-    incoming_hash = sha256(refresh_token.encode('utf-8')).hexdigest()
+def calculate_landing_route(role: str, institution_code: Optional[str] = None, branch_code: Optional[str] = None) -> str:
+    """
+    Computes the target workspace path based on user role and multi-tenant keys.
+    """
+    template = REDIRECTION_MAP.get(role)
+    if not template:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Role does not have an assigned workspace landing path."
+        )
     
-    try:
-        claims = decode_refresh_jwt(refresh_token)
-        family_id = claims["family_id"]
-        user_id = claims["user_id"]
-    except Exception:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Malformed session credentials.")
+    # Format templates if they require multi-tenant codes
+    if "{" in template:
+        if not institution_code or not branch_code:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail=f"Unified role '{role}' requires valid institution and branch routing headers."
+            )
+        return template.format(institution_code=institution_code, branch_code=branch_code)
         
-    session_record = db.query(UserSession).filter(UserSession.refresh_token_hash == incoming_hash).first()
+    return template
+
+@router.post("/login", response_model=TokenResponse)
+async def login(payload: LoginRequest):
+    """
+    Unified Login Entrypoint.
+    Authenticates username/email, generates dynamic claims, and returns custom landing redirects.
+    """
+    # 1. Mock DB query lookup (simulating SQL execution)
+    # In production:
+    # user = (await db.execute(select(User).where(User.username == payload.username_or_email))).scalar_one_or_none()
     
-    if not session_record or session_record.is_revoked:
-        db.query(UserSession).filter(UserSession.token_family_id == family_id).update({"is_revoked": True})
-        db.commit()
-        response.delete_cookie("refresh_token")
-        response.delete_cookie("access_token")
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Security Violation. Session breach detected. All access channels revoked.")
-        
-    now = datetime.datetime.now(datetime.timezone.utc)
-    time_since_creation = now - session_record.created_at
-    if time_since_creation.total_seconds() <= 5.0:
-        youngest_sibling = db.query(UserSession).filter(
-            UserSession.token_family_id == family_id,
-            UserSession.is_revoked == False
-        ).order_by(UserSession.created_at.desc()).first()
-        
-        if youngest_sibling:
-            return {"status": "success", "grace_period_bypass": True}
-            
-    session_record.is_revoked = True
-    new_access_token, new_refresh_token, new_expires = generate_tokens(user_id=user_id, family_id=family_id, tenants=claims["tenants"])
+    # Standard multi-tenant system profiles mapped to our database partitions
+    users_db = {
+        "admin@suffat.com": {
+            "id": "e9a8f102-1234-4bc1-9003-cf782ad901ab",
+            "password_hash": hash_password("AdminSecurePass123"),
+            "role": "SUPER_ADMIN",
+            "tenant_id": None,
+            "institution_code": None,
+            "branch_code": None,
+            "display_name": "Sheikh Tariq (HQ Overseer)",
+        },
+        "nazim@kerala.com": {
+            "id": "c138d821-2290-410a-8bf1-e4f0a9bc4991",
+            "password_hash": hash_password("NazimPass456"),
+            "role": "NAZIM",
+            "tenant_id": "8821901a-8bc2-4ccb-8e10-cf123abcf01a",
+            "institution_code": "aim-kerala",
+            "branch_code": "trv-main",
+            "display_name": "Br. Yusuf Ali (Kerala Center Admin)",
+        },
+        "ustad@sabaq.com": {
+            "id": "b300fa11-4433-4ee1-b921-ef783ab81122",
+            "password_hash": hash_password("UstadSabaq789"),
+            "role": "USTAD",
+            "tenant_id": "8821901a-8bc2-4ccb-8e10-cf123abcf01a",
+            "institution_code": "aim-kerala",
+            "branch_code": "trv-main",
+            "display_name": "Ustad Bilal Mansoor",
+        }
+    }
     
-    new_hash = sha256(new_refresh_token.encode('utf-8')).hexdigest()
-    new_session = UserSession(
-        user_id=user_id,
-        institution_id=session_record.institution_id,
-        branch_id=session_record.branch_id,
-        token_family_id=family_id,
-        refresh_token_hash=new_hash,
-        expires_at=new_expires,
-        is_revoked=False
-    )
-    db.add(new_session)
-    db.commit()
+    user = users_db.get(payload.username_or_email)
+    if not user or not verify_password(payload.password, user["password_hash"]):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid authentication credentials. Please try again."
+        )
     
-    response.set_cookie(key="refresh_token", value=new_refresh_token, httponly=True, secure=True, samesite="Strict", expires=new_expires)
-    return {"access_token": new_access_token}
+    # 2. Extract multi-tenant scope variables
+    role = user["role"]
+    tenant_id = user["tenant_id"]
+    inst_code = user["institution_code"]
+    br_code = user["branch_code"]
+    
+    # 3. Compute target landing path
+    landing_url = calculate_landing_route(role, inst_code, br_code)
+    
+    # 4. Generate dynamic access claims
+    access_claims = {
+        "sub": user["id"],
+        "role": role,
+        "tenant_id": tenant_id,
+        "institution_code": inst_code,
+        "branch_code": br_code,
+        "name": user["display_name"],
+        "permissions": ["sabaq_records:write", "attendance:mark"] if role == "USTAD" else ["all:bypass"] if role == "SUPER_ADMIN" else ["center_records:manage"]
+    }
+    
+    access_token = create_access_token(access_claims)
+    refresh_token = create_refresh_token({"sub": user["id"]})
+    
+    return {
+        "access_token": access_token,
+        "refresh_token": refresh_token,
+        "role": role,
+        "landing_url": landing_url,
+        "user_metadata": {
+            "display_name": user["display_name"],
+            "institution_code": inst_code,
+            "branch_code": br_code,
+            "tenant_id": tenant_id
+        }
+    }
