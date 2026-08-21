@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import { useBrowserSync, type SyncStatusState } from "@/hooks/useBrowserSync";
 import { pwaDb, type LocalSabaqDraft, type LocalAttendanceDraft } from "@/db/pwaDb";
+import { MemorizationPaceChart } from "@/components/dashboard/MemorizationPaceChart";
 
 // ==============================================================================
 // 1. DATA TYPES & PROP INTERFACES
@@ -605,47 +606,7 @@ function UstadDashboardComponent({
                   </div>
                 </div>
 
-                {/* Progression Mini Chart (PWA Local SVG Mock-chart to avoid external dependency faults) */}
-                <div className="p-4 bg-slate-900/40 border border-slate-800 rounded-xl space-y-3">
-                  <span className="text-[9px] text-slate-500 font-mono uppercase tracking-wider block">Memorization Pace (Last 30 Days)</span>
-                  
-                  {/* High contrast custom line-art SVG plotting */}
-                  <div className="relative h-24 w-full bg-slate-950/80 border border-slate-900 rounded-lg p-2 overflow-hidden flex items-end">
-                    <svg className="absolute inset-0 h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-                      {/* Grid bounds */}
-                      <line x1="0" y1="25" x2="100" y2="25" stroke="#1E293B" strokeWidth="0.5" strokeDasharray="2,2" />
-                      <line x1="0" y1="50" x2="100" y2="50" stroke="#1E293B" strokeWidth="0.5" strokeDasharray="2,2" />
-                      <line x1="0" y1="75" x2="100" y2="75" stroke="#1E293B" strokeWidth="0.5" strokeDasharray="2,2" />
-                      
-                      {/* Gradient fill */}
-                      <path 
-                        d="M0,80 Q20,60 40,45 T80,25 T100,20 L100,100 L0,100 Z" 
-                        fill="url(#grad)" 
-                        opacity="0.15" 
-                      />
-                      {/* Chart line plotting */}
-                      <path 
-                        d="M0,80 Q20,60 40,45 T80,25 T100,20" 
-                        fill="none" 
-                        stroke="#00F0FF" 
-                        strokeWidth="2" 
-                      />
-                      
-                      <defs>
-                        <linearGradient id="grad" x1="0%" y1="0%" x2="0%" y2="100%">
-                          <stop offset="0%" stopColor="#00F0FF" />
-                          <stop offset="100%" stopColor="#00F0FF" stopOpacity="0" />
-                        </linearGradient>
-                      </defs>
-                    </svg>
-                    <div className="absolute top-2 right-2 text-[9px] font-mono text-emerald-400 bg-emerald-500/5 px-1.5 py-0.5 rounded border border-emerald-500/20">
-                      Avg: 1.2 pgs/day
-                    </div>
-                  </div>
-                  <p className="text-[10px] text-slate-400 text-center leading-relaxed">
-                    Student has increased their Hifz progress by **12.4%** compared to the previous month!
-                  </p>
-                </div>
+                <MemorizationPaceChart />
 
                 {/* Behavioral & Adab Warnings */}
                 <div className="p-4 bg-slate-900/60 border border-slate-800/80 rounded-xl space-y-2">
