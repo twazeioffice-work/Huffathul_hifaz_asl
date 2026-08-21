@@ -1,7 +1,7 @@
 import React from 'react';
 
 interface CheckPermissionProps {
-  requiredRole: string;
+  requiredRole?: string; permission?: string; institutionCode?: string; branchCode?: string;
   children: React.ReactNode;
   fallback?: React.ReactNode;
 }

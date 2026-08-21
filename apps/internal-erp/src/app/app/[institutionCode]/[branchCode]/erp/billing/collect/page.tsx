@@ -118,9 +118,9 @@ export default function CollectFeePage() {
                   defaultSelectedKeys={["Cash"]}
                   onChange={(e) => setValue('payment_method', e.target.value as any)}
                 >
-                  <SelectItem key="Cash" value="Cash">Cash</SelectItem>
-                  <SelectItem key="UPI" value="UPI">UPI</SelectItem>
-                  <SelectItem key="Bank_Transfer" value="Bank_Transfer">Bank Transfer</SelectItem>
+                  <SelectItem key="Cash" >Cash</SelectItem>
+                  <SelectItem key="UPI" >UPI</SelectItem>
+                  <SelectItem key="Bank_Transfer" >Bank Transfer</SelectItem>
                 </Select>
                 {errors.payment_method && <p className="text-red-500 text-xs mt-1">{errors.payment_method.message}</p>}
               </div>
