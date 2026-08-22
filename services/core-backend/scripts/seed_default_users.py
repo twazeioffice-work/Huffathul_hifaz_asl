@@ -24,8 +24,22 @@ import app.models.academics
 import app.models.staff
 import app.models.student
 
+from sqlalchemy import text
+
 async def seed_users():
     print("Connecting to database to seed default users...")
+    
+    # 0. Alter table to ensure 'code' column exists (safe against existing columns)
+    print("Ensuring 'code' columns exist in tenant tables...")
+    async with core_transactional_engine.begin() as conn:
+        await conn.execute(text("ALTER TABLE institutions ADD COLUMN IF NOT EXISTS code VARCHAR(50) DEFAULT '' NOT NULL;"))
+        await conn.execute(text("ALTER TABLE branches ADD COLUMN IF NOT EXISTS code VARCHAR(50) DEFAULT '' NOT NULL;"))
+        # Make code unique if possible, but safely ignore if it already is
+        try:
+            await conn.execute(text("ALTER TABLE institutions ADD CONSTRAINT uq_institutions_code UNIQUE (code);"))
+        except Exception:
+            pass
+
     async with CoreSessionLocal() as session:
         # 1. Ensure a default institution and branch exists for the assignments
         inst_query = await session.execute(select(Institution).where(Institution.code == "aim-kerala"))
