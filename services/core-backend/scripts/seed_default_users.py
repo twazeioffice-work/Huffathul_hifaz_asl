@@ -25,12 +25,6 @@ import app.models.staff
 import app.models.student
 
 async def seed_users():
-    print("Initializing database schema...")
-    async with core_transactional_engine.begin() as conn:
-        # Must run TenantBase first because IdentityBase models contain foreign keys to institutions/branches
-        await conn.run_sync(TenantBase.metadata.create_all)
-        await conn.run_sync(IdentityBase.metadata.create_all)
-        
     print("Connecting to database to seed default users...")
     async with CoreSessionLocal() as session:
         # 1. Ensure a default institution and branch exists for the assignments
