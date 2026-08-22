@@ -28,6 +28,7 @@ class SabaqRecord(Base):
         CheckConstraint('juz_number BETWEEN 1 AND 30', name='chk_juz_number'),
         CheckConstraint('page_start BETWEEN 1 AND 604', name='chk_page_start'),
         CheckConstraint('page_end >= page_start AND page_end <= 604', name='chk_page_end'),
+        {'extend_existing': True}
     )
 
     def to_dict(self):

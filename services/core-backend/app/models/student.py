@@ -39,5 +39,5 @@ class StudentEnrollment(Base):
     student_id = Column(UUID(as_uuid=True), ForeignKey("student_profiles.id", ondelete="CASCADE"), nullable=False)
     batch_id = Column(UUID(as_uuid=True), ForeignKey("batches.id", ondelete="CASCADE"), nullable=False)
     academic_year_id = Column(UUID(as_uuid=True), ForeignKey("academic_years.id", ondelete="CASCADE"), nullable=False)
-    status = Column(Enum('active', 'completed', 'transferred', 'suspended', name='enrollment_status'), default='active', nullable=False)
     enrolled_at = Column(Date, nullable=False)
+    __table_args__ = {'extend_existing': True}
