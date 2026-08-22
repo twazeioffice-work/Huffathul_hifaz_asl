@@ -34,6 +34,8 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+from sqlalchemy import text
+
 # FastAPI Application Factory
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -43,7 +45,7 @@ async def lifespan(app: FastAPI):
     # Verify database connection on startup
     try:
         async with engine.begin() as conn:
-            await conn.execute("SELECT 1")
+            await conn.execute(text("SELECT 1"))
         logger.info("🟢 Database Connection established successfully.")
     except Exception as e:
         logger.error(f"🔴 DATABASE CONNECTION FAILURE ON STARTUP: {e}")
