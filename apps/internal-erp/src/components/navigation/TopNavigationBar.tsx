@@ -108,14 +108,14 @@ export function TopNavigationBar({
             <DropdownItem 
               key="settings" 
               className="text-muted-foreground hover:text-white"
-              onClick={() => alert("Settings module is currently under construction in the DevSecOps pipeline.")}
+              onClick={() => window.location.href = window.location.href.split('/erp')[0] + '/erp/settings'}
             >
               My Settings
             </DropdownItem>
             <DropdownItem 
               key="team_settings" 
               className="text-muted-foreground hover:text-white"
-              onClick={() => alert("Center Settings module is currently under construction.")}
+              onClick={() => window.location.href = window.location.href.split('/erp')[0] + '/erp/settings'}
             >
               Center Settings
             </DropdownItem>
