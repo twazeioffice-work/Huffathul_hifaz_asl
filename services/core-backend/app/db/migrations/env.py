@@ -6,7 +6,7 @@ from sqlalchemy import pool
 from alembic import context
 
 # Add the root directory to PYTHONPATH so 'app' can be found
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))))
 
 from app.models.base import Base
 from app.models import tenant, identity, rbac, auth, academics, finance
