@@ -27,7 +27,7 @@ const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api/v
  */
 export function useOtherStaff() {
   const { data, error, isLoading, mutate } = useSWR(
-    `${BASE_URL}/portal/staff/other`,
+    `${BASE_URL}/kpi-explorer/other-staff`,
     fetcher,
     {
       revalidateOnFocus: true,
@@ -36,8 +36,8 @@ export function useOtherStaff() {
   );
 
   return {
-    staff: data?.staff || [],
-    totalCount: data?.total_count || 0,
+    staff: data || [],
+    totalCount: data?.length || 0,
     isLoading,
     isError: error,
     refetch: mutate,
@@ -49,7 +49,7 @@ export function useOtherStaff() {
  */
 export function useFaculty() {
   const { data, error, isLoading, mutate } = useSWR(
-    `${BASE_URL}/portal/staff/faculty`,
+    `${BASE_URL}/kpi-explorer/faculty-list`,
     fetcher,
     {
       revalidateOnFocus: true,
@@ -58,8 +58,8 @@ export function useFaculty() {
   );
 
   return {
-    faculty: data?.faculty || [],
-    totalCount: data?.total_count || 0,
+    faculty: data || [],
+    totalCount: data?.length || 0,
     isLoading,
     isError: error,
     refetch: mutate,
@@ -71,7 +71,7 @@ export function useFaculty() {
  */
 export function useCenterAnalytics(centerBranchId: string) {
   const { data, error, isLoading, mutate } = useSWR(
-    centerBranchId ? `${BASE_URL}/academics/center-metrics/${centerBranchId}` : null,
+    centerBranchId ? `${BASE_URL}/kpi-explorer/center-details/${centerBranchId}` : null,
     fetcher,
     {
       revalidateOnFocus: true,
