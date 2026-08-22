@@ -170,6 +170,7 @@ async def login(payload: LoginRequest, response: Response):
     refresh_token = create_refresh_token({"sub": user["id"]})
     
     # 5. Set HttpOnly cookies to sync with Next.js frontend requirements
+    response.set_cookie(key="access_token", value=access_token, httponly=True, samesite="strict", secure=True)
     response.set_cookie(key="__Host-Secure-Token", value=access_token, httponly=True, samesite="strict", secure=True)
     response.set_cookie(key="demo_auth_role", value=role, httponly=False, samesite="lax")
     
