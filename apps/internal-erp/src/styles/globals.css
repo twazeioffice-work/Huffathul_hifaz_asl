@@ -1,123 +1,62 @@
+/* Location: apps/internal-erp/src/styles/globals.css */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    /* Deep Obsidian Dark Slate Background */
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    /* Card Panels & Containers */
-    --card: 222.2 47.4% 11.2%;
-    --card-foreground: 210 40% 98%;
-
-    /* Popovers & Tooltips */
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    /* Signature Electric Cyan Primary */
-    --primary: 180 100% 50%;
-    --primary-foreground: 222.2 84% 4.9%;
-
-    /* Functional Accents */
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-
-    /* Structural Boundaries */
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 180 100% 50%;
-
-    --radius: 12px;
-  }
-
-  /* Explicit Dark Mode Overrides */
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --card: 222.2 47.4% 11.2%;
-    --card-foreground: 210 40% 98%;
-    --primary: 180 100% 50%;
-    --primary-foreground: 222.2 84% 4.9%;
-    --border: 217.2 32.6% 17.5%;
-    --ring: 180 100% 50%;
-  }
-
-  body {
-    background-color: hsl(var(--background));
-    color: hsl(var(--foreground));
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-    min-height: 100vh;
-    background-image:
-      radial-gradient(at 0% 0%, rgba(0, 240, 255, 0.05) 0px, transparent 50%),
-      radial-gradient(at 100% 100%, rgba(16, 185, 129, 0.05) 0px, transparent 50%);
-    background-attachment: fixed;
+    /* Semantic variable declarations mapped to RGB for alpha-value compliance */
+    --border-glass: 255, 255, 255, 0.08;
+    --input-bg: 255, 255, 255, 0.04;
+    --ring-active: 0, 229, 255; /* #00E5FF */
+    --background-base: 9, 9, 11; /* #09090B */
+    --foreground-base: 244, 244, 245; /* #F4F4F5 */
+    --primary-glow: 0, 229, 255;
+    --card-bg: 18, 18, 18;
+    --muted-base: 39, 39, 42;
+    --muted-foreground: 161, 161, 170;
+    --accent-cyan: 0, 229, 255;
+    
+    --radius-apple-lg: 16px;
+    --radius-apple-md: 12px;
+    --radius-apple-sm: 8px;
   }
 }
 
-@layer utilities {
-  /* Premium Glassmorphic Glass Backdrops */
-  .apple-glass-panel {
-    background: rgba(10, 15, 29, 0.72) !important;
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-  }
-
-  /* Legacy glass-panel support */
-  .glass-panel {
-    background: rgba(15, 23, 42, 0.65);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-  }
-
-  .glass-card {
-    background: rgba(15, 23, 42, 0.45);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.5);
-    transition: all 0.2s ease-in-out;
-  }
-
-  .glass-card:hover {
-    border-color: rgba(0, 240, 255, 0.3);
-    box-shadow: 0 0 25px -5px rgba(0, 240, 255, 0.15);
-  }
-
-  .shadow-glow-cyan {
-    box-shadow: 0 0 20px -3px rgba(0, 240, 255, 0.35);
-  }
-
-  .shadow-glow-emerald {
-    box-shadow: 0 0 20px -3px rgba(16, 185, 129, 0.35);
-  }
-
-  /* Smooth Spring Focus Rings */
-  .focus-ring:focus-visible {
-    outline: none;
-    box-shadow: 0 0 0 2px hsl(var(--background)), 0 0 0 4px hsl(var(--primary));
-  }
+/* Custom, sleek scrollbar rules across all browsers */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
 }
 
-/* Approval Inspector Drawer Animations */
-@keyframes slideInRight {
-  from { transform: translateX(100%); }
-  to   { transform: translateX(0); }
+::-webkit-scrollbar-track {
+  background: transparent;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 9999px;
+  border: 1px solid transparent;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* Horizontal scroll smooth friction overlay for touch interfaces */
+.elastic-scroll-x {
+  display: flex;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  gap: 0.75rem;
+  padding-bottom: 0.5rem;
+  -webkit-overflow-scrolling: touch; /* Butter-smooth iOS swipe friction momentum */
+  scroll-snap-type: x mandatory;
+}
+
+.elastic-scroll-x > * {
+  scroll-snap-align: start;
+  flex-shrink: 0;
 }

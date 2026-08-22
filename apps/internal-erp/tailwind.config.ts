@@ -1,82 +1,94 @@
 import type { Config } from "tailwindcss";
 import { heroui } from "@heroui/react";
+import plugin from "tailwindcss/plugin";
 
 const config: Config = {
-  darkMode: "class",
   content: [
-    "./src/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    "../../node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}",
     "./node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    container: {
-      center: true,
-      padding: "2rem",
-      screens: {
-        "2xl": "1400px",
-      },
-    },
     extend: {
+      fontFamily: {
+        sans: ["var(--font-sf-pro)", "Inter", "sans-serif"],
+        mono: ["var(--font-sf-mono)", "SFMono-Regular", "monospace"],
+      },
       colors: {
-        background: "hsl(var(--background))",
-        foreground: "hsl(var(--foreground))",
+        border: "rgba(var(--border-glass), <alpha-value>)",
+        input: "rgba(var(--input-bg), <alpha-value>)",
+        ring: "rgba(var(--ring-active), <alpha-value>)",
+        background: "rgba(var(--background-base), <alpha-value>)",
+        foreground: "rgba(var(--foreground-base), <alpha-value>)",
+        
         primary: {
-          DEFAULT: "hsl(var(--primary))",
-          foreground: "hsl(var(--primary-foreground))",
-        },
-        secondary: {
-          DEFAULT: "hsl(var(--secondary))",
-          foreground: "hsl(var(--secondary-foreground))",
+          DEFAULT: "rgba(var(--primary-glow), <alpha-value>)",
+          foreground: "#ffffff",
         },
         card: {
-          DEFAULT: "hsl(var(--card))",
-          foreground: "hsl(var(--card-foreground))",
-        },
-        popover: {
-          DEFAULT: "hsl(var(--popover))",
-          foreground: "hsl(var(--popover-foreground))",
-        },
-        border: "hsl(var(--border))",
-        input: "hsl(var(--input))",
-        ring: "hsl(var(--ring))",
-        accent: {
-          DEFAULT: "hsl(var(--accent))",
-          foreground: "hsl(var(--accent-foreground))",
+          DEFAULT: "rgba(var(--card-bg), <alpha-value>)",
+          foreground: "rgba(var(--foreground-base), <alpha-value>)",
         },
         muted: {
-          DEFAULT: "hsl(var(--muted))",
-          foreground: "hsl(var(--muted-foreground))",
+          DEFAULT: "rgba(var(--muted-base), <alpha-value>)",
+          foreground: "rgba(var(--muted-foreground), <alpha-value>)",
         },
-        destructive: {
-          DEFAULT: "hsl(var(--destructive))",
-          foreground: "hsl(var(--destructive-foreground))",
+        accent: {
+          DEFAULT: "rgba(var(--accent-cyan), <alpha-value>)",
+          foreground: "#000000",
         },
-        success: "#10B981",
-        warning: "#F59E0B",
+        grade: {
+          mumtaz: "#10B981",
+          jayyid: "#3B82F6",
+          maqbul: "#F59E0B",
+          daif: "#EF4444",
+        }
       },
       borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
+        lg: "var(--radius-apple-lg)",
+        md: "var(--radius-apple-md)",
+        sm: "var(--radius-apple-sm)",
       },
-      transitionTimingFunction: {
-        "out-expo": "cubic-bezier(0.16, 1, 0.3, 1)",
-      },
-      animation: {
-        "accordion-down": "accordion-down 0.2s cubic-bezier(0.16, 1, 0.3, 1)",
-        "accordion-up": "accordion-up 0.2s cubic-bezier(0.16, 1, 0.3, 1)",
-        "pulse-glow": "pulse-glow 2s infinite ease-in-out",
-      },
-      keyframes: {
-        "pulse-glow": {
-          "0%, 100%": { opacity: "1", transform: "scale(1)" },
-          "50%": { opacity: ".6", transform: "scale(0.96)" },
-        },
+      backdropBlur: {
+        xs: "2px",
+        glass: "16px",
       },
     },
   },
+  darkMode: "class",
   plugins: [
-    require("tailwindcss-animate"),
-    heroui()
+    heroui({
+      themes: {
+        dark: {
+          colors: {
+            background: "#09090b",
+            foreground: "#f4f4f5",
+            primary: {
+              DEFAULT: "#00e5ff",
+              foreground: "#09090b",
+            },
+            focus: "#00e5ff",
+          },
+        },
+      },
+    }),
+    plugin(function ({ addUtilities }) {
+      addUtilities({
+        ".scrollbar-hide": {
+          "-ms-overflow-style": "none",
+          "scrollbar-width": "none",
+          "&::-webkit-scrollbar": {
+            display: "none",
+          },
+        },
+        ".scrollbar-thin": {
+          "scrollbar-width": "thin",
+          "scrollbar-color": "rgba(255, 255, 255, 0.1) transparent",
+        },
+      });
+    }),
   ],
 };
 
