@@ -5,6 +5,10 @@ import hmac
 import jwt
 from datetime import datetime, timedelta, timezone
 from typing import Dict, Any, Optional
+from fastapi import Depends, HTTPException, status
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy import text
 
 SECRET_KEY = os.getenv("JWT_SECRET_KEY", "suffat-super-secure-jwt-hmac-secret-key-32bytes")
 ALGORITHM = "HS256"
@@ -95,3 +99,34 @@ def decode_token(token: str) -> Dict[str, Any]:
     Raises jwt.ExpiredSignatureError or jwt.InvalidTokenError if invalid.
     """
     return jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+
+security_scheme = HTTPBearer()
+
+def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(security_scheme)):
+    try:
+        payload = decode_token(credentials.credentials)
+        return {
+            "id": payload.get("sub"),
+            "role": payload.get("role"),
+            "tenant_id": payload.get("tenant_id")
+        }
+    except Exception:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Could not validate credentials",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+
+async def set_db_tenant_context(db: AsyncSession, tenant_id: Optional[str], role: str = "USTAD"):
+    if tenant_id:
+        await db.execute(
+            text("SET LOCAL app.current_tenant_id = :tenant_id"),
+            {"tenant_id": tenant_id}
+        )
+    else:
+        await db.execute(text("SET LOCAL app.current_tenant_id = ''"))
+        
+    await db.execute(
+        text("SET LOCAL app.current_role = :role"),
+        {"role": role}
+    )
