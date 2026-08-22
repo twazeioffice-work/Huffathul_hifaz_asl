@@ -124,6 +124,34 @@ async def seed_users():
                 )
                 session.add(assignment)
                 
+            # Create Profiles (Staff or Student) for Traceability
+            if data["role_name"] == "STUDENT":
+                from app.models.student import StudentProfile
+                from datetime import date
+                sp_query = await session.execute(select(StudentProfile).where(StudentProfile.user_id == user.id))
+                if not sp_query.scalar_one_or_none():
+                    sp = StudentProfile(
+                        user_id=user.id,
+                        branch_id=branch.id,
+                        admission_number=f"ADM-STU-{user.id.hex[:6].upper()}",
+                        date_of_birth=date(2000, 1, 1),
+                        gender="Unspecified",
+                        guardian_name="Default Guardian",
+                        guardian_phone="0000000000"
+                    )
+                    session.add(sp)
+            else:
+                from app.models.staff import StaffProfile
+                staff_query = await session.execute(select(StaffProfile).where(StaffProfile.user_id == user.id))
+                if not staff_query.scalar_one_or_none():
+                    sp = StaffProfile(
+                        user_id=user.id,
+                        branch_id=branch.id,
+                        employee_code=f"EMP-{data['role_name'][:3]}-{user.id.hex[:6].upper()}",
+                        designation=data["role_name"]
+                    )
+                    session.add(sp)
+                
         await session.commit()
         print("Database seeding completed successfully.")
 
