@@ -105,9 +105,31 @@ export function TopNavigationBar({
               <p className="font-semibold text-xs text-muted-foreground">Signed in as</p>
               <p className="font-bold text-sm text-primary">{userEmail}</p>
             </DropdownItem>
-            <DropdownItem key="settings" className="text-muted-foreground hover:text-white">My Settings</DropdownItem>
-            <DropdownItem key="team_settings" className="text-muted-foreground hover:text-white">Center Settings</DropdownItem>
-            <DropdownItem key="logout" color="danger" href="/login" className="text-danger hover:bg-danger/10">
+            <DropdownItem 
+              key="settings" 
+              className="text-muted-foreground hover:text-white"
+              onClick={() => alert("Settings module is currently under construction in the DevSecOps pipeline.")}
+            >
+              My Settings
+            </DropdownItem>
+            <DropdownItem 
+              key="team_settings" 
+              className="text-muted-foreground hover:text-white"
+              onClick={() => alert("Center Settings module is currently under construction.")}
+            >
+              Center Settings
+            </DropdownItem>
+            <DropdownItem 
+              key="logout" 
+              color="danger" 
+              className="text-danger hover:bg-danger/10"
+              onClick={() => {
+                // Instantly wipe auth cookies and redirect to lock terminal
+                document.cookie = "access_token=; Max-Age=0; path=/";
+                document.cookie = "__Host-Secure-Token=; Max-Age=0; path=/; Secure";
+                window.location.href = "/login";
+              }}
+            >
               Sign Out
             </DropdownItem>
           </DropdownMenu>
