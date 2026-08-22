@@ -39,12 +39,13 @@ async def seed_users():
         await conn.execute(text("ALTER TABLE branches ADD COLUMN IF NOT EXISTS code VARCHAR(50) DEFAULT '' NOT NULL;"))
         await conn.execute(text("ALTER TABLE branches ADD COLUMN IF NOT EXISTS created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL;"))
         await conn.execute(text("ALTER TABLE branches ADD COLUMN IF NOT EXISTS updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL;"))
-        
-        # Make code unique if possible, but safely ignore if it already is
-        try:
+
+    # We run the constraint in a separate transaction so a failure doesn't rollback the columns above
+    try:
+        async with core_transactional_engine.begin() as conn:
             await conn.execute(text("ALTER TABLE institutions ADD CONSTRAINT uq_institutions_code UNIQUE (code);"))
-        except Exception:
-            pass
+    except Exception:
+        pass
 
     async with CoreSessionLocal() as session:
         # 1. Ensure a default institution and branch exists for the assignments
