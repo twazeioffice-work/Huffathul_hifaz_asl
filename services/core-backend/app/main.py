@@ -15,37 +15,30 @@ from fastapi.responses import JSONResponse
 from contextlib import asynccontextmanager
 
 # Import Core Routers
-from app.routers import (
-    auth,
-    sync,
-    portal,
-    billing,
-    assets,
-    telemetry,
-    affiliations,
-    reports,
-    webhooks
-)
+from app.routers import auth, diagnostics, kpi
 
 # Import DB and Context Helpers
-from app.db.session import engine, sessionmaker
-from app.core.config import settings
+from app.db.session import core_transactional_engine as engine, CoreSessionLocal as sessionmaker
+# Config mocked out for local test
+class Settings:
+    PROJECT_NAME = "Suffat-ul Huffaz API"
+    VERSION = "1.0.0"
+    ENV = "development"
+    FRONTEND_URL = "http://localhost:3001"
+settings = Settings()
 
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
 )
-logger = logging.getLogger("SuffatCoreAPI")
+logger = logging.getLogger(__name__)
 
+# FastAPI Application Factory
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    """
-    Lifespan events manager handling core startup and shutdown routines.
-    """
-    logger.info("================================================================")
-    logger.info("🚀 STARTING SUFFAT-UL HUFFAZ CORE BACKEND ENGINE")
-    logger.info("================================================================")
+    # Startup: Initialize DB Engine (Pool size 20, 5s timeout)
+    logger.info("Initializing Core Transactional Connection Pool...")
     
     # Verify database connection on startup
     try:
@@ -59,7 +52,6 @@ async def lifespan(app: FastAPI):
     yield
 
     # Shutdown routines
-    logger.info("================================================================")
     logger.info("🛑 SHUTTING DOWN SUFFAT-UL HUFFAZ CORE BACKEND ENGINE")
     logger.info("================================================================")
     await engine.dispose()
@@ -152,14 +144,8 @@ async def global_exception_handler(request: Request, exc: Exception):
 
 # Standard prefixing matching system-wide BFF/App Router configs
 app.include_router(auth.router)
-app.include_router(sync.router)
-app.include_router(portal.router)
-app.include_router(billing.router)
-app.include_router(assets.router)
-app.include_router(telemetry.router)
-app.include_router(affiliations.router)
-app.include_router(reports.router)
-app.include_router(webhooks.router)
+app.include_router(diagnostics.router)
+app.include_router(kpi.router)
 
 # ==============================================================================
 # API HEALTH CHECK PERIMETER

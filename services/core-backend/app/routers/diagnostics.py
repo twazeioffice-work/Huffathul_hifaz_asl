@@ -4,15 +4,8 @@ from sqlalchemy import select, and_
 from typing import Optional
 from uuid import UUID
 
-# Adjusting imports safely for the mock environment
-class MockDep:
-    pass
-
-def get_db_session():
-    pass
-
-def get_current_user():
-    return {"id": "00000000-0000-0000-0000-000000000000", "role": "USTAD", "tenant_id": "mock_tenant"}
+from app.core.security import get_current_user
+from app.db.session import get_db_session
 
 from app.models.academics import StudentEnrollment
 from app.models.auth import StaffProfile

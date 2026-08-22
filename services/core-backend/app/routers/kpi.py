@@ -7,9 +7,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, func, and_, case, text
 from app.db.session import get_db_session
 
-# Mocks for security Context
-def set_db_tenant_context(): pass
-def get_current_user(): return {"tenant_id": "tenant-id"}
+from app.core.security import set_db_tenant_context, get_current_user
 
 from app.models.auth import StaffProfile
 from app.models.academics import StudentEnrollment, SabaqRecord, BehaviorLog
