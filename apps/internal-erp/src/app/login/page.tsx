@@ -37,9 +37,9 @@ export default function LoginPage() {
       //    SameSite=Strict cookie containing our multi-tenant JWT token.
       setSuccessPath(data.landing_url);
       
-      // 3. Perform soft, animated router redirection to their dynamic landing path
+      // 3. Perform hard redirection to their dynamic landing path to bypass router hanging
       setTimeout(() => {
-        router.push(data.landing_url);
+        window.location.href = data.landing_url;
       }, 800);
 
     } catch (err: any) {
