@@ -35,11 +35,11 @@ export default function LoginPage() {
 
       // 2. Auth Success: The FastAPI backend has synchronously set the secure, HttpOnly, 
       //    SameSite=Strict cookie containing our multi-tenant JWT token.
-      setSuccessPath(data.redirect_url);
+      setSuccessPath(data.landing_url);
       
       // 3. Perform soft, animated router redirection to their dynamic landing path
       setTimeout(() => {
-        router.push(data.redirect_url);
+        router.push(data.landing_url);
       }, 800);
 
     } catch (err: any) {
