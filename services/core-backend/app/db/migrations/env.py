@@ -8,8 +8,8 @@ from alembic import context
 # Add the root directory to PYTHONPATH so 'app' can be found
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))))
 
-from app.models.base import Base
-from app.models import tenant, identity, rbac, auth, academics, finance
+from app.db.base_class import Base
+from app.models import tenant, identity, rbac, auth, academics, finance, edge_mesh, alumni, competition, ledger, hifz, lms, branding, communication, report_tasks, staff, student, sync, academic
 
 config = context.config
 if config.config_file_name is not None:
