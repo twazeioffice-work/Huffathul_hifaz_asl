@@ -5,6 +5,7 @@ from app.models.base import BaseModel
 class Institution(BaseModel):
     __tablename__ = "institutions"
     name = Column(String(255), nullable=False)
+    code = Column(String(50), nullable=False, unique=True, default="")
     
     # Relationships
     branches = relationship("Branch", back_populates="institution", cascade="all, delete-orphan")
@@ -13,6 +14,7 @@ class Institution(BaseModel):
 class Branch(BaseModel):
     __tablename__ = "branches"
     name = Column(String(255), nullable=False)
+    code = Column(String(50), nullable=False, default="")
     
     # Foreign Keys
     from sqlalchemy import ForeignKey
