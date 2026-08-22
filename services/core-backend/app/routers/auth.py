@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, status, Header
+from fastapi import APIRouter, Depends, HTTPException, status, Header, Response
 from pydantic import BaseModel
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, text
@@ -81,7 +81,7 @@ def calculate_landing_route(role: str, institution_code: Optional[str] = None, b
     return template
 
 @router.post("/token", response_model=TokenResponse)
-async def login(payload: LoginRequest):
+async def login(payload: LoginRequest, response: Response):
     """
     Unified Login Entrypoint.
     Authenticates username/email, generates dynamic claims, and returns custom landing redirects.
@@ -168,6 +168,10 @@ async def login(payload: LoginRequest):
     
     access_token = create_access_token(access_claims)
     refresh_token = create_refresh_token({"sub": user["id"]})
+    
+    # 5. Set HttpOnly cookies to sync with Next.js frontend requirements
+    response.set_cookie(key="__Host-Secure-Token", value=access_token, httponly=True, samesite="strict", secure=True)
+    response.set_cookie(key="demo_auth_role", value=role, httponly=False, samesite="lax")
     
     return {
         "access_token": access_token,
