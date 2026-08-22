@@ -80,96 +80,81 @@ def calculate_landing_route(role: str, institution_code: Optional[str] = None, b
         
     return template
 
+from app.db.session import get_core_db
+from app.models.identity import User
+from app.models.rbac import Role, UserRoleAssignment
+from app.models.tenant import Institution, Branch
+
 @router.post("/token", response_model=TokenResponse)
-async def login(payload: LoginRequest, response: Response):
+async def login(payload: LoginRequest, response: Response, db: AsyncSession = Depends(get_core_db)):
     """
     Unified Login Entrypoint.
-    Authenticates username/email, generates dynamic claims, and returns custom landing redirects.
+    Authenticates username/email against the database, generates dynamic claims, and returns custom landing redirects.
     """
-    # 1. Mock DB query lookup (simulating SQL execution)
-    # In production:
-    # user = (await db.execute(select(User).where(User.username == payload.username_or_email))).scalar_one_or_none()
+    # 1. Normalize the username to an email address
+    target_email = payload.username_or_email.lower().strip()
+    if "@" not in target_email:
+        target_email = f"{target_email}@suffat.com"
+        
+    # 2. Database query lookup
+    user_query = await db.execute(select(User).where(User.email == target_email))
+    user = user_query.scalar_one_or_none()
     
-    # Standard multi-tenant system profiles mapped to our database partitions
-    users_db = {
-        "superadmin": {
-            "id": "e9a8f102-1234-4bc1-9003-cf782ad901ab",
-            "password_hash": hash_password("0000"),
-            "role": "SUPER_ADMIN",
-            "tenant_id": None,
-            "institution_code": None,
-            "branch_code": None,
-            "display_name": "Super Admin",
-        },
-        "centeradmin": {
-            "id": "c138d821-2290-410a-8bf1-e4f0a9bc4991",
-            "password_hash": hash_password("0000"),
-            "role": "CENTER_ADMIN",
-            "tenant_id": "8821901a-8bc2-4ccb-8e10-cf123abcf01a",
-            "institution_code": "aim-kerala",
-            "branch_code": "trv-main",
-            "display_name": "Center Admin",
-        },
-        "nazim": {
-            "id": "d138d821-2290-410a-8bf1-e4f0a9bc4992",
-            "password_hash": hash_password("0000"),
-            "role": "NAZIM",
-            "tenant_id": "8821901a-8bc2-4ccb-8e10-cf123abcf01a",
-            "institution_code": "aim-kerala",
-            "branch_code": "trv-main",
-            "display_name": "Nazim",
-        },
-        "usthad": {
-            "id": "b300fa11-4433-4ee1-b921-ef783ab81122",
-            "password_hash": hash_password("0000"),
-            "role": "USTAD",
-            "tenant_id": "8821901a-8bc2-4ccb-8e10-cf123abcf01a",
-            "institution_code": "aim-kerala",
-            "branch_code": "trv-main",
-            "display_name": "Usthad",
-        },
-        "student": {
-            "id": "a900fa11-4433-4ee1-b921-ef783ab81199",
-            "password_hash": hash_password("0000"),
-            "role": "STUDENT",
-            "tenant_id": "8821901a-8bc2-4ccb-8e10-cf123abcf01a",
-            "institution_code": "aim-kerala",
-            "branch_code": "trv-main",
-            "display_name": "Student",
-        }
-    }
-    
-    user = users_db.get(payload.username_or_email)
-    if not user or not verify_password(payload.password, user["password_hash"]):
+    if not user or not verify_password(payload.password, user.password_hash):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid authentication credentials. Please try again."
         )
     
-    # 2. Extract multi-tenant scope variables
-    role = user["role"]
-    tenant_id = user["tenant_id"]
-    inst_code = user["institution_code"]
-    br_code = user["branch_code"]
+    # 3. Extract multi-tenant scope variables
+    role = "STUDENT"  # Default fallback
+    tenant_id = None
+    inst_code = None
+    br_code = None
     
-    # 3. Compute target landing path
+    assignment_query = await db.execute(
+        select(UserRoleAssignment).where(UserRoleAssignment.user_id == user.id)
+    )
+    assignment = assignment_query.scalar_one_or_none()
+    
+    if assignment:
+        # Fetch actual Role, Institution, and Branch
+        role_obj = (await db.execute(select(Role).where(Role.id == assignment.role_id))).scalar_one_or_none()
+        inst_obj = (await db.execute(select(Institution).where(Institution.id == assignment.institution_id))).scalar_one_or_none()
+        br_obj = (await db.execute(select(Branch).where(Branch.id == assignment.branch_id))).scalar_one_or_none()
+        
+        if role_obj:
+            role = role_obj.name
+        if inst_obj:
+            inst_code = inst_obj.code
+            tenant_id = str(inst_obj.id)
+        if br_obj:
+            br_code = br_obj.code
+            
+    # For super admin we bypass institution codes in the current routing implementation
+    if role == "SUPER_ADMIN":
+        tenant_id = None
+        inst_code = None
+        br_code = None
+    
+    # 4. Compute target landing path
     landing_url = calculate_landing_route(role, inst_code, br_code)
     
-    # 4. Generate dynamic access claims
+    # 5. Generate dynamic access claims
     access_claims = {
-        "sub": user["id"],
+        "sub": str(user.id),
         "role": role,
         "tenant_id": tenant_id,
         "institution_code": inst_code,
         "branch_code": br_code,
-        "name": user["display_name"],
+        "name": user.full_name,
         "permissions": ["sabaq_records:write", "attendance:mark"] if role == "USTAD" else ["all:bypass"] if role == "SUPER_ADMIN" else ["center_records:manage"]
     }
     
     access_token = create_access_token(access_claims)
-    refresh_token = create_refresh_token({"sub": user["id"]})
+    refresh_token = create_refresh_token({"sub": str(user.id)})
     
-    # 5. Set HttpOnly cookies to sync with Next.js frontend requirements
+    # 6. Set HttpOnly cookies to sync with Next.js frontend requirements
     response.set_cookie(key="access_token", value=access_token, httponly=True, samesite="strict", secure=True)
     response.set_cookie(key="__Host-Secure-Token", value=access_token, httponly=True, samesite="strict", secure=True)
     response.set_cookie(key="demo_auth_role", value=role, httponly=False, samesite="lax")
@@ -180,7 +165,7 @@ async def login(payload: LoginRequest, response: Response):
         "role": role,
         "landing_url": landing_url,
         "user_metadata": {
-            "display_name": user["display_name"],
+            "display_name": user.full_name,
             "institution_code": inst_code,
             "branch_code": br_code,
             "tenant_id": tenant_id
