@@ -92,41 +92,50 @@ async def login(payload: LoginRequest):
     
     # Standard multi-tenant system profiles mapped to our database partitions
     users_db = {
-        "admin@suffat.com": {
+        "superadmin": {
             "id": "e9a8f102-1234-4bc1-9003-cf782ad901ab",
-            "password_hash": hash_password("AdminSecurePass123"),
+            "password_hash": hash_password("0000"),
             "role": "SUPER_ADMIN",
             "tenant_id": None,
             "institution_code": None,
             "branch_code": None,
-            "display_name": "Sheikh Tariq (HQ Overseer)",
+            "display_name": "Super Admin",
         },
-        "nazim@kerala.com": {
+        "centeradmin": {
             "id": "c138d821-2290-410a-8bf1-e4f0a9bc4991",
-            "password_hash": hash_password("NazimPass456"),
+            "password_hash": hash_password("0000"),
+            "role": "CENTER_ADMIN",
+            "tenant_id": "8821901a-8bc2-4ccb-8e10-cf123abcf01a",
+            "institution_code": "aim-kerala",
+            "branch_code": "trv-main",
+            "display_name": "Center Admin",
+        },
+        "nazim": {
+            "id": "d138d821-2290-410a-8bf1-e4f0a9bc4992",
+            "password_hash": hash_password("0000"),
             "role": "NAZIM",
             "tenant_id": "8821901a-8bc2-4ccb-8e10-cf123abcf01a",
             "institution_code": "aim-kerala",
             "branch_code": "trv-main",
-            "display_name": "Br. Yusuf Ali (Kerala Center Admin)",
+            "display_name": "Nazim",
         },
-        "ustad@sabaq.com": {
+        "usthad": {
             "id": "b300fa11-4433-4ee1-b921-ef783ab81122",
-            "password_hash": hash_password("UstadSabaq789"),
+            "password_hash": hash_password("0000"),
             "role": "USTAD",
             "tenant_id": "8821901a-8bc2-4ccb-8e10-cf123abcf01a",
             "institution_code": "aim-kerala",
             "branch_code": "trv-main",
-            "display_name": "Ustad Bilal Mansoor",
+            "display_name": "Usthad",
         },
-        "student@suffat.org": {
+        "student": {
             "id": "a900fa11-4433-4ee1-b921-ef783ab81199",
-            "password_hash": hash_password("password"),
+            "password_hash": hash_password("0000"),
             "role": "STUDENT",
             "tenant_id": "8821901a-8bc2-4ccb-8e10-cf123abcf01a",
             "institution_code": "aim-kerala",
             "branch_code": "trv-main",
-            "display_name": "Student User",
+            "display_name": "Student",
         }
     }
     
