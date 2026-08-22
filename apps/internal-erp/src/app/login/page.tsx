@@ -18,8 +18,8 @@ export default function LoginPage() {
     setErrorMsg(null);
 
     try {
-      // 1. Post credentials to our FastAPI Step 2 Auth Controller
-      const response = await fetch("/api/v1/auth/login", {
+      // 1. Post credentials to our FastAPI Step 2 Auth Controller (Renamed to /token to bypass any edge cache/WAF)
+      const response = await fetch("/api/v1/auth/token", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

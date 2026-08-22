@@ -7,7 +7,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 
 # Mock dependencies based on architecture
-from app.db.database import get_db_session
+from app.db.session import get_db_session
 from app.core.security import log_security_event
 
 router = APIRouter(prefix="/api/v1/alumni", tags=["Alumni Operations"])

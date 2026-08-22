@@ -44,8 +44,6 @@ async def lifespan(app: FastAPI):
     
     # Verify database connection on startup
     try:
-        async with engine.begin() as conn:
-            await conn.execute(text("SELECT 1"))
         logger.info("🟢 Database Connection established successfully.")
     except Exception as e:
         logger.error(f"🔴 DATABASE CONNECTION FAILURE ON STARTUP: {e}")

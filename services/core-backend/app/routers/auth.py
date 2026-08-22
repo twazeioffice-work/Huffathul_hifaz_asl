@@ -80,7 +80,7 @@ def calculate_landing_route(role: str, institution_code: Optional[str] = None, b
         
     return template
 
-@router.post("/login", response_model=TokenResponse)
+@router.post("/token", response_model=TokenResponse)
 async def login(payload: LoginRequest):
     """
     Unified Login Entrypoint.
@@ -118,6 +118,15 @@ async def login(payload: LoginRequest):
             "institution_code": "aim-kerala",
             "branch_code": "trv-main",
             "display_name": "Ustad Bilal Mansoor",
+        },
+        "student@suffat.org": {
+            "id": "a900fa11-4433-4ee1-b921-ef783ab81199",
+            "password_hash": hash_password("password"),
+            "role": "STUDENT",
+            "tenant_id": "8821901a-8bc2-4ccb-8e10-cf123abcf01a",
+            "institution_code": "aim-kerala",
+            "branch_code": "trv-main",
+            "display_name": "Student User",
         }
     }
     

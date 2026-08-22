@@ -7,7 +7,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, update
 
 # Assuming these are available in the app's structure
-from app.db.database import get_db_session
+from app.db.session import get_db_session
 from app.models.affiliation import AffiliationRequest, AffiliationChecklist, AffiliationMedia
 from app.core.security import log_security_event
 
