@@ -76,16 +76,16 @@ export default function LoginPage() {
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
             <label className="block text-xs font-semibold uppercase text-neutral-400 mb-1.5 tracking-wider">
-              Email Address
+              Username or Email
             </label>
             <input
-              type="email"
+              type="text"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
               disabled={isLoading || !!successPath}
               className="w-full px-4 py-3 bg-[#0c0c0e] border border-[#222226] focus:border-[#00F0FF] rounded-lg text-base text-white placeholder-white/20 transition duration-150 ease-in-out outline-none focus:ring-1 focus:ring-[#00F0FF]"
-              placeholder="name@suffat.org"
+              placeholder="Enter your username"
             />
           </div>
 
