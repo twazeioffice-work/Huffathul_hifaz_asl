@@ -29,11 +29,17 @@ from sqlalchemy import text
 async def seed_users():
     print("Connecting to database to seed default users...")
     
-    # 0. Alter table to ensure 'code' column exists (safe against existing columns)
-    print("Ensuring 'code' columns exist in tenant tables...")
+    # 0. Alter table to ensure 'code', 'created_at', and 'updated_at' columns exist
+    print("Ensuring required columns exist in tenant tables...")
     async with core_transactional_engine.begin() as conn:
         await conn.execute(text("ALTER TABLE institutions ADD COLUMN IF NOT EXISTS code VARCHAR(50) DEFAULT '' NOT NULL;"))
+        await conn.execute(text("ALTER TABLE institutions ADD COLUMN IF NOT EXISTS created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL;"))
+        await conn.execute(text("ALTER TABLE institutions ADD COLUMN IF NOT EXISTS updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL;"))
+        
         await conn.execute(text("ALTER TABLE branches ADD COLUMN IF NOT EXISTS code VARCHAR(50) DEFAULT '' NOT NULL;"))
+        await conn.execute(text("ALTER TABLE branches ADD COLUMN IF NOT EXISTS created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL;"))
+        await conn.execute(text("ALTER TABLE branches ADD COLUMN IF NOT EXISTS updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL;"))
+        
         # Make code unique if possible, but safely ignore if it already is
         try:
             await conn.execute(text("ALTER TABLE institutions ADD CONSTRAINT uq_institutions_code UNIQUE (code);"))
