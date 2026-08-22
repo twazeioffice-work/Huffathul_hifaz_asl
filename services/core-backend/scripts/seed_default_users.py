@@ -8,14 +8,15 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 from app.db.session import CoreSessionLocal, core_transactional_engine
-from app.db.base_class import Base
+from app.db.base_class import Base as IdentityBase
+from app.models.base import Base as TenantBase
 from app.models.identity import User
 from app.models.rbac import Role, UserRoleAssignment
 from app.models.tenant import Institution, Branch
 from app.core.security import hash_password
 import uuid
 
-# Import all models to ensure they are registered with Base.metadata
+# Import all models to ensure they are registered with their respective Base.metadata
 import app.models.identity
 import app.models.rbac
 import app.models.tenant
@@ -26,7 +27,9 @@ import app.models.student
 async def seed_users():
     print("Initializing database schema...")
     async with core_transactional_engine.begin() as conn:
-        await conn.run_sync(Base.metadata.create_all)
+        # Must run TenantBase first because IdentityBase models contain foreign keys to institutions/branches
+        await conn.run_sync(TenantBase.metadata.create_all)
+        await conn.run_sync(IdentityBase.metadata.create_all)
         
     print("Connecting to database to seed default users...")
     async with CoreSessionLocal() as session:
