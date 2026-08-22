@@ -12,7 +12,7 @@ from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, Asyn
 
 DATABASE_URL = os.getenv(
     "DATABASE_URL",
-    "postgresql+asyncpg://railway_admin:local_secret@localhost:5432/aimantiss_db",
+    "postgresql+asyncpg://postgres:admin123@localhost:5432/suffat_db",
 )
 
 # Replace standard postgresql:// prefix if present with postgresql+asyncpg://
