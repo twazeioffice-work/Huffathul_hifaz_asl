@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { ShieldAlert, CheckCircle, FileText, Lock, Eye, AlertCircle, EyeOff } from "lucide-react";
+import { SwipeActionCard } from "./SwipeActionCard";
 
 interface ComplaintItem {
   id: string;
@@ -78,48 +79,59 @@ export const ComplaintResolutionAuditPanel: React.FC<PanelProps> = ({
 
         <div className="space-y-3 max-h-[75vh] overflow-y-auto pr-2">
           {complaints.map((item) => (
-            <div
+            <SwipeActionCard
               key={item.id}
-              onClick={() => setSelectedComplaint(item)}
-              className={`p-4 rounded-xl border transition-all duration-200 cursor-pointer ${
-                selectedComplaint?.id === item.id
-                  ? "bg-slate-900 border-cyan-500 shadow-[0_0_15px_rgba(0,240,255,0.15)]"
-                  : "bg-slate-900/60 border-slate-800 hover:border-slate-700 hover:bg-slate-900/90"
-              }`}
+              onSwipeLeft={() => {
+                setSelectedComplaint(item);
+                setTimeout(() => alert(`Initiate rejection logic for: ${item.title}`), 300);
+              }}
+              onSwipeRight={() => {
+                setSelectedComplaint(item);
+                setTimeout(() => alert(`Initiate fast-track approval for: ${item.title}`), 300);
+              }}
             >
-              <div className="flex items-start justify-between">
-                <div>
-                  <h3 className="font-semibold text-slate-100">{item.title}</h3>
-                  <div className="flex items-center space-x-2 mt-2 text-xs text-slate-400">
-                    <span className="font-mono px-2 py-0.5 bg-slate-800 border border-slate-700 rounded text-slate-300">
-                      Against: {item.againstRole}
-                    </span>
-                    <span className="flex items-center space-x-1">
-                      {item.isAnonymous ? (
-                        <>
-                          <EyeOff className="h-3 w-3 text-amber-500" />
-                          <span className="text-amber-500 font-medium">Anonymous Submission</span>
-                        </>
-                      ) : (
-                        <>
-                          <Eye className="h-3 w-3 text-cyan-400" />
-                          <span className="text-cyan-400">{item.submitterName}</span>
-                        </>
-                      )}
-                    </span>
+              <div
+                onClick={() => setSelectedComplaint(item)}
+                className={`p-4 rounded-xl border transition-all duration-200 cursor-pointer ${
+                  selectedComplaint?.id === item.id
+                    ? "bg-slate-900 border-cyan-500 shadow-[0_0_15px_rgba(0,240,255,0.15)]"
+                    : "bg-slate-900/60 border-slate-800 hover:border-slate-700 hover:bg-slate-900/90"
+                }`}
+              >
+                <div className="flex items-start justify-between">
+                  <div>
+                    <h3 className="font-semibold text-slate-100 fluid-text-base">{item.title}</h3>
+                    <div className="flex items-center space-x-2 mt-2 text-xs text-slate-400">
+                      <span className="font-mono px-2 py-0.5 bg-slate-800 border border-slate-700 rounded text-slate-300">
+                        Against: {item.againstRole}
+                      </span>
+                      <span className="flex items-center space-x-1">
+                        {item.isAnonymous ? (
+                          <>
+                            <EyeOff className="h-3 w-3 text-amber-500" />
+                            <span className="text-amber-500 font-medium">Anonymous Submission</span>
+                          </>
+                        ) : (
+                          <>
+                            <Eye className="h-3 w-3 text-cyan-400" />
+                            <span className="text-cyan-400">{item.submitterName}</span>
+                          </>
+                        )}
+                      </span>
+                    </div>
                   </div>
+                  <span
+                    className={`px-2.5 py-1 text-[10px] font-semibold rounded-full tracking-wider ${
+                      item.status === "RESOLVED"
+                        ? "bg-emerald-500/10 border border-emerald-500 text-emerald-400"
+                        : "bg-rose-500/10 border border-rose-500 text-rose-400"
+                    }`}
+                  >
+                    {item.status}
+                  </span>
                 </div>
-                <span
-                  className={`px-2.5 py-1 text-[10px] font-semibold rounded-full tracking-wider ${
-                    item.status === "RESOLVED"
-                      ? "bg-emerald-500/10 border border-emerald-500 text-emerald-400"
-                      : "bg-rose-500/10 border border-rose-500 text-rose-400"
-                  }`}
-                >
-                  {item.status}
-                </span>
               </div>
-            </div>
+            </SwipeActionCard>
           ))}
         </div>
       </div>
