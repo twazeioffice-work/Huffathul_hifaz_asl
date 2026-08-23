@@ -40,4 +40,39 @@ class StudentEnrollment(Base):
     batch_id = Column(UUID(as_uuid=True), ForeignKey("batches.id", ondelete="CASCADE"), nullable=False)
     academic_year_id = Column(UUID(as_uuid=True), ForeignKey("academic_years.id", ondelete="CASCADE"), nullable=False)
     enrolled_at = Column(Date, nullable=False)
+    primary_parent_phone = Column(String(50), nullable=False, default='+910000000000')
+    local_guardian_phone = Column(String(50), nullable=False, default='+910000000000')
+    blood_group = Column(String(10), nullable=True)
+    medical_history = Column(String, nullable=True)
     __table_args__ = {'extend_existing': True}
+
+from sqlalchemy import DateTime, Numeric, Text
+from sqlalchemy.sql import func
+
+class BatchLeaveSchedule(Base):
+    __tablename__ = "batch_leave_schedules"
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    institution_id = Column(UUID(as_uuid=True), ForeignKey("institutions.id", ondelete="CASCADE"), nullable=False)
+    branch_id = Column(UUID(as_uuid=True), ForeignKey("branches.id", ondelete="CASCADE"), nullable=False)
+    batch_name = Column(String(100), nullable=False)
+    leave_start_date = Column(DateTime(timezone=True), nullable=False)
+    leave_end_date = Column(DateTime(timezone=True), nullable=False)
+    reporting_date_time = Column(DateTime(timezone=True), nullable=False)
+    status = Column(String(50), nullable=False, default='SCHEDULED')
+    created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+    updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False)
+
+class StudentWellBeingLog(Base):
+    __tablename__ = "student_well_being_logs"
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    institution_id = Column(UUID(as_uuid=True), ForeignKey("institutions.id", ondelete="CASCADE"), nullable=False)
+    branch_id = Column(UUID(as_uuid=True), ForeignKey("branches.id", ondelete="CASCADE"), nullable=False)
+    student_enrollment_id = Column(UUID(as_uuid=True), ForeignKey("student_enrollments.id", ondelete="CASCADE"), nullable=False)
+    checked_by_ustad_id = Column(UUID(as_uuid=True), ForeignKey("staff_profiles.id", ondelete="CASCADE"), nullable=False)
+    date = Column(Date, server_default=func.current_date(), nullable=False)
+    health_status = Column(String(50), nullable=False)
+    temperature_fahrenheit = Column(Numeric(4, 1), nullable=True)
+    mental_energy = Column(String(50), nullable=False)
+    ustad_notes = Column(String(500), nullable=True)
+    created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+

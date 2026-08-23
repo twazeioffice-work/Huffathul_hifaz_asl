@@ -143,9 +143,12 @@ async def global_exception_handler(request: Request, exc: Exception):
 # ==============================================================================
 
 # Standard prefixing matching system-wide BFF/App Router configs
+from app.routers import portal, webhooks
 app.include_router(auth.router)
 app.include_router(diagnostics.router)
 app.include_router(kpi.router)
+app.include_router(portal.router)
+app.include_router(webhooks.router)
 
 # ==============================================================================
 # API HEALTH CHECK PERIMETER
