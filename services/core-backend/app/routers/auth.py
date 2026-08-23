@@ -24,6 +24,12 @@ REDIRECTION_MAP = {
     "NAZIM": "/app/{institution_code}/{branch_code}/erp",
     "USTAD": "/app/{institution_code}/{branch_code}/erp/academics",
     "STUDENT": "/app/{institution_code}/{branch_code}/portal/student",
+    "Center Admin": "/app/{institution_code}/{branch_code}/erp",
+    "Manager": "/app/{institution_code}/{branch_code}/erp",
+    "Usthad": "/app/{institution_code}/{branch_code}/erp/academics",
+    "Student": "/app/{institution_code}/{branch_code}/portal/student",
+    "HQ Management (Junction)": "/app/suffat-hq/main/erp/finance",
+    "System Owner": "/app/suffat-hq/main/erp",
 }
 
 class LoginRequest(BaseModel):

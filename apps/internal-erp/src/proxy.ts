@@ -88,18 +88,19 @@ export async function proxy(request: NextRequest) {
         const urlBranch = match[2];
 
         const userRole = claims.role;
-        const userTenant = claims.tenant_id;
-        const userBranch = claims.branch_id;
+        const userTenant = claims.institution_code || claims.tenant_id;
+        const userBranch = claims.branch_code || claims.branch_id;
 
         // Rule A: Super Admin bypasses all path restrictions
-        if (userRole !== "SUPER_ADMIN") {
+        const globalRoles = ["SUPER_ADMIN", "System Owner", "HQ Management (Junction)", "GLOBAL_ACCOUNTANT"];
+        if (!globalRoles.includes(userRole)) {
           // Rule B: Standard roles must strictly match their registered tenant ID
           if (urlTenant !== userTenant) {
             return NextResponse.redirect(new URL("/login", request.url));
           }
 
           // Rule C: Nazim and Ustad roles must strictly match their assigned branch ID
-          if (userRole !== "GLOBAL_ACCOUNTANT" && urlBranch !== userBranch) {
+          if (urlBranch !== userBranch) {
             return NextResponse.redirect(new URL("/login", request.url));
           }
         }
@@ -109,12 +110,14 @@ export async function proxy(request: NextRequest) {
       if (pathname === "/login") {
         let redirectUrl = "/app/suffat-hq/main/erp"; // Fallback HQ
         
-        if (claims.role === "NAZIM" || claims.role === "CENTER_ADMIN") {
-          redirectUrl = `/app/${claims.tenant_id}/${claims.branch_id}/erp`;
-        } else if (claims.role === "USTAD") {
-          redirectUrl = `/app/${claims.tenant_id}/${claims.branch_id}/erp/academics`;
-        } else if (claims.role === "STUDENT") {
-          redirectUrl = `/app/${claims.tenant_id}/${claims.branch_id}/portal/student`;
+        if (claims.role === "NAZIM" || claims.role === "CENTER_ADMIN" || claims.role === "Center Admin" || claims.role === "Manager") {
+          redirectUrl = `/app/${claims.institution_code}/${claims.branch_code}/erp`;
+        } else if (claims.role === "USTAD" || claims.role === "Usthad") {
+          redirectUrl = `/app/${claims.institution_code}/${claims.branch_code}/erp/academics`;
+        } else if (claims.role === "STUDENT" || claims.role === "Student") {
+          redirectUrl = `/app/${claims.institution_code}/${claims.branch_code}/portal/student`;
+        } else if (claims.role === "HQ Management (Junction)" || claims.role === "GLOBAL_ACCOUNTANT") {
+          redirectUrl = `/app/suffat-hq/main/erp/finance`;
         }
         
         return NextResponse.redirect(new URL(redirectUrl, request.url));
