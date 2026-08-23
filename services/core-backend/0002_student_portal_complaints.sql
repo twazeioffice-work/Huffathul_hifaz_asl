@@ -158,7 +158,7 @@ SELECT
     END AS student_enrollment_id,
     CASE 
         WHEN c.is_anonymous = TRUE THEN 'Anonymous Student' 
-        ELSE s.student_name 
+        ELSE u.full_name 
     END AS submitter_name,
     c.against_role,
     c.against_profile_id,
@@ -173,7 +173,9 @@ SELECT
     c.resolved_at,
     c.created_at
 FROM complaints c
-JOIN student_enrollments s ON c.student_enrollment_id = s.id
+JOIN student_enrollments se ON c.student_enrollment_id = se.id
+JOIN student_profiles sp ON se.student_id = sp.id
+JOIN users u ON sp.user_id = u.id
 WHERE 
     c.branch_id = (current_setting('app.current_branch_id')::UUID)
     AND c.recipient = 'CENTER_ADMIN';
