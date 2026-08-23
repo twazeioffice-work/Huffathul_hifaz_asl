@@ -86,9 +86,16 @@ CREATE INDEX idx_complaints_tenancy ON complaints(institution_id, branch_id);
 
 ALTER TABLE complaints ENABLE ROW LEVEL SECURITY;
 
--- Policy 1: Super Admin can view ALL complaints and see unmasked student names
-CREATE POLICY super_admin_all_complaints_access ON complaints
-    FOR ALL
+-- Policy 1: Super Admin can SELECT and UPDATE all complaints
+CREATE POLICY super_admin_all_complaints_select ON complaints
+    FOR SELECT
+    TO authenticated
+    USING (
+        (SELECT role FROM staff_profiles WHERE id = (current_setting('app.current_user_id')::UUID)) = 'SUPER_ADMIN'
+    );
+
+CREATE POLICY super_admin_all_complaints_update ON complaints
+    FOR UPDATE
     TO authenticated
     USING (
         (SELECT role FROM staff_profiles WHERE id = (current_setting('app.current_user_id')::UUID)) = 'SUPER_ADMIN'
@@ -118,11 +125,19 @@ CREATE POLICY center_admin_complaints_update ON complaints
         status IN ('IN_PROGRESS', 'RESOLVED')
     );
 
--- Policy 4: Students can view/manage their own registered complaints
-CREATE POLICY student_own_complaints ON complaints
-    FOR ALL
+-- Policy 4: Students can SELECT their own complaints
+CREATE POLICY student_own_complaints_select ON complaints
+    FOR SELECT
     TO authenticated
     USING (
+        student_enrollment_id = (current_setting('app.current_student_enrollment_id')::UUID)
+    );
+
+-- Policy 5: Students can INSERT their own complaints (Cannot spoof student_enrollment_id)
+CREATE POLICY student_own_complaints_insert ON complaints
+    FOR INSERT
+    TO authenticated
+    WITH CHECK (
         student_enrollment_id = (current_setting('app.current_student_enrollment_id')::UUID)
     );
 
