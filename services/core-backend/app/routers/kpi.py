@@ -9,7 +9,7 @@ from app.db.session import get_db_session
 
 from app.core.security import set_db_tenant_context, get_current_user
 
-from app.models.auth import StaffProfile
+from app.models.staff import StaffProfile
 from app.models.academics import StudentEnrollment, SabaqRecord, BehaviorLog
 from app.models.finance import LedgerTransaction, FinancialVoucher
 from app.models.tenant import Branch

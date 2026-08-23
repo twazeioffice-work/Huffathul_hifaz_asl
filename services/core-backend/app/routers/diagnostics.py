@@ -8,7 +8,7 @@ from app.core.security import get_current_user
 from app.db.session import get_db_session
 
 from app.models.academics import StudentEnrollment
-from app.models.auth import StaffProfile
+from app.models.staff import StaffProfile
 
 router = APIRouter(prefix="/api/v1/diagnostics", tags=["Configuration Auditing"])
 

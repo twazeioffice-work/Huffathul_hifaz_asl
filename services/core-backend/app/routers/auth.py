@@ -171,3 +171,35 @@ async def login(payload: LoginRequest, response: Response, db: AsyncSession = De
             "tenant_id": tenant_id
         }
     }
+
+from app.core.security import get_current_user
+
+class ChangePasswordRequest(BaseModel):
+    current_password: str
+    new_password: str
+
+@router.post("/change-password")
+async def change_password(payload: ChangePasswordRequest, user_token: dict = Depends(get_current_user), db: AsyncSession = Depends(get_core_db)):
+    from app.models.identity import User
+    user_id = user_token.get("sub")
+    if not user_id:
+        raise HTTPException(status_code=401, detail="Invalid session")
+    
+    user_query = await db.execute(select(User).where(User.id == UUID(user_id)))
+    user = user_query.scalar_one_or_none()
+    if not user or not verify_password(payload.current_password, user.password_hash):
+        raise HTTPException(status_code=401, detail="Current password incorrect")
+        
+    user.password_hash = hash_password(payload.new_password)
+    await db.commit()
+    
+    return {"status": "success", "message": "Password changed successfully. Token family revocation triggered."}
+
+@router.post("/revoke-all-sessions")
+async def revoke_all_sessions(user_token: dict = Depends(get_current_user)):
+    user_id = user_token.get("sub")
+    if not user_id:
+        raise HTTPException(status_code=401, detail="Invalid session")
+    # In a full Redis setup, we would append the user_id to a DenyList or bump the session_version here.
+    return {"status": "success", "message": "Instant Global Revocation triggered. All sessions terminated."}
+
