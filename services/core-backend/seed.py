@@ -6,6 +6,8 @@ from app.core.security import hash_password
 async def seed():
     conn = await asyncpg.connect("postgresql://suffat_admin:suffat_password@localhost:5432/suffat_erp")
     
+    await conn.execute("ALTER TABLE public.users ALTER COLUMN password_hash TYPE VARCHAR(512)")
+
     inst_id = uuid.uuid4()
     await conn.execute("INSERT INTO institutions (id, name, code) VALUES ($1, $2, $3)", inst_id, "Suffat", "SUF")
     
@@ -16,9 +18,10 @@ async def seed():
     await conn.execute("INSERT INTO roles (id, institution_id, name) VALUES ($1, $2, $3)", role_id, inst_id, "Admin")
     
     user_id = uuid.uuid4()
+    hashed = hash_password("1234")
     await conn.execute(
         "INSERT INTO users (id, email, password_hash, full_name, is_active, is_verified) VALUES ($1, $2, $3, $4, $5, $6)",
-        user_id, "ustadh@suffat.com", hash_password("1234"), "Ustadh (System Admin)", True, True
+        user_id, "ustadh@suffat.com", hashed, "Ustadh (System Admin)", True, True
     )
     
     await conn.execute(
