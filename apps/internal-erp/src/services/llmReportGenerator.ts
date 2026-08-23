@@ -28,21 +28,23 @@ export interface StudentProgressData {
     }>;
   };
   behaviorStats: {
-    adabScore: number; // Out of 10
-    cleanlinessScore: number; // Out of 10
-    respectScore: number; // Out of 10
+    adabScore: number;
+    cleanlinessScore: number;
+    respectScore: number;
     recentWarnings?: string[];
   };
+  wellBeingStats: {
+    healthCondition: string;
+    mentalEnergy: string;
+    recentNotes?: string[];
+  };
+  batchLeaveDate: string | null;
   enabledModules?: {
     halqa?: boolean;
     namaz?: boolean;
   };
 }
 
-/**
- * Invokes Google Gemini 1.5 Flash to generate a highly encouraging, multilingual progress report.
- * Dynamically detects the parent's language based on their incoming message or defaults to English.
- */
 export async function generateAIReportCard(
   studentData: StudentProgressData,
   incomingParentMessage: string
@@ -52,7 +54,6 @@ export async function generateAIReportCard(
     throw new Error("Missing GEMINI_API_KEY environment variable.");
   }
 
-  // Constructing a detailed prompt passing raw database metrics
   const systemInstructions = `
 You are an empathetic, professional, and supportive Islamic Madrasah Coordinator at Suffat-ul Huffaz.
 Your goal is to write a personalized student progress update for a parent based on the provided raw data.
@@ -60,7 +61,7 @@ Your goal is to write a personalized student progress update for a parent based 
 CRITICAL FORMATTING RULES:
 1. Use WhatsApp-friendly Markdown only (*bold* for highlights, _italics_ for emphasis, inline code if needed). Do NOT use HTML or standard headers (###).
 2. Start with a warm Islamic greeting (e.g., "Assalamoalaikum Warahmatullahi Wabarakatuh").
-3. Use bullet points and appropriate emojis (📖, 🟢, 🕌, ✨, 🌟) to make the report card visually clear, tidy, and highly readable on mobile screens.
+3. Use bullet points and appropriate emojis to make the report card visually clear, tidy, and highly readable on mobile screens.
 4. Keep the tone encouraging, respectful, and balanced, providing constructive advice if behavior or attendance needs improvement.
 5. Do NOT fabricate any statistics, dates, or grades not present in the raw data.
 
@@ -84,6 +85,11 @@ RAW STUDENT RECORD:
   * Cleanliness: ${studentData.behaviorStats.cleanlinessScore}
   * Respect: ${studentData.behaviorStats.respectScore}
   * Remarks: ${JSON.stringify(studentData.behaviorStats.recentWarnings || [])}
+- Health & Well-being:
+  * Health Condition: ${studentData.wellBeingStats.healthCondition}
+  * Mental Energy: ${studentData.wellBeingStats.mentalEnergy}
+  * Notes: ${JSON.stringify(studentData.wellBeingStats.recentNotes || [])}
+- Next Scheduled Leave for Batch: ${studentData.batchLeaveDate || "No leave scheduled yet"}
 
 Generate the final WhatsApp response message now:
 `;
@@ -103,7 +109,7 @@ Generate the final WhatsApp response message now:
             }
           ],
           generationConfig: {
-            temperature: 0.3, // Muted temperature for strict factual alignment
+            temperature: 0.3,
             maxOutputTokens: 1024,
           }
         }),
@@ -124,7 +130,6 @@ Generate the final WhatsApp response message now:
     return candidateText.trim();
   } catch (err) {
     console.error("LLM Report Generation Exception:", err);
-    // Bulletproof fallback message in case of API failure
-    return `Assalamoalaikum Warahmatullahi Wabarakatuh.\n\nThank you for reaching out regarding *${studentData.studentName}*'s progress. Our system is currently experiencing a temporary server update. \n\n*Current Academic Standing:*\n📖 *Current Juz:* ${studentData.hifzStats.currentJuz}\n🕌 *Class Attendance:* ${studentData.attendanceStats.presentCount}/${studentData.attendanceStats.totalCount} days.\n\nOur Ustadh will message you shortly with detailed notes. JazakAllah khair!`;
+    return `Assalamoalaikum Warahmatullahi Wabarakatuh.\n\nThank you for reaching out regarding *${studentData.studentName}*'s progress. Our system is currently experiencing a temporary server update. \n\n*Current Academic Standing:*\n*Current Juz:* ${studentData.hifzStats.currentJuz}\n*Class Attendance:* ${studentData.attendanceStats.presentCount}/${studentData.attendanceStats.totalCount} days.\n\nOur Ustadh will message you shortly with detailed notes. JazakAllah khair!`;
   }
 }
