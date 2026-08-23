@@ -7,12 +7,9 @@ from app.db.session import get_db_session
 from app.core.security import set_db_tenant_context, get_current_user
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, update, insert
+from app.models.portal import StudentFacility, SystemNotification, Complaint
 
-# Note: student_facilities, system_notifications, and complaints 
-# need to be imported from your SQLAlchemy models definition.
-# Assuming they exist in app.models
-# from app.models import student_facilities, system_notifications, complaints
-
+# Note: The router endpoints use the new SQLAlchemy models.
 router = APIRouter(prefix="/api/v1/portal", tags=["Student Portal & Config"])
 
 # --- Pydantic Schemas ---
@@ -54,9 +51,8 @@ async def create_facility(
     await set_db_tenant_context(db, current_user["tenant_id"], current_user["branch_id"], current_user["id"])
     
     # 1. Insert Facility into database (State: PENDING_SUPER_ADMIN_APPROVAL)
-    # Using raw SQL or a defined model. Here we assume 'student_facilities' is a SQLAlchemy model/table object.
     facility_id = await db.execute(
-        insert(student_facilities).values(
+        insert(StudentFacility).values(
             institution_id=current_user["tenant_id"],
             branch_id=current_user["branch_id"],
             name=payload.name,
@@ -64,12 +60,12 @@ async def create_facility(
             status="PENDING_SUPER_ADMIN_APPROVAL",
             is_enabled_for_students=False,
             created_by_id=current_user["id"]
-        ).returning(student_facilities.c.id)
+        ).returning(StudentFacility.id)
     )
     
     # 2. Trigger Notification for Super Admin
     await db.execute(
-        insert(system_notifications).values(
+        insert(SystemNotification).values(
             institution_id=current_user["tenant_id"],
             recipient_role="SUPER_ADMIN",
             title="New Facility Approval Requested",
@@ -93,7 +89,7 @@ async def register_student_complaint(
     await set_db_tenant_context(db, current_student["tenant_id"], current_student["branch_id"], current_student["id"])
     
     await db.execute(
-        insert(complaints).values(
+        insert(Complaint).values(
             institution_id=current_student["tenant_id"],
             branch_id=current_student["branch_id"],
             student_enrollment_id=current_student["enrollment_id"],
@@ -123,14 +119,13 @@ async def resolve_complaint(
     await set_db_tenant_context(db, current_user["tenant_id"], current_user["branch_id"], current_user["id"])
     
     result = await db.execute(
-        update(complaints)
-        .where(complaints.c.id == complaint_id)
+        update(Complaint)
+        .where(Complaint.id == complaint_id)
         .values(
             status="RESOLVED",
             resolution_notes=payload.resolution_notes,
             resolved_by_id=current_user["id"],
-            resolved_at=datetime.datetime.utcnow(),
-            updated_at=datetime.datetime.utcnow()
+            resolved_at=datetime.datetime.utcnow()
         )
     )
     if result.rowcount == 0:
@@ -138,3 +133,61 @@ async def resolve_complaint(
         
     await db.commit()
     return {"status": "success", "message": "Complaint marked as resolved and logged to audit ledger."}
+from sqlalchemy import text
+
+@router.get("/complaints")
+async def list_complaints(
+    db: AsyncSession = Depends(get_db_session),
+    current_user: dict = Depends(get_current_user)
+):
+    await set_db_tenant_context(db, current_user["tenant_id"], current_user["branch_id"], current_user["id"])
+    
+    if current_user.get("role") == "NAZIM":
+        query = text("SELECT * FROM scoped_center_complaints ORDER BY created_at DESC")
+        result = await db.execute(query)
+    else:
+        query = select(Complaint).order_by(Complaint.created_at.desc())
+        result = await db.execute(query)
+        
+    records = result.mappings().all() if current_user.get("role") == "NAZIM" else [r[0].__dict__ for r in result.all()]
+    
+    cleaned = []
+    for r in records:
+        r_dict = dict(r)
+        r_dict.pop('_sa_instance_state', None)
+        cleaned.append(r_dict)
+        
+    return {"status": "success", "data": cleaned}
+
+@router.get("/facilities")
+async def list_facilities(
+    db: AsyncSession = Depends(get_db_session),
+    current_user: dict = Depends(get_current_user)
+):
+    await set_db_tenant_context(db, current_user["tenant_id"], current_user["branch_id"], current_user["id"])
+    query = select(StudentFacility).order_by(StudentFacility.created_at.desc())
+    result = await db.execute(query)
+    
+    facilities = []
+    for r in result.scalars().all():
+        f = r.__dict__.copy()
+        f.pop('_sa_instance_state', None)
+        facilities.append(f)
+    return {"status": "success", "data": facilities}
+
+@router.get("/notices")
+async def list_notices(
+    db: AsyncSession = Depends(get_db_session),
+    current_user: dict = Depends(get_current_user)
+):
+    from app.models.portal import CampusNotice
+    await set_db_tenant_context(db, current_user["tenant_id"], current_user["branch_id"], current_user["id"])
+    query = select(CampusNotice).where(CampusNotice.is_active == True).order_by(CampusNotice.created_at.desc())
+    result = await db.execute(query)
+    
+    notices = []
+    for r in result.scalars().all():
+        n = r.__dict__.copy()
+        n.pop('_sa_instance_state', None)
+        notices.append(n)
+    return {"status": "success", "data": notices}
