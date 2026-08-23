@@ -66,11 +66,11 @@ class Complaint(BaseModel):
     branch_id = Column(UUID(as_uuid=True), ForeignKey("branches.id", ondelete="CASCADE"), nullable=False)
     student_enrollment_id = Column(UUID(as_uuid=True), ForeignKey("student_enrollments.id", ondelete="CASCADE"), nullable=False)
     
-    against_role = Column(SQLEnum(ComplaintTargetType), nullable=False)
+    against_role = Column(SQLEnum(ComplaintTargetType, name="complaint_target_type"), nullable=False)
     against_profile_id = Column(UUID(as_uuid=True), ForeignKey("staff_profiles.id", ondelete="SET NULL"), nullable=True)
     against_student_id = Column(UUID(as_uuid=True), ForeignKey("student_enrollments.id", ondelete="SET NULL"), nullable=True)
     
-    recipient = Column(SQLEnum(ComplaintRecipientType), nullable=False)
+    recipient = Column(SQLEnum(ComplaintRecipientType, name="complaint_recipient_type"), nullable=False)
     is_anonymous = Column(Boolean, default=False, nullable=False)
     
     title = Column(String(255), nullable=False)
