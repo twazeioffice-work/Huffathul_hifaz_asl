@@ -81,6 +81,15 @@ def upgrade():
     
     # 5. Define Branch-Level RLS Policies for Leave Schedules
     op.execute("""
+        DO $$
+        BEGIN
+          IF NOT EXISTS (SELECT FROM pg_catalog.pg_roles WHERE rolname = 'authenticated') THEN
+            CREATE ROLE authenticated;
+          END IF;
+        END
+        $$;
+    """)
+    op.execute("""
         CREATE POLICY leave_schedule_branch_isolation ON batch_leave_schedules
             FOR ALL
             TO authenticated
