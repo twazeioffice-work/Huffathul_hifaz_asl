@@ -9,7 +9,7 @@ from alembic import context
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))))
 
 from app.db.base_class import Base
-from app.models import tenant, identity, rbac, auth, academics, finance, edge_mesh, alumni, competition, ledger, hifz, lms, branding, communication, report_tasks, staff, student, sync, academic
+from app.models import tenant, identity, rbac, academics, finance, edge_mesh, alumni, competition, ledger, hifz, lms, branding, communication, report_tasks, staff, student, sync, academic
 
 config = context.config
 if config.config_file_name is not None:
