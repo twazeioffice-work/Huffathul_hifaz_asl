@@ -6,6 +6,7 @@ import {
   TrendingUp, ChevronRight, ArrowLeft, Award, BookOpen, 
   User, MapPin, Calendar, Activity, BarChart3, Star
 } from "lucide-react";
+import { SwipeActionCard } from "../erp/SwipeActionCard";
 
 // --- MOCK DATA ---
 const MOCK_CENTERS = [
@@ -203,29 +204,34 @@ export const StudentProgressTracker = () => {
 
             <div className="space-y-3">
               {(MOCK_STUDENTS[selectedCenter.id] || []).sort((a, b) => b.score - a.score).map((student, idx) => (
-                <div 
+                <SwipeActionCard
                   key={student.id}
-                  onClick={() => handleStudentClick(student)}
-                  className="flex items-center justify-between p-4 bg-[#050506] border border-[#2C2C2E]/40 hover:border-[#30D158]/50 rounded-2xl cursor-pointer transition-all"
+                  onSwipeLeft={() => alert(`Marked ${student.name} as ABSENT`)}
+                  onSwipeRight={() => alert(`Awarded a Star to ${student.name}!`)}
                 >
-                  <div className="flex items-center space-x-4">
-                    <div className="h-8 w-8 rounded-full bg-[#1C1C1E] border border-[#2C2C2E] flex items-center justify-center font-mono text-[10px] text-white">
-                      {student.name.split(' ').map((n: string) => n[0]).join('')}
+                  <div 
+                    onClick={() => handleStudentClick(student)}
+                    className="flex items-center justify-between p-4 bg-[#050506] border border-[#2C2C2E]/40 hover:border-[#30D158]/50 rounded-2xl cursor-pointer transition-all"
+                  >
+                    <div className="flex items-center space-x-4">
+                      <div className="h-8 w-8 rounded-full bg-[#1C1C1E] border border-[#2C2C2E] flex items-center justify-center font-mono text-[10px] text-white">
+                        {student.name.split(' ').map((n: string) => n[0]).join('')}
+                      </div>
+                      <div>
+                        <h4 className="text-sm font-medium text-white fluid-text-base">{student.name}</h4>
+                        <p className="text-[10px] text-[#86868B] font-mono mt-0.5">Current Progress: {student.para}</p>
+                      </div>
                     </div>
-                    <div>
-                      <h4 className="text-sm font-medium text-white">{student.name}</h4>
-                      <p className="text-[10px] text-[#86868B] font-mono mt-0.5">Current Progress: {student.para}</p>
+                    <div className="flex items-center space-x-4">
+                      {/* Visual Progress Bar per student */}
+                      <div className="hidden sm:block w-32 h-1.5 bg-[#1C1C1E] rounded-full overflow-hidden">
+                        <div className="h-full bg-[#30D158]" style={{ width: `${student.score}%` }} />
+                      </div>
+                      <span className="text-sm font-bold text-white font-mono w-10 text-right">{student.score}%</span>
+                      <ChevronRight className="h-4 w-4 text-[#86868B]" />
                     </div>
                   </div>
-                  <div className="flex items-center space-x-4">
-                    {/* Visual Progress Bar per student */}
-                    <div className="hidden sm:block w-32 h-1.5 bg-[#1C1C1E] rounded-full overflow-hidden">
-                      <div className="h-full bg-[#30D158]" style={{ width: `${student.score}%` }} />
-                    </div>
-                    <span className="text-sm font-bold text-white font-mono w-10 text-right">{student.score}%</span>
-                    <ChevronRight className="h-4 w-4 text-[#86868B]" />
-                  </div>
-                </div>
+                </SwipeActionCard>
               ))}
               {(!MOCK_STUDENTS[selectedCenter.id] || MOCK_STUDENTS[selectedCenter.id].length === 0) && (
                 <div className="text-center p-8 text-[#86868B] text-xs">
