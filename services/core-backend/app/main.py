@@ -15,7 +15,7 @@ from fastapi.responses import JSONResponse
 from contextlib import asynccontextmanager
 
 # Import Core Routers
-from app.routers import auth, diagnostics, kpi
+from app.routers import welfare, auth, diagnostics, kpi
 
 # Import DB and Context Helpers
 from app.db.session import core_transactional_engine as engine, CoreSessionLocal as sessionmaker
@@ -143,8 +143,9 @@ async def global_exception_handler(request: Request, exc: Exception):
 # ==============================================================================
 
 # Standard prefixing matching system-wide BFF/App Router configs
-from app.routers import portal, webhooks
+from app.routers import welfare, portal, webhooks
 app.include_router(auth.router)
+app.include_router(welfare.router)
 app.include_router(diagnostics.router)
 app.include_router(kpi.router)
 app.include_router(portal.router)
