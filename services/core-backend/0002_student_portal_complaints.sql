@@ -91,14 +91,14 @@ CREATE POLICY super_admin_all_complaints_select ON complaints
     FOR SELECT
     
     USING (
-        (SELECT role FROM staff_profiles WHERE id = (current_setting('app.current_user_id')::UUID)) = 'SUPER_ADMIN'
+        (SELECT designation FROM staff_profiles WHERE id = (current_setting('app.current_user_id')::UUID)) = 'SUPER_ADMIN'
     );
 
 CREATE POLICY super_admin_all_complaints_update ON complaints
     FOR UPDATE
     
     USING (
-        (SELECT role FROM staff_profiles WHERE id = (current_setting('app.current_user_id')::UUID)) = 'SUPER_ADMIN'
+        (SELECT designation FROM staff_profiles WHERE id = (current_setting('app.current_user_id')::UUID)) = 'SUPER_ADMIN'
     );
 
 -- Policy 2: Center Admin (Nazim) can only read complaints routed to CENTER_ADMIN 
@@ -107,7 +107,7 @@ CREATE POLICY center_admin_complaints_access ON complaints
     FOR SELECT
     
     USING (
-        (SELECT role FROM staff_profiles WHERE id = (current_setting('app.current_user_id')::UUID)) = 'NAZIM'
+        (SELECT designation FROM staff_profiles WHERE id = (current_setting('app.current_user_id')::UUID)) = 'NAZIM'
         AND branch_id = (current_setting('app.current_branch_id')::UUID)
         AND recipient = 'CENTER_ADMIN'
     );
@@ -117,7 +117,7 @@ CREATE POLICY center_admin_complaints_update ON complaints
     FOR UPDATE
     
     USING (
-        (SELECT role FROM staff_profiles WHERE id = (current_setting('app.current_user_id')::UUID)) = 'NAZIM'
+        (SELECT designation FROM staff_profiles WHERE id = (current_setting('app.current_user_id')::UUID)) = 'NAZIM'
         AND branch_id = (current_setting('app.current_branch_id')::UUID)
         AND recipient = 'CENTER_ADMIN'
     )
