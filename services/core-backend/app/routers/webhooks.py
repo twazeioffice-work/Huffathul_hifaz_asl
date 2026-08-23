@@ -6,7 +6,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from sqlalchemy import or_
 
-from app.db.session import get_db
+from app.db.session import get_core_db as get_db
 from app.models.student import StudentEnrollment, StudentProfile
 from app.models.tenant import Institution, Branch
 
