@@ -87,6 +87,25 @@ const config: Config = {
           "scrollbar-width": "thin",
           "scrollbar-color": "rgba(255, 255, 255, 0.1) transparent",
         },
+        ".touch-target": {
+          "min-height": "44px",
+          "min-width": "44px",
+          "display": "flex",
+          "align-items": "center",
+          "justify-content": "center",
+        },
+        ".fluid-text-sm": {
+          "font-size": "clamp(0.875rem, 0.8vw + 0.5rem, 1rem)",
+        },
+        ".fluid-text-base": {
+          "font-size": "clamp(1rem, 1vw + 0.75rem, 1.125rem)",
+        },
+        ".fluid-text-lg": {
+          "font-size": "clamp(1.125rem, 1.5vw + 1rem, 1.5rem)",
+        },
+        ".fluid-text-xl": {
+          "font-size": "clamp(1.25rem, 2vw + 1rem, 1.75rem)",
+        },
       });
     }),
   ],
