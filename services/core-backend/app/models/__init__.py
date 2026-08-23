@@ -1,6 +1,6 @@
 from app.models.base import Base, BaseModel
 from app.models.tenant import Institution, Branch
-from app.models.auth import StaffProfile
+from app.models.staff import StaffProfile
 from app.models.academics import StudentEnrollment, SabaqRecord, PrayerAttendance, BehaviorLog
 from app.models.finance import FinancialVoucher, LedgerTransaction
 from app.models.portal import StudentFacility, SystemNotification, CampusNotice, Complaint
