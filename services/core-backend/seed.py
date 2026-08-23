@@ -14,19 +14,15 @@ async_session = sessionmaker(engine, class_=AsyncSession, expire_on_commit=False
 
 async def seed():
     async with async_session() as db:
-        # Create Institution
-        inst = Institution(id=uuid.uuid4(), name="Suffat-ul Huffaz", code="SUFFAT", is_active=True)
+        inst = Institution(id=uuid.uuid4(), name="Suffat-ul Huffaz", code="SUFFAT")
         db.add(inst)
         
-        # Create Branch
-        branch = Branch(id=uuid.uuid4(), institution_id=inst.id, name="Main Campus", code="MAIN", is_active=True)
+        branch = Branch(id=uuid.uuid4(), institution_id=inst.id, name="Main Campus", code="MAIN")
         db.add(branch)
 
-        # Create Role
         role = Role(id=uuid.uuid4(), institution_id=inst.id, name="Admin", is_system_role=True)
         db.add(role)
         
-        # Create User
         user = User(
             id=uuid.uuid4(),
             email="ustadh@suffat.com",
@@ -39,7 +35,6 @@ async def seed():
         
         await db.flush()
         
-        # Assign Role
         assignment = UserRoleAssignment(
             id=uuid.uuid4(),
             user_id=user.id,
