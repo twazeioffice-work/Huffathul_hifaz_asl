@@ -70,7 +70,8 @@ const nextConfig = {
   ...(process.env.BUILD_STANDALONE === 'true' ? { output: 'standalone' } : {}),
   typescript: {
     ignoreBuildErrors: true,
-  }
+  },
+  turbopack: {}
 };
 
 export default withPWA(nextConfig);
