@@ -17,8 +17,9 @@ branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
 
 def upgrade() -> None:
-    # Get the path to the raw SQL file
-    migration_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+    # Get the path to the raw SQL file (5 levels up to core-backend)
+    # __file__ is in core-backend/app/db/migrations/versions/
+    migration_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))))
     sql_path = os.path.join(migration_dir, '0002_student_portal_complaints.sql')
     
     with open(sql_path, 'r') as f:
