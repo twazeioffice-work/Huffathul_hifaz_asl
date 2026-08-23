@@ -4,21 +4,7 @@ from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 from app.models.base import BaseModel
 
-class StudentEnrollment(BaseModel):
-    __tablename__ = "student_enrollments"
-    
-    institution_id = Column(UUID(as_uuid=True), ForeignKey("institutions.id", ondelete="CASCADE"), nullable=False)
-    branch_id = Column(UUID(as_uuid=True), ForeignKey("branches.id", ondelete="CASCADE"), nullable=False)
-    student_name = Column(String(255), nullable=False)
-    roll_number = Column(String(50), nullable=False)
-    halqa_id = Column(UUID(as_uuid=True), nullable=True) # Scoped grouping for academic progression
-    assigned_ustad_id = Column(UUID(as_uuid=True), ForeignKey("staff_profiles.id"), nullable=True)
-    is_active = Column(Boolean, default=True, nullable=False)
-
-    # Relationships
-    sabaq_records = relationship("SabaqRecord", back_populates="student", cascade="all, delete-orphan")
-    prayer_attendance = relationship("PrayerAttendance", back_populates="student", cascade="all, delete-orphan")
-    behavior_logs = relationship("BehaviorLog", back_populates="student", cascade="all, delete-orphan")
+from app.models.student import StudentEnrollment
 
 
 class SabaqRecord(BaseModel):

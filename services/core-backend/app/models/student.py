@@ -36,6 +36,8 @@ class StudentProfile(Base):
 class StudentEnrollment(Base):
     __tablename__ = "student_enrollments"
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    institution_id = Column(UUID(as_uuid=True), ForeignKey("institutions.id", ondelete="CASCADE"), nullable=True)
+    branch_id = Column(UUID(as_uuid=True), ForeignKey("branches.id", ondelete="CASCADE"), nullable=True)
     student_id = Column(UUID(as_uuid=True), ForeignKey("student_profiles.id", ondelete="CASCADE"), nullable=False)
     batch_id = Column(UUID(as_uuid=True), ForeignKey("batches.id", ondelete="CASCADE"), nullable=False)
     academic_year_id = Column(UUID(as_uuid=True), ForeignKey("academic_years.id", ondelete="CASCADE"), nullable=False)
@@ -44,6 +46,18 @@ class StudentEnrollment(Base):
     local_guardian_phone = Column(String(50), nullable=False, default='+910000000000')
     blood_group = Column(String(10), nullable=True)
     medical_history = Column(String, nullable=True)
+    
+    student_name = Column(String(255), nullable=True)
+    roll_number = Column(String(50), nullable=True)
+    halqa_id = Column(UUID(as_uuid=True), nullable=True)
+    assigned_ustad_id = Column(UUID(as_uuid=True), ForeignKey("staff_profiles.id"), nullable=True)
+    is_active = Column(Boolean, default=True, nullable=False)
+
+    from sqlalchemy.orm import relationship
+    sabaq_records = relationship("SabaqRecord", back_populates="student", cascade="all, delete-orphan", primaryjoin="StudentEnrollment.id == SabaqRecord.student_enrollment_id")
+    prayer_attendance = relationship("PrayerAttendance", back_populates="student", cascade="all, delete-orphan", primaryjoin="StudentEnrollment.id == PrayerAttendance.student_enrollment_id")
+    behavior_logs = relationship("BehaviorLog", back_populates="student", cascade="all, delete-orphan", primaryjoin="StudentEnrollment.id == BehaviorLog.student_enrollment_id")
+    
     __table_args__ = {'extend_existing': True}
 
 from sqlalchemy import DateTime, Numeric, Text
