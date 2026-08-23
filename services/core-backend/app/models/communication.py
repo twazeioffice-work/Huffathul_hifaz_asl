@@ -1,7 +1,7 @@
 import uuid
 from sqlalchemy import Column, String, Text, Boolean, DateTime, ForeignKey, text
 from sqlalchemy.dialects.postgresql import UUID, JSONB, ENUM
-from app.db.session import Base
+from app.db.base_class import Base
 from sqlalchemy.sql import func
 
 class CommunicationLog(Base):
