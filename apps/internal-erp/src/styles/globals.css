@@ -6,13 +6,13 @@
 
 @layer base {
   :root {
-    --background-base: #09090b;
-    --surface-dark: #111115;
-    --glass-card: rgba(255, 255, 255, 0.05);
-    --border-glass: rgba(255, 255, 255, 0.08);
-    --primary-glow: #00e5ff;
-    --foreground-base: #f4f4f5;
-    --muted-foreground: #a1a1aa;
+    --background-base: #F4F1ED;
+    --surface-dark: #FFFFFF;
+    --glass-card: rgba(255, 255, 255, 0.9);
+    --border-glass: #E2D8C9;
+    --primary-glow: #184A45;
+    --foreground-base: #1E293B;
+    --muted-foreground: #64748B;
     --success: #22c55e;
     --warning: #f59e0b;
     --danger: #ef4444;

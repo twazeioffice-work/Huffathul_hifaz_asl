@@ -3714,3 +3714,627 @@ Call log:
 Call log:
 [2m  - waiting for locator('input[type="text"], input[type="email"]')[22m
 
+[2026-08-24T16:03:09.499Z] [INFO] 
+================================================================================
+[2026-08-24T16:03:09.499Z] [INFO] 🌟 STARTING CONTINUOUS DIAGNOSTIC CYCLE #51 (Run Time: 37 mins)
+[2026-08-24T16:03:09.500Z] [INFO] ================================================================================
+[2026-08-24T16:03:09.500Z] [INFO] Checking FastAPI Port 8000 state...
+[2026-08-24T16:03:09.519Z] [INFO] 🟢 FastAPI Backend is online. Verification Latency: 19ms
+[2026-08-24T16:03:09.520Z] [INFO] Checking Next.js Port 3001 login terminal...
+[2026-08-24T16:03:10.156Z] [SUCCESS] ⚡ Performance SLA verified for [/login]: 636ms
+[2026-08-24T16:03:10.156Z] [INFO] Injecting session claims and verifying middleware token generation...
+[2026-08-24T16:03:40.163Z] [CRITICAL] ❌ Critical cycle intercept caught: page.fill: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for locator('input[type="text"], input[type="email"]')[22m
+
+[2026-08-24T16:03:55.311Z] [INFO] 
+================================================================================
+[2026-08-24T16:03:55.313Z] [INFO] 🌟 STARTING CONTINUOUS DIAGNOSTIC CYCLE #52 (Run Time: 38 mins)
+[2026-08-24T16:03:55.314Z] [INFO] ================================================================================
+[2026-08-24T16:03:55.419Z] [INFO] Checking FastAPI Port 8000 state...
+[2026-08-24T16:03:55.681Z] [INFO] 🟢 FastAPI Backend is online. Verification Latency: 179ms
+[2026-08-24T16:03:55.683Z] [INFO] Checking Next.js Port 3001 login terminal...
+[2026-08-24T16:03:56.905Z] [SUCCESS] ⚡ Performance SLA verified for [/login]: 1221ms
+[2026-08-24T16:03:56.905Z] [INFO] Injecting session claims and verifying middleware token generation...
+[2026-08-24T16:04:26.918Z] [CRITICAL] ❌ Critical cycle intercept caught: page.fill: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for locator('input[type="text"], input[type="email"]')[22m
+
+[2026-08-24T16:04:41.922Z] [INFO] 
+================================================================================
+[2026-08-24T16:04:41.922Z] [INFO] 🌟 STARTING CONTINUOUS DIAGNOSTIC CYCLE #53 (Run Time: 39 mins)
+[2026-08-24T16:04:41.922Z] [INFO] ================================================================================
+[2026-08-24T16:04:41.923Z] [INFO] Checking FastAPI Port 8000 state...
+[2026-08-24T16:04:41.946Z] [INFO] 🟢 FastAPI Backend is online. Verification Latency: 23ms
+[2026-08-24T16:04:41.947Z] [INFO] Checking Next.js Port 3001 login terminal...
+[2026-08-24T16:04:42.348Z] [SUCCESS] ⚡ Performance SLA verified for [/login]: 401ms
+[2026-08-24T16:04:42.348Z] [INFO] Injecting session claims and verifying middleware token generation...
+[2026-08-24T16:05:12.354Z] [CRITICAL] ❌ Critical cycle intercept caught: page.fill: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for locator('input[type="text"], input[type="email"]')[22m
+
+[2026-08-24T16:05:27.366Z] [INFO] 
+================================================================================
+[2026-08-24T16:05:27.367Z] [INFO] 🌟 STARTING CONTINUOUS DIAGNOSTIC CYCLE #54 (Run Time: 40 mins)
+[2026-08-24T16:05:27.367Z] [INFO] ================================================================================
+[2026-08-24T16:05:27.369Z] [INFO] Checking FastAPI Port 8000 state...
+[2026-08-24T16:05:27.402Z] [INFO] 🟢 FastAPI Backend is online. Verification Latency: 33ms
+[2026-08-24T16:05:27.403Z] [INFO] Checking Next.js Port 3001 login terminal...
+[2026-08-24T16:05:27.686Z] [SUCCESS] ⚡ Performance SLA verified for [/login]: 283ms
+[2026-08-24T16:05:27.686Z] [INFO] Injecting session claims and verifying middleware token generation...
+[2026-08-24T16:05:57.688Z] [CRITICAL] ❌ Critical cycle intercept caught: page.fill: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for locator('input[type="text"], input[type="email"]')[22m
+
+[2026-08-24T16:06:12.696Z] [INFO] 
+================================================================================
+[2026-08-24T16:06:12.696Z] [INFO] 🌟 STARTING CONTINUOUS DIAGNOSTIC CYCLE #55 (Run Time: 41 mins)
+[2026-08-24T16:06:12.697Z] [INFO] ================================================================================
+[2026-08-24T16:06:12.697Z] [INFO] Checking FastAPI Port 8000 state...
+[2026-08-24T16:06:12.717Z] [INFO] 🟢 FastAPI Backend is online. Verification Latency: 20ms
+[2026-08-24T16:06:12.718Z] [INFO] Checking Next.js Port 3001 login terminal...
+[2026-08-24T16:06:13.007Z] [SUCCESS] ⚡ Performance SLA verified for [/login]: 288ms
+[2026-08-24T16:06:13.007Z] [INFO] Injecting session claims and verifying middleware token generation...
+[2026-08-24T16:06:43.009Z] [CRITICAL] ❌ Critical cycle intercept caught: page.fill: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for locator('input[type="text"], input[type="email"]')[22m
+
+[2026-08-24T16:06:58.023Z] [INFO] 
+================================================================================
+[2026-08-24T16:06:58.024Z] [INFO] 🌟 STARTING CONTINUOUS DIAGNOSTIC CYCLE #56 (Run Time: 41 mins)
+[2026-08-24T16:06:58.024Z] [INFO] ================================================================================
+[2026-08-24T16:06:58.024Z] [INFO] Checking FastAPI Port 8000 state...
+[2026-08-24T16:06:58.046Z] [INFO] 🟢 FastAPI Backend is online. Verification Latency: 22ms
+[2026-08-24T16:06:58.047Z] [INFO] Checking Next.js Port 3001 login terminal...
+[2026-08-24T16:06:58.279Z] [SUCCESS] ⚡ Performance SLA verified for [/login]: 232ms
+[2026-08-24T16:06:58.279Z] [INFO] Injecting session claims and verifying middleware token generation...
+[2026-08-24T16:07:28.282Z] [CRITICAL] ❌ Critical cycle intercept caught: page.fill: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for locator('input[type="text"], input[type="email"]')[22m
+
+[2026-08-24T16:07:43.286Z] [INFO] 
+================================================================================
+[2026-08-24T16:07:43.286Z] [INFO] 🌟 STARTING CONTINUOUS DIAGNOSTIC CYCLE #57 (Run Time: 42 mins)
+[2026-08-24T16:07:43.286Z] [INFO] ================================================================================
+[2026-08-24T16:07:43.287Z] [INFO] Checking FastAPI Port 8000 state...
+[2026-08-24T16:07:43.306Z] [INFO] 🟢 FastAPI Backend is online. Verification Latency: 19ms
+[2026-08-24T16:07:43.307Z] [INFO] Checking Next.js Port 3001 login terminal...
+[2026-08-24T16:07:43.538Z] [SUCCESS] ⚡ Performance SLA verified for [/login]: 231ms
+[2026-08-24T16:07:43.539Z] [INFO] Injecting session claims and verifying middleware token generation...
+[2026-08-24T16:08:13.545Z] [CRITICAL] ❌ Critical cycle intercept caught: page.fill: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for locator('input[type="text"], input[type="email"]')[22m
+
+[2026-08-24T16:08:28.557Z] [INFO] 
+================================================================================
+[2026-08-24T16:08:28.561Z] [INFO] 🌟 STARTING CONTINUOUS DIAGNOSTIC CYCLE #58 (Run Time: 43 mins)
+[2026-08-24T16:08:28.564Z] [INFO] ================================================================================
+[2026-08-24T16:08:28.564Z] [INFO] Checking FastAPI Port 8000 state...
+[2026-08-24T16:08:28.598Z] [INFO] 🟢 FastAPI Backend is online. Verification Latency: 33ms
+[2026-08-24T16:08:28.599Z] [INFO] Checking Next.js Port 3001 login terminal...
+[2026-08-24T16:08:29.011Z] [SUCCESS] ⚡ Performance SLA verified for [/login]: 412ms
+[2026-08-24T16:08:29.012Z] [INFO] Injecting session claims and verifying middleware token generation...
+[2026-08-24T16:08:59.021Z] [CRITICAL] ❌ Critical cycle intercept caught: page.fill: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for locator('input[type="text"], input[type="email"]')[22m
+
+[2026-08-24T16:09:14.033Z] [INFO] 
+================================================================================
+[2026-08-24T16:09:14.034Z] [INFO] 🌟 STARTING CONTINUOUS DIAGNOSTIC CYCLE #59 (Run Time: 44 mins)
+[2026-08-24T16:09:14.035Z] [INFO] ================================================================================
+[2026-08-24T16:09:14.035Z] [INFO] Checking FastAPI Port 8000 state...
+[2026-08-24T16:09:14.076Z] [INFO] 🟢 FastAPI Backend is online. Verification Latency: 40ms
+[2026-08-24T16:09:14.077Z] [INFO] Checking Next.js Port 3001 login terminal...
+[2026-08-24T16:09:14.461Z] [SUCCESS] ⚡ Performance SLA verified for [/login]: 384ms
+[2026-08-24T16:09:14.461Z] [INFO] Injecting session claims and verifying middleware token generation...
+[2026-08-24T16:09:44.465Z] [CRITICAL] ❌ Critical cycle intercept caught: page.fill: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for locator('input[type="text"], input[type="email"]')[22m
+
+[2026-08-24T16:09:59.469Z] [INFO] 
+================================================================================
+[2026-08-24T16:09:59.470Z] [INFO] 🌟 STARTING CONTINUOUS DIAGNOSTIC CYCLE #60 (Run Time: 44 mins)
+[2026-08-24T16:09:59.470Z] [INFO] ================================================================================
+[2026-08-24T16:09:59.470Z] [INFO] Checking FastAPI Port 8000 state...
+[2026-08-24T16:09:59.490Z] [INFO] 🟢 FastAPI Backend is online. Verification Latency: 20ms
+[2026-08-24T16:09:59.490Z] [INFO] Checking Next.js Port 3001 login terminal...
+[2026-08-24T16:09:59.767Z] [SUCCESS] ⚡ Performance SLA verified for [/login]: 276ms
+[2026-08-24T16:09:59.768Z] [INFO] Injecting session claims and verifying middleware token generation...
+[2026-08-24T16:10:29.779Z] [CRITICAL] ❌ Critical cycle intercept caught: page.fill: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for locator('input[type="text"], input[type="email"]')[22m
+
+[2026-08-24T16:10:44.781Z] [INFO] 
+================================================================================
+[2026-08-24T16:10:44.782Z] [INFO] 🌟 STARTING CONTINUOUS DIAGNOSTIC CYCLE #61 (Run Time: 45 mins)
+[2026-08-24T16:10:44.782Z] [INFO] ================================================================================
+[2026-08-24T16:10:44.782Z] [INFO] Checking FastAPI Port 8000 state...
+[2026-08-24T16:10:44.817Z] [INFO] 🟢 FastAPI Backend is online. Verification Latency: 35ms
+[2026-08-24T16:10:44.818Z] [INFO] Checking Next.js Port 3001 login terminal...
+[2026-08-24T16:10:45.515Z] [SUCCESS] ⚡ Performance SLA verified for [/login]: 697ms
+[2026-08-24T16:10:45.515Z] [INFO] Injecting session claims and verifying middleware token generation...
+[2026-08-24T16:11:15.526Z] [CRITICAL] ❌ Critical cycle intercept caught: page.fill: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for locator('input[type="text"], input[type="email"]')[22m
+
+[2026-08-24T16:11:30.536Z] [INFO] 
+================================================================================
+[2026-08-24T16:11:30.540Z] [INFO] 🌟 STARTING CONTINUOUS DIAGNOSTIC CYCLE #62 (Run Time: 46 mins)
+[2026-08-24T16:11:30.541Z] [INFO] ================================================================================
+[2026-08-24T16:11:30.541Z] [INFO] Checking FastAPI Port 8000 state...
+[2026-08-24T16:11:30.595Z] [INFO] 🟢 FastAPI Backend is online. Verification Latency: 53ms
+[2026-08-24T16:11:30.595Z] [INFO] Checking Next.js Port 3001 login terminal...
+[2026-08-24T16:11:31.312Z] [SUCCESS] ⚡ Performance SLA verified for [/login]: 716ms
+[2026-08-24T16:11:31.313Z] [INFO] Injecting session claims and verifying middleware token generation...
+[2026-08-24T16:12:01.321Z] [CRITICAL] ❌ Critical cycle intercept caught: page.fill: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for locator('input[type="text"], input[type="email"]')[22m
+
+[2026-08-24T16:12:16.323Z] [INFO] 
+================================================================================
+[2026-08-24T16:12:16.324Z] [INFO] 🌟 STARTING CONTINUOUS DIAGNOSTIC CYCLE #63 (Run Time: 47 mins)
+[2026-08-24T16:12:16.324Z] [INFO] ================================================================================
+[2026-08-24T16:12:16.324Z] [INFO] Checking FastAPI Port 8000 state...
+[2026-08-24T16:12:16.359Z] [INFO] 🟢 FastAPI Backend is online. Verification Latency: 35ms
+[2026-08-24T16:12:16.359Z] [INFO] Checking Next.js Port 3001 login terminal...
+[2026-08-24T16:12:16.581Z] [SUCCESS] ⚡ Performance SLA verified for [/login]: 222ms
+[2026-08-24T16:12:16.582Z] [INFO] Injecting session claims and verifying middleware token generation...
+[2026-08-24T16:12:46.592Z] [CRITICAL] ❌ Critical cycle intercept caught: page.fill: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for locator('input[type="text"], input[type="email"]')[22m
+
+[2026-08-24T16:13:01.597Z] [INFO] 
+================================================================================
+[2026-08-24T16:13:01.600Z] [INFO] 🌟 STARTING CONTINUOUS DIAGNOSTIC CYCLE #64 (Run Time: 47 mins)
+[2026-08-24T16:13:01.629Z] [INFO] ================================================================================
+[2026-08-24T16:13:01.629Z] [INFO] Checking FastAPI Port 8000 state...
+[2026-08-24T16:13:01.732Z] [INFO] 🟢 FastAPI Backend is online. Verification Latency: 87ms
+[2026-08-24T16:13:01.732Z] [INFO] Checking Next.js Port 3001 login terminal...
+[2026-08-24T16:13:01.994Z] [SUCCESS] ⚡ Performance SLA verified for [/login]: 262ms
+[2026-08-24T16:13:01.994Z] [INFO] Injecting session claims and verifying middleware token generation...
+[2026-08-24T16:13:32.031Z] [CRITICAL] ❌ Critical cycle intercept caught: page.fill: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for locator('input[type="text"], input[type="email"]')[22m
+
+[2026-08-24T16:13:47.039Z] [INFO] 
+================================================================================
+[2026-08-24T16:13:47.039Z] [INFO] 🌟 STARTING CONTINUOUS DIAGNOSTIC CYCLE #65 (Run Time: 48 mins)
+[2026-08-24T16:13:47.039Z] [INFO] ================================================================================
+[2026-08-24T16:13:47.040Z] [INFO] Checking FastAPI Port 8000 state...
+[2026-08-24T16:13:47.069Z] [INFO] 🟢 FastAPI Backend is online. Verification Latency: 29ms
+[2026-08-24T16:13:47.069Z] [INFO] Checking Next.js Port 3001 login terminal...
+[2026-08-24T16:13:47.376Z] [SUCCESS] ⚡ Performance SLA verified for [/login]: 306ms
+[2026-08-24T16:13:47.377Z] [INFO] Injecting session claims and verifying middleware token generation...
+[2026-08-24T16:14:17.384Z] [CRITICAL] ❌ Critical cycle intercept caught: page.fill: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for locator('input[type="text"], input[type="email"]')[22m
+
+[2026-08-24T16:14:32.395Z] [INFO] 
+================================================================================
+[2026-08-24T16:14:32.396Z] [INFO] 🌟 STARTING CONTINUOUS DIAGNOSTIC CYCLE #66 (Run Time: 49 mins)
+[2026-08-24T16:14:32.396Z] [INFO] ================================================================================
+[2026-08-24T16:14:32.396Z] [INFO] Checking FastAPI Port 8000 state...
+[2026-08-24T16:14:32.424Z] [INFO] 🟢 FastAPI Backend is online. Verification Latency: 28ms
+[2026-08-24T16:14:32.424Z] [INFO] Checking Next.js Port 3001 login terminal...
+[2026-08-24T16:14:32.856Z] [SUCCESS] ⚡ Performance SLA verified for [/login]: 432ms
+[2026-08-24T16:14:32.857Z] [INFO] Injecting session claims and verifying middleware token generation...
+[2026-08-24T16:15:02.857Z] [CRITICAL] ❌ Critical cycle intercept caught: page.fill: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for locator('input[type="text"], input[type="email"]')[22m
+
+[2026-08-24T16:15:17.862Z] [INFO] 
+================================================================================
+[2026-08-24T16:15:17.863Z] [INFO] 🌟 STARTING CONTINUOUS DIAGNOSTIC CYCLE #67 (Run Time: 50 mins)
+[2026-08-24T16:15:17.863Z] [INFO] ================================================================================
+[2026-08-24T16:15:17.863Z] [INFO] Checking FastAPI Port 8000 state...
+[2026-08-24T16:15:17.889Z] [INFO] 🟢 FastAPI Backend is online. Verification Latency: 26ms
+[2026-08-24T16:15:17.890Z] [INFO] Checking Next.js Port 3001 login terminal...
+[2026-08-24T16:15:18.473Z] [SUCCESS] ⚡ Performance SLA verified for [/login]: 583ms
+[2026-08-24T16:15:18.474Z] [INFO] Injecting session claims and verifying middleware token generation...
+[2026-08-24T16:15:48.475Z] [CRITICAL] ❌ Critical cycle intercept caught: page.fill: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for locator('input[type="text"], input[type="email"]')[22m
+
+[2026-08-24T16:16:03.486Z] [INFO] 
+================================================================================
+[2026-08-24T16:16:03.486Z] [INFO] 🌟 STARTING CONTINUOUS DIAGNOSTIC CYCLE #68 (Run Time: 50 mins)
+[2026-08-24T16:16:03.487Z] [INFO] ================================================================================
+[2026-08-24T16:16:03.487Z] [INFO] Checking FastAPI Port 8000 state...
+[2026-08-24T16:16:03.516Z] [INFO] 🟢 FastAPI Backend is online. Verification Latency: 29ms
+[2026-08-24T16:16:03.517Z] [INFO] Checking Next.js Port 3001 login terminal...
+[2026-08-24T16:16:04.253Z] [SUCCESS] ⚡ Performance SLA verified for [/login]: 736ms
+[2026-08-24T16:16:04.253Z] [INFO] Injecting session claims and verifying middleware token generation...
+[2026-08-24T16:16:34.264Z] [CRITICAL] ❌ Critical cycle intercept caught: page.fill: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for locator('input[type="text"], input[type="email"]')[22m
+
+[2026-08-24T16:16:49.285Z] [INFO] 
+================================================================================
+[2026-08-24T16:16:49.286Z] [INFO] 🌟 STARTING CONTINUOUS DIAGNOSTIC CYCLE #69 (Run Time: 51 mins)
+[2026-08-24T16:16:49.302Z] [INFO] ================================================================================
+[2026-08-24T16:16:49.319Z] [INFO] Checking FastAPI Port 8000 state...
+[2026-08-24T16:16:49.378Z] [INFO] 🟢 FastAPI Backend is online. Verification Latency: 44ms
+[2026-08-24T16:16:49.378Z] [INFO] Checking Next.js Port 3001 login terminal...
+[2026-08-24T16:16:50.350Z] [SUCCESS] ⚡ Performance SLA verified for [/login]: 970ms
+[2026-08-24T16:16:50.350Z] [INFO] Injecting session claims and verifying middleware token generation...
+[2026-08-24T16:17:20.352Z] [CRITICAL] ❌ Critical cycle intercept caught: page.fill: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for locator('input[type="text"], input[type="email"]')[22m
+
+[2026-08-24T16:17:35.357Z] [INFO] 
+================================================================================
+[2026-08-24T16:17:35.357Z] [INFO] 🌟 STARTING CONTINUOUS DIAGNOSTIC CYCLE #70 (Run Time: 52 mins)
+[2026-08-24T16:17:35.358Z] [INFO] ================================================================================
+[2026-08-24T16:17:35.358Z] [INFO] Checking FastAPI Port 8000 state...
+[2026-08-24T16:17:35.390Z] [INFO] 🟢 FastAPI Backend is online. Verification Latency: 31ms
+[2026-08-24T16:17:35.390Z] [INFO] Checking Next.js Port 3001 login terminal...
+[2026-08-24T16:17:35.629Z] [SUCCESS] ⚡ Performance SLA verified for [/login]: 238ms
+[2026-08-24T16:17:35.630Z] [INFO] Injecting session claims and verifying middleware token generation...
+[2026-08-24T16:18:05.645Z] [CRITICAL] ❌ Critical cycle intercept caught: page.fill: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for locator('input[type="text"], input[type="email"]')[22m
+
+[2026-08-24T16:18:20.658Z] [INFO] 
+================================================================================
+[2026-08-24T16:18:20.659Z] [INFO] 🌟 STARTING CONTINUOUS DIAGNOSTIC CYCLE #71 (Run Time: 53 mins)
+[2026-08-24T16:18:20.659Z] [INFO] ================================================================================
+[2026-08-24T16:18:20.659Z] [INFO] Checking FastAPI Port 8000 state...
+[2026-08-24T16:18:20.680Z] [INFO] 🟢 FastAPI Backend is online. Verification Latency: 21ms
+[2026-08-24T16:18:20.680Z] [INFO] Checking Next.js Port 3001 login terminal...
+[2026-08-24T16:18:20.912Z] [SUCCESS] ⚡ Performance SLA verified for [/login]: 232ms
+[2026-08-24T16:18:20.913Z] [INFO] Injecting session claims and verifying middleware token generation...
+[2026-08-24T16:18:50.915Z] [CRITICAL] ❌ Critical cycle intercept caught: page.fill: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for locator('input[type="text"], input[type="email"]')[22m
+
+[2026-08-24T16:19:05.931Z] [INFO] 
+================================================================================
+[2026-08-24T16:19:05.931Z] [INFO] 🌟 STARTING CONTINUOUS DIAGNOSTIC CYCLE #72 (Run Time: 53 mins)
+[2026-08-24T16:19:05.931Z] [INFO] ================================================================================
+[2026-08-24T16:19:05.931Z] [INFO] Checking FastAPI Port 8000 state...
+[2026-08-24T16:19:05.953Z] [INFO] 🟢 FastAPI Backend is online. Verification Latency: 21ms
+[2026-08-24T16:19:05.954Z] [INFO] Checking Next.js Port 3001 login terminal...
+[2026-08-24T16:19:06.199Z] [SUCCESS] ⚡ Performance SLA verified for [/login]: 245ms
+[2026-08-24T16:19:06.199Z] [INFO] Injecting session claims and verifying middleware token generation...
+[2026-08-24T16:19:36.205Z] [CRITICAL] ❌ Critical cycle intercept caught: page.fill: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for locator('input[type="text"], input[type="email"]')[22m
+
+[2026-08-24T16:19:51.210Z] [INFO] 
+================================================================================
+[2026-08-24T16:19:51.211Z] [INFO] 🌟 STARTING CONTINUOUS DIAGNOSTIC CYCLE #73 (Run Time: 54 mins)
+[2026-08-24T16:19:51.211Z] [INFO] ================================================================================
+[2026-08-24T16:19:51.211Z] [INFO] Checking FastAPI Port 8000 state...
+[2026-08-24T16:19:51.230Z] [INFO] 🟢 FastAPI Backend is online. Verification Latency: 19ms
+[2026-08-24T16:19:51.231Z] [INFO] Checking Next.js Port 3001 login terminal...
+[2026-08-24T16:19:51.540Z] [SUCCESS] ⚡ Performance SLA verified for [/login]: 309ms
+[2026-08-24T16:19:51.541Z] [INFO] Injecting session claims and verifying middleware token generation...
+[2026-08-24T16:20:21.551Z] [CRITICAL] ❌ Critical cycle intercept caught: page.fill: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for locator('input[type="text"], input[type="email"]')[22m
+
+[2026-08-24T16:20:36.565Z] [INFO] 
+================================================================================
+[2026-08-24T16:20:36.565Z] [INFO] 🌟 STARTING CONTINUOUS DIAGNOSTIC CYCLE #74 (Run Time: 55 mins)
+[2026-08-24T16:20:36.566Z] [INFO] ================================================================================
+[2026-08-24T16:20:36.566Z] [INFO] Checking FastAPI Port 8000 state...
+[2026-08-24T16:20:36.585Z] [INFO] 🟢 FastAPI Backend is online. Verification Latency: 19ms
+[2026-08-24T16:20:36.585Z] [INFO] Checking Next.js Port 3001 login terminal...
+[2026-08-24T16:20:36.887Z] [SUCCESS] ⚡ Performance SLA verified for [/login]: 301ms
+[2026-08-24T16:20:36.887Z] [INFO] Injecting session claims and verifying middleware token generation...
+[2026-08-24T16:21:06.897Z] [CRITICAL] ❌ Critical cycle intercept caught: page.fill: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for locator('input[type="text"], input[type="email"]')[22m
+
+[2026-08-24T16:21:21.913Z] [INFO] 
+================================================================================
+[2026-08-24T16:21:21.913Z] [INFO] 🌟 STARTING CONTINUOUS DIAGNOSTIC CYCLE #75 (Run Time: 56 mins)
+[2026-08-24T16:21:21.914Z] [INFO] ================================================================================
+[2026-08-24T16:21:21.914Z] [INFO] Checking FastAPI Port 8000 state...
+[2026-08-24T16:21:21.940Z] [INFO] 🟢 FastAPI Backend is online. Verification Latency: 26ms
+[2026-08-24T16:21:21.941Z] [INFO] Checking Next.js Port 3001 login terminal...
+[2026-08-24T16:21:22.366Z] [SUCCESS] ⚡ Performance SLA verified for [/login]: 425ms
+[2026-08-24T16:21:22.367Z] [INFO] Injecting session claims and verifying middleware token generation...
+[2026-08-24T16:21:52.379Z] [CRITICAL] ❌ Critical cycle intercept caught: page.fill: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for locator('input[type="text"], input[type="email"]')[22m
+
+[2026-08-24T16:22:07.393Z] [INFO] 
+================================================================================
+[2026-08-24T16:22:07.394Z] [INFO] 🌟 STARTING CONTINUOUS DIAGNOSTIC CYCLE #76 (Run Time: 56 mins)
+[2026-08-24T16:22:07.395Z] [INFO] ================================================================================
+[2026-08-24T16:22:07.395Z] [INFO] Checking FastAPI Port 8000 state...
+[2026-08-24T16:22:07.436Z] [INFO] 🟢 FastAPI Backend is online. Verification Latency: 41ms
+[2026-08-24T16:22:07.436Z] [INFO] Checking Next.js Port 3001 login terminal...
+[2026-08-24T16:22:08.255Z] [SUCCESS] ⚡ Performance SLA verified for [/login]: 819ms
+[2026-08-24T16:22:08.256Z] [INFO] Injecting session claims and verifying middleware token generation...
+[2026-08-24T16:22:38.260Z] [CRITICAL] ❌ Critical cycle intercept caught: page.fill: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for locator('input[type="text"], input[type="email"]')[22m
+
+[2026-08-24T16:22:53.273Z] [INFO] 
+================================================================================
+[2026-08-24T16:22:53.273Z] [INFO] 🌟 STARTING CONTINUOUS DIAGNOSTIC CYCLE #77 (Run Time: 57 mins)
+[2026-08-24T16:22:53.273Z] [INFO] ================================================================================
+[2026-08-24T16:22:53.274Z] [INFO] Checking FastAPI Port 8000 state...
+[2026-08-24T16:22:53.296Z] [INFO] 🟢 FastAPI Backend is online. Verification Latency: 22ms
+[2026-08-24T16:22:53.296Z] [INFO] Checking Next.js Port 3001 login terminal...
+[2026-08-24T16:22:53.753Z] [SUCCESS] ⚡ Performance SLA verified for [/login]: 456ms
+[2026-08-24T16:22:53.754Z] [INFO] Injecting session claims and verifying middleware token generation...
+[2026-08-24T16:23:23.771Z] [CRITICAL] ❌ Critical cycle intercept caught: page.fill: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for locator('input[type="text"], input[type="email"]')[22m
+
+[2026-08-24T16:23:38.779Z] [INFO] 
+================================================================================
+[2026-08-24T16:23:38.780Z] [INFO] 🌟 STARTING CONTINUOUS DIAGNOSTIC CYCLE #78 (Run Time: 58 mins)
+[2026-08-24T16:23:38.780Z] [INFO] ================================================================================
+[2026-08-24T16:23:38.781Z] [INFO] Checking FastAPI Port 8000 state...
+[2026-08-24T16:23:38.840Z] [INFO] 🟢 FastAPI Backend is online. Verification Latency: 59ms
+[2026-08-24T16:23:38.841Z] [INFO] Checking Next.js Port 3001 login terminal...
+[2026-08-24T16:23:39.483Z] [SUCCESS] ⚡ Performance SLA verified for [/login]: 642ms
+[2026-08-24T16:23:39.484Z] [INFO] Injecting session claims and verifying middleware token generation...
+[2026-08-24T16:24:09.495Z] [CRITICAL] ❌ Critical cycle intercept caught: page.fill: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for locator('input[type="text"], input[type="email"]')[22m
+
+[2026-08-24T16:24:24.513Z] [INFO] 
+================================================================================
+[2026-08-24T16:24:24.513Z] [INFO] 🌟 STARTING CONTINUOUS DIAGNOSTIC CYCLE #79 (Run Time: 59 mins)
+[2026-08-24T16:24:24.514Z] [INFO] ================================================================================
+[2026-08-24T16:24:24.514Z] [INFO] Checking FastAPI Port 8000 state...
+[2026-08-24T16:24:24.595Z] [INFO] 🟢 FastAPI Backend is online. Verification Latency: 81ms
+[2026-08-24T16:24:24.596Z] [INFO] Checking Next.js Port 3001 login terminal...
+[2026-08-24T16:24:25.250Z] [SUCCESS] ⚡ Performance SLA verified for [/login]: 654ms
+[2026-08-24T16:24:25.250Z] [INFO] Injecting session claims and verifying middleware token generation...
+[2026-08-24T16:24:55.259Z] [CRITICAL] ❌ Critical cycle intercept caught: page.fill: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for locator('input[type="text"], input[type="email"]')[22m
+
+[2026-08-24T16:25:10.262Z] [INFO] 
+================================================================================
+[2026-08-24T16:25:10.262Z] [INFO] 🌟 STARTING CONTINUOUS DIAGNOSTIC CYCLE #80 (Run Time: 59 mins)
+[2026-08-24T16:25:10.263Z] [INFO] ================================================================================
+[2026-08-24T16:25:10.263Z] [INFO] Checking FastAPI Port 8000 state...
+[2026-08-24T16:25:10.288Z] [INFO] 🟢 FastAPI Backend is online. Verification Latency: 25ms
+[2026-08-24T16:25:10.288Z] [INFO] Checking Next.js Port 3001 login terminal...
+[2026-08-24T16:25:10.571Z] [SUCCESS] ⚡ Performance SLA verified for [/login]: 283ms
+[2026-08-24T16:25:10.571Z] [INFO] Injecting session claims and verifying middleware token generation...
+[2026-08-24T16:25:40.578Z] [CRITICAL] ❌ Critical cycle intercept caught: page.fill: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for locator('input[type="text"], input[type="email"]')[22m
+
+[2026-08-24T16:25:55.583Z] [INFO] 
+================================================================================
+[2026-08-24T16:25:55.584Z] [INFO] 🌟 STARTING CONTINUOUS DIAGNOSTIC CYCLE #81 (Run Time: 60 mins)
+[2026-08-24T16:25:55.584Z] [INFO] ================================================================================
+[2026-08-24T16:25:55.584Z] [INFO] Checking FastAPI Port 8000 state...
+[2026-08-24T16:25:55.623Z] [INFO] 🟢 FastAPI Backend is online. Verification Latency: 39ms
+[2026-08-24T16:25:55.624Z] [INFO] Checking Next.js Port 3001 login terminal...
+[2026-08-24T16:25:55.989Z] [SUCCESS] ⚡ Performance SLA verified for [/login]: 365ms
+[2026-08-24T16:25:55.989Z] [INFO] Injecting session claims and verifying middleware token generation...
+[2026-08-24T16:26:25.994Z] [CRITICAL] ❌ Critical cycle intercept caught: page.fill: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for locator('input[type="text"], input[type="email"]')[22m
+
+[2026-08-24T16:26:41.006Z] [INFO] 
+================================================================================
+[2026-08-24T16:26:41.007Z] [INFO] 🌟 STARTING CONTINUOUS DIAGNOSTIC CYCLE #82 (Run Time: 61 mins)
+[2026-08-24T16:26:41.007Z] [INFO] ================================================================================
+[2026-08-24T16:26:41.007Z] [INFO] Checking FastAPI Port 8000 state...
+[2026-08-24T16:26:41.085Z] [INFO] 🟢 FastAPI Backend is online. Verification Latency: 78ms
+[2026-08-24T16:26:41.086Z] [INFO] Checking Next.js Port 3001 login terminal...
+[2026-08-24T16:26:41.845Z] [SUCCESS] ⚡ Performance SLA verified for [/login]: 759ms
+[2026-08-24T16:26:41.846Z] [INFO] Injecting session claims and verifying middleware token generation...
+[2026-08-24T16:27:11.852Z] [CRITICAL] ❌ Critical cycle intercept caught: page.fill: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for locator('input[type="text"], input[type="email"]')[22m
+
+[2026-08-24T16:27:26.866Z] [INFO] 
+================================================================================
+[2026-08-24T16:27:26.867Z] [INFO] 🌟 STARTING CONTINUOUS DIAGNOSTIC CYCLE #83 (Run Time: 62 mins)
+[2026-08-24T16:27:26.867Z] [INFO] ================================================================================
+[2026-08-24T16:27:26.867Z] [INFO] Checking FastAPI Port 8000 state...
+[2026-08-24T16:27:26.893Z] [INFO] 🟢 FastAPI Backend is online. Verification Latency: 26ms
+[2026-08-24T16:27:26.893Z] [INFO] Checking Next.js Port 3001 login terminal...
+[2026-08-24T16:27:27.222Z] [SUCCESS] ⚡ Performance SLA verified for [/login]: 329ms
+[2026-08-24T16:27:27.222Z] [INFO] Injecting session claims and verifying middleware token generation...
+[2026-08-24T16:27:57.235Z] [CRITICAL] ❌ Critical cycle intercept caught: page.fill: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for locator('input[type="text"], input[type="email"]')[22m
+
+[2026-08-24T16:28:12.250Z] [INFO] 
+================================================================================
+[2026-08-24T16:28:12.251Z] [INFO] 🌟 STARTING CONTINUOUS DIAGNOSTIC CYCLE #84 (Run Time: 63 mins)
+[2026-08-24T16:28:12.251Z] [INFO] ================================================================================
+[2026-08-24T16:28:12.251Z] [INFO] Checking FastAPI Port 8000 state...
+[2026-08-24T16:28:12.293Z] [INFO] 🟢 FastAPI Backend is online. Verification Latency: 41ms
+[2026-08-24T16:28:12.295Z] [INFO] Checking Next.js Port 3001 login terminal...
+[2026-08-24T16:28:12.774Z] [SUCCESS] ⚡ Performance SLA verified for [/login]: 479ms
+[2026-08-24T16:28:12.774Z] [INFO] Injecting session claims and verifying middleware token generation...
+[2026-08-24T16:28:42.789Z] [CRITICAL] ❌ Critical cycle intercept caught: page.fill: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for locator('input[type="text"], input[type="email"]')[22m
+
+[2026-08-24T16:28:57.795Z] [INFO] 
+================================================================================
+[2026-08-24T16:28:57.796Z] [INFO] 🌟 STARTING CONTINUOUS DIAGNOSTIC CYCLE #85 (Run Time: 63 mins)
+[2026-08-24T16:28:57.797Z] [INFO] ================================================================================
+[2026-08-24T16:28:57.797Z] [INFO] Checking FastAPI Port 8000 state...
+[2026-08-24T16:28:57.852Z] [INFO] 🟢 FastAPI Backend is online. Verification Latency: 55ms
+[2026-08-24T16:28:57.852Z] [INFO] Checking Next.js Port 3001 login terminal...
+[2026-08-24T16:28:58.265Z] [SUCCESS] ⚡ Performance SLA verified for [/login]: 413ms
+[2026-08-24T16:28:58.266Z] [INFO] Injecting session claims and verifying middleware token generation...
+[2026-08-24T16:29:28.272Z] [CRITICAL] ❌ Critical cycle intercept caught: page.fill: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for locator('input[type="text"], input[type="email"]')[22m
+
+[2026-08-24T16:29:43.274Z] [INFO] 
+================================================================================
+[2026-08-24T16:29:43.275Z] [INFO] 🌟 STARTING CONTINUOUS DIAGNOSTIC CYCLE #86 (Run Time: 64 mins)
+[2026-08-24T16:29:43.275Z] [INFO] ================================================================================
+[2026-08-24T16:29:43.275Z] [INFO] Checking FastAPI Port 8000 state...
+[2026-08-24T16:29:43.311Z] [INFO] 🟢 FastAPI Backend is online. Verification Latency: 36ms
+[2026-08-24T16:29:43.311Z] [INFO] Checking Next.js Port 3001 login terminal...
+[2026-08-24T16:29:43.674Z] [SUCCESS] ⚡ Performance SLA verified for [/login]: 363ms
+[2026-08-24T16:29:43.675Z] [INFO] Injecting session claims and verifying middleware token generation...
+[2026-08-24T16:30:13.685Z] [CRITICAL] ❌ Critical cycle intercept caught: page.fill: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for locator('input[type="text"], input[type="email"]')[22m
+
+[2026-08-24T16:30:28.751Z] [INFO] 
+================================================================================
+[2026-08-24T16:30:28.752Z] [INFO] 🌟 STARTING CONTINUOUS DIAGNOSTIC CYCLE #87 (Run Time: 65 mins)
+[2026-08-24T16:30:28.752Z] [INFO] ================================================================================
+[2026-08-24T16:30:28.752Z] [INFO] Checking FastAPI Port 8000 state...
+[2026-08-24T16:30:28.795Z] [INFO] 🟢 FastAPI Backend is online. Verification Latency: 43ms
+[2026-08-24T16:30:28.795Z] [INFO] Checking Next.js Port 3001 login terminal...
+[2026-08-24T16:30:29.786Z] [SUCCESS] ⚡ Performance SLA verified for [/login]: 991ms
+[2026-08-24T16:30:29.786Z] [INFO] Injecting session claims and verifying middleware token generation...
+[2026-08-24T16:30:59.796Z] [CRITICAL] ❌ Critical cycle intercept caught: page.fill: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for locator('input[type="text"], input[type="email"]')[22m
+
+[2026-08-24T16:31:14.801Z] [INFO] 
+================================================================================
+[2026-08-24T16:31:14.801Z] [INFO] 🌟 STARTING CONTINUOUS DIAGNOSTIC CYCLE #88 (Run Time: 66 mins)
+[2026-08-24T16:31:14.802Z] [INFO] ================================================================================
+[2026-08-24T16:31:14.802Z] [INFO] Checking FastAPI Port 8000 state...
+[2026-08-24T16:31:14.839Z] [INFO] 🟢 FastAPI Backend is online. Verification Latency: 37ms
+[2026-08-24T16:31:14.839Z] [INFO] Checking Next.js Port 3001 login terminal...
+[2026-08-24T16:31:15.317Z] [SUCCESS] ⚡ Performance SLA verified for [/login]: 477ms
+[2026-08-24T16:31:15.317Z] [INFO] Injecting session claims and verifying middleware token generation...
+[2026-08-24T16:31:45.320Z] [CRITICAL] ❌ Critical cycle intercept caught: page.fill: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for locator('input[type="text"], input[type="email"]')[22m
+
+[2026-08-24T16:32:00.325Z] [INFO] 
+================================================================================
+[2026-08-24T16:32:00.325Z] [INFO] 🌟 STARTING CONTINUOUS DIAGNOSTIC CYCLE #89 (Run Time: 66 mins)
+[2026-08-24T16:32:00.325Z] [INFO] ================================================================================
+[2026-08-24T16:32:00.325Z] [INFO] Checking FastAPI Port 8000 state...
+[2026-08-24T16:32:00.394Z] [INFO] 🟢 FastAPI Backend is online. Verification Latency: 68ms
+[2026-08-24T16:32:00.394Z] [INFO] Checking Next.js Port 3001 login terminal...
+[2026-08-24T16:32:00.824Z] [SUCCESS] ⚡ Performance SLA verified for [/login]: 429ms
+[2026-08-24T16:32:00.824Z] [INFO] Injecting session claims and verifying middleware token generation...
+[2026-08-24T16:32:30.836Z] [CRITICAL] ❌ Critical cycle intercept caught: page.fill: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for locator('input[type="text"], input[type="email"]')[22m
+
+[2026-08-24T16:32:45.856Z] [INFO] 
+================================================================================
+[2026-08-24T16:32:45.857Z] [INFO] 🌟 STARTING CONTINUOUS DIAGNOSTIC CYCLE #90 (Run Time: 67 mins)
+[2026-08-24T16:32:45.857Z] [INFO] ================================================================================
+[2026-08-24T16:32:45.857Z] [INFO] Checking FastAPI Port 8000 state...
+[2026-08-24T16:32:45.905Z] [INFO] 🟢 FastAPI Backend is online. Verification Latency: 48ms
+[2026-08-24T16:32:45.906Z] [INFO] Checking Next.js Port 3001 login terminal...
+[2026-08-24T16:32:46.530Z] [SUCCESS] ⚡ Performance SLA verified for [/login]: 624ms
+[2026-08-24T16:32:46.531Z] [INFO] Injecting session claims and verifying middleware token generation...
+[2026-08-24T16:33:16.545Z] [CRITICAL] ❌ Critical cycle intercept caught: page.fill: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for locator('input[type="text"], input[type="email"]')[22m
+
+[2026-08-24T16:33:31.548Z] [INFO] 
+================================================================================
+[2026-08-24T16:33:31.548Z] [INFO] 🌟 STARTING CONTINUOUS DIAGNOSTIC CYCLE #91 (Run Time: 68 mins)
+[2026-08-24T16:33:31.548Z] [INFO] ================================================================================
+[2026-08-24T16:33:31.549Z] [INFO] Checking FastAPI Port 8000 state...
+[2026-08-24T16:33:31.583Z] [INFO] 🟢 FastAPI Backend is online. Verification Latency: 34ms
+[2026-08-24T16:33:31.584Z] [INFO] Checking Next.js Port 3001 login terminal...
+[2026-08-24T16:33:31.952Z] [SUCCESS] ⚡ Performance SLA verified for [/login]: 368ms
+[2026-08-24T16:33:31.953Z] [INFO] Injecting session claims and verifying middleware token generation...
+[2026-08-24T16:34:01.966Z] [CRITICAL] ❌ Critical cycle intercept caught: page.fill: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for locator('input[type="text"], input[type="email"]')[22m
+
+[2026-08-24T16:34:17.011Z] [INFO] 
+================================================================================
+[2026-08-24T16:34:17.012Z] [INFO] 🌟 STARTING CONTINUOUS DIAGNOSTIC CYCLE #92 (Run Time: 69 mins)
+[2026-08-24T16:34:17.012Z] [INFO] ================================================================================
+[2026-08-24T16:34:17.012Z] [INFO] Checking FastAPI Port 8000 state...
+[2026-08-24T16:34:17.074Z] [INFO] 🟢 FastAPI Backend is online. Verification Latency: 62ms
+[2026-08-24T16:34:17.074Z] [INFO] Checking Next.js Port 3001 login terminal...
+[2026-08-24T16:34:17.403Z] [SUCCESS] ⚡ Performance SLA verified for [/login]: 328ms
+[2026-08-24T16:34:17.403Z] [INFO] Injecting session claims and verifying middleware token generation...
+[2026-08-24T16:34:47.417Z] [CRITICAL] ❌ Critical cycle intercept caught: page.fill: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for locator('input[type="text"], input[type="email"]')[22m
+
+[2026-08-24T16:35:02.424Z] [INFO] 
+================================================================================
+[2026-08-24T16:35:02.424Z] [INFO] 🌟 STARTING CONTINUOUS DIAGNOSTIC CYCLE #93 (Run Time: 69 mins)
+[2026-08-24T16:35:02.426Z] [INFO] ================================================================================
+[2026-08-24T16:35:02.426Z] [INFO] Checking FastAPI Port 8000 state...
+[2026-08-24T16:35:02.448Z] [INFO] 🟢 FastAPI Backend is online. Verification Latency: 22ms
+[2026-08-24T16:35:02.449Z] [INFO] Checking Next.js Port 3001 login terminal...
+[2026-08-24T16:35:02.719Z] [SUCCESS] ⚡ Performance SLA verified for [/login]: 270ms
+[2026-08-24T16:35:02.719Z] [INFO] Injecting session claims and verifying middleware token generation...
+[2026-08-24T16:35:32.725Z] [CRITICAL] ❌ Critical cycle intercept caught: page.fill: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for locator('input[type="text"], input[type="email"]')[22m
+[2m    - waiting for "http://localhost:5000/app/suffat/main/erp" navigation to finish...[22m
+[2m    - navigated to "http://localhost:5000/app/suffat/main/erp"[22m
+
+[2026-08-24T16:35:47.740Z] [INFO] 
+================================================================================
+[2026-08-24T16:35:47.741Z] [INFO] 🌟 STARTING CONTINUOUS DIAGNOSTIC CYCLE #94 (Run Time: 70 mins)
+[2026-08-24T16:35:47.741Z] [INFO] ================================================================================
+[2026-08-24T16:35:47.741Z] [INFO] Checking FastAPI Port 8000 state...
+[2026-08-24T16:35:47.764Z] [INFO] 🟢 FastAPI Backend is online. Verification Latency: 23ms
+[2026-08-24T16:35:47.764Z] [INFO] Checking Next.js Port 3001 login terminal...
+[2026-08-24T16:35:47.980Z] [CRITICAL] ❌ Next.js application returned invalid status code: 404
+[2026-08-24T16:35:47.981Z] [WARNING] ⚠️ INITIATING AUTOMATED SELF-HEALING ACTION FOR: NEXTJS_DOWN
+[2026-08-24T16:35:47.982Z] [SYSTEM] Targeting Next.js Web Server... Attempting PM2 recycling process...
+[2026-08-24T16:36:12.764Z] [CRITICAL] ❌ Critical Fail: Self-healing operation failed to run: Command failed: npx pm2 restart suffat-erp
+[2026-08-24T16:36:22.767Z] [INFO] 
+================================================================================
+[2026-08-24T16:36:22.771Z] [INFO] 🌟 STARTING CONTINUOUS DIAGNOSTIC CYCLE #95 (Run Time: 71 mins)
+[2026-08-24T16:36:22.772Z] [INFO] ================================================================================
+[2026-08-24T16:36:22.772Z] [INFO] Checking FastAPI Port 8000 state...
+[2026-08-24T16:36:22.799Z] [INFO] 🟢 FastAPI Backend is online. Verification Latency: 26ms
+[2026-08-24T16:36:22.799Z] [INFO] Checking Next.js Port 3001 login terminal...
+[2026-08-24T16:36:23.403Z] [SUCCESS] ⚡ Performance SLA verified for [/login]: 604ms
+[2026-08-24T16:36:23.403Z] [INFO] Injecting session claims and verifying middleware token generation...
+[2026-08-24T16:36:53.410Z] [CRITICAL] ❌ Critical cycle intercept caught: page.fill: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for locator('input[type="text"], input[type="email"]')[22m
+
+[2026-08-24T16:37:08.418Z] [INFO] 
+================================================================================
+[2026-08-24T16:37:08.418Z] [INFO] 🌟 STARTING CONTINUOUS DIAGNOSTIC CYCLE #96 (Run Time: 71 mins)
+[2026-08-24T16:37:08.419Z] [INFO] ================================================================================
+[2026-08-24T16:37:08.419Z] [INFO] Checking FastAPI Port 8000 state...
+[2026-08-24T16:37:08.464Z] [INFO] 🟢 FastAPI Backend is online. Verification Latency: 45ms
+[2026-08-24T16:37:08.464Z] [INFO] Checking Next.js Port 3001 login terminal...
+[2026-08-24T16:37:08.838Z] [SUCCESS] ⚡ Performance SLA verified for [/login]: 374ms
+[2026-08-24T16:37:08.838Z] [INFO] Injecting session claims and verifying middleware token generation...
+[2026-08-24T16:37:38.854Z] [CRITICAL] ❌ Critical cycle intercept caught: page.fill: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for locator('input[type="text"], input[type="email"]')[22m
+
+[2026-08-24T16:37:53.857Z] [INFO] 
+================================================================================
+[2026-08-24T16:37:53.858Z] [INFO] 🌟 STARTING CONTINUOUS DIAGNOSTIC CYCLE #97 (Run Time: 72 mins)
+[2026-08-24T16:37:53.858Z] [INFO] ================================================================================
+[2026-08-24T16:37:53.858Z] [INFO] Checking FastAPI Port 8000 state...
+[2026-08-24T16:37:53.884Z] [INFO] 🟢 FastAPI Backend is online. Verification Latency: 26ms
+[2026-08-24T16:37:53.885Z] [INFO] Checking Next.js Port 3001 login terminal...
+[2026-08-24T16:37:54.187Z] [SUCCESS] ⚡ Performance SLA verified for [/login]: 301ms
+[2026-08-24T16:37:54.188Z] [INFO] Injecting session claims and verifying middleware token generation...
+[2026-08-24T16:38:24.202Z] [CRITICAL] ❌ Critical cycle intercept caught: page.fill: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for locator('input[type="text"], input[type="email"]')[22m
+
+[2026-08-24T16:38:39.204Z] [INFO] 
+================================================================================
+[2026-08-24T16:38:39.204Z] [INFO] 🌟 STARTING CONTINUOUS DIAGNOSTIC CYCLE #98 (Run Time: 73 mins)
+[2026-08-24T16:38:39.204Z] [INFO] ================================================================================
+[2026-08-24T16:38:39.205Z] [INFO] Checking FastAPI Port 8000 state...
+[2026-08-24T16:38:39.238Z] [INFO] 🟢 FastAPI Backend is online. Verification Latency: 33ms
+[2026-08-24T16:38:39.239Z] [INFO] Checking Next.js Port 3001 login terminal...
+[2026-08-24T16:38:39.511Z] [SUCCESS] ⚡ Performance SLA verified for [/login]: 272ms
+[2026-08-24T16:38:39.512Z] [INFO] Injecting session claims and verifying middleware token generation...
+[2026-08-24T16:39:09.522Z] [CRITICAL] ❌ Critical cycle intercept caught: page.fill: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for locator('input[type="text"], input[type="email"]')[22m
+

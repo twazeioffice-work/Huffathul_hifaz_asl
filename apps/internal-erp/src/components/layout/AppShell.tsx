@@ -71,8 +71,8 @@ export default function AppShell({
     if (!showSearch) return null;
     return (
       <div className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm flex items-start justify-center pt-[15vh]">
-        <div className="bg-zinc-900 border border-white/10 rounded-2xl shadow-2xl w-full max-w-2xl overflow-hidden flex flex-col mx-4">
-          <div className="flex items-center px-4 py-3 border-b border-white/10">
+        <div className="bg-zinc-900 border border-black/5 rounded-2xl shadow-2xl w-full max-w-2xl overflow-hidden flex flex-col mx-4">
+          <div className="flex items-center px-4 py-3 border-b border-black/5">
             <Search className="h-5 w-5 text-slate-500 mr-3" />
             <input 
               autoFocus
@@ -83,7 +83,7 @@ export default function AppShell({
               onChange={(e) => setSearchQuery(e.target.value)}
             />
             <div className="flex items-center space-x-1">
-              <kbd className="bg-white/5 border border-white/10 rounded px-1.5 py-0.5 text-[10px] text-slate-400 font-mono">ESC</kbd>
+              <kbd className="bg-white/5 border border-black/5 rounded px-1.5 py-0.5 text-[10px] text-slate-400 font-mono">ESC</kbd>
             </div>
             <button onClick={() => setShowSearch(false)} className="ml-3 p-1 hover:bg-white/10 rounded-lg text-slate-400 transition-colors">
               <X className="h-5 w-5" />
@@ -131,15 +131,15 @@ export default function AppShell({
             setShowNotifications(!showNotifications);
           }
         }}
-        className="p-2 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 text-slate-300 relative"
+        className="p-2 rounded-xl border border-black/5 bg-white/5 hover:bg-white/10 text-slate-300 relative"
       >
         <Bell className="h-5 w-5" />
         <span className="absolute -top-1 -right-1 h-3 w-3 bg-rose-500 rounded-full animate-pulse border-2 border-zinc-950"></span>
       </button>
       
       {showNotifications && (role === "STUDENT" || role === "PARENT" || role === "USTAD") && (
-        <div className="absolute right-0 mt-2 w-80 bg-zinc-900 border border-white/10 rounded-2xl shadow-xl z-50 overflow-hidden">
-          <div className="p-3 border-b border-white/10 flex justify-between items-center bg-zinc-950/50">
+        <div className="absolute right-0 mt-2 w-80 bg-zinc-900 border border-black/5 rounded-2xl shadow-xl z-50 overflow-hidden">
+          <div className="p-3 border-b border-black/5 flex justify-between items-center bg-zinc-950/50">
             <span className="font-bold text-sm">Notifications</span>
             <button className="text-xs text-blue-400">Mark all read</button>
           </div>
@@ -154,27 +154,27 @@ export default function AppShell({
   const renderSearchTrigger = () => (
     <button 
       onClick={() => setShowSearch(true)}
-      className="flex items-center space-x-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl py-1.5 px-3 text-sm text-slate-400 transition-colors w-64 justify-between"
+      className="flex items-center space-x-2 bg-white/5 hover:bg-white/10 border border-black/5 rounded-xl py-1.5 px-3 text-sm text-slate-400 transition-colors w-64 justify-between"
     >
       <div className="flex items-center space-x-2">
         <Search className="h-4 w-4" />
         <span>Search...</span>
       </div>
       <div className="flex items-center space-x-1">
-        <kbd className="bg-white/5 border border-white/10 rounded px-1.5 py-0.5 text-[10px] font-mono">Ctrl</kbd>
-        <kbd className="bg-white/5 border border-white/10 rounded px-1.5 py-0.5 text-[10px] font-mono">K</kbd>
+        <kbd className="bg-white/5 border border-black/5 rounded px-1.5 py-0.5 text-[10px] font-mono">Ctrl</kbd>
+        <kbd className="bg-white/5 border border-black/5 rounded px-1.5 py-0.5 text-[10px] font-mono">K</kbd>
       </div>
     </button>
   );
 
   if (role === "STUDENT" || role === "PARENT") {
     return (
-      <div className="min-h-screen bg-zinc-950 text-white">
+      <div className="min-h-screen bg-[#F4F1ED] text-slate-800">
         {renderSearchPalette()}
-        <header className="sticky top-0 z-40 border-b border-white/10 bg-zinc-950/80 backdrop-blur-xl">
+        <header className="sticky top-0 z-40 border-b border-black/5 bg-[#184A45] shadow-sm">
           <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-4">
             <div className="font-bold flex items-center space-x-4">
-              <span>Suffat Portal</span>
+              <span className="text-white">EPR Dashboard</span>
             </div>
             <nav className="flex gap-3 items-center">
               {renderSearchTrigger()}
@@ -185,7 +185,7 @@ export default function AppShell({
                   className={`rounded-xl border px-3 py-2 text-xs transition-colors ${
                     pathname?.includes(item.href)
                       ? "border-cyan-500/50 bg-cyan-500/10 text-cyan-300"
-                      : "border-white/10 bg-white/5 hover:bg-white/10"
+                      : "border-black/5 bg-white/5 hover:bg-white/10"
                   }`}
                 >
                   {item.label}
@@ -208,9 +208,9 @@ export default function AppShell({
 
   if (role === "USTAD") {
     return (
-      <div className="min-h-screen bg-zinc-950 text-white">
+      <div className="min-h-screen bg-[#F4F1ED] text-slate-800">
         {renderSearchPalette()}
-        <header className="sticky top-0 z-40 border-b border-white/10 bg-zinc-950/80 backdrop-blur-xl flex items-center justify-between pr-4">
+        <header className="sticky top-0 z-40 border-b border-black/5 bg-[#184A45] shadow-sm flex items-center justify-between pr-4">
           <div className="flex items-center pl-4">
             {renderSearchTrigger()}
           </div>
@@ -222,7 +222,7 @@ export default function AppShell({
                 className={`whitespace-nowrap rounded-xl border px-4 py-2 text-sm transition-colors ${
                   pathname?.includes(item.href)
                     ? "border-cyan-500/50 bg-cyan-500/10 text-cyan-300"
-                    : "border-white/10 bg-white/5 hover:bg-white/10"
+                    : "border-black/5 bg-white/5 hover:bg-white/10"
                 }`}
               >
                 {item.label}
@@ -255,9 +255,9 @@ export default function AppShell({
       : []; 
 
   return (
-    <div className="flex min-h-screen bg-zinc-950 text-white">
+    <div className="flex min-h-screen bg-[#F4F1ED] text-slate-800">
       {renderSearchPalette()}
-      <aside className="w-72 flex flex-col border-r border-white/10 bg-zinc-950/80 p-4 backdrop-blur-xl">
+      <aside className="w-72 flex flex-col border-r border-black/5 bg-[#F9F6F0] p-4 shadow-sm">
         <div className="mb-6 text-lg font-bold">SuffatCore</div>
         <nav className="flex-1 space-y-2">
           {sidebar.map((item) => {
@@ -269,7 +269,7 @@ export default function AppShell({
                 className={`block rounded-xl border px-3 py-2 text-sm transition-colors ${
                   pathname === resolvedHref || (item.href !== "/erp" && pathname?.includes(item.href))
                     ? "border-cyan-500/50 bg-cyan-500/10 text-cyan-300"
-                    : "border-white/10 bg-white/5 hover:bg-white/10"
+                    : "border-black/5 bg-white/5 hover:bg-white/10"
                 }`}
               >
                 {item.label}
@@ -277,10 +277,10 @@ export default function AppShell({
             );
           })}
         </nav>
-        <div className="mt-auto border-t border-white/10 pt-4 space-y-2">
+        <div className="mt-auto border-t border-black/5 pt-4 space-y-2">
           <button 
             onClick={() => router.push(role === "SUPER_ADMIN" ? "/app/suffat-hq/main/erp/settings" : getHref("/erp/settings"))}
-            className="w-full text-left rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm text-slate-300 hover:bg-white/10 flex items-center justify-between"
+            className="w-full text-left rounded-xl border border-black/5 bg-white/5 px-3 py-2 text-sm text-slate-300 hover:bg-white/10 flex items-center justify-between"
           >
             <span>Settings</span>
             <Settings className="h-4 w-4" />
@@ -295,7 +295,7 @@ export default function AppShell({
       </aside>
       <main className="flex-1 flex flex-col overflow-hidden">
         {/* Admin Topbar */}
-        <header className="h-16 border-b border-white/10 bg-zinc-950/50 backdrop-blur-xl flex items-center justify-between px-6 shrink-0">
+        <header className="h-16 border-b border-black/5 bg-zinc-950/50 shadow-sm flex items-center justify-between px-6 shrink-0">
           <div className="flex items-center">
             {renderSearchTrigger()}
           </div>
