@@ -6,21 +6,22 @@
 
 @layer base {
   :root {
-    /* Semantic variable declarations mapped to RGB for alpha-value compliance */
-    --border-glass: 255, 255, 255, 0.08;
-    --input-bg: 255, 255, 255, 0.04;
-    --ring-active: 0, 229, 255; /* #00E5FF */
-    --background-base: 9, 9, 11; /* #09090B */
-    --foreground-base: 244, 244, 245; /* #F4F4F5 */
-    --primary-glow: 0, 229, 255;
-    --card-bg: 18, 18, 18;
-    --muted-base: 39, 39, 42;
-    --muted-foreground: 161, 161, 170;
-    --accent-cyan: 0, 229, 255;
-    
-    --radius-apple-lg: 16px;
-    --radius-apple-md: 12px;
-    --radius-apple-sm: 8px;
+    --background-base: #09090b;
+    --surface-dark: #111115;
+    --glass-card: rgba(255, 255, 255, 0.05);
+    --border-glass: rgba(255, 255, 255, 0.08);
+    --primary-glow: #00e5ff;
+    --foreground-base: #f4f4f5;
+    --muted-foreground: #a1a1aa;
+    --success: #22c55e;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+  }
+  
+  body {
+    background: var(--background-base);
+    color: var(--foreground-base);
+    font-family: Inter, system-ui, sans-serif;
   }
 }
 

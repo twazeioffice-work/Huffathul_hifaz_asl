@@ -4,12 +4,12 @@ const fs = require('fs');
 const path = require('path');
 
 // --- SYSTEM CONFIGURATIONS ---
-const TARGET_PORT_NEXTJS = 3001;
+const TARGET_PORT_NEXTJS = 3005;
 const TARGET_PORT_FASTAPI = 8000;
 const BASE_URL = `http://localhost:${TARGET_PORT_NEXTJS}`;
 const BACKEND_URL = `http://localhost:${TARGET_PORT_FASTAPI}`;
 const LOG_FILE = path.join(__dirname, 'antigravity-sentinel.log');
-const RUN_DURATION_LIMIT_MS = 10 * 60 * 60 * 1000; // Hard limit set to 10 Hours
+const RUN_DURATION_LIMIT_MS = 5 * 60 * 1000; // Hard limit set to 5 Minutes
 
 // --- SYSTEM LOGGING UTILITY ---
 function log(msg, level = 'INFO') {
@@ -25,14 +25,15 @@ function triggerSelfHeal(issueType) {
   try {
     if (issueType === 'NEXTJS_DOWN') {
       log('Targeting Next.js Web Server... Attempting PM2 recycling process...', 'SYSTEM');
-      execSync('pm2 restart suffat-erp', { stdio: 'inherit' });
+      execSync('npx pm2 restart suffat-erp', { stdio: 'inherit' });
     } else if (issueType === 'FASTAPI_DOWN') {
       log('Targeting FastAPI Core... Wiping stagnant uvicorn sockets & rebooting server...', 'SYSTEM');
-      execSync('pkill -f uvicorn || true', { stdio: 'inherit' });
-      execSync(`nohup uvicorn app.main:app --port ${TARGET_PORT_FASTAPI} --host 127.0.0.1 > fastapi.log 2>&1 &`, { stdio: 'inherit' });
+      try { execSync('taskkill /F /IM uvicorn.exe /T', { stdio: 'ignore' }); } catch(e){}
+      try { execSync('taskkill /F /IM python.exe /T', { stdio: 'ignore' }); } catch(e){}
+      execSync('cd services/core-backend && start /B uvicorn app.main:app --port 8000 --host 127.0.0.1 > ../../fastapi.log 2>&1', { stdio: 'inherit' });
     } else if (issueType === 'BUILD_CACHE_CORRUPTED') {
       log('Targeting Next.js Build... Purging cache and executing clean production compile...', 'SYSTEM');
-      execSync('cd ~/Huffathul_hifaz_asl/apps/internal-erp && rm -rf .next && npx next build && pm2 restart suffat-erp', { stdio: 'inherit' });
+      execSync('cd apps/internal-erp && rmdir /s /q .next && npx next build && npx pm2 restart suffat-erp', { stdio: 'inherit' });
     }
     log('✅ Self-healing protocols dispatched and verified successfully.', 'INFO');
   } catch (error) {
@@ -89,7 +90,12 @@ async function runDiagnosticLoop() {
       // 2. FRONTEND SERVER PORT 3001 REACHABILITY
       log('Checking Next.js Port 3001 login terminal...');
       const startLoad = Date.now();
-      const loginResponse = await page.goto(`${BASE_URL}/login`, { waitUntil: 'domcontentloaded', timeout: 10000 });
+      let loginResponse = null;
+      try {
+        loginResponse = await page.goto(`${BASE_URL}/login`, { waitUntil: 'domcontentloaded', timeout: 10000 });
+      } catch (e) {
+        log(`❌ Next.js unreachable: ${e.message}`, 'CRITICAL');
+      }
       
       if (!loginResponse || loginResponse.status() !== 200) {
         log(`❌ Next.js application returned invalid status code: ${loginResponse ? loginResponse.status() : 'NO_RESPONSE'}`, 'CRITICAL');
@@ -101,8 +107,8 @@ async function runDiagnosticLoop() {
 
       // 3. ADMINISTRATIVE IDENTITY AND SESSION INJECTION
       log('Injecting session claims and verifying middleware token generation...');
-      await page.fill('input[type="text"], input[type="email"]', 'nazim@suffathulhuffaz.org');
-      await page.fill('input[type="password"]', 'EnterpriseSecurePassword2026!');
+      await page.fill('input[type="text"], input[type="email"]', 'manager@suffat.com');
+      await page.fill('input[type="password"]', 'password123');
       
       const startSubmit = Date.now();
       await page.click('button[type="submit"]');

@@ -1,0 +1,3029 @@
+================================================================================
+SUFFATCORE 2.0
+ULTIMATE UI DESIGN SPECIFICATION
+PAGE-BY-PAGE, CARD-BY-CARD, MENU-BY-MENU
+================================================================================
+
+FILE NAME: SUFFATCORE-UI-MASTER-DESIGN.txt
+PURPOSE:
+This is the complete UI design specification for the Suffat-ul Huffaz Digital
+Ecosystem ERP/LMS/Portal platform.
+
+It describes:
+
+1. Global visual design language
+2. Design tokens
+3. Reusable components
+4. Login/logout flow
+5. Every role dashboard
+6. Every sidebar menu
+7. Every top menu
+8. Every card layout
+9. Every button behavior
+10. Every page state
+11. Desktop and mobile behavior
+12. Frontend component structure
+
+This file should be used by UI designers and frontend developers together.
+
+================================================================================
+SECTION 1: GLOBAL UI DESIGN LANGUAGE
+================================================================================
+
+The UI must feel:
+
+- Premium
+- Calm
+- Secure
+- Clean
+- Mobile-first
+- Easy for non-technical staff
+- Suitable for classrooms and offices
+- Dark and glassmorphic
+- Apple-inspired but not overly decorative
+
+Visual identity:
+
+- Deep onyx background
+- Translucent glass cards
+- Thin glowing borders
+- Soft blur
+- Cyan primary accent
+- Large readable KPI numbers
+- Minimal icons
+- Smooth transitions
+- Touch-friendly buttons
+
+The system has two separate UI zones:
+
+1. ERP ZONE
+   For staff/admin users:
+   - SUPER_ADMIN
+   - GLOBAL_JUNCTION
+   - CENTER_ADMIN
+   - NAZIM
+   - USTAD
+
+2. PORTAL ZONE
+   For consumers:
+   - STUDENT
+   - PARENT
+
+Important rule:
+
+Students and Parents must never see ERP sidebars, ERP menus, finance pages,
+staff pages, or admin controls.
+
+================================================================================
+SECTION 2: GLOBAL DESIGN TOKENS
+================================================================================
+
+--------------------------------------------------------------------------------
+2.1 COLOR TOKENS
+--------------------------------------------------------------------------------
+
+Background base:
+#09090b
+
+Surface dark:
+#111115
+
+Glass card:
+rgba(255,255,255,0.05)
+
+Glass card strong:
+rgba(18,18,18,0.80)
+
+Border glass:
+rgba(255,255,255,0.08)
+
+Border active:
+rgba(0,229,255,0.40)
+
+Primary accent:
+#00e5ff
+
+Primary text:
+#f4f4f5
+
+Secondary text:
+#a1a1aa
+
+Muted text:
+#71717a
+
+Success:
+#22c55e
+
+Warning:
+#f59e0b
+
+Danger:
+#ef4444
+
+Info:
+#38bdf8
+
+--------------------------------------------------------------------------------
+2.2 TYPOGRAPHY
+--------------------------------------------------------------------------------
+
+Font family:
+Inter, SF Pro, system-ui
+
+Page title:
+24px to 30px, bold
+
+Section title:
+16px to 18px, semibold
+
+Card title:
+12px to 13px, uppercase, tracking-wide, secondary color
+
+KPI value:
+28px to 36px, bold
+
+Body text:
+13px to 14px
+
+Table text:
+12px to 13px
+
+Button text:
+13px to 14px, semibold
+
+--------------------------------------------------------------------------------
+2.3 RADIUS
+--------------------------------------------------------------------------------
+
+Small:
+8px
+
+Medium:
+12px
+
+Large:
+16px
+
+Extra large card:
+20px to 24px
+
+--------------------------------------------------------------------------------
+2.4 SHADOWS
+--------------------------------------------------------------------------------
+
+Card shadow:
+0 20px 50px rgba(0,0,0,0.35)
+
+Modal shadow:
+0 30px 80px rgba(0,0,0,0.55)
+
+Button glow:
+0 0 0 1px rgba(0,229,255,0.25)
+
+--------------------------------------------------------------------------------
+2.5 SPACING
+--------------------------------------------------------------------------------
+
+Page padding desktop:
+24px to 32px
+
+Page padding mobile:
+16px
+
+Card padding:
+20px to 24px
+
+Card gap:
+16px to 20px
+
+Section gap:
+24px to 32px
+
+--------------------------------------------------------------------------------
+2.6 ICON STYLE
+--------------------------------------------------------------------------------
+
+Use lucide-react icons.
+
+Icon size:
+- Sidebar: 18px
+- Topbar: 18px
+- KPI card: 20px
+- Button: 16px
+- Empty state: 40px to 56px
+
+Icon color:
+Default: text-zinc-400
+Active: text-cyan-400
+Danger: text-red-400
+Success: text-emerald-400
+
+================================================================================
+SECTION 3: GLOBAL COMPONENT SYSTEM
+================================================================================
+
+--------------------------------------------------------------------------------
+3.1 GLASS CARD
+--------------------------------------------------------------------------------
+
+Used everywhere.
+
+Structure:
+Rounded 2xl
+Border white/10
+Background white/5
+Backdrop blur 16px
+Padding 24px
+Soft shadow
+
+Visual example:
+
++--------------------------------------------------------------+
+| Card Title                                          Action    |
+|                                                              |
+| Card content goes here.                                      |
+|                                                              |
++--------------------------------------------------------------+
+
+--------------------------------------------------------------------------------
+3.2 KPI CARD
+--------------------------------------------------------------------------------
+
+Used on dashboards.
+
+Structure:
+
++--------------------------------------------------------------+
+| Icon    TITLE                                                |
+|                                                              |
+| 1,248                                                        |
+|                                                              |
+| +12% from last week                              View All >  |
++--------------------------------------------------------------+
+
+Elements:
+- Top-left icon inside soft colored square
+- Small uppercase title
+- Large value
+- Trend badge
+- Optional sparkline
+- Clickable card if it leads to detail page
+
+States:
+- Hover: border becomes cyan/20
+- Active: slight scale down
+- Loading: skeleton lines
+- Error: show dash and retry link
+
+--------------------------------------------------------------------------------
+3.3 PAGE HEADER
+--------------------------------------------------------------------------------
+
+Structure:
+
++--------------------------------------------------------------+
+| Page Title                                      Button Button |
+| Subtitle                                                     |
++--------------------------------------------------------------+
+
+Example:
+
+Manage Local Students
+Add, edit, assign, and monitor students in this branch.
+
+Right side buttons:
+- Filters
+- Export
+- Add Student
+
+--------------------------------------------------------------------------------
+3.4 BUTTONS
+--------------------------------------------------------------------------------
+
+Primary Button:
+Background cyan
+Text black
+Rounded xl
+Padding px-4 py-2
+Use for main action
+
+Examples:
+Save
+Add Student
+Post Voucher
+Send Message
+
+Secondary Button:
+Glass background
+Border white/10
+Text white
+
+Examples:
+Cancel
+Filters
+Export
+
+Danger Button:
+Red transparent background
+Red border
+Red text
+
+Examples:
+Deactivate
+Delete
+Reject
+
+Ghost Button:
+No border
+Text zinc-300
+Hover background white/5
+
+Examples:
+View All
+See More
+
+--------------------------------------------------------------------------------
+3.5 TABLE
+--------------------------------------------------------------------------------
+
+Table container:
+Glass card
+No heavy borders
+Row hover white/5
+Sticky header
+Thin divider white/5
+
+Table header:
+Text uppercase
+12px
+Zinc-400
+
+Row structure:
+
++--------------------------------------------------------------+
+| Name          | Branch   | Status   | Date      | Actions   |
++--------------------------------------------------------------+
+| Student A     | Branch 1 | Active   | 12 Jun    | View Edit |
++--------------------------------------------------------------+
+
+Row hover:
+Background white/5
+
+Row click:
+Open detail drawer or page depending on module.
+
+--------------------------------------------------------------------------------
+3.6 BADGES
+--------------------------------------------------------------------------------
+
+Status badge style:
+Rounded full
+px-2.5 py-1
+text-xs
+border
+
+Success:
+bg-emerald-500/10
+text-emerald-400
+border-emerald-500/20
+
+Warning:
+bg-amber-500/10
+text-amber-400
+border-amber-500/20
+
+Danger:
+bg-red-500/10
+text-red-400
+border-red-500/20
+
+Info:
+bg-sky-500/10
+text-sky-400
+border-sky-500/20
+
+Neutral:
+bg-zinc-500/10
+text-zinc-300
+border-zinc-500/20
+
+--------------------------------------------------------------------------------
+3.7 FORM INPUTS
+--------------------------------------------------------------------------------
+
+Input style:
+Background zinc-900/80
+Border white/10
+Rounded xl
+Padding px-4 py-3
+Text sm
+Focus border cyan/40
+Focus ring cyan/20
+
+Label:
+12px
+text-zinc-400
+mb-1
+
+Error text:
+12px
+text-red-400
+mt-1
+
+Required marker:
+Red asterisk
+
+--------------------------------------------------------------------------------
+3.8 MODAL
+--------------------------------------------------------------------------------
+
+Modal overlay:
+bg-black/60
+backdrop-blur-sm
+
+Modal card:
+max-w-lg or max-w-xl
+bg-zinc-950
+border white/10
+rounded-3xl
+p-6
+shadow-2xl
+
+Modal header:
+Title
+Subtitle
+Close icon
+
+Modal footer:
+Cancel secondary button
+Primary action right aligned
+
+--------------------------------------------------------------------------------
+3.9 DRAWER
+--------------------------------------------------------------------------------
+
+Use drawer for detail pages and forms.
+
+Drawer slides from right.
+
+Width desktop:
+520px to 720px
+
+Width mobile:
+Full screen
+
+Drawer structure:
+
++--------------------------------------------------------------+
+| Title                                             Close X    |
+| Subtitle                                                     |
++--------------------------------------------------------------+
+| Tabs or content                                              |
+|                                                              |
+|                                                              |
++--------------------------------------------------------------+
+| Cancel                                      Save / Submit    |
++--------------------------------------------------------------+
+
+--------------------------------------------------------------------------------
+3.10 TABS
+--------------------------------------------------------------------------------
+
+Tab style:
+Horizontal scroll on mobile
+Active tab white text with cyan underline
+Inactive tab zinc-400
+
+Example:
+
+Overview   Academics   Attendance   Behavior   Finance
+
+--------------------------------------------------------------------------------
+3.11 TOASTS
+--------------------------------------------------------------------------------
+
+Position:
+Bottom right desktop
+Top center mobile
+
+Success toast:
+Green icon
+"Saved successfully"
+
+Error toast:
+Red icon
+"Something went wrong. Please try again."
+
+Offline toast:
+Amber icon
+"You are offline. Saved locally."
+
+Permission toast:
+Red icon
+"You do not have permission."
+
+================================================================================
+SECTION 4: AUTHENTICATION UI
+================================================================================
+
+--------------------------------------------------------------------------------
+FRAME AUTH-01: APP SPLASH / INITIAL LOAD
+--------------------------------------------------------------------------------
+
+Purpose:
+Shown while checking session token.
+
+Layout:
+Full dark screen
+Center logo
+Subtle loading ring
+
+Visual:
+
++--------------------------------------------------------------+
+|                                                              |
+|                      SUFFATCORE                              |
+|                   Secure ERP Platform                        |
+|                                                              |
+|                       Loading...                             |
+|                                                              |
++--------------------------------------------------------------+
+
+Behavior:
+If token valid:
+Redirect to role home.
+
+If token invalid:
+Redirect to /login.
+
+--------------------------------------------------------------------------------
+FRAME AUTH-02: LOGIN PAGE
+--------------------------------------------------------------------------------
+
+URL:
+/login
+
+Layout:
+Full screen centered glass card.
+
+Visual:
+
++--------------------------------------------------------------+
+|                                                              |
+|                        SUFFATCORE                            |
+|              Secure ERP/LMS Access Portal                    |
+|                                                              |
+| Email                                                        |
+| +----------------------------------------------------------+ |
+| | admin@example.com                                        | |
+| +----------------------------------------------------------+ |
+|                                                              |
+| Password                                                     |
+| +----------------------------------------------------------+ |
+| | ********                                                 | |
+| +----------------------------------------------------------+ |
+|                                                              |
+| [ Forgot password? ]                                         |
+|                                                              |
+| +----------------------------------------------------------+ |
+| |                        Sign In                           | |
+| +----------------------------------------------------------+ |
+|                                                              |
++--------------------------------------------------------------+
+
+Elements:
+- Logo
+- Product name
+- Subtitle
+- Email field
+- Password field
+- Forgot password link
+- Sign In button
+- Error banner area
+
+Button behavior:
+
+Sign In:
+1. Disable button.
+2. Show spinner.
+3. Change label to "Signing in...".
+4. Call login API.
+5. On success redirect to role home.
+6. On failure show red banner.
+
+Error banner:
+Red transparent card above form.
+
+Example errors:
+"Invalid login credentials"
+"Your account is inactive."
+"Unable to reach server."
+
+--------------------------------------------------------------------------------
+FRAME AUTH-03: FORGOT PASSWORD PAGE
+--------------------------------------------------------------------------------
+
+URL:
+/forgot-password
+
+Layout:
+Centered glass card.
+
+Visual:
+
++--------------------------------------------------------------+
+|                                                              |
+|                    Reset Password                            |
+| Enter your registered email address.                         |
+|                                                              |
+| Email                                                        |
+| +----------------------------------------------------------+ |
+| |                                                          | |
+| +----------------------------------------------------------+ |
+|                                                              |
+| +----------------------------------------------------------+ |
+| |                    Send Reset Link                       | |
+| +----------------------------------------------------------+ |
+|                                                              |
+| Back to Login                                                |
+|                                                              |
++--------------------------------------------------------------+
+
+Success state:
+Green card:
+"If that email exists, a reset link has been sent."
+
+--------------------------------------------------------------------------------
+FRAME AUTH-04: SESSION EXPIRED PAGE
+--------------------------------------------------------------------------------
+
+Shown when token expires.
+
+Visual:
+
++--------------------------------------------------------------+
+|                                                              |
+|                    Session Expired                           |
+| For security reasons, please sign in again.                  |
+|                                                              |
+| +----------------------------------------------------------+ |
+| |                       Back to Login                      | |
+| +----------------------------------------------------------+ |
+|                                                              |
++--------------------------------------------------------------+
+
+--------------------------------------------------------------------------------
+FRAME AUTH-05: LOGOUT CONFIRMATION MODAL
+--------------------------------------------------------------------------------
+
+Logout should not immediately log out.
+It should ask confirmation.
+
+Trigger:
+User clicks avatar menu > Logout.
+
+Modal visual:
+
++--------------------------------------------------------------+
+|                                                              |
+|                     Logout Confirmation                      |
+|                                                              |
+| Are you sure you want to sign out of SuffatCore?             |
+| Any unsynced offline drafts will remain saved locally.       |
+|                                                              |
+|                               [ Cancel ]    [ Logout ]       |
+|                                                              |
++--------------------------------------------------------------+
+
+Buttons:
+
+Cancel:
+Close modal.
+
+Logout:
+1. Show loading state.
+2. Call logout API.
+3. Clear tokens.
+4. Clear session state.
+5. Redirect to logout success screen.
+
+--------------------------------------------------------------------------------
+FRAME AUTH-06: LOGOUT SUCCESS PAGE
+--------------------------------------------------------------------------------
+
+URL:
+/logout-success
+
+Visual:
+
++--------------------------------------------------------------+
+|                                                              |
+|                     Signed Out Successfully                  |
+|                                                              |
+| You have been securely logged out of SuffatCore.             |
+|                                                              |
+| +----------------------------------------------------------+ |
+| |                       Back to Login                      | |
+| +----------------------------------------------------------+ |
+|                                                              |
++--------------------------------------------------------------+
+
+Optional:
+Auto redirect to login after 5 seconds.
+
+================================================================================
+SECTION 5: GLOBAL APP SHELL DESIGN
+================================================================================
+
+--------------------------------------------------------------------------------
+5.1 ERP SHELL
+--------------------------------------------------------------------------------
+
+Used by:
+SUPER_ADMIN
+GLOBAL_JUNCTION
+CENTER_ADMIN
+NAZIM
+USTAD
+
+Desktop layout:
+
++----------------+---------------------------------------------+
+| Sidebar        | Topbar                                      |
+|                +---------------------------------------------+
+|                | Page Content                                |
+|                |                                             |
+|                |                                             |
+|                |                                             |
+|                |                                             |
++----------------+---------------------------------------------+
+
+Sidebar width:
+280px desktop
+Collapsed 84px
+
+Topbar height:
+64px
+
+--------------------------------------------------------------------------------
+5.2 PORTAL SHELL
+--------------------------------------------------------------------------------
+
+Used by:
+STUDENT
+PARENT
+
+No sidebar.
+
+Layout:
+
++--------------------------------------------------------------+
+| Topbar                                                       |
++--------------------------------------------------------------+
+| Page Content                                                 |
+|                                                              |
++--------------------------------------------------------------+
+
+Topbar height:
+64px
+
+Max content width:
+1100px centered
+
+--------------------------------------------------------------------------------
+5.3 USTAD SHELL
+--------------------------------------------------------------------------------
+
+Ustad is ERP user but has no left sidebar.
+
+Layout:
+
++--------------------------------------------------------------+
+| Topbar with logo, sync status, profile                       |
++--------------------------------------------------------------+
+| Command Strip                                                |
++--------------------------------------------------------------+
+| Academic Content                                             |
+|                                                              |
++--------------------------------------------------------------+
+
+Command Strip:
+Horizontal scroll
+Glass pills
+Active pill cyan border
+
+================================================================================
+SECTION 6: MENU-BY-MENU SPECIFICATION
+================================================================================
+
+--------------------------------------------------------------------------------
+6.1 SUPER ADMIN SIDEBAR MENU
+--------------------------------------------------------------------------------
+
+Menu items:
+
+🌐 Command Center
+👥 Students (Global)
+🎓 Academics (Global)
+👨🏫 Staff & Payroll
+💳 Billing
+📒 Master Ledger
+🚌 Assets & Fleet
+💬 Communication
+📬 Complaints Inbox
+📊 Global Reports
+
+Sidebar footer:
+Diagnostics
+Logout
+
+Menu item structure:
+
++--------------------------------------+
+| Icon  Label                          |
++--------------------------------------+
+
+States:
+
+Default:
+text-zinc-400
+
+Hover:
+bg-white/5
+text-white
+
+Active:
+bg-cyan-500/10
+border border-cyan-500/20
+text-cyan-300
+
+--------------------------------------------------------------------------------
+6.2 GLOBAL JUNCTION SIDEBAR MENU
+--------------------------------------------------------------------------------
+
+Dynamic based on scope.
+
+If FINANCE scope:
+
+💼 Finance Overview
+📒 Branch Ledgers
+🧾 Vouchers
+🤝 Sponsorships
+📊 Finance Reports
+
+If ACADEMICS scope:
+
+🎓 Academics Overview
+🏫 Center Rankings
+📖 Student Performance
+👨🏫 Ustad Efficiency
+
+If WELFARE scope:
+
+🛡️ Welfare Cases
+📬 Complaints
+⏰ SLA Alerts
+📈 Welfare Reports
+
+--------------------------------------------------------------------------------
+6.3 CENTER ADMIN SIDEBAR MENU
+--------------------------------------------------------------------------------
+
+🏢 Center Overview
+👨🏫 Manage Local Ustads
+👥 Manage Local Students
+📒 Branch Ledger & Finance
+💬 Local WhatsApp Triaging
+📬 Complaints Inbox
+🍲 Kitchen & Headcounts
+
+--------------------------------------------------------------------------------
+6.4 NAZIM SIDEBAR MENU
+--------------------------------------------------------------------------------
+
+👨🏫 Manage Ustads
+🎓 Academics
+💬 Local WhatsApp Triaging
+🍲 Kitchen & Headcount
+
+--------------------------------------------------------------------------------
+6.5 USTAD COMMAND STRIP MENU
+--------------------------------------------------------------------------------
+
+No left sidebar.
+
+Top command strip:
+
+✅ Attendance & Prayers
+📖 Hifz Sabaq
+🔁 Sabqi
+📚 Manzil
+🌟 Adab & Behavior
+
+Command pill style:
+rounded-xl
+border white/10
+bg-white/5
+px-4 py-2
+text-sm
+whitespace-nowrap
+
+Active:
+border-cyan-400/40
+bg-cyan-500/10
+text-cyan-300
+
+--------------------------------------------------------------------------------
+6.6 STUDENT PORTAL TOP MENU
+--------------------------------------------------------------------------------
+
+📈 My Progress
+🛡️ Secure Grievance Registry
+📅 Campus Notice Board
+
+--------------------------------------------------------------------------------
+6.7 PARENT PORTAL TOP MENU
+--------------------------------------------------------------------------------
+
+📈 Child Progress
+🛡️ Secure Grievance Registry
+📅 Campus Notice Board
+
+--------------------------------------------------------------------------------
+6.8 TOPBAR RIGHT MENU
+--------------------------------------------------------------------------------
+
+For ERP roles:
+
+Left:
+Breadcrumb or page title
+
+Right:
+- Sync status
+- Notification bell
+- Help icon
+- User avatar
+
+User avatar dropdown:
+
+Profile
+Settings
+Diagnostics
+Logout
+
+For Super Admin add:
+Switch Institution
+Switch Branch
+
+--------------------------------------------------------------------------------
+6.9 NOTIFICATION DROPDOWN
+--------------------------------------------------------------------------------
+
+Width:
+380px
+
+Structure:
+
++--------------------------------------+
+| Notifications              Mark All  |
++--------------------------------------+
+| Alert title                          |
+| Small description                    |
+| Time                                 |
++--------------------------------------+
+| Alert title                          |
+| Small description                    |
+| Time                                 |
++--------------------------------------+
+| View All Notifications               |
++--------------------------------------+
+
+Notification types:
+- Welfare case appeal
+- WhatsApp parent message
+- Deadline warning
+- Sync completed
+- Finance voucher posted
+
+================================================================================
+SECTION 7: SUPER ADMIN PAGES
+================================================================================
+
+--------------------------------------------------------------------------------
+PAGE SA-01: COMMAND CENTER
+--------------------------------------------------------------------------------
+
+URL:
+/app/suffat-hq/main/erp
+
+Layout:
+- Sidebar visible
+- Topbar visible
+- KPI grid
+- Alert row
+- Chart row
+- Recent activity row
+
+KPI CARDS:
+
+Card 1:
+Title: Total Institutions
+Icon: building
+Value: 12
+Trend: +2 this year
+Click: /institutions
+
+Card 2:
+Title: Total Branches
+Icon: network
+Value: 48
+Trend: +5 this year
+Click: /branches
+
+Card 3:
+Title: Total Students
+Icon: users
+Value: 8,240
+Trend: +4.2%
+Click: /students
+
+Card 4:
+Title: Total Staff
+Icon: staff
+Value: 642
+Trend: +18
+Click: /staff-payroll
+
+Card 5:
+Title: Active Welfare Cases
+Icon: shield
+Value: 23
+Trend: 6 severe
+Click: /complaints?status=open
+
+Card 6:
+Title: Appealed Cases
+Icon: alert
+Value: 4
+Trend: 2 SLA breach
+Click: /complaints?status=appealed
+
+Card 7:
+Title: Global Revenue
+Icon: dollar
+Value: $248,500
+Trend: +9.5%
+Click: /master-ledger
+
+Card 8:
+Title: Global Expenses
+Icon: expense
+Value: $186,300
+Trend: +3.1%
+Click: /master-ledger
+
+ALERT CARDS:
+
+Alert Card 1:
+Red glass card
+Title: SLA Breach
+Description: 2 welfare cases exceeded HQ deadline.
+Button: Review Cases
+
+Alert Card 2:
+Amber glass card
+Title: Pending Junction Approvals
+Description: 3 accountant scope requests waiting.
+Button: Open Junction
+
+CHART ROW:
+
+Left chart:
+Global Student Growth
+Line chart
+
+Right chart:
+Revenue vs Expense
+Bar chart
+
+RECENT ACTIVITY TABLE:
+
+Columns:
+Time
+User
+Action
+Entity
+Branch
+
+Example row:
+10:24
+Center Admin A
+Created voucher
+VCH-1034
+Branch 2
+
+--------------------------------------------------------------------------------
+PAGE SA-02: STUDENTS GLOBAL
+--------------------------------------------------------------------------------
+
+URL:
+/app/suffat-hq/main/erp/students
+
+Page header:
+Students (Global)
+
+Buttons:
+Filters
+Export
+Add Student
+
+Filter bar:
+Institution dropdown
+Branch dropdown
+Status dropdown
+Search input
+
+Table columns:
+Student
+Roll No
+Institution
+Branch
+Ustad
+Status
+Actions
+
+Row actions:
+View
+Edit
+Deactivate
+
+Add Student button opens drawer.
+
+Drawer fields:
+Institution
+Branch
+Student name
+Roll number
+Assigned Ustad
+Parent phone
+Guardian phone
+Status
+
+Drawer footer:
+Cancel
+Save Student
+
+--------------------------------------------------------------------------------
+PAGE SA-03: STUDENT 360 DETAIL
+--------------------------------------------------------------------------------
+
+Opened by clicking View on student row.
+
+Drawer or full page.
+
+Header card:
+Student photo
+Name
+Roll number
+Branch
+Halqa
+Ustad
+Status badge
+
+Tabs:
+Profile
+Academics
+Attendance
+Behavior
+Wellbeing
+Finance
+Guardians
+
+Profile tab cards:
+Personal Info
+Contact Info
+Enrollment Info
+
+Academics tab:
+Latest Sabaq card
+Sabqi card
+Manzil card
+Progress chart
+
+Attendance tab:
+Attendance calendar
+Prayer checklist summary
+
+Behavior tab:
+Adab score card
+Cleanliness score card
+Respect score card
+
+Wellbeing tab:
+Latest temperature
+Energy score
+Medical flags
+
+Finance tab:
+Visible only to finance authorized roles.
+Fee status
+Sponsorship status
+
+Guardians tab:
+Parent phone
+Guardian phone
+WhatsApp opt-in status
+
+--------------------------------------------------------------------------------
+PAGE SA-04: ACADEMICS GLOBAL
+--------------------------------------------------------------------------------
+
+URL:
+/app/suffat-hq/main/erp/academics
+
+KPI cards:
+Total Halqas
+Total Ustads
+Average Hifz GPA
+Average Adab Score
+Pending Entries
+
+Charts:
+Branch ranking
+Grade distribution
+Attendance trend
+
+Table:
+Top performing branches
+
+Columns:
+Rank
+Branch
+Students
+Avg GPA
+Avg Adab
+Actions
+
+Row click:
+Open branch academic detail.
+
+--------------------------------------------------------------------------------
+PAGE SA-05: STAFF & PAYROLL
+--------------------------------------------------------------------------------
+
+URL:
+/app/suffat-hq/main/erp/staff-payroll
+
+Tabs:
+Faculty
+Other Staff
+Payroll
+Junction Users
+
+Faculty table:
+Name
+Branch
+Halqa
+Students
+Phone
+Status
+Actions
+
+Other Staff table:
+Name
+Role
+Branch
+Phone
+Joining date
+Status
+
+Add Staff button opens drawer.
+
+Drawer fields:
+Name
+Role
+Institution
+Branch
+Phone
+Email
+Password
+Educational qualification
+Passout year
+Graduation batch
+Date of birth
+Date of joining
+Address
+Emergency contact
+Photo
+
+Payroll tab visible only if role has payroll permission.
+
+--------------------------------------------------------------------------------
+PAGE SA-06: BILLING
+--------------------------------------------------------------------------------
+
+URL:
+/app/suffat-hq/main/erp/billing
+
+Tabs:
+Invoices
+Fees
+Sponsorships
+Payment Links
+
+KPI cards:
+Total Invoices
+Paid Amount
+Pending Amount
+Overdue Amount
+
+Invoice table:
+Invoice No
+Student
+Branch
+Amount
+Due Date
+Status
+Actions
+
+Actions:
+View
+Send Reminder
+Mark Paid
+
+Create Invoice button opens modal.
+
+Modal fields:
+Branch
+Student
+Fee type
+Amount
+Due date
+Notes
+
+--------------------------------------------------------------------------------
+PAGE SA-07: MASTER LEDGER
+--------------------------------------------------------------------------------
+
+URL:
+/app/suffat-hq/main/erp/master-ledger
+
+KPI cards:
+Total Revenue
+Total Expenses
+Net Surplus
+Cash on Hand
+Bank Balance
+
+Tabs:
+Vouchers
+Ledger Transactions
+Account Heads
+Consolidated Reports
+
+Voucher table:
+Voucher ID
+Branch
+Narration
+Date
+Amount
+Status
+Actions
+
+Create Voucher button opens modal.
+
+Modal fields:
+Branch
+Narration
+Date
+Debit account
+Credit account
+Amount
+
+Validation:
+Debit and credit must balance.
+
+If unbalanced:
+Show red error under form.
+
+--------------------------------------------------------------------------------
+PAGE SA-08: ASSETS & FLEET
+--------------------------------------------------------------------------------
+
+URL:
+/app/suffat-hq/main/erp/assets-fleet
+
+Tabs:
+Assets
+Vehicles
+Maintenance
+Assignment
+
+Asset cards:
+Asset name
+Category
+Branch
+Status
+Purchase date
+
+Vehicle table:
+Vehicle
+Registration
+Branch
+Status
+Next service
+
+Add Asset button opens drawer.
+
+--------------------------------------------------------------------------------
+PAGE SA-09: GLOBAL COMMUNICATION / WHATSAPP
+--------------------------------------------------------------------------------
+
+URL:
+/app/suffat-hq/main/erp/communication
+
+Layout:
+Two pane.
+
+Left pane:
+Conversation list
+
+Right pane:
+Chat thread
+
+Conversation list item:
+
++--------------------------------------+
+| Guardian Name             10:24      |
+| Student: Student A                   |
+| Last message preview                 |
+| Branch badge                         |
++--------------------------------------+
+
+Thread pane:
+Message bubbles
+Input box
+Send button
+Template button
+Assign button
+Mark resolved button
+
+Incoming bubble:
+bg-white/5
+left aligned
+
+Outgoing bubble:
+bg-cyan-500/10
+right aligned
+
+--------------------------------------------------------------------------------
+PAGE SA-10: COMPLAINTS INBOX GLOBAL
+--------------------------------------------------------------------------------
+
+URL:
+/app/suffat-hq/main/erp/complaints
+
+Tabs:
+Open
+In Progress
+Appealed
+Diverted
+Resolved
+
+Table columns:
+Case Title
+Branch
+Submitted By
+Severity
+Status
+Created
+Actions
+
+Row click:
+Open case detail drawer.
+
+Case detail drawer sections:
+Case header
+Status badge
+Description
+Thread
+Resolution handshake
+HQ action panel
+
+Buttons:
+Reply
+Divert
+Resolve
+View Audit
+
+Divert modal:
+HQ directive
+Deadline hours
+Priority
+
+--------------------------------------------------------------------------------
+PAGE SA-11: GLOBAL REPORTS
+--------------------------------------------------------------------------------
+
+URL:
+/app/suffat-hq/main/erp/reports
+
+Report cards:
+Institution Performance
+Branch Ranking
+Finance Consolidation
+Student Progress
+Welfare SLA
+Staff Efficiency
+
+Each card:
+Icon
+Title
+Description
+Generate button
+
+Click Generate:
+Show report viewer with date filter and export button.
+
+================================================================================
+SECTION 8: GLOBAL JUNCTION PAGES
+================================================================================
+
+--------------------------------------------------------------------------------
+PAGE GJ-01: JUNCTION DASHBOARD
+--------------------------------------------------------------------------------
+
+URL:
+/app/suffat-hq/junction
+
+Topbar:
+Scope switcher dropdown.
+
+Example:
+Scope: FINANCE
+
+KPI cards depend on scope.
+
+If FINANCE:
+Assigned Branches
+Total Revenue
+Total Expenses
+Pending Vouchers
+
+If ACADEMICS:
+Assigned Branches
+Average GPA
+Average Adab
+Pending Academic Entries
+
+If WELFARE:
+Open Cases
+Appealed Cases
+SLA Breaches
+Resolved This Week
+
+--------------------------------------------------------------------------------
+PAGE GJ-02: JUNCTION FINANCE
+--------------------------------------------------------------------------------
+
+URL:
+/app/suffat-hq/junction/finance
+
+KPI cards:
+Assigned Branch Revenue
+Assigned Branch Expenses
+Net Surplus
+Pending Approvals
+
+Table:
+Branch
+Revenue
+Expenses
+Surplus
+Status
+Actions
+
+Row click:
+Open branch finance read-only page.
+
+--------------------------------------------------------------------------------
+PAGE GJ-03: JUNCTION ACADEMICS
+--------------------------------------------------------------------------------
+
+URL:
+/app/suffat-hq/junction/academics
+
+KPI cards:
+Assigned Branches
+Total Students
+Average GPA
+Pending Entries
+
+Charts:
+Branch ranking
+Grade distribution
+
+--------------------------------------------------------------------------------
+PAGE GJ-04: JUNCTION WELFARE
+--------------------------------------------------------------------------------
+
+URL:
+/app/suffat-hq/junction/welfare
+
+Tabs:
+Open
+Appealed
+SLA Breach
+Resolved
+
+Case cards:
+Title
+Branch
+Submitted by
+Status
+Deadline countdown
+
+================================================================================
+SECTION 9: CENTER ADMIN PAGES
+================================================================================
+
+--------------------------------------------------------------------------------
+PAGE CA-01: CENTER OVERVIEW
+--------------------------------------------------------------------------------
+
+URL:
+/app/[institution]/[branch]/erp
+
+Layout:
+Sidebar + topbar + dashboard.
+
+KPI cards:
+
+Card 1:
+Total Students
+Click: /erp/students
+
+Card 2:
+Active Ustads
+Click: /erp/ustads
+
+Card 3:
+Attendance Today
+Click: /erp/students?tab=attendance
+
+Card 4:
+Pending Welfare Cases
+Click: /erp/complaints
+
+Card 5:
+Monthly Revenue
+Click: /erp/finance
+
+Card 6:
+Monthly Expenses
+Click: /erp/finance
+
+Card 7:
+Kitchen Headcount Today
+Click: /erp/kitchen
+
+Card 8:
+WhatsApp Unread
+Click: /erp/whatsapp
+
+Chart row:
+Attendance trend
+Revenue vs expense
+Grade distribution
+
+Quick action row:
+Add Student
+Add Ustad
+Create Voucher
+Send Announcement
+
+--------------------------------------------------------------------------------
+PAGE CA-02: MANAGE LOCAL USTADS
+--------------------------------------------------------------------------------
+
+URL:
+/app/[institution]/[branch]/erp/ustads
+
+Buttons:
+Add Ustad
+Assign Nazim
+Export
+
+Table columns:
+Name
+Phone
+Halqa
+Assigned Students
+Nazim
+Status
+Actions
+
+Row actions:
+View
+Edit
+Assign Students
+Deactivate
+
+Add Ustad drawer fields:
+Name
+Phone
+Email
+Password
+Halqa
+Nazim
+Educational qualification
+Passout year
+Graduation batch
+Date of birth
+Date of joining
+Address
+Emergency contact
+Photo
+
+Assign Students modal:
+Left:
+Unassigned students
+
+Right:
+Assigned students
+
+Buttons:
+Assign
+Unassign
+Save Assignments
+
+--------------------------------------------------------------------------------
+PAGE CA-03: MANAGE LOCAL STUDENTS
+--------------------------------------------------------------------------------
+
+URL:
+/app/[institution]/[branch]/erp/students
+
+Buttons:
+Add Student
+Import CSV
+Export CSV
+Filters
+
+Table columns:
+Name
+Roll No
+Halqa
+Ustad
+Parent Phone
+Guardian Phone
+Status
+Actions
+
+Row actions:
+View
+Edit
+Message Parent
+Deactivate
+
+Add Student drawer:
+Student name
+Roll number
+Halqa
+Assigned Ustad
+Primary parent phone
+Local guardian phone
+Status
+
+Phone fields show normalized E.164 preview.
+
+Example:
+Input:
+9876543210
+
+Preview:
++919876543210
+
+--------------------------------------------------------------------------------
+PAGE CA-04: STUDENT DETAIL DRAWER
+--------------------------------------------------------------------------------
+
+Header:
+Student name
+Roll number
+Status badge
+Branch
+Halqa
+Ustad
+
+Tabs:
+Profile
+Academics
+Attendance
+Behavior
+Wellbeing
+Guardians
+Finance
+
+Finance tab visible only if Center Admin has finance access.
+
+--------------------------------------------------------------------------------
+PAGE CA-05: BRANCH LEDGER & FINANCE
+--------------------------------------------------------------------------------
+
+URL:
+/app/[institution]/[branch]/erp/finance
+
+KPI cards:
+Revenue
+Expenses
+Net Surplus
+Cash on Hand
+Bank Balance
+
+Tabs:
+Vouchers
+Ledger
+Sponsorships
+Reports
+
+Create Voucher modal:
+Narration
+Date
+Debit account
+Credit account
+Amount
+
+Voucher table:
+Voucher ID
+Narration
+Date
+Amount
+Status
+Actions
+
+--------------------------------------------------------------------------------
+PAGE CA-06: LOCAL WHATSAPP TRIAGING
+--------------------------------------------------------------------------------
+
+URL:
+/app/[institution]/[branch]/erp/whatsapp
+
+Layout:
+Left conversation list
+Right chat thread
+
+Conversation item:
+Guardian name
+Student name
+Last message
+Time
+Status badge
+
+Thread header:
+Guardian name
+Student name
+Phone number
+Opt-in badge
+
+Message input:
+Text area
+Template button
+Send button
+
+Template dropdown:
+Progress Summary
+Attendance Alert
+Fee Reminder
+Leave Schedule
+Custom Message
+
+--------------------------------------------------------------------------------
+PAGE CA-07: COMPLAINTS INBOX
+--------------------------------------------------------------------------------
+
+URL:
+/app/[institution]/[branch]/erp/complaints
+
+Tabs:
+Open
+In Progress
+Appealed
+Resolved
+
+Case list:
+Title
+Submitted by
+Severity
+Status
+Created
+
+Case detail:
+Description
+Thread
+Double-party resolution panel
+
+Resolution panel:
+
++--------------------------------------------------------------+
+| Double-Party Resolution Matrix                               |
+|                                                              |
+| Ustad Agreement       [ UNRESOLVED ]                         |
+| Admin Agreement       [ RESOLVED ]                           |
+|                                                              |
+| [ Mark Resolved From My End ]                                |
++--------------------------------------------------------------+
+
+--------------------------------------------------------------------------------
+PAGE CA-08: KITCHEN & HEADCOUNTS
+--------------------------------------------------------------------------------
+
+URL:
+/app/[institution]/[branch]/erp/kitchen
+
+KPI cards:
+Today Headcount
+Breakfast
+Lunch
+Dinner
+Special Diet
+
+Button:
+Add Headcount
+
+Modal fields:
+Date
+Meal type
+Count
+Notes
+
+Table:
+Date
+Meal
+Count
+Entered By
+Actions
+
+================================================================================
+SECTION 10: NAZIM PAGES
+================================================================================
+
+--------------------------------------------------------------------------------
+PAGE NZ-01: NAZIM DASHBOARD
+--------------------------------------------------------------------------------
+
+URL:
+/app/[institution]/[branch]/erp
+
+KPI cards:
+My Ustads
+Assigned Students
+Pending Academic Entries
+Attendance Today
+Kitchen Headcount
+Pending WhatsApp Messages
+
+Quick cards:
+Team performance
+Today's pending entries
+SLA alerts
+
+--------------------------------------------------------------------------------
+PAGE NZ-02: MANAGE USTADS
+--------------------------------------------------------------------------------
+
+URL:
+/app/[institution]/[branch]/erp/ustads
+
+Nazim sees only assigned Ustads.
+
+Table columns:
+Ustad
+Assigned Students
+Pending Entries
+Attendance Status
+Actions
+
+Row actions:
+View Team
+Send Reminder
+
+Nazim cannot:
+Add Ustad
+Delete Ustad
+Edit payroll
+Edit full profile
+
+--------------------------------------------------------------------------------
+PAGE NZ-03: ACADEMICS MONITORING
+--------------------------------------------------------------------------------
+
+URL:
+/app/[institution]/[branch]/erp/academics
+
+Tabs:
+Sabaq
+Sabqi
+Manzil
+Attendance
+Behavior
+Wellbeing
+
+Filters:
+Ustad
+Date
+Grade
+
+Table:
+Student
+Ustad
+Date
+Type
+Grade/Status
+Actions
+
+Row click:
+Open academic summary drawer, not full student profile.
+
+Academic summary drawer:
+Student name
+Roll number
+Ustad
+Latest Sabaq
+Latest attendance
+Latest behavior
+Latest wellbeing
+
+--------------------------------------------------------------------------------
+PAGE NZ-04: LOCAL WHATSAPP TRIAGING
+--------------------------------------------------------------------------------
+
+Same layout as Center Admin WhatsApp page.
+
+Nazim can:
+Reply
+Mark handled
+Forward to Center Admin
+
+Nazim cannot:
+Send bulk campaigns
+Access global inbox
+
+--------------------------------------------------------------------------------
+PAGE NZ-05: KITCHEN & HEADCOUNT
+--------------------------------------------------------------------------------
+
+Same as Center Admin kitchen page.
+
+Nazim can:
+Add today headcount
+Edit today headcount
+View history
+
+================================================================================
+SECTION 11: USTAD PAGES
+================================================================================
+
+--------------------------------------------------------------------------------
+PAGE US-01: USTAD ACADEMIC HOME
+--------------------------------------------------------------------------------
+
+URL:
+/app/[institution]/[branch]/erp/academics
+
+No sidebar.
+
+Topbar:
+Logo
+Sync status
+Offline badge
+Profile avatar
+
+Command strip below topbar.
+
+Home content:
+Welcome card
+Today's summary cards
+
+Welcome card:
+"Assalamu Alaikum, Ustad [Name]"
+
+Summary cards:
+My Students
+Pending Sabaq
+Pending Attendance
+Pending Behavior
+Pending Wellbeing
+
+--------------------------------------------------------------------------------
+PAGE US-02: ATTENDANCE & PRAYERS
+--------------------------------------------------------------------------------
+
+URL:
+/app/[institution]/[branch]/erp/academics/attendance
+
+Top controls:
+Date picker
+Student search
+Mark all present button
+
+Student row card:
+
++--------------------------------------------------------------+
+| Student Name                                     Roll No     |
+|                                                              |
+| Attendance:  [ Present ] [ Absent ] [ Leave ]               |
+|                                                              |
+| Prayers:                                                     |
+| Fajr [ ] Dhuhr [ ] Asr [ ] Maghrib [ ] Isha [ ]             |
++--------------------------------------------------------------+
+
+Buttons:
+Save
+Save & Next
+
+Offline behavior:
+If offline, save locally and show amber toast.
+
+--------------------------------------------------------------------------------
+PAGE US-03: HIFZ SABAQ
+--------------------------------------------------------------------------------
+
+URL:
+/app/[institution]/[branch]/erp/academics/hifz-sabaq
+
+Layout:
+Student selector at top.
+Entry card below.
+
+Entry card:
+
++--------------------------------------------------------------+
+| Hifz Sabaq Entry                                             |
+|                                                              |
+| Student: [ Dropdown ]                                        |
+| Date: [ Date Picker ]                                        |
+|                                                              |
+| Juz Number      Page Start       Page End                   |
+| [ 12        ]   [ 240       ]    [ 242      ]               |
+|                                                              |
+| Grade                                                        |
+| [ EXCELLENT ]                                                |
+|                                                              |
+| Teacher Notes                                                |
+| [                                                    ]       |
+|                                                              |
+|                               [ Save ] [ Save & Next ]       |
++--------------------------------------------------------------+
+
+Validation:
+Page end must be greater than or equal to page start.
+
+--------------------------------------------------------------------------------
+PAGE US-04: SABQI
+--------------------------------------------------------------------------------
+
+URL:
+/app/[institution]/[branch]/erp/academics/sabqi
+
+Entry card fields:
+Student
+Date
+Sabqi type
+Quality
+Notes
+
+Buttons:
+Save
+Save & Next
+
+--------------------------------------------------------------------------------
+PAGE US-05: MANZIL
+--------------------------------------------------------------------------------
+
+URL:
+/app/[institution]/[branch]/erp/academics/manzil
+
+Entry card fields:
+Student
+Manzil portion
+Completion status
+Quality
+Notes
+
+Buttons:
+Save
+Save & Next
+
+--------------------------------------------------------------------------------
+PAGE US-06: ADAB & BEHAVIOR
+--------------------------------------------------------------------------------
+
+URL:
+/app/[institution]/[branch]/erp/academics/adab
+
+Student row card:
+
++--------------------------------------------------------------+
+| Student Name                                                 |
+|                                                              |
+| Adab           [ slider 1 to 10 ]                            |
+| Cleanliness    [ slider 1 to 10 ]                            |
+| Respect        [ slider 1 to 10 ]                            |
+|                                                              |
+| Notes                                                        |
+| [                                                    ]       |
++--------------------------------------------------------------+
+
+Buttons:
+Save
+Save & Next
+
+--------------------------------------------------------------------------------
+PAGE US-07: SYNC DRAWER
+--------------------------------------------------------------------------------
+
+Opened by clicking sync status.
+
+Drawer content:
+Online status
+Pending drafts count
+Last sync time
+Sync Now button
+Clear synced cache button
+
+Pending drafts table:
+Type
+Student
+Created At
+Status
+
+--------------------------------------------------------------------------------
+PAGE US-08: USTAD QUICK SUPPORT MENU
+--------------------------------------------------------------------------------
+
+Located inside avatar dropdown or small plus icon.
+
+Items:
+Raise Welfare Case
+Diagnostics
+Logout
+
+Raise Welfare Case modal:
+Title
+Student optional
+Description
+Severity
+
+Buttons:
+Cancel
+Submit Case
+
+================================================================================
+SECTION 12: STUDENT PORTAL PAGES
+================================================================================
+
+--------------------------------------------------------------------------------
+PAGE ST-01: STUDENT HOME
+--------------------------------------------------------------------------------
+
+URL:
+/app/[institution]/[branch]/portal/student
+
+Topbar:
+Portal logo
+Top nav
+Avatar
+
+Welcome card:
+Assalamu Alaikum, [Student Name]
+
+Quick KPI cards:
+Latest Sabaq Grade
+Attendance Percentage
+Prayer Completion
+Adab Score
+Next Leave Date
+
+--------------------------------------------------------------------------------
+PAGE ST-02: MY PROGRESS
+--------------------------------------------------------------------------------
+
+URL:
+/app/[institution]/[branch]/portal/student/progress
+
+Sections:
+Hifz timeline
+Sabqi summary
+Manzil summary
+Attendance calendar
+Behavior trend
+
+Hifz timeline card:
+Date
+Juz
+Pages
+Grade
+Teacher notes
+
+--------------------------------------------------------------------------------
+PAGE ST-03: GRIEVANCE REGISTRY
+--------------------------------------------------------------------------------
+
+URL:
+/app/[institution]/[branch]/portal/student/grievance
+
+Button:
+Submit Grievance
+
+Form modal:
+Category
+Severity
+Description
+Anonymous toggle
+
+If anonymous:
+Show info card:
+"Your identity will be hidden from local staff."
+
+Table:
+My grievances
+Status
+Created at
+
+--------------------------------------------------------------------------------
+PAGE ST-04: NOTICE BOARD
+--------------------------------------------------------------------------------
+
+URL:
+/app/[institution]/[branch]/portal/student/notices
+
+Notice cards:
+Title
+Date
+Category
+Short description
+
+Click:
+Open notice detail page.
+
+================================================================================
+SECTION 13: PARENT PORTAL PAGES
+================================================================================
+
+--------------------------------------------------------------------------------
+PAGE PA-01: PARENT HOME
+--------------------------------------------------------------------------------
+
+URL:
+/app/[institution]/[branch]/portal/parent
+
+If multiple children:
+Child selector dropdown.
+
+Welcome card:
+Assalamu Alaikum, [Guardian Name]
+
+Cards:
+Child Progress
+Health Status
+Leave Schedule
+Notices
+
+--------------------------------------------------------------------------------
+PAGE PA-02: CHILD PROGRESS
+--------------------------------------------------------------------------------
+
+URL:
+/app/[institution]/[branch]/portal/parent/progress
+
+Sections:
+Latest Hifz Sabaq
+Attendance summary
+Behavior summary
+Wellbeing summary
+Leave schedule
+
+Card example:
+
++--------------------------------------------------------------+
+| Latest Hifz Progress                                         |
+|                                                              |
+| Date: 12 Jun                                                 |
+| Juz: 12                                                      |
+| Pages: 240-242                                               |
+| Grade: EXCELLENT                                             |
++--------------------------------------------------------------+
+
+--------------------------------------------------------------------------------
+PAGE PA-03: PARENT GRIEVANCE
+--------------------------------------------------------------------------------
+
+URL:
+/app/[institution]/[branch]/portal/parent/grievance
+
+Button:
+Submit Grievance
+
+Modal fields:
+Select child
+Category
+Severity
+Description
+
+Success toast:
+"Your grievance has been submitted securely."
+
+--------------------------------------------------------------------------------
+PAGE PA-04: PARENT NOTICE BOARD
+--------------------------------------------------------------------------------
+
+URL:
+/app/[institution]/[branch]/portal/parent/notices
+
+Notice cards:
+Title
+Date
+Branch
+Category
+
+================================================================================
+SECTION 14: WHATSAPP PARENT MESSAGE UI
+================================================================================
+
+Parents may not open portal. They may use WhatsApp.
+
+Design message responses as clean text cards.
+
+--------------------------------------------------------------------------------
+MENU MESSAGE
+--------------------------------------------------------------------------------
+
+Assalamu Alaikum [Guardian Name],
+
+You can request information about [Student Name] by sending:
+
+1. progress
+2. health
+3. leave
+
+Example:
+progress
+
+--------------------------------------------------------------------------------
+PROGRESS MESSAGE
+--------------------------------------------------------------------------------
+
+Assalamu Alaikum,
+
+Recent Hifz progress for [Student Name]:
+
+- 12 Jun: Juz 12, pages 240-242, grade: EXCELLENT
+- 11 Jun: Juz 12, pages 238-239, grade: GOOD
+
+--------------------------------------------------------------------------------
+HEALTH MESSAGE
+--------------------------------------------------------------------------------
+
+Assalamu Alaikum,
+
+Latest wellbeing report for [Student Name]:
+
+Date: 12 Jun
+Temperature: 98.6 F
+Energy: 8/10
+Summary: Normal and active.
+
+--------------------------------------------------------------------------------
+LEAVE MESSAGE
+--------------------------------------------------------------------------------
+
+Assalamu Alaikum,
+
+Leave schedule for [Student Name]'s batch:
+
+Batch: HIFZ-BATCH-2026
+From: 20 Jun
+To: 27 Jun
+Return by: 6:00 PM
+
+================================================================================
+SECTION 15: EMPTY, LOADING, AND ERROR STATES
+================================================================================
+
+--------------------------------------------------------------------------------
+15.1 LOADING STATE
+--------------------------------------------------------------------------------
+
+Use skeleton loaders.
+
+KPI skeleton:
+
++--------------------------------------------------------------+
+| ----------------                                             |
+|                                                              |
+| ---------------                                              |
+|                                                              |
+| ----------                                                   |
++--------------------------------------------------------------+
+
+Table skeleton:
+5 rows with animated zinc-800 bars.
+
+--------------------------------------------------------------------------------
+15.2 EMPTY STATE
+--------------------------------------------------------------------------------
+
+Empty state card:
+
++--------------------------------------------------------------+
+|                           Icon                               |
+|                                                              |
+| No records found                                             |
+| Small explanation                                            |
+|                                                              |
+|                       [ Primary Action ]                     |
++--------------------------------------------------------------+
+
+Examples:
+
+Students empty:
+"No students found. Add your first student."
+
+WhatsApp empty:
+"No parent conversations yet."
+
+Complaints empty:
+"No open complaints."
+
+--------------------------------------------------------------------------------
+15.3 ERROR STATE
+--------------------------------------------------------------------------------
+
+Error card:
+
++--------------------------------------------------------------+
+|                           Icon                               |
+|                                                              |
+| Unable to load data                                          |
+| Please try again or contact support.                         |
+|                                                              |
+|                           [ Retry ]                          |
++--------------------------------------------------------------+
+
+--------------------------------------------------------------------------------
+15.4 PERMISSION DENIED PAGE
+--------------------------------------------------------------------------------
+
+Visual:
+
++--------------------------------------------------------------+
+|                                                              |
+|                    Access Denied                             |
+| You do not have permission to view this page.                |
+|                                                              |
+|                      [ Go to Dashboard ]                     |
+|                                                              |
++--------------------------------------------------------------+
+
+--------------------------------------------------------------------------------
+15.5 OFFLINE STATE
+--------------------------------------------------------------------------------
+
+Top banner:
+Amber background
+"You are offline. Changes will sync automatically."
+
+Sync badge:
+Amber dot
+"Offline"
+
+================================================================================
+SECTION 16: RESPONSIVE DESIGN RULES
+================================================================================
+
+--------------------------------------------------------------------------------
+16.1 DESKTOP
+--------------------------------------------------------------------------------
+
+- Sidebar visible.
+- Tables visible.
+- Drawers slide from right.
+- KPI grid 4 columns.
+- Charts side by side.
+
+--------------------------------------------------------------------------------
+16.2 TABLET
+--------------------------------------------------------------------------------
+
+- Sidebar collapsible.
+- KPI grid 2 columns.
+- Tables horizontal scroll.
+- Drawers full-height.
+
+--------------------------------------------------------------------------------
+16.3 MOBILE
+--------------------------------------------------------------------------------
+
+- Sidebar becomes slide-in menu.
+- Ustad command strip horizontal scroll.
+- Tables become cards.
+- KPI grid 1 column.
+- Modal becomes bottom sheet.
+- Drawer becomes full screen.
+- Top nav collapses into menu.
+
+--------------------------------------------------------------------------------
+16.4 MOBILE TABLE TRANSFORMATION
+--------------------------------------------------------------------------------
+
+Desktop table row:
+
+Name | Branch | Status | Action
+
+Mobile card:
+
++--------------------------------+
+| Student Name                   |
+| Branch: Branch 1               |
+| Status: Active                 |
+|                                |
+| View        Edit               |
++--------------------------------+
+
+================================================================================
+SECTION 17: MICROINTERACTIONS
+================================================================================
+
+Button press:
+scale-95
+
+Card hover:
+border-cyan-400/20
+
+Sidebar item hover:
+bg-white/5
+
+Modal open:
+fade + scale
+
+Drawer open:
+slide from right
+
+Toast:
+slide up mobile
+slide in right desktop
+
+Sync spinner:
+cyan rotating ring
+
+Success check:
+green checkmark pop
+
+================================================================================
+SECTION 18: FRONTEND COMPONENT STRUCTURE
+================================================================================
+
+Recommended components:
+
+components/
+├── layout/
+│   ├── AppShell.tsx
+│   ├── AdminSidebar.tsx
+│   ├── PortalTopNav.tsx
+│   ├── UstadCommandStrip.tsx
+│   ├── Topbar.tsx
+│   └── UserMenu.tsx
+│
+├── ui/
+│   ├── GlassCard.tsx
+│   ├── Button.tsx
+│   ├── Input.tsx
+│   ├── Select.tsx
+│   ├── Textarea.tsx
+│   ├── Badge.tsx
+│   ├── Modal.tsx
+│   ├── Drawer.tsx
+│   ├── Tabs.tsx
+│   ├── Toast.tsx
+│   ├── EmptyState.tsx
+│   ├── ErrorState.tsx
+│   └── Skeleton.tsx
+│
+├── dashboard/
+│   ├── KpiCard.tsx
+│   ├── KpiGrid.tsx
+│   ├── ChartCard.tsx
+│   └── AlertCard.tsx
+│
+├── tables/
+│   ├── DataTable.tsx
+│   ├── StudentTable.tsx
+│   ├── StaffTable.tsx
+│   ├── VoucherTable.tsx
+│   └── ComplaintTable.tsx
+│
+├── forms/
+│   ├── AddStudentDrawer.tsx
+│   ├── AddStaffDrawer.tsx
+│   ├── VoucherModal.tsx
+│   ├── GrievanceModal.tsx
+│   └── WhatsAppTemplateModal.tsx
+│
+└── support/
+    ├── DiagnosticPanel.tsx
+    └── SyncDrawer.tsx
+
+================================================================================
+SECTION 19: CORE UI CODE SNIPPETS
+================================================================================
+
+--------------------------------------------------------------------------------
+19.1 GLOBAL CSS TOKENS
+--------------------------------------------------------------------------------
+
+:root {
+  --background-base: #09090b;
+  --surface-dark: #111115;
+  --glass-card: rgba(255, 255, 255, 0.05);
+  --border-glass: rgba(255, 255, 255, 0.08);
+  --primary-glow: #00e5ff;
+  --foreground-base: #f4f4f5;
+  --muted-foreground: #a1a1aa;
+  --success: #22c55e;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+}
+
+body {
+  background: var(--background-base);
+  color: var(--foreground-base);
+  font-family: Inter, system-ui, sans-serif;
+}
+
+--------------------------------------------------------------------------------
+19.2 GLASS CARD COMPONENT
+--------------------------------------------------------------------------------
+
+export function GlassCard({ children, className = "" }) {
+  return (
+    <div
+      className={
+        "rounded-2xl border border-white/10 bg-white/5 " +
+        "backdrop-blur-xl shadow-xl p-6 " +
+        className
+      }
+    >
+      {children}
+    </div>
+  );
+}
+
+--------------------------------------------------------------------------------
+19.3 KPI CARD COMPONENT
+--------------------------------------------------------------------------------
+
+export function KpiCard({
+  title,
+  value,
+  trend,
+  icon,
+  onClick
+}) {
+  return (
+    <button
+      onClick={onClick}
+      className="rounded-2xl border border-white/10 bg-white/5 p-6 text-left backdrop-blur-xl transition-all hover:border-cyan-400/20"
+    >
+      <div className="flex items-center justify-between">
+        <span className="text-xs uppercase tracking-widest text-zinc-400">
+          {title}
+        </span>
+        {icon}
+      </div>
+
+      <div className="mt-4 text-3xl font-bold text-white">
+        {value}
+      </div>
+
+      {trend && (
+        <div className="mt-2 text-xs text-zinc-400">
+          {trend}
+        </div>
+      )}
+    </button>
+  );
+}
+
+--------------------------------------------------------------------------------
+19.4 SIDEBAR MENU ITEM COMPONENT
+--------------------------------------------------------------------------------
+
+export function SidebarItem({
+  icon,
+  label,
+  active,
+  onClick
+}) {
+  return (
+    <button
+      onClick={onClick}
+      className={
+        "flex w-full items-center gap-3 rounded-xl px-3 py-2 text-sm transition-all " +
+        (active
+          ? "bg-cyan-500/10 border border-cyan-500/20 text-cyan-300"
+          : "border border-transparent text-zinc-400 hover:bg-white/5 hover:text-white")
+      }
+    >
+      {icon}
+      <span>{label}</span>
+    </button>
+  );
+}
+
+--------------------------------------------------------------------------------
+19.5 USTAD COMMAND STRIP COMPONENT
+--------------------------------------------------------------------------------
+
+export function UstadCommandStrip({ items, activeHref }) {
+  return (
+    <div className="elastic-scroll-x w-full border-b border-white/10 bg-zinc-950/80 px-4 py-3 backdrop-blur-xl">
+      {items.map(item => (
+        <a
+          key={item.href}
+          href={item.href}
+          className={
+            "whitespace-nowrap rounded-xl border px-4 py-2 text-sm transition-all " +
+            (activeHref === item.href
+              ? "border-cyan-400/40 bg-cyan-500/10 text-cyan-300"
+              : "border-white/10 bg-white/5 text-zinc-300 hover:bg-white/10")
+          }
+        >
+          {item.label}
+        </a>
+      ))}
+    </div>
+  );
+}
+
+--------------------------------------------------------------------------------
+19.6 MODAL COMPONENT
+--------------------------------------------------------------------------------
+
+export function Modal({ open, onClose, title, children, footer }) {
+  if (!open) return null;
+
+  return (
+    <div fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm>
+      <div className="w-full max-w-lg rounded-3xl border border-white/10 bg-zinc-950 p-6 shadow-2xl">
+        <div className="mb-4 flex items-center justify-between">
+          <h2 className="text-lg font-bold text-white">{title}</h2>
+          <button onClick={onClose} className="text-zinc-400 hover:text-white">
+            X
+          </button>
+        </div>
+
+        <div>{children}</div>
+
+        {footer && (
+          <div className="mt-6 flex justify-end gap-3">
+            {footer}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+--------------------------------------------------------------------------------
+19.7 EMPTY STATE COMPONENT
+--------------------------------------------------------------------------------
+
+export function EmptyState({ icon, title, description, action }) {
+  return (
+    <div className="flex flex-col items-center justify-center rounded-2xl border border-white/10 bg-white/5 p-10 text-center">
+      <div className="mb-4 text-zinc-500">{icon}</div>
+      <h3 className="text-sm font-semibold text-white">{title}</h3>
+      <p className="mt-1 max-w-sm text-xs text-zinc-400">{description}</p>
+      {action && <div className="mt-4">{action}</div>}
+    </div>
+  );
+}
+
+--------------------------------------------------------------------------------
+19.8 LOGIN PAGE UI COMPONENT
+--------------------------------------------------------------------------------
+
+export default function LoginPage() {
+  return (
+    <main className="flex min-h-screen items-center justify-center bg-zinc-950 p-6 text-white">
+      <div className="w-full max-w-md rounded-3xl border border-white/10 bg-white/5 p-8 shadow-2xl backdrop-blur-xl">
+        <h1 className="text-2xl font-bold">SuffatCore</h1>
+        <p className="mb-8 text-sm text-zinc-400">
+          Secure ERP/LMS access portal
+        </p>
+
+        <div className="space-y-4">
+          <div>
+            <label className="mb-1 block text-xs text-zinc-400">
+              Email
+            </label>
+            <input
+              className="w-full rounded-xl border border-white/10 bg-zinc-900 px-4 py-3 text-sm outline-none focus:border-cyan-400/50"
+              placeholder="admin@example.com"
+            />
+          </div>
+
+          <div>
+            <label className="mb-1 block text-xs text-zinc-400">
+              Password
+            </label>
+            <input
+              type="password"
+              className="w-full rounded-xl border border-white/10 bg-zinc-900 px-4 py-3 text-sm outline-none focus:border-cyan-400/50"
+              placeholder="********"
+            />
+          </div>
+
+          <button className="w-full rounded-xl bg-cyan-500 py-3 font-semibold text-zinc-950 transition-all hover:bg-cyan-400">
+            Sign In
+          </button>
+        </div>
+      </div>
+    </main>
+  );
+}
+
+================================================================================
+SECTION 20: FINAL UI IMPLEMENTATION CHECKLIST
+================================================================================
+
+Before marking UI complete, verify:
+
+AUTH:
+[ ] Login page shows loading state.
+[ ] Login errors show red banner.
+[ ] Successful login redirects by role.
+[ ] Logout asks confirmation.
+[ ] Logout success page appears.
+[ ] Session expired page works.
+
+ROLE UI:
+[ ] Super Admin sees global sidebar.
+[ ] Global Junction sees scope-based sidebar.
+[ ] Center Admin sees branch sidebar.
+[ ] Nazim sees limited sidebar.
+[ ] Ustad sees command strip only.
+[ ] Student sees portal top nav only.
+[ ] Parent sees portal top nav only.
+
+PAGE STATES:
+[ ] Every page has loading skeleton.
+[ ] Every table has empty state.
+[ ] Every API failure has error state.
+[ ] Every restricted route has permission denied page.
+[ ] Offline mode shows amber banner.
+
+CARDS:
+[ ] KPI cards are clickable where required.
+[ ] KPI cards show trend text.
+[ ] Glass cards use consistent radius and blur.
+[ ] Cards do not overflow on mobile.
+
+MENUS:
+[ ] Sidebar active state is cyan.
+[ ] Sidebar hover state is subtle.
+[ ] Topbar avatar menu works.
+[ ] Notification dropdown works.
+[ ] Ustad command strip scrolls smoothly.
+
+FORMS:
+[ ] All required fields show asterisk.
+[ ] Validation messages appear under fields.
+[ ] Save buttons disable while submitting.
+[ ] Success toast appears after save.
+[ ] Drawer closes after successful save.
+
+TABLES:
+[ ] Headers are sticky.
+[ ] Rows hover correctly.
+[ ] Row actions are visible.
+[ ] Tables become cards on mobile.
+
+RESPONSIVE:
+[ ] Desktop layout works.
+[ ] Tablet layout works.
+[ ] Mobile layout works.
+[ ] Horizontal scroll has elastic feel.
+[ ] Modals become bottom sheets on mobile.
+
+ACCESSIBILITY:
+[ ] Buttons have visible focus state.
+[ ] Icons have labels where needed.
+[ ] Text contrast is readable.
+[ ] Forms are keyboard navigable.
+
+================================================================================
+END OF UI MASTER DESIGN SPECIFICATION
+================================================================================

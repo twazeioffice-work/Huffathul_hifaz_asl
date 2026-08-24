@@ -1,150 +1,86 @@
 "use client";
 
-import React, { useState } from "react";
-import { useParams } from "next/navigation";
-import { ShieldAlert, Key, LogOut } from "lucide-react";
+import React from "react";
+import { Settings, Save, MapPin, Calendar, Users, Building, MessageSquare, Coffee, Car } from "lucide-react";
 
-export default function SecuritySettingsPage() {
-  const params = useParams();
-  const institutionCode = params.institutionCode as string;
-  const branchCode = params.branchCode as string;
-
-  const [currentPassword, setCurrentPassword] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-  const [status, setStatus] = useState({ type: "", message: "" });
-
-  const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api/v1";
-
-  const getCookie = (name: string) => {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return parts.pop()?.split(";").shift();
-  };
-
-  const handlePasswordChange = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setStatus({ type: "info", message: "Processing cryptographic rotation..." });
-    
-    try {
-      const response = await fetch(`${BASE_URL}/auth/change-password`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${getCookie("__Host-Secure-Token") || getCookie("access_token")}`
-        },
-        body: JSON.stringify({ current_password: currentPassword, new_password: newPassword })
-      });
-
-      if (!response.ok) {
-        throw new Error("Password change failed. Check your current password.");
-      }
-
-      setStatus({ type: "success", message: "Password updated successfully. Triggering global session revocation..." });
-      setTimeout(() => handleRevokeSessions(), 2000);
-    } catch (err: any) {
-      setStatus({ type: "error", message: err.message });
-    }
-  };
-
-  const handleRevokeSessions = async () => {
-    try {
-      await fetch(`${BASE_URL}/auth/revoke-all-sessions`, {
-        method: "POST",
-        headers: {
-          "Authorization": `Bearer ${getCookie("__Host-Secure-Token") || getCookie("access_token")}`
-        }
-      });
-      // Clear cookies and force a redirect to login
-      document.cookie = "__Host-Secure-Token=; Max-Age=0; path=/;";
-      document.cookie = "access_token=; Max-Age=0; path=/;";
-      document.cookie = "demo_auth_role=; Max-Age=0; path=/;";
-      window.location.href = "/login";
-    } catch (e) {
-      console.error(e);
-      window.location.href = "/login";
-    }
-  };
-
+export default function BranchSettingsPage() {
   return (
-    <div className="min-h-screen bg-background text-foreground flex justify-center items-center p-6">
-      <div className="w-full max-w-lg space-y-8">
-        
-        <div className="text-center space-y-2">
-          <ShieldAlert className="w-12 h-12 text-primary mx-auto" />
-          <h1 className="text-3xl font-bold tracking-tight">Security & Revocation</h1>
-          <p className="text-muted-foreground text-sm">
-            Manage your credentials and global session states.
-          </p>
+    <div className="min-h-screen bg-[#09090b] text-white p-6 space-y-6 max-w-5xl mx-auto">
+      {/* Header */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between p-6 bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.05)] rounded-2xl backdrop-blur-xl gap-4">
+        <div>
+          <h1 className="text-2xl font-bold tracking-tight text-slate-100 flex items-center space-x-2">
+            <Building className="h-6 w-6 text-indigo-400" />
+            <span>Branch Settings</span>
+          </h1>
+          <p className="text-sm text-slate-400 mt-1">Configure academic terms, fee structures, and local integrations</p>
         </div>
+        <button className="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-xl text-sm font-medium transition-colors shadow-lg shadow-indigo-900/20 flex items-center space-x-2">
+          <Save className="h-4 w-4" />
+          <span>Save Configuration</span>
+        </button>
+      </div>
 
-        <div className="bg-card border border-border p-6 rounded-lg shadow-2xl backdrop-blur-glass space-y-6">
-          <h2 className="text-xl font-bold flex items-center space-x-2 border-b border-border pb-3">
-            <Key className="w-5 h-5 text-primary" />
-            <span>Update Password</span>
-          </h2>
-          
-          <form onSubmit={handlePasswordChange} className="space-y-4">
-            <div className="space-y-2">
-              <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Current Password</label>
-              <input 
-                type="password" 
-                value={currentPassword}
-                onChange={(e) => setCurrentPassword(e.target.value)}
-                className="w-full bg-input border border-border rounded-md px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
-                required
-              />
-            </div>
-            
-            <div className="space-y-2">
-              <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">New Password</label>
-              <input 
-                type="password" 
-                value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
-                className="w-full bg-input border border-border rounded-md px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
-                required
-              />
-            </div>
-
-            {status.message && (
-              <div className={`p-3 rounded-md text-xs font-bold ${
-                status.type === "success" ? "bg-emerald-500/20 text-emerald-400" :
-                status.type === "error" ? "bg-red-500/20 text-red-400" :
-                "bg-blue-500/20 text-blue-400"
-              }`}>
-                {status.message}
-              </div>
-            )}
-
-            <button type="submit" className="w-full bg-primary text-primary-foreground font-bold py-2 rounded-md hover:opacity-90 transition-opacity text-sm shadow-[0_0_15px_rgba(0,229,255,0.2)]">
-              Rotate Cryptographic Key
-            </button>
-          </form>
-        </div>
-
-        <div className="bg-red-950/20 border border-red-500/20 p-6 rounded-lg shadow-2xl space-y-4">
-           <h2 className="text-xl font-bold flex items-center space-x-2 text-red-500">
-            <LogOut className="w-5 h-5" />
-            <span>Global Revocation</span>
-          </h2>
-          <p className="text-xs text-red-400/80 leading-relaxed">
-            Instantly terminate all active sessions across all mobile and desktop devices. This triggers the Token Family Rotation "Nuclear Option" as mandated by our Zero-Trust architecture.
-          </p>
-          <button 
-            onClick={handleRevokeSessions}
-            className="w-full bg-red-600/20 border border-red-500 hover:bg-red-600 text-red-100 font-bold py-2 rounded-md transition-all text-sm shadow-[0_0_15px_rgba(239,68,68,0.3)]">
-            Log out of all active devices
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {/* Sidebar Nav */}
+        <div className="md:col-span-1 space-y-2">
+          <button className="w-full flex items-center space-x-3 p-3 bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.1)] rounded-xl text-slate-200 transition-colors">
+            <MapPin className="h-4 w-4 text-slate-400" />
+            <span className="text-sm font-medium">Branch Profile</span>
+          </button>
+          <button className="w-full flex items-center space-x-3 p-3 hover:bg-[rgba(255,255,255,0.02)] border border-transparent hover:border-[rgba(255,255,255,0.05)] rounded-xl text-slate-400 hover:text-slate-200 transition-colors">
+            <Calendar className="h-4 w-4 text-slate-400" />
+            <span className="text-sm font-medium">Academic Year</span>
+          </button>
+          <button className="w-full flex items-center space-x-3 p-3 hover:bg-[rgba(255,255,255,0.02)] border border-transparent hover:border-[rgba(255,255,255,0.05)] rounded-xl text-slate-400 hover:text-slate-200 transition-colors">
+            <Users className="h-4 w-4 text-slate-400" />
+            <span className="text-sm font-medium">Batches & Halqas</span>
+          </button>
+          <button className="w-full flex items-center space-x-3 p-3 hover:bg-[rgba(255,255,255,0.02)] border border-transparent hover:border-[rgba(255,255,255,0.05)] rounded-xl text-slate-400 hover:text-slate-200 transition-colors">
+            <MessageSquare className="h-4 w-4 text-slate-400" />
+            <span className="text-sm font-medium">WhatsApp Templates</span>
+          </button>
+          <button className="w-full flex items-center space-x-3 p-3 hover:bg-[rgba(255,255,255,0.02)] border border-transparent hover:border-[rgba(255,255,255,0.05)] rounded-xl text-slate-400 hover:text-slate-200 transition-colors">
+            <Coffee className="h-4 w-4 text-slate-400" />
+            <span className="text-sm font-medium">Hostel & Kitchen</span>
+          </button>
+          <button className="w-full flex items-center space-x-3 p-3 hover:bg-[rgba(255,255,255,0.02)] border border-transparent hover:border-[rgba(255,255,255,0.05)] rounded-xl text-slate-400 hover:text-slate-200 transition-colors">
+            <Car className="h-4 w-4 text-slate-400" />
+            <span className="text-sm font-medium">Transport Settings</span>
           </button>
         </div>
 
-        <div className="text-center">
-            <button onClick={() => window.location.href = `/app/${institutionCode}/${branchCode}/erp`} className="text-muted-foreground text-xs hover:text-primary transition-colors">
-                ? Return to Dashboard
-            </button>
+        {/* Content Area */}
+        <div className="md:col-span-2 bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.05)] rounded-2xl p-6 backdrop-blur-xl min-h-[400px]">
+          <h2 className="text-lg font-bold text-slate-100 mb-6">Branch Profile</h2>
+          
+          <div className="space-y-5">
+            <div>
+              <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Branch Name</label>
+              <input 
+                type="text" 
+                defaultValue="Malappuram Main Campus"
+                className="w-full bg-black/20 border border-white/10 rounded-xl py-2 px-3 text-slate-200 focus:outline-none focus:border-indigo-500/50 transition-colors"
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Contact Number</label>
+              <input 
+                type="text" 
+                defaultValue="+91 98765 43210"
+                className="w-full bg-black/20 border border-white/10 rounded-xl py-2 px-3 text-slate-200 focus:outline-none focus:border-indigo-500/50 transition-colors"
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Timezone</label>
+              <select className="w-full bg-black/20 border border-white/10 rounded-xl py-2 px-3 text-slate-200 focus:outline-none focus:border-indigo-500/50 transition-colors appearance-none">
+                <option value="IST">Asia/Kolkata (IST)</option>
+                <option value="GST">Asia/Dubai (GST)</option>
+              </select>
+            </div>
+          </div>
         </div>
-
       </div>
     </div>
   );
 }
-

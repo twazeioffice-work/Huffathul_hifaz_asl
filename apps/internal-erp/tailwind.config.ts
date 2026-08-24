@@ -17,26 +17,26 @@ const config: Config = {
         mono: ["var(--font-sf-mono)", "SFMono-Regular", "monospace"],
       },
       colors: {
-        border: "rgba(var(--border-glass), <alpha-value>)",
-        input: "rgba(var(--input-bg), <alpha-value>)",
-        ring: "rgba(var(--ring-active), <alpha-value>)",
-        background: "rgba(var(--background-base), <alpha-value>)",
-        foreground: "rgba(var(--foreground-base), <alpha-value>)",
+        border: "var(--border-glass)",
+        input: "rgba(255, 255, 255, 0.04)",
+        ring: "var(--primary-glow)",
+        background: "var(--background-base)",
+        foreground: "var(--foreground-base)",
         
         primary: {
-          DEFAULT: "rgba(var(--primary-glow), <alpha-value>)",
+          DEFAULT: "var(--primary-glow)",
           foreground: "#ffffff",
         },
         card: {
-          DEFAULT: "rgba(var(--card-bg), <alpha-value>)",
-          foreground: "rgba(var(--foreground-base), <alpha-value>)",
+          DEFAULT: "var(--glass-card)",
+          foreground: "var(--foreground-base)",
         },
         muted: {
-          DEFAULT: "rgba(var(--muted-base), <alpha-value>)",
-          foreground: "rgba(var(--muted-foreground), <alpha-value>)",
+          DEFAULT: "#27272a",
+          foreground: "var(--muted-foreground)",
         },
         accent: {
-          DEFAULT: "rgba(var(--accent-cyan), <alpha-value>)",
+          DEFAULT: "var(--primary-glow)",
           foreground: "#000000",
         },
         grade: {
@@ -47,9 +47,9 @@ const config: Config = {
         }
       },
       borderRadius: {
-        lg: "var(--radius-apple-lg)",
-        md: "var(--radius-apple-md)",
-        sm: "var(--radius-apple-sm)",
+        lg: "16px",
+        md: "12px",
+        sm: "8px",
       },
       backdropBlur: {
         xs: "2px",

@@ -1,134 +1,108 @@
 "use client";
 
-import React, { use } from "react";
-import { notFound, useParams } from "next/navigation";
-import { UniversalDashboardLayout } from "@/components/dashboard/UniversalDashboardLayout";
-import { getSidebarLinks } from "@/components/dashboard/universal-page-schemas";
-import { Activity, Users, DollarSign, BookOpen } from "lucide-react";
+import React from "react";
+import { useParams } from "next/navigation";
+import { KpiCard } from "@/components/ui/KpiCard";
+import { GlassCard } from "@/components/ui/GlassCard";
+import { Button } from "@/components/ui/Button";
+import { Users, BookOpen, Activity, AlertCircle, DollarSign, Utensils, MessageSquare } from "lucide-react";
 
-export default function InstitutionDashboard() {
+export default function CenterAdminDashboard() {
   const params = useParams();
   const institutionCode = params.institutionCode as string;
   const branchCode = params.branchCode as string;
 
-  const tenant = `${institutionCode}-${branchCode}`;
-
-  if (!tenant || tenant.trim() === "-") {
-    return notFound();
-  }
-
-  const pageSchema = {
-    tenantName: tenant.toUpperCase(),
-    pageTitle: "Central Operations Dashboard",
-    pageSubtitle: "Administrative insights, financial metrics, and academic records for your assigned boundary.",
-    securityStatus: "RLS Enforcement Layer: ACTIVE",
-    metrics: [
-      {
-        id: "main-m1",
-        title: "Total Student Enrollment",
-        value: "312",
-        changeLabel: "+12% this month",
-        isPositive: true,
-        statusText: "Synced",
-        statusType: "success" as const,
-        icon: Users
-      },
-      {
-        id: "main-m2",
-        title: "Overall Attendance Rate",
-        value: "96.4%",
-        changeLabel: "Within target (95%)",
-        isPositive: true,
-        statusText: "Verified",
-        statusType: "success" as const,
-        icon: Activity
-      },
-      {
-        id: "main-m3",
-        title: "Sadaqah Ledger Balance",
-        value: "₹45,230.00",
-        changeLabel: "+₹14,500 today",
-        isPositive: true,
-        statusText: "Reconciled",
-        statusType: "success" as const,
-        icon: DollarSign
-      },
-      {
-        id: "main-m4",
-        title: "Active Halqa Classes",
-        value: "14",
-        changeLabel: "2 newly established",
-        isPositive: true,
-        statusText: "Operational",
-        statusType: "success" as const,
-        icon: BookOpen
-      }
-    ],
-    primaryTable: {
-      title: "Recent Ledger Postings",
-      subtitle: "Financial Activity Ledger",
-      headers: ["Voucher ID", "Account Category", "Status", "Amount", "Action"],
-      rows: [
-        {
-          id: "TXN-001",
-          columns: [
-            { key: "id", value: "TXN-001", styleClass: "font-mono text-blue-400 font-bold" },
-            { key: "account", value: "General Tuition Credit" },
-            { key: "status", value: "COMPLETED", styleClass: "text-emerald-400 text-xs font-bold" },
-            { key: "amount", value: "+₹1,200.00", styleClass: "font-mono font-semibold text-emerald-400" },
-            { key: "action", value: "Inspect Trace" }
-          ],
-          metaData: { timestamp: "Today, 10:22 AM" }
-        },
-        {
-          id: "TXN-002",
-          columns: [
-            { key: "id", value: "TXN-002", styleClass: "font-mono text-blue-400 font-bold" },
-            { key: "account", value: "Sadaqah Donation Credit" },
-            { key: "status", value: "COMPLETED", styleClass: "text-emerald-400 text-xs font-bold" },
-            { key: "amount", value: "+₹5,000.00", styleClass: "font-mono font-semibold text-emerald-400" },
-            { key: "action", value: "Inspect Trace" }
-          ],
-          metaData: { timestamp: "Today, 09:15 AM" }
-        },
-        {
-          id: "TXN-003",
-          columns: [
-            { key: "id", value: "TXN-003", styleClass: "font-mono text-blue-400 font-bold" },
-            { key: "account", value: "Ustad Payroll Outflow" },
-            { key: "status", value: "COMPLETED", styleClass: "text-emerald-400 text-xs font-bold" },
-            { key: "amount", value: "-₹22,000.00", styleClass: "font-mono font-semibold text-rose-400" },
-            { key: "action", value: "Inspect Trace" }
-          ],
-          metaData: { timestamp: "Yesterday, 04:30 PM" }
-        }
-      ]
-    },
-    sidebarWidget: {
-      title: "Active Escalation Queue",
-      type: "SLA_ALERTS",
-      details: [
-        { label: "Financial auditing delay", value: "SEVERE (48h Passed)" },
-        { label: "Daily Hifz Sync backlog", value: "WARNING (3 pending)" }
-      ]
-    }
-  };
-
-  const sidebarLinks = getSidebarLinks("dashboard");
-
   return (
-    <UniversalDashboardLayout
-      schema={pageSchema}
-      sidebarLinks={sidebarLinks}
-      onSidebarClick={(id) => {
-        if (id === 'dashboard') window.location.href = `/app/${institutionCode}/${branchCode}/erp`;
-        if (id === 'academics') window.location.href = `/app/${institutionCode}/${branchCode}/erp/academics`;
-        if (id === 'finance') window.location.href = `/app/${institutionCode}/${branchCode}/erp/finance`;
-        if (id === 'students') window.location.href = `/app/${institutionCode}/${branchCode}/erp/students`;
-      }}
-      onRowActionClick={(rowId, metaData) => {
-        console.log(`Row clicked: ${rowId}`, metaData);
-      }}
-    />
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl font-bold text-white">Center Overview</h1>
+          <p className="text-sm text-zinc-400">Manage operations for {branchCode.toUpperCase()}</p>
+        </div>
+        <div className="flex gap-3">
+          <Button variant="secondary">Send Announcement</Button>
+          <Button variant="primary">Add Student</Button>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <KpiCard
+          title="Total Students"
+          value="312"
+          trend="+12 this month"
+          icon={<Users size={20} />}
+          onClick={() => window.location.href = `/app/${institutionCode}/${branchCode}/erp/students`}
+        />
+        <KpiCard
+          title="Active Ustads"
+          value="14"
+          icon={<BookOpen size={20} />}
+          onClick={() => window.location.href = `/app/${institutionCode}/${branchCode}/erp/ustads`}
+        />
+        <KpiCard
+          title="Attendance Today"
+          value="96.4%"
+          trend="Target: 95%"
+          icon={<Activity size={20} />}
+          onClick={() => window.location.href = `/app/${institutionCode}/${branchCode}/erp/students?tab=attendance`}
+        />
+        <KpiCard
+          title="Pending Welfare Cases"
+          value="3"
+          trend="1 SLA breach"
+          icon={<AlertCircle size={20} className="text-amber-400" />}
+          onClick={() => window.location.href = `/app/${institutionCode}/${branchCode}/erp/complaints`}
+        />
+        <KpiCard
+          title="Monthly Revenue"
+          value="₹45,230"
+          icon={<DollarSign size={20} />}
+          onClick={() => window.location.href = `/app/${institutionCode}/${branchCode}/erp/finance`}
+        />
+        <KpiCard
+          title="Monthly Expenses"
+          value="₹22,000"
+          icon={<DollarSign size={20} className="text-red-400" />}
+          onClick={() => window.location.href = `/app/${institutionCode}/${branchCode}/erp/finance`}
+        />
+        <KpiCard
+          title="Kitchen Headcount"
+          value="340"
+          trend="Today"
+          icon={<Utensils size={20} />}
+          onClick={() => window.location.href = `/app/${institutionCode}/${branchCode}/erp/kitchen`}
+        />
+        <KpiCard
+          title="WhatsApp Unread"
+          value="12"
+          icon={<MessageSquare size={20} />}
+          onClick={() => window.location.href = `/app/${institutionCode}/${branchCode}/erp/whatsapp`}
+        />
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <GlassCard className="col-span-1 lg:col-span-2">
+          <h2 className="text-sm font-semibold uppercase tracking-wider text-zinc-400 mb-4">Quick Actions</h2>
+          <div className="flex gap-4">
+             <Button variant="secondary">Create Voucher</Button>
+             <Button variant="secondary">Add Ustad</Button>
+          </div>
+        </GlassCard>
+        
+        <GlassCard className="col-span-1">
+          <h2 className="text-sm font-semibold uppercase tracking-wider text-zinc-400 mb-4">Recent Alerts</h2>
+          <div className="space-y-4">
+            <div className="rounded-xl bg-amber-500/10 border border-amber-500/20 p-3">
+              <h4 className="text-sm font-semibold text-amber-400">Financial auditing delay</h4>
+              <p className="text-xs text-amber-500/80 mt-1">SEVERE (48h Passed)</p>
+            </div>
+            <div className="rounded-xl bg-red-500/10 border border-red-500/20 p-3">
+              <h4 className="text-sm font-semibold text-red-400">Daily Hifz Sync backlog</h4>
+              <p className="text-xs text-red-500/80 mt-1">3 pending</p>
+            </div>
+          </div>
+        </GlassCard>
+      </div>
+    </div>
   );
 }

@@ -58,14 +58,7 @@ const nextConfig = {
   env: {
     INTERNAL_API_URL: process.env.INTERNAL_API_URL || "http://localhost:8000",
   },
-  async rewrites() {
-    return [
-      {
-        source: "/api/v1/:path*",
-        destination: "http://localhost:8000/api/v1/:path*", // Proxy to FastAPI Backend
-      },
-    ];
-  },
+
   // Conditional standalone for Docker/Cloud Run while keeping standard Vercel serverless build
   ...(process.env.BUILD_STANDALONE === 'true' ? { output: 'standalone' } : {}),
   typescript: {

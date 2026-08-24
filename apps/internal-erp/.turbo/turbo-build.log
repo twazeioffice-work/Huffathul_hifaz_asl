@@ -2,39 +2,31 @@
 > internal-erp@1.0.0 build
 > next build
 
-▲ Next.js 16.3.1 (Turbopack)
-⚠ `eslint` configuration in next.config.mjs is no longer supported. See more info here: https://nextjs.org/docs/app/api-reference/cli/next#next-lint-options
-⚠ Invalid next.config.mjs options detected: 
-⚠     Unrecognized key(s) in object: 'eslint'
-⚠ See more info here: https://nextjs.org/docs/messages/invalid-next-config
-✓ Running next.config.mjs took 23.4s
-⚠ Attempted to load @next/swc-win32-x64-msvc, but an error occurred: \\?\E:\Huffathul Hifaaz_asl\node_modules\@next\swc-win32-x64-msvc\next-swc.win32-x64-msvc.node is not a valid Win32 application.
-\\?\E:\Huffathul Hifaaz_asl\node_modules\@next\swc-win32-x64-msvc\next-swc.win32-x64-msvc.node
-  Skipping creating a lockfile at E:\Huffathul Hifaaz_asl\apps\internal-erp\.next\lock because we're using WASM bindings
+▲ Next.js 16.3.2 (Turbopack)
+✓ Running next.config.mjs took 3.6s
 
   Creating an optimized production build ...
-⚠ Attempted to load @next/swc-win32-x64-msvc, but an error occurred: \\?\E:\Huffathul Hifaaz_asl\node_modules\@next\swc-win32-x64-msvc\next-swc.win32-x64-msvc.node is not a valid Win32 application.
-\\?\E:\Huffathul Hifaaz_asl\node_modules\@next\swc-win32-x64-msvc\next-swc.win32-x64-msvc.node
-⨯ ERROR: This build is using Turbopack, with a `webpack` config and no `turbopack` config.
-   This may be a mistake.
-
-   As of Next.js 16 Turbopack is enabled by default and
-   custom webpack configurations may need to be migrated to Turbopack.
-
-   NOTE: your `webpack` config may have been added by a configuration plugin.
-
-   To configure Turbopack, see https://nextjs.org/docs/app/api-reference/next-config-js/turbopack
-
-   TIP: Many applications work fine under Turbopack with no configuration,
-   if that is the case for you, you can silence this error by passing the
-   `--turbopack` or `--webpack` flag explicitly or simply setting an 
-   empty turbopack config in your Next config file (e.g. `turbopack: {}`).
+✓ Finished writing to filesystem cache in 12.5s
 
 > Build error occurred
-Error: Call retries were exceeded
-    at ignore-listed frames {
-  type: 'WorkerError'
-}
+Error: Turbopack build failed with 1 error:
+./apps/internal-erp/src/proxy.ts
+Error: Proxy is missing expected function export name
+This function is what Next.js runs for every request handled by this proxy (previously called middleware).
+
+Why this happens:
+- You are migrating from `middleware` to `proxy`, but haven't updated the exported function.
+- The file exists but doesn't export a function.
+- The export is not a function (e.g., an object or constant).
+- There's a syntax error preventing the export from being recognized.
+
+To fix it:
+- Ensure this file has either a default or "proxy" function export.
+
+Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+
+
+    at ignore-listed frames
 npm error Lifecycle script `build` failed with error:
 npm error code 1
 npm error path E:\Huffathul Hifaaz_asl\apps\internal-erp
