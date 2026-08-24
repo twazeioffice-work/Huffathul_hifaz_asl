@@ -4,12 +4,12 @@ const fs = require('fs');
 const path = require('path');
 
 // --- SYSTEM CONFIGURATIONS ---
-const TARGET_PORT_NEXTJS = 3005;
+const TARGET_PORT_NEXTJS = 5000;
 const TARGET_PORT_FASTAPI = 8000;
 const BASE_URL = `http://localhost:${TARGET_PORT_NEXTJS}`;
 const BACKEND_URL = `http://localhost:${TARGET_PORT_FASTAPI}`;
 const LOG_FILE = path.join(__dirname, 'antigravity-sentinel.log');
-const RUN_DURATION_LIMIT_MS = 5 * 60 * 1000; // Hard limit set to 5 Minutes
+const RUN_DURATION_LIMIT_MS = 10 * 60 * 60 * 1000; // Hard limit set to 10 Hours
 
 // --- SYSTEM LOGGING UTILITY ---
 function log(msg, level = 'INFO') {

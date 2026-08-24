@@ -46,7 +46,8 @@ export default function AppShell({
       console.error(e);
     }
     // Also clear them locally just in case
-    document.cookie = "access_token=; Max-Age=0; path=/";
+    if ('serviceWorker' in navigator) { navigator.serviceWorker.getRegistrations().then(r => r.forEach(x => x.unregister())); }
+      document.cookie = 'access_token=; Max-Age=0; path=/';
     document.cookie = "__Host-Secure-Token=; Max-Age=0; path=/; Secure";
     window.location.href = "/login";
   };
