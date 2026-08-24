@@ -4,8 +4,13 @@ import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Input,
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 
+
+import { useEffect, useState } from 'react';
+
 export default function Page() {
   const { institutionCode, branchCode } = useParams() as { institutionCode: string; branchCode: string };
+  const [vouchers, setVouchers] = useState<any[]>([]);
+  useEffect(() => { fetch("/api/v1/erp/ledger").then(r=>r.json()).then(d=>setVouchers(d)) }, []);
 
   return (
     <div className="p-8 w-full">

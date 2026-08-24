@@ -12,6 +12,9 @@ interface PageProps {
   }>;
 }
 
+
+import { useEffect } from 'react';
+
 export default function FleetPage(props: PageProps) {
   const params = use(props.params);
   const tenant = `${params.institutionCode}-${params.branchCode}`;

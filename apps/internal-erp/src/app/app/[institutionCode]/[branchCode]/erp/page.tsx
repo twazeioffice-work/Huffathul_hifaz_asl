@@ -16,8 +16,8 @@ export default function CenterAdminDashboard() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-white">Center Overview</h1>
-          <p className="text-sm text-zinc-400">Manage operations for {branchCode.toUpperCase()}</p>
+          <h1 className="text-2xl font-bold text-white">{branchCode.toUpperCase()} Center Operations Dashboard</h1>
+          <p className="text-sm text-zinc-400">Administrative insights, financial metrics, and academic records for your assigned boundary.</p>
         </div>
         <div className="flex gap-3">
           <Button variant="secondary">Send Announcement</Button>

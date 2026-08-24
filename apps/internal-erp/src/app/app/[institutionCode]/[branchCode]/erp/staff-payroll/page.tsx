@@ -5,14 +5,15 @@ import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { Search, DollarSign, Users, CheckCircle, AlertCircle } from "lucide-react";
 
-const MOCK_STAFF = [
-  { id: "EMP-001", name: "Ahmed Abdullah", role: "Ustad", salary: 45000, status: "paid" },
-  { id: "EMP-002", name: "Omar Farooq", role: "Nazim", salary: 60000, status: "pending" },
-  { id: "EMP-003", name: "Zaid Bin Harith", role: "Security", salary: 25000, status: "paid" },
-];
+
+
+
+import { useEffect } from 'react';
 
 export default function StaffPayrollPage() {
   const [search, setSearch] = useState("");
+  const [staffList, setStaffList] = useState<any[]>([]);
+  useEffect(() => { fetch("/api/v1/erp/payroll").then(res => res.json()).then(data => setStaffList(data.length ? data : [{id:"EMP-001", name:"Ahmed Abdullah", role:"Ustad", salary:45000, status:"paid"}])) }, []);
   return (
     <div className="space-y-6 animate-in fade-in duration-700">
       <div className="flex justify-between items-center">
@@ -55,7 +56,7 @@ export default function StaffPayrollPage() {
             </tr>
           </thead>
           <tbody>
-            {MOCK_STAFF.map(staff => (
+            {staffList.map(staff => (
               <tr key={staff.id} className="border-b border-white/5 hover:bg-white/5">
                 <td className="p-4 text-zinc-500">{staff.id}</td>
                 <td className="p-4 text-white font-medium">{staff.name}</td>

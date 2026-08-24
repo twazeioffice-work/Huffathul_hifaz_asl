@@ -58,3 +58,45 @@ model Sabaq {
   grade        String
   date         DateTime @default(now())
 }
+model Employee {
+  id String @id @default(uuid())
+  name String
+  role String
+  salary Float
+  branchId String
+  createdAt DateTime @default(now())
+}
+
+model PayrollRecord {
+  id String @id @default(uuid())
+  employeeId String
+  amount Float
+  status String @default("paid")
+  date DateTime @default(now())
+}
+
+model Vehicle {
+  id String @id @default(uuid())
+  plateNumber String @unique
+  type String
+  status String @default("active")
+  branchId String
+}
+
+model MaintenanceLog {
+  id String @id @default(uuid())
+  vehicleId String
+  description String
+  cost Float
+  date DateTime @default(now())
+}
+
+model Transaction {
+  id String @id @default(uuid())
+  type String
+  amount Float
+  category String
+  description String?
+  branchId String
+  date DateTime @default(now())
+}

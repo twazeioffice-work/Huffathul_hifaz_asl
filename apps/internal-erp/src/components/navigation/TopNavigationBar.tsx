@@ -108,14 +108,14 @@ export function TopNavigationBar({
             <DropdownItem 
               key="settings" 
               className="text-muted-foreground hover:text-white"
-              onClick={() => window.location.href = window.location.href.split('/erp')[0] + '/erp/settings'}
+              onPress={() => window.location.href = window.location.href.split('/erp')[0] + '/erp/settings'}
             >
               My Settings
             </DropdownItem>
             <DropdownItem 
               key="team_settings" 
               className="text-muted-foreground hover:text-white"
-              onClick={() => window.location.href = window.location.href.split('/erp')[0] + '/erp/settings'}
+              onPress={() => window.location.href = window.location.href.split('/erp')[0] + '/erp/settings'}
             >
               Center Settings
             </DropdownItem>
@@ -123,8 +123,12 @@ export function TopNavigationBar({
               key="logout" 
               color="danger" 
               className="text-danger hover:bg-danger/10"
-              onClick={() => {
-                // Instantly wipe auth cookies and redirect to lock terminal
+              onPress={async () => {
+                try {
+                  await fetch('/api/v1/auth/logout', { method: 'POST' });
+                } catch (e) {
+                  console.error(e);
+                }
                 document.cookie = "access_token=; Max-Age=0; path=/";
                 document.cookie = "__Host-Secure-Token=; Max-Age=0; path=/; Secure";
                 window.location.href = "/login";
