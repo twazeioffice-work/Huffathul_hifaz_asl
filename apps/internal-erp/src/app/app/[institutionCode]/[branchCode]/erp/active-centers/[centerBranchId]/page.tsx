@@ -74,7 +74,7 @@ export default function Center360Dashboard() {
 
   if (loading || !data) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-[#0A0A0C] text-black font-semibold">
+      <div className="flex items-center justify-center min-h-screen bg-transparent text-black font-semibold">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-cyan-400"></div>
       </div>
     );
@@ -89,7 +89,7 @@ export default function Center360Dashboard() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#0A0A0C] text-slate-100 p-6 md:p-10 space-y-8">
+    <div className="min-h-screen bg-transparent text-black font-semibold p-6 md:p-10 space-y-8">
       {/* Dynamic Glassmorphic Title Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between border-b border-white/[0.08] pb-6">
         <div>

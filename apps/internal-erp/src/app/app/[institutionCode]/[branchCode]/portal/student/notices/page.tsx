@@ -39,7 +39,7 @@ export default function StudentNoticesPage() {
           <input 
             type="text" 
             placeholder="Search notices..." 
-            className="w-full bg-black/5 border border-slate-200 rounded-xl py-2 pl-10 pr-4 text-sm text-slate-200 focus:outline-none focus:border-indigo-500/50 transition-colors"
+            className="w-full bg-black/5 border border-slate-200 rounded-xl py-2 pl-10 pr-4 text-sm text-black font-medium focus:outline-none focus:border-indigo-500/50 transition-colors"
           />
         </div>
       </div>
@@ -54,7 +54,7 @@ export default function StudentNoticesPage() {
                   {notice.priority ? <Pin className="h-5 w-5" /> : <Megaphone className="h-5 w-5" />}
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold text-slate-100">{notice.title}</h3>
+                  <h3 className="text-lg font-bold text-black font-semibold">{notice.title}</h3>
                   <div className="flex items-center space-x-2 mt-1">
                     <span className="px-2 py-0.5 bg-black/5 text-slate-700 font-medium rounded text-[10px] uppercase font-bold tracking-wider">
                       {notice.category}

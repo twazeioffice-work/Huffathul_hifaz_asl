@@ -28,7 +28,7 @@ export default function StudentProfileERP() {
   };
 
   return (
-    <div className="min-h-screen bg-[#09090b] text-black font-semibold p-6 space-y-6">
+    <div className="min-h-screen bg-transparent text-black font-semibold p-6 space-y-6">
       
       {/* 1. Header & Identity Card */}
       <div className="p-6 bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.05)] rounded-2xl backdrop-blur-xl flex items-center justify-between">
@@ -37,7 +37,7 @@ export default function StudentProfileERP() {
             <User className="h-8 w-8 text-cyan-400" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold tracking-tight text-slate-100">{student.name}</h1>
+            <h1 className="text-2xl font-bold tracking-tight text-black font-semibold">{student.name}</h1>
             <p className="text-sm text-slate-700 font-medium font-mono">Roll: {student.rollNo} • Status: <span className="text-emerald-400">{student.status}</span></p>
           </div>
         </div>
@@ -52,7 +52,7 @@ export default function StudentProfileERP() {
         <button 
           onClick={() => setActiveTab("overview")}
           className={`flex items-center space-x-2 px-6 py-2 rounded-lg text-sm transition-all duration-200 ${
-            activeTab === "overview" ? "bg-[rgba(255,255,255,0.08)] text-black font-semibold shadow-sm" : "text-slate-700 font-medium hover:text-slate-200"
+            activeTab === "overview" ? "bg-[rgba(255,255,255,0.08)] text-black font-semibold shadow-sm" : "text-slate-700 font-medium hover:text-black font-medium"
           }`}
         >
           <User className="h-4 w-4" />
@@ -61,7 +61,7 @@ export default function StudentProfileERP() {
         <button 
           onClick={() => setActiveTab("academics")}
           className={`flex items-center space-x-2 px-6 py-2 rounded-lg text-sm transition-all duration-200 ${
-            activeTab === "academics" ? "bg-[rgba(255,255,255,0.08)] text-black font-semibold shadow-sm" : "text-slate-700 font-medium hover:text-slate-200"
+            activeTab === "academics" ? "bg-[rgba(255,255,255,0.08)] text-black font-semibold shadow-sm" : "text-slate-700 font-medium hover:text-black font-medium"
           }`}
         >
           <BookOpen className="h-4 w-4" />
@@ -70,7 +70,7 @@ export default function StudentProfileERP() {
         <button 
           onClick={() => setActiveTab("welfare")}
           className={`flex items-center space-x-2 px-6 py-2 rounded-lg text-sm transition-all duration-200 ${
-            activeTab === "welfare" ? "bg-[rgba(255,255,255,0.08)] text-black font-semibold shadow-sm" : "text-slate-700 font-medium hover:text-slate-200"
+            activeTab === "welfare" ? "bg-[rgba(255,255,255,0.08)] text-black font-semibold shadow-sm" : "text-slate-700 font-medium hover:text-black font-medium"
           }`}
         >
           <HeartPulse className="h-4 w-4" />
@@ -90,7 +90,7 @@ export default function StudentProfileERP() {
               <div className="absolute top-0 left-0 w-1 h-full bg-cyan-500" />
               <div className="flex justify-between items-start">
                 <div>
-                  <h2 className="text-lg font-semibold text-slate-100 flex items-center space-x-2">
+                  <h2 className="text-lg font-semibold text-black font-semibold flex items-center space-x-2">
                     <Calendar className="h-5 w-5 text-cyan-400" />
                     <span>Active Hifz Plan</span>
                   </h2>
@@ -104,11 +104,11 @@ export default function StudentProfileERP() {
               <div className="grid grid-cols-2 gap-4">
                 <div className="p-4 bg-[rgba(0,0,0,0.2)] rounded-xl border border-[rgba(255,255,255,0.02)]">
                   <span className="text-[10px] text-slate-700 font-medium uppercase font-mono block">Target Juz</span>
-                  <span className="text-xl font-bold text-slate-200">{hifzPlan.targetJuz}</span>
+                  <span className="text-xl font-bold text-black font-medium">{hifzPlan.targetJuz}</span>
                 </div>
                 <div className="p-4 bg-[rgba(0,0,0,0.2)] rounded-xl border border-[rgba(255,255,255,0.02)]">
                   <span className="text-[10px] text-slate-700 font-medium uppercase font-mono block">Target Date</span>
-                  <span className="text-xl font-bold text-slate-200">{hifzPlan.targetDate}</span>
+                  <span className="text-xl font-bold text-black font-medium">{hifzPlan.targetDate}</span>
                 </div>
                 <div className="p-4 bg-[rgba(0,0,0,0.2)] rounded-xl border border-[rgba(255,255,255,0.02)]">
                   <span className="text-[10px] text-slate-700 font-medium uppercase font-mono block">Daily New (Sabaq)</span>
@@ -121,7 +121,7 @@ export default function StudentProfileERP() {
               </div>
 
               <div className="flex space-x-3 pt-4 border-t border-[rgba(255,255,255,0.05)]">
-                <button className="flex-1 py-2 bg-[rgba(255,255,255,0.05)] hover:bg-[rgba(255,255,255,0.08)] border border-[rgba(255,255,255,0.1)] rounded-lg text-sm text-slate-200 transition-colors flex items-center justify-center space-x-2">
+                <button className="flex-1 py-2 bg-[rgba(255,255,255,0.05)] hover:bg-[rgba(255,255,255,0.08)] border border-[rgba(255,255,255,0.1)] rounded-lg text-sm text-black font-medium transition-colors flex items-center justify-center space-x-2">
                   <span>Edit Plan</span>
                 </button>
                 <button className="px-4 py-2 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 rounded-lg text-sm text-amber-400 transition-colors flex items-center justify-center space-x-2">
@@ -139,7 +139,7 @@ export default function StudentProfileERP() {
             <div className="p-6 bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.05)] rounded-2xl backdrop-blur-xl space-y-6">
                <div className="flex justify-between items-start">
                 <div>
-                  <h2 className="text-lg font-semibold text-slate-100 flex items-center space-x-2">
+                  <h2 className="text-lg font-semibold text-black font-semibold flex items-center space-x-2">
                     <GraduationCap className="h-5 w-5 text-purple-400" />
                     <span>Completion Workflow</span>
                   </h2>
@@ -169,7 +169,7 @@ export default function StudentProfileERP() {
             {/* Visual Progress Tree Link */}
             <div className="lg:col-span-2 p-6 bg-gradient-to-r from-[rgba(255,255,255,0.02)] to-[rgba(0,229,255,0.05)] border border-[rgba(0,229,255,0.1)] rounded-2xl backdrop-blur-xl flex items-center justify-between">
               <div>
-                <h3 className="text-lg font-semibold text-slate-100">Memorization Progress Tree</h3>
+                <h3 className="text-lg font-semibold text-black font-semibold">Memorization Progress Tree</h3>
                 <p className="text-sm text-slate-700 font-medium mt-1">View the complete 30 Juz visual breakdown and history.</p>
               </div>
               <a 

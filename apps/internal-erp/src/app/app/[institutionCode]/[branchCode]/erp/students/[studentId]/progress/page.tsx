@@ -30,7 +30,7 @@ export default function MemorizationProgressTree() {
   });
 
   return (
-    <div className="min-h-screen bg-[#09090b] text-black font-semibold p-6 space-y-6 max-w-4xl mx-auto">
+    <div className="min-h-screen bg-transparent text-black font-semibold p-6 space-y-6 max-w-4xl mx-auto">
       <div className="flex items-center space-x-4 mb-8">
         <Link 
           href={`/app/${params.institutionCode}/${params.branchCode}/erp/students/${params.studentId}`}
@@ -39,7 +39,7 @@ export default function MemorizationProgressTree() {
           <ChevronLeft className="h-5 w-5 text-slate-800 font-medium" />
         </Link>
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-slate-100">Memorization Tree</h1>
+          <h1 className="text-2xl font-bold tracking-tight text-black font-semibold">Memorization Tree</h1>
           <p className="text-sm text-slate-700 font-medium">Student: {params.studentId}</p>
         </div>
       </div>
@@ -65,7 +65,7 @@ export default function MemorizationProgressTree() {
               )}
               
               <div className="flex justify-between items-center relative z-10">
-                <span className="text-lg font-bold text-slate-200">Juz {juz.juz}</span>
+                <span className="text-lg font-bold text-black font-medium">Juz {juz.juz}</span>
                 {juz.progress === 100 ? (
                   <CheckCircle2 className="h-5 w-5 text-emerald-400" />
                 ) : juz.progress > 0 ? (

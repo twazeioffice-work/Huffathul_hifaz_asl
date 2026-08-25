@@ -44,12 +44,12 @@ export default function AuditLogsPage() {
   ]);
 
   return (
-    <div className="min-h-screen bg-[#09090b] text-black font-semibold p-6 max-w-7xl mx-auto space-y-6">
+    <div className="min-h-screen bg-transparent text-black font-semibold p-6 max-w-7xl mx-auto space-y-6">
       
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between p-6 bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.05)] rounded-2xl backdrop-blur-xl gap-4">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-slate-100 flex items-center space-x-2">
+          <h1 className="text-2xl font-bold tracking-tight text-black font-semibold flex items-center space-x-2">
             <Database className="h-6 w-6 text-orange-400" />
             <span>System Audit Logs</span>
           </h1>
@@ -68,7 +68,7 @@ export default function AuditLogsPage() {
           <input 
             type="text" 
             placeholder="Search by User, Action, or Entity..." 
-            className="w-full bg-black/5 border border-slate-200 rounded-xl py-2 pl-10 pr-4 text-sm text-slate-200 focus:outline-none focus:border-orange-500/50 transition-colors"
+            className="w-full bg-black/5 border border-slate-200 rounded-xl py-2 pl-10 pr-4 text-sm text-black font-medium focus:outline-none focus:border-orange-500/50 transition-colors"
           />
         </div>
         <div className="flex gap-2">
@@ -120,7 +120,7 @@ export default function AuditLogsPage() {
                       {log.action}
                     </span>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-slate-200">{log.entity}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-black font-medium">{log.entity}</td>
                   <td className="px-6 py-4 min-w-[250px]">
                     <div className="flex flex-col space-y-1 text-xs">
                       <span className="text-slate-700 font-medium line-through">{log.oldValue}</span>

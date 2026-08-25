@@ -28,7 +28,7 @@ export default function PayrollPage() {
   ]);
 
   return (
-    <div className="min-h-screen bg-[#09090b] text-black font-semibold p-6 space-y-6 max-w-7xl mx-auto">
+    <div className="min-h-screen bg-transparent text-black font-semibold p-6 space-y-6 max-w-7xl mx-auto">
       {/* Header */}
       <div className="flex items-center justify-between p-6 bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.05)] rounded-2xl backdrop-blur-xl">
         <div className="flex items-center space-x-4">
@@ -39,7 +39,7 @@ export default function PayrollPage() {
             <ArrowLeft className="h-5 w-5 text-slate-800 font-medium" />
           </button>
           <div>
-            <h1 className="text-2xl font-bold tracking-tight text-slate-100 flex items-center space-x-2">
+            <h1 className="text-2xl font-bold tracking-tight text-black font-semibold flex items-center space-x-2">
               <FileText className="h-6 w-6 text-purple-400" />
               <span>Payroll Processing</span>
             </h1>
@@ -76,9 +76,9 @@ export default function PayrollPage() {
             {payrolls.map((run) => (
               <tr key={run.id} className="hover:bg-[rgba(255,255,255,0.01)] transition-colors">
                 <td className="px-6 py-4 font-mono text-purple-400 font-semibold">{run.id}</td>
-                <td className="px-6 py-4 font-medium text-slate-200">{run.month}</td>
+                <td className="px-6 py-4 font-medium text-black font-medium">{run.month}</td>
                 <td className="px-6 py-4 text-slate-800 font-medium">{run.staffCount}</td>
-                <td className="px-6 py-4 font-mono font-medium text-slate-200">{run.totalAmount}</td>
+                <td className="px-6 py-4 font-mono font-medium text-black font-medium">{run.totalAmount}</td>
                 <td className="px-6 py-4">
                   <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold tracking-wide uppercase ${
                     run.status === 'PAID' 

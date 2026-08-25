@@ -48,7 +48,7 @@ export default function GlobalAlumniRegistry() {
   ];
 
   return (
-    <div className="min-h-screen bg-transparent text-slate-100 p-6 space-y-6">
+    <div className="min-h-screen bg-transparent text-black font-semibold p-6 space-y-6">
       {/* Header Block */}
       <div className="flex flex-col md:flex-row md:items-start justify-between border-b border-cyan-500/10 pb-6 gap-4">
         <div>
@@ -64,7 +64,7 @@ export default function GlobalAlumniRegistry() {
         </div>
         
         <div className="flex items-center space-x-3">
-          <button className="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-200 px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center shadow-lg">
+          <button className="bg-slate-800 hover:bg-slate-700 text-black font-medium border border-slate-200 px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center shadow-lg">
             <Filter className="h-4 w-4 mr-2 text-cyan-400" /> Filter
           </button>
           <button className="bg-gradient-to-r from-cyan-500 to-emerald-500 hover:from-cyan-400 hover:to-emerald-400 text-slate-950 px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center shadow-glow-cyan">
@@ -101,7 +101,7 @@ export default function GlobalAlumniRegistry() {
           placeholder="Search by name, city, or graduation year..." 
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-full bg-[#0B0F27] border border-slate-200 rounded-xl pl-11 pr-4 py-3 text-sm text-slate-200 focus:outline-none focus:border-cyan-500/50 transition-all placeholder:text-slate-800 font-medium"
+          className="w-full bg-[#0B0F27] border border-slate-200 rounded-xl pl-11 pr-4 py-3 text-sm text-black font-medium focus:outline-none focus:border-cyan-500/50 transition-all placeholder:text-slate-800 font-medium"
         />
       </div>
 

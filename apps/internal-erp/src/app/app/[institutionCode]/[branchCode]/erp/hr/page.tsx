@@ -15,13 +15,13 @@ export default function HRDashboardPhase4() {
   const baseUrl = `/app/${institutionCode}/${branchCode}/erp/hr`;
 
   return (
-    <div className="min-h-screen bg-[#09090b] text-black font-semibold p-6 space-y-6 max-w-7xl mx-auto">
+    <div className="min-h-screen bg-transparent text-black font-semibold p-6 space-y-6 max-w-7xl mx-auto">
       
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between p-6 bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.05)] rounded-2xl backdrop-blur-xl">
         <div>
           <span className="text-xs text-blue-400 font-mono tracking-widest uppercase">{institutionCode}-{branchCode}</span>
-          <h1 className="text-2xl font-bold tracking-tight text-slate-100 flex items-center space-x-2 mt-1">
+          <h1 className="text-2xl font-bold tracking-tight text-black font-semibold flex items-center space-x-2 mt-1">
             <Briefcase className="h-6 w-6 text-blue-400" />
             <span>HR & Payroll Engine</span>
           </h1>
@@ -70,7 +70,7 @@ export default function HRDashboardPhase4() {
       </div>
 
       {/* Navigation Grid */}
-      <h2 className="text-lg font-semibold text-slate-200 mt-8 mb-4">HR Modules</h2>
+      <h2 className="text-lg font-semibold text-black font-medium mt-8 mb-4">HR Modules</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         
         {/* Attendance & Leaves */}
@@ -81,7 +81,7 @@ export default function HRDashboardPhase4() {
           <div className="h-12 w-12 bg-emerald-500/10 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
             <Calendar className="h-6 w-6 text-emerald-400" />
           </div>
-          <h3 className="text-md font-semibold text-slate-100 flex items-center justify-between">
+          <h3 className="text-md font-semibold text-black font-semibold flex items-center justify-between">
             <span>Attendance & Leaves</span>
             <ChevronRight className="h-4 w-4 text-slate-700 font-medium group-hover:text-emerald-400 transition-colors" />
           </h3>
@@ -96,7 +96,7 @@ export default function HRDashboardPhase4() {
           <div className="h-12 w-12 bg-purple-500/10 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
             <FileText className="h-6 w-6 text-purple-400" />
           </div>
-          <h3 className="text-md font-semibold text-slate-100 flex items-center justify-between">
+          <h3 className="text-md font-semibold text-black font-semibold flex items-center justify-between">
             <span>Payroll Processing</span>
             <ChevronRight className="h-4 w-4 text-slate-700 font-medium group-hover:text-purple-400 transition-colors" />
           </h3>
@@ -111,7 +111,7 @@ export default function HRDashboardPhase4() {
           <div className="h-12 w-12 bg-amber-500/10 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
             <Star className="h-6 w-6 text-amber-400" />
           </div>
-          <h3 className="text-md font-semibold text-slate-100 flex items-center justify-between">
+          <h3 className="text-md font-semibold text-black font-semibold flex items-center justify-between">
             <span>Performance Reviews</span>
             <ChevronRight className="h-4 w-4 text-slate-700 font-medium group-hover:text-amber-400 transition-colors" />
           </h3>

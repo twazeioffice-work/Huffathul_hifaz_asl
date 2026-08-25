@@ -279,7 +279,7 @@ function UstadDashboardComponent({
             <span className="h-2 w-2 rounded-full bg-cyan-400 animate-pulse-glow" />
             <span className="text-[10px] text-cyan-400 font-mono tracking-widest uppercase">{halqaName}</span>
           </div>
-          <h1 className="text-2xl font-bold tracking-tight text-slate-100">{ustadName}</h1>
+          <h1 className="text-2xl font-bold tracking-tight text-black font-semibold">{ustadName}</h1>
         </div>
 
         {/* Sync telemetry, date navigator controls */}
@@ -370,7 +370,7 @@ function UstadDashboardComponent({
                     {student.name.charAt(0)}
                   </div>
                   <div>
-                    <h3 className="font-bold text-slate-100 flex items-center space-x-1.5 hover:text-cyan-400 transition-colors">
+                    <h3 className="font-bold text-black font-semibold flex items-center space-x-1.5 hover:text-cyan-400 transition-colors">
                       <span>{student.name}</span>
                       <ChevronRight className="h-3.5 w-3.5 text-slate-700 font-medium" />
                     </h3>
@@ -539,11 +539,11 @@ function UstadDashboardComponent({
       {/* ==============================================================================
           4. FLOATING ACTION DOCK
           ============================================================================== */}
-      <div className="fixed bottom-20 left-1/2 -translate-x-1/2 w-[90%] max-w-md bg-[#0A0A0C]/90 backdrop-blur-xl border border-white/[0.08] p-3 rounded-2xl flex items-center justify-between shadow-2xl z-40">
+      <div className="fixed bottom-20 left-1/2 -translate-x-1/2 w-[90%] max-w-md bg-transparent/90 backdrop-blur-xl border border-white/[0.08] p-3 rounded-2xl flex items-center justify-between shadow-2xl z-40">
         <button
           onClick={markAllPresent}
           disabled={activeTab !== "ATTENDANCE"}
-          className="px-4 py-3 bg-white hover:bg-slate-800 border border-slate-200 text-slate-200 text-xs font-semibold rounded-xl tracking-wide transition-colors flex items-center space-x-1.5 disabled:opacity-30 disabled:pointer-events-none"
+          className="px-4 py-3 bg-white hover:bg-slate-800 border border-slate-200 text-black font-medium text-xs font-semibold rounded-xl tracking-wide transition-colors flex items-center space-x-1.5 disabled:opacity-30 disabled:pointer-events-none"
         >
           <CheckSquare className="h-4 w-4 text-cyan-400" />
           <span>Mark All Present</span>
@@ -594,7 +594,7 @@ function UstadDashboardComponent({
                       {selectedStudent.name.charAt(0)}
                     </div>
                     <div>
-                      <h2 className="font-bold text-slate-100 text-base">{selectedStudent.name}</h2>
+                      <h2 className="font-bold text-black font-semibold text-base">{selectedStudent.name}</h2>
                       <p className="text-[10px] text-cyan-400 font-mono tracking-wider">STUDENT PROFILE</p>
                     </div>
                   </div>

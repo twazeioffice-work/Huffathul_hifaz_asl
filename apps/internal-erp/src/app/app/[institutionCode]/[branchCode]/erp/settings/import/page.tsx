@@ -16,12 +16,12 @@ export default function ImportWizardPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#09090b] text-black font-semibold p-6 max-w-5xl mx-auto space-y-6">
+    <div className="min-h-screen bg-transparent text-black font-semibold p-6 max-w-5xl mx-auto space-y-6">
       
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between p-6 bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.05)] rounded-2xl backdrop-blur-xl gap-4">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-slate-100 flex items-center space-x-2">
+          <h1 className="text-2xl font-bold tracking-tight text-black font-semibold flex items-center space-x-2">
             <UploadCloud className="h-6 w-6 text-blue-400" />
             <span>Data Import Wizard</span>
           </h1>
@@ -60,7 +60,7 @@ export default function ImportWizardPage() {
         {/* Content Area */}
         <div className="md:col-span-3 bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.05)] rounded-2xl p-8 backdrop-blur-xl flex flex-col justify-between min-h-[500px]">
           <div>
-            <h2 className="text-2xl font-bold text-slate-100 mb-2">{steps[currentStep - 1]}</h2>
+            <h2 className="text-2xl font-bold text-black font-semibold mb-2">{steps[currentStep - 1]}</h2>
             
             {currentStep === 1 && (
               <div className="mt-8 space-y-4">
@@ -75,7 +75,7 @@ export default function ImportWizardPage() {
                       onChange={(e) => setImportType(e.target.value)}
                       className="text-blue-500 focus:ring-blue-500 bg-slate-800 border-slate-600"
                     />
-                    <span className="text-slate-200 font-medium">{type}</span>
+                    <span className="text-black font-medium font-medium">{type}</span>
                   </label>
                 ))}
               </div>
@@ -144,7 +144,7 @@ export default function ImportWizardPage() {
                   <CheckCircle className="h-10 w-10 text-emerald-400" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-slate-100">Ready to Import</h3>
+                  <h3 className="text-xl font-bold text-black font-semibold">Ready to Import</h3>
                   <p className="text-slate-700 font-medium text-sm mt-2 max-w-md">
                     You are about to securely inject 142 valid {importType} records into the ecosystem. This action will trigger background indexing.
                   </p>
@@ -158,7 +158,7 @@ export default function ImportWizardPage() {
             <button 
               onClick={() => setCurrentStep(Math.max(1, currentStep - 1))}
               disabled={currentStep === 1}
-              className="flex items-center space-x-2 px-4 py-2 rounded-xl text-sm font-medium text-slate-700 font-medium hover:text-slate-200 hover:bg-black/5 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex items-center space-x-2 px-4 py-2 rounded-xl text-sm font-medium text-slate-700 font-medium hover:text-black font-medium hover:bg-black/5 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <ArrowLeft className="h-4 w-4" />
               <span>Back</span>

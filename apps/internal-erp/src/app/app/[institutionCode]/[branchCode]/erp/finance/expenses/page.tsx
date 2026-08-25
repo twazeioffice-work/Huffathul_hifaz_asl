@@ -38,7 +38,7 @@ export default function ExpensesPage() {
   ]);
 
   return (
-    <div className="min-h-screen bg-[#09090b] text-black font-semibold p-6 space-y-6 max-w-7xl mx-auto">
+    <div className="min-h-screen bg-transparent text-black font-semibold p-6 space-y-6 max-w-7xl mx-auto">
       {/* Header */}
       <div className="flex items-center justify-between p-6 bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.05)] rounded-2xl backdrop-blur-xl">
         <div className="flex items-center space-x-4">
@@ -49,7 +49,7 @@ export default function ExpensesPage() {
             <ArrowLeft className="h-5 w-5 text-slate-800 font-medium" />
           </button>
           <div>
-            <h1 className="text-2xl font-bold tracking-tight text-slate-100 flex items-center space-x-2">
+            <h1 className="text-2xl font-bold tracking-tight text-black font-semibold flex items-center space-x-2">
               <Receipt className="h-6 w-6 text-rose-400" />
               <span>Expense Approvals</span>
             </h1>
@@ -69,7 +69,7 @@ export default function ExpensesPage() {
           <input 
             type="text" 
             placeholder="Search by Request ID, Requester, or Purpose..." 
-            className="w-full bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.05)] rounded-xl py-2 pl-10 pr-4 text-sm text-slate-200 focus:outline-none focus:border-rose-500/50 transition-colors"
+            className="w-full bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.05)] rounded-xl py-2 pl-10 pr-4 text-sm text-black font-medium focus:outline-none focus:border-rose-500/50 transition-colors"
           />
         </div>
       </div>
@@ -92,9 +92,9 @@ export default function ExpensesPage() {
             {expenses.map((expense) => (
               <tr key={expense.id} className="hover:bg-[rgba(255,255,255,0.01)] transition-colors">
                 <td className="px-6 py-4 font-mono text-rose-400 font-semibold">{expense.id}</td>
-                <td className="px-6 py-4 font-medium text-slate-200">{expense.requestedBy}</td>
+                <td className="px-6 py-4 font-medium text-black font-medium">{expense.requestedBy}</td>
                 <td className="px-6 py-4 text-slate-800 font-medium">{expense.purpose}</td>
-                <td className="px-6 py-4 font-mono font-medium text-slate-200">{expense.amount}</td>
+                <td className="px-6 py-4 font-mono font-medium text-black font-medium">{expense.amount}</td>
                 <td className="px-6 py-4">
                   <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold tracking-wide uppercase ${
                     expense.status === 'PAID' 

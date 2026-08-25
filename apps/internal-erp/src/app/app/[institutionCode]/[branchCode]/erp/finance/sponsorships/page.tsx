@@ -30,7 +30,7 @@ export default function SponsorshipsPage() {
   ]);
 
   return (
-    <div className="min-h-screen bg-[#09090b] text-black font-semibold p-6 space-y-6 max-w-7xl mx-auto">
+    <div className="min-h-screen bg-transparent text-black font-semibold p-6 space-y-6 max-w-7xl mx-auto">
       {/* Header */}
       <div className="flex items-center justify-between p-6 bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.05)] rounded-2xl backdrop-blur-xl">
         <div className="flex items-center space-x-4">
@@ -41,7 +41,7 @@ export default function SponsorshipsPage() {
             <ArrowLeft className="h-5 w-5 text-slate-800 font-medium" />
           </button>
           <div>
-            <h1 className="text-2xl font-bold tracking-tight text-slate-100 flex items-center space-x-2">
+            <h1 className="text-2xl font-bold tracking-tight text-black font-semibold flex items-center space-x-2">
               <Users className="h-6 w-6 text-cyan-400" />
               <span>Sponsorship Lifecycle</span>
             </h1>
@@ -61,7 +61,7 @@ export default function SponsorshipsPage() {
           <input 
             type="text" 
             placeholder="Search by sponsor name, student, or ID..." 
-            className="w-full bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.05)] rounded-xl py-2 pl-10 pr-4 text-sm text-slate-200 focus:outline-none focus:border-cyan-500/50 transition-colors"
+            className="w-full bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.05)] rounded-xl py-2 pl-10 pr-4 text-sm text-black font-medium focus:outline-none focus:border-cyan-500/50 transition-colors"
           />
         </div>
       </div>
@@ -83,7 +83,7 @@ export default function SponsorshipsPage() {
             {sponsors.map((sponsor) => (
               <tr key={sponsor.id} className="hover:bg-[rgba(255,255,255,0.01)] transition-colors">
                 <td className="px-6 py-4">
-                  <div className="font-semibold text-slate-200">{sponsor.sponsorName}</div>
+                  <div className="font-semibold text-black font-medium">{sponsor.sponsorName}</div>
                   <div className="text-xs text-slate-700 font-medium font-mono mt-0.5">{sponsor.id}</div>
                 </td>
                 <td className="px-6 py-4 text-slate-800 font-medium">{sponsor.studentName}</td>

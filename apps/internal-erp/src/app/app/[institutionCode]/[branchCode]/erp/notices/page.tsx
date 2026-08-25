@@ -30,11 +30,11 @@ export default function NoticeBoardAdminPage() {
   ]);
 
   return (
-    <div className="min-h-screen bg-[#09090b] text-black font-semibold p-6 space-y-6 max-w-7xl mx-auto">
+    <div className="min-h-screen bg-transparent text-black font-semibold p-6 space-y-6 max-w-7xl mx-auto">
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between p-6 bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.05)] rounded-2xl backdrop-blur-xl gap-4">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-slate-100 flex items-center space-x-2">
+          <h1 className="text-2xl font-bold tracking-tight text-black font-semibold flex items-center space-x-2">
             <Megaphone className="h-6 w-6 text-indigo-400" />
             <span>Notice Board Admin</span>
           </h1>
@@ -53,7 +53,7 @@ export default function NoticeBoardAdminPage() {
           <input 
             type="text" 
             placeholder="Search notices..." 
-            className="w-full bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.05)] rounded-xl py-2 pl-10 pr-4 text-sm text-slate-200 focus:outline-none focus:border-indigo-500/50 transition-colors"
+            className="w-full bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.05)] rounded-xl py-2 pl-10 pr-4 text-sm text-black font-medium focus:outline-none focus:border-indigo-500/50 transition-colors"
           />
         </div>
       </div>
@@ -66,7 +66,7 @@ export default function NoticeBoardAdminPage() {
               <div className="flex justify-between items-start mb-2">
                 <div className="flex items-center space-x-2">
                   {notice.priority && <Pin className="h-4 w-4 text-rose-400 fill-rose-400/20" />}
-                  <h3 className="text-lg font-bold text-slate-100">{notice.title}</h3>
+                  <h3 className="text-lg font-bold text-black font-semibold">{notice.title}</h3>
                 </div>
                 <button className="text-slate-700 font-medium hover:text-slate-800 font-medium transition-colors"><MoreHorizontal className="h-5 w-5"/></button>
               </div>

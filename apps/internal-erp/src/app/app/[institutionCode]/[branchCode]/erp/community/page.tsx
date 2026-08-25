@@ -146,7 +146,7 @@ export default function CommunityAffiliationsDashboard() {
                     <span className="font-bold">{post.likes}</span>
                   </button>
                 </div>
-                <h4 className="text-sm font-bold text-slate-200">{post.title}</h4>
+                <h4 className="text-sm font-bold text-black font-medium">{post.title}</h4>
                 <p className="text-xs text-slate-700 font-medium leading-relaxed">{post.content}</p>
               </div>
             ))}

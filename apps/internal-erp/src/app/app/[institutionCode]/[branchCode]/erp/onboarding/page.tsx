@@ -32,12 +32,12 @@ export default function OnboardingWizardPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#09090b] text-black font-semibold p-6 max-w-5xl mx-auto space-y-6">
+    <div className="min-h-screen bg-transparent text-black font-semibold p-6 max-w-5xl mx-auto space-y-6">
       
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between p-6 bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.05)] rounded-2xl backdrop-blur-xl gap-4">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-slate-100 flex items-center space-x-2">
+          <h1 className="text-2xl font-bold tracking-tight text-black font-semibold flex items-center space-x-2">
             <Rocket className="h-6 w-6 text-emerald-400" />
             <span>Branch Onboarding Wizard</span>
           </h1>
@@ -92,7 +92,7 @@ export default function OnboardingWizardPage() {
             <div className="inline-block px-3 py-1 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-bold uppercase tracking-wider rounded-lg mb-4">
               Step {currentStep} of {steps.length}
             </div>
-            <h2 className="text-2xl font-bold text-slate-100 mb-2">{steps[currentStep - 1].label}</h2>
+            <h2 className="text-2xl font-bold text-black font-semibold mb-2">{steps[currentStep - 1].label}</h2>
             <p className="text-slate-700 font-medium text-sm leading-relaxed mb-8">
               This step requires you to input specific data required for the system to function. Completing this ensures all downstream modules like finance and reporting work correctly.
             </p>
@@ -111,7 +111,7 @@ export default function OnboardingWizardPage() {
             <button 
               onClick={handlePrev}
               disabled={currentStep === 1}
-              className="flex items-center space-x-2 px-4 py-2 rounded-xl text-sm font-medium text-slate-700 font-medium hover:text-slate-200 hover:bg-black/5 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex items-center space-x-2 px-4 py-2 rounded-xl text-sm font-medium text-slate-700 font-medium hover:text-black font-medium hover:bg-black/5 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <ArrowLeft className="h-4 w-4" />
               <span>Back</span>

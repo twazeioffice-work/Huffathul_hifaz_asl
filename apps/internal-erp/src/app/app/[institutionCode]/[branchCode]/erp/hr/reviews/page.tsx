@@ -32,7 +32,7 @@ export default function ReviewsPage() {
   ]);
 
   return (
-    <div className="min-h-screen bg-[#09090b] text-black font-semibold p-6 space-y-6 max-w-7xl mx-auto">
+    <div className="min-h-screen bg-transparent text-black font-semibold p-6 space-y-6 max-w-7xl mx-auto">
       {/* Header */}
       <div className="flex items-center justify-between p-6 bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.05)] rounded-2xl backdrop-blur-xl">
         <div className="flex items-center space-x-4">
@@ -43,7 +43,7 @@ export default function ReviewsPage() {
             <ArrowLeft className="h-5 w-5 text-slate-800 font-medium" />
           </button>
           <div>
-            <h1 className="text-2xl font-bold tracking-tight text-slate-100 flex items-center space-x-2">
+            <h1 className="text-2xl font-bold tracking-tight text-black font-semibold flex items-center space-x-2">
               <Star className="h-6 w-6 text-amber-400" />
               <span>Performance Reviews</span>
             </h1>
@@ -73,14 +73,14 @@ export default function ReviewsPage() {
             {reviews.map((rev) => (
               <tr key={rev.id} className="hover:bg-[rgba(255,255,255,0.01)] transition-colors">
                 <td className="px-6 py-4">
-                  <div className="font-semibold text-slate-200">{rev.staffName}</div>
+                  <div className="font-semibold text-black font-medium">{rev.staffName}</div>
                   <div className="text-xs text-amber-400 font-mono mt-0.5">{rev.role}</div>
                 </td>
                 <td className="px-6 py-4 font-medium text-slate-800 font-medium">{rev.period}</td>
                 <td className="px-6 py-4">
                   <div className="flex items-center space-x-1">
                     <Star className="h-4 w-4 text-amber-400 fill-amber-400" />
-                    <span className="font-bold text-slate-100">{rev.score}</span>
+                    <span className="font-bold text-black font-semibold">{rev.score}</span>
                     <span className="text-xs text-slate-700 font-medium">/10</span>
                   </div>
                 </td>

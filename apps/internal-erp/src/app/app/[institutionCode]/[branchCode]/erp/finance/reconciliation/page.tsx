@@ -34,7 +34,7 @@ export default function BankReconciliationPage() {
   ]);
 
   return (
-    <div className="min-h-screen bg-[#09090b] text-black font-semibold p-6 space-y-6 max-w-7xl mx-auto">
+    <div className="min-h-screen bg-transparent text-black font-semibold p-6 space-y-6 max-w-7xl mx-auto">
       {/* Header */}
       <div className="flex items-center justify-between p-6 bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.05)] rounded-2xl backdrop-blur-xl">
         <div className="flex items-center space-x-4">
@@ -45,7 +45,7 @@ export default function BankReconciliationPage() {
             <ArrowLeft className="h-5 w-5 text-slate-800 font-medium" />
           </button>
           <div>
-            <h1 className="text-2xl font-bold tracking-tight text-slate-100 flex items-center space-x-2">
+            <h1 className="text-2xl font-bold tracking-tight text-black font-semibold flex items-center space-x-2">
               <RefreshCw className="h-6 w-6 text-emerald-400" />
               <span>Bank Reconciliation</span>
             </h1>
@@ -65,7 +65,7 @@ export default function BankReconciliationPage() {
           <input 
             type="text" 
             placeholder="Search by Bank, Account, or Reference..." 
-            className="w-full bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.05)] rounded-xl py-2 pl-10 pr-4 text-sm text-slate-200 focus:outline-none focus:border-emerald-500/50 transition-colors"
+            className="w-full bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.05)] rounded-xl py-2 pl-10 pr-4 text-sm text-black font-medium focus:outline-none focus:border-emerald-500/50 transition-colors"
           />
         </div>
       </div>
@@ -89,7 +89,7 @@ export default function BankReconciliationPage() {
               <tr key={stmt.id} className="hover:bg-[rgba(255,255,255,0.01)] transition-colors">
                 <td className="px-6 py-4 font-mono text-emerald-400 font-semibold">{stmt.id}</td>
                 <td className="px-6 py-4">
-                  <div className="font-semibold text-slate-200 flex items-center space-x-2">
+                  <div className="font-semibold text-black font-medium flex items-center space-x-2">
                     <Landmark className="h-4 w-4 text-slate-700 font-medium" />
                     <span>{stmt.bankName}</span>
                   </div>
