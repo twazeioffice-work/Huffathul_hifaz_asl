@@ -1,6 +1,9 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
+
+
+
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, Legend } from 'recharts';
 
 
@@ -8,18 +11,92 @@ export default function AnalyticsReportsDashboard() {
   const [timeRange, setTimeRange] = useState<'30D' | 'Q1' | 'YTD'>('30D');
   const [isExporting, setIsExporting] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const reportRef = useRef<HTMLDivElement>(null);
 
   const showToast = (msg: string) => {
     setToastMessage(msg);
     setTimeout(() => setToastMessage(null), 4000);
   };
 
-  const handleExportPDF = () => {
+  const handleExportPDF = async () => {
     setIsExporting(true);
-    setTimeout(() => {
-      setIsExporting(false);
+    
+    try {
+      const jsPDF = (await import('jspdf')).default;
+      const autoTable = (await import('jspdf-autotable')).default;
+      const html2canvas = (await import('html2canvas')).default;
+      
+      const doc = new jsPDF('p', 'mm', 'a4');
+      
+      // 1. Add Title & Metadata
+      doc.setFontSize(22);
+      doc.setTextColor(24, 74, 69); // Dark green #184A45
+      doc.text('Intelligence & Audit Report', 14, 22);
+      
+      doc.setFontSize(10);
+      doc.setTextColor(100);
+      doc.text(`Generated on: ${new Date().toLocaleDateString()} | Time Range: ${timeRange}`, 14, 30);
+      
+      // 2. Add KPI Summary Table
+      doc.setFontSize(14);
+      doc.setTextColor(0);
+      doc.text('Key Performance Indicators', 14, 42);
+      
+      autoTable(doc, {
+        startY: 46,
+        head: [['Metric', 'Value', 'Context']],
+        body: [
+          ['Overall Retention Rate', '98.4%', '+2.1% from previous term'],
+          ['Avg Sabaq Memorization', '1.25 Pages/Day', 'Target: 1.00 Page/Day'],
+          ['Graduated Huffaz (2026)', '48 Huffaz', 'Sanad Certified'],
+          ['Fee Collection Velocity', '94.2%', 'Auto-reconciliation active']
+        ],
+        theme: 'grid',
+        headStyles: { fillColor: [24, 74, 69] }
+      });
+
+      // 3. Add Full Graph Details (Data Table)
+      const finalY = (doc as any).lastAutoTable.finalY || 100;
+      doc.setFontSize(14);
+      doc.text('Hifz Completion & Student Influx Velocity (Full Details)', 14, finalY + 14);
+      
+      const tableData = chartData.map(item => [item.label, item.value.toString(), item.hifz.toString()]);
+      
+      autoTable(doc, {
+        startY: finalY + 18,
+        head: [['Time Period', 'Total Enrollment', 'Hifz Milestones']],
+        body: tableData,
+        theme: 'striped',
+        headStyles: { fillColor: [6, 182, 212] } // Cyan-500
+      });
+      
+      // 4. Optionally capture the actual chart visual and append to PDF
+      if (reportRef.current) {
+        try {
+          const canvas = await html2canvas(reportRef.current, { scale: 1.5, useCORS: true });
+          const imgData = canvas.toDataURL('image/png');
+          doc.addPage();
+          doc.text('Visual Dashboard Snapshot', 14, 22);
+          
+          // Calculate dimensions to fit on A4
+          const pdfWidth = doc.internal.pageSize.getWidth() - 28;
+          const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+          
+          doc.addImage(imgData, 'PNG', 14, 30, pdfWidth, pdfHeight);
+        } catch (e) {
+          console.warn("Screenshot capture failed, continuing with data tables only", e);
+        }
+      }
+
+      // Save
+      doc.save(`Suffat_Audit_Report_${timeRange}.pdf`);
       showToast('PDF Executive Report compiled & downloaded successfully!');
-    }, 1800);
+    } catch (error) {
+      console.error(error);
+      showToast('Error generating PDF.');
+    } finally {
+      setIsExporting(false);
+    }
   };
 
   const chartData = timeRange === '30D'
@@ -31,7 +108,7 @@ export default function AnalyticsReportsDashboard() {
   const maxVal = Math.max(...chartData.map(d => d.value));
 
   return (
-    <div className="space-y-8 animate-in fade-in duration-500">
+    <div ref={reportRef} className="space-y-8 animate-in fade-in duration-500 bg-[#F4F1ED] p-4">
       {toastMessage && (
         <div className="fixed bottom-6 right-6 z-50 flex items-center gap-3 px-5 py-3 rounded-xl bg-white/90 border border-cyan-500/40 text-cyan-200 shadow-glow-cyan backdrop-blur-xl">
           <span className="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
