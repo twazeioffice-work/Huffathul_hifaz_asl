@@ -30,17 +30,17 @@ export default function MemorizationProgressTree() {
   });
 
   return (
-    <div className="min-h-screen bg-[#09090b] text-slate-800 p-6 space-y-6 max-w-4xl mx-auto">
+    <div className="min-h-screen bg-[#09090b] text-black font-semibold p-6 space-y-6 max-w-4xl mx-auto">
       <div className="flex items-center space-x-4 mb-8">
         <Link 
           href={`/app/${params.institutionCode}/${params.branchCode}/erp/students/${params.studentId}`}
           className="p-2 bg-[rgba(255,255,255,0.05)] hover:bg-[rgba(255,255,255,0.08)] rounded-lg transition-colors"
         >
-          <ChevronLeft className="h-5 w-5 text-slate-600" />
+          <ChevronLeft className="h-5 w-5 text-slate-800 font-medium" />
         </Link>
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-slate-100">Memorization Tree</h1>
-          <p className="text-sm text-slate-500">Student: {params.studentId}</p>
+          <p className="text-sm text-slate-700 font-medium">Student: {params.studentId}</p>
         </div>
       </div>
 
@@ -71,10 +71,10 @@ export default function MemorizationProgressTree() {
                 ) : juz.progress > 0 ? (
                   <span className="text-sm font-mono text-cyan-400">{juz.status}</span>
                 ) : (
-                  <CircleDashed className="h-5 w-5 text-slate-600" />
+                  <CircleDashed className="h-5 w-5 text-slate-800 font-medium" />
                 )}
               </div>
-              <p className="text-xs text-slate-500 mt-1 uppercase font-mono tracking-wider">
+              <p className="text-xs text-slate-700 font-medium mt-1 uppercase font-mono tracking-wider">
                 {juz.progress === 100 ? "Completed" : juz.status}
               </p>
             </div>

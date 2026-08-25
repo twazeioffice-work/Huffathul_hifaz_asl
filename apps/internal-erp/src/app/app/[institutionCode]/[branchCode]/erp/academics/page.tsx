@@ -25,13 +25,13 @@ function LiveTimestamp() {
     return () => clearInterval(interval);
   }, []);
 
-  if (!time) return <div className="px-4 py-2 font-mono font-medium text-slate-600 text-xs">Loading...</div>;
+  if (!time) return <div className="px-4 py-2 font-mono font-medium text-slate-800 font-medium text-xs">Loading...</div>;
 
   return (
-    <div className="flex items-center bg-white border border-slate-200 rounded-xl px-4 py-2 text-xs font-mono font-medium text-slate-600">
+    <div className="flex items-center bg-white border border-slate-200 rounded-xl px-4 py-2 text-xs font-mono font-medium text-slate-800 font-medium">
       <span className="text-cyan-500 mr-2">●</span>
       {time.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}
-      <span className="mx-2 text-slate-600">|</span>
+      <span className="mx-2 text-slate-800 font-medium">|</span>
       {time.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
     </div>
   );
@@ -269,7 +269,7 @@ function UstadDashboardComponent({
   };
 
   return (
-    <div className="min-h-screen bg-transparent text-slate-800 p-4 md:p-6 pb-24">
+    <div className="min-h-screen bg-transparent text-black font-semibold p-4 md:p-6 pb-24">
       {/* ==============================================================================
           1. GLOBAL NAVIGATION & RUNTIME HEADERS
           ============================================================================== */}
@@ -331,7 +331,7 @@ function UstadDashboardComponent({
             className={`whitespace-nowrap px-4 py-2.5 rounded-xl text-xs font-semibold tracking-wide border transition-all duration-200 ${
               activeTab === tab.id
                 ? "bg-cyan-500 border-cyan-400 text-slate-950 shadow-[0_0_15px_rgba(0,240,255,0.2)]"
-                : "bg-white/60 border-slate-200/80 text-slate-500 hover:border-slate-200 hover:text-white"
+                : "bg-white/60 border-slate-200/80 text-slate-700 font-medium hover:border-slate-200 hover:text-white"
             }`}
           >
             {tab.label}
@@ -372,9 +372,9 @@ function UstadDashboardComponent({
                   <div>
                     <h3 className="font-bold text-slate-100 flex items-center space-x-1.5 hover:text-cyan-400 transition-colors">
                       <span>{student.name}</span>
-                      <ChevronRight className="h-3.5 w-3.5 text-slate-500" />
+                      <ChevronRight className="h-3.5 w-3.5 text-slate-700 font-medium" />
                     </h3>
-                    <p className="text-xs text-slate-500">Roll: {student.rollNumber}</p>
+                    <p className="text-xs text-slate-700 font-medium">Roll: {student.rollNumber}</p>
                   </div>
                 </div>
 
@@ -409,7 +409,7 @@ function UstadDashboardComponent({
                             className="w-10 bg-transparent text-center font-mono text-xs focus:outline-none"
                             placeholder="Start"
                           />
-                          <span className="text-slate-600 text-xs">➔</span>
+                          <span className="text-slate-800 font-medium text-xs">➔</span>
                           <input
                             type="number"
                             value={sBuffer.endPage}
@@ -477,7 +477,7 @@ function UstadDashboardComponent({
                   {/* TAB 3: ADAB & BEHAVIOR GRID */}
                   {activeTab === "ADAB" && (
                     <div className="flex items-center justify-end space-x-4">
-                      <span className="text-xs text-slate-500">Class behavior & adab:</span>
+                      <span className="text-xs text-slate-700 font-medium">Class behavior & adab:</span>
                       <div className="flex space-x-1.5">
                         {[1, 2, 3, 4, 5].map((star) => {
                           const currentScore = adabBuffer[student.id] || 5;
@@ -488,7 +488,7 @@ function UstadDashboardComponent({
                               className={`p-1.5 rounded-lg border transition-all duration-150 ${
                                 star <= currentScore
                                   ? "bg-amber-500/10 border-amber-500 text-amber-400"
-                                  : "bg-white border-slate-200 text-slate-600"
+                                  : "bg-white border-slate-200 text-slate-800 font-medium"
                               }`}
                             >
                               <Star className={`h-4 w-4 ${star <= currentScore ? "fill-current" : ""}`} />
@@ -504,7 +504,7 @@ function UstadDashboardComponent({
                     <div className="flex items-center justify-end space-x-4 w-full">
                       <div className="flex flex-col text-right hidden sm:flex">
                         <span className="text-[10px] text-emerald-400 font-semibold tracking-wide uppercase">WATI Webhook Active</span>
-                        <span className="text-[9px] text-slate-500 font-mono">Gemini 1.5 Flash</span>
+                        <span className="text-[9px] text-slate-700 font-medium font-mono">Gemini 1.5 Flash</span>
                       </div>
                       <button 
                         onClick={() => alert(`Webhook Triggered: Sending Gemini AI progress report to ${student.parentPhone} via WATI.`)}
@@ -521,13 +521,13 @@ function UstadDashboardComponent({
               {/* Collapsed/Expandable Note Footer */}
               {activeTab !== "ATTENDANCE" && activeTab !== "ADAB" && activeTab !== "COMMUNICATION" && sBuffer && (
                 <div className="mt-3 border-t border-slate-900 pt-3 flex items-center space-x-2">
-                  <span className="text-[10px] text-slate-500 uppercase font-mono select-none">Notes:</span>
+                  <span className="text-[10px] text-slate-700 font-medium uppercase font-mono select-none">Notes:</span>
                   <input
                     type="text"
                     value={sBuffer.notes}
                     onChange={(e) => updateSabaqField(student.id, "notes", e.target.value)}
                     placeholder="📝 Makharij validation or memorization remarks..."
-                    className="flex-1 bg-transparent text-xs text-slate-600 border-b border-transparent hover:border-slate-200 focus:border-cyan-500 focus:outline-none pb-0.5 transition-colors"
+                    className="flex-1 bg-transparent text-xs text-slate-800 font-medium border-b border-transparent hover:border-slate-200 focus:border-cyan-500 focus:outline-none pb-0.5 transition-colors"
                   />
                 </div>
               )}
@@ -609,9 +609,9 @@ function UstadDashboardComponent({
                 {/* Parent Contact Card */}
                 <div className="p-4 bg-white/60 border border-slate-200/80 rounded-xl space-y-4">
                   <div>
-                    <span className="text-[9px] text-slate-500 font-mono uppercase tracking-wider block mb-2">Guardian & Emergency Contact</span>
+                    <span className="text-[9px] text-slate-700 font-medium font-mono uppercase tracking-wider block mb-2">Guardian & Emergency Contact</span>
                     <div className="flex items-center justify-between">
-                      <span className="text-xs text-slate-600">Father/Guardian Call:</span>
+                      <span className="text-xs text-slate-800 font-medium">Father/Guardian Call:</span>
                       <a 
                         href={`tel:${selectedStudent.parentPhone}`} 
                         className="flex items-center space-x-1.5 px-3 py-1 bg-cyan-500/10 border border-cyan-500/30 hover:bg-cyan-500/20 text-cyan-400 text-xs font-bold rounded-lg transition-colors font-mono"
@@ -631,7 +631,7 @@ function UstadDashboardComponent({
                       <Bot className="h-4 w-4" />
                       <span>Send AI Progress Report</span>
                     </button>
-                    <p className="text-[9px] text-center text-slate-500 mt-1.5 font-mono">Powered by Gemini 1.5 Flash</p>
+                    <p className="text-[9px] text-center text-slate-700 font-medium mt-1.5 font-mono">Powered by Gemini 1.5 Flash</p>
                   </div>
                 </div>
 
@@ -639,9 +639,9 @@ function UstadDashboardComponent({
 
                 {/* Behavioral & Adab Warnings */}
                 <div className="p-4 bg-white/60 border border-slate-200/80 rounded-xl space-y-2">
-                  <span className="text-[9px] text-slate-500 font-mono uppercase tracking-wider block">Adab & Cleanliness Score</span>
+                  <span className="text-[9px] text-slate-700 font-medium font-mono uppercase tracking-wider block">Adab & Cleanliness Score</span>
                   <div className="flex items-center justify-between">
-                    <span className="text-xs text-slate-600">Active Score This Week:</span>
+                    <span className="text-xs text-slate-800 font-medium">Active Score This Week:</span>
                     <span className={`text-xs font-mono font-bold px-2 py-0.5 rounded ${
                       selectedStudent.adabScoreThisWeek < 3 
                         ? "bg-rose-500/10 text-rose-400 border border-rose-500/30 animate-pulse"
@@ -661,7 +661,7 @@ function UstadDashboardComponent({
                 {/* Secure Evaluation Notes */}
                 <div className="space-y-3 pt-2">
                   <div className="flex items-center justify-between">
-                    <span className="text-[9px] text-slate-500 font-mono uppercase tracking-wider block">Staff Evaluation Notes</span>
+                    <span className="text-[9px] text-slate-700 font-medium font-mono uppercase tracking-wider block">Staff Evaluation Notes</span>
                     <div className="flex items-center space-x-1 bg-amber-500/10 px-1.5 py-0.5 rounded border border-amber-500/20">
                       <Lock className="w-3 h-3 text-amber-500" />
                       <span className="text-[8px] font-bold text-amber-500 uppercase tracking-wide">Hidden from Student</span>
@@ -671,7 +671,7 @@ function UstadDashboardComponent({
                   <div className="space-y-2">
                     <textarea 
                       placeholder="Write a private evaluation or observation..." 
-                      className="w-full h-20 bg-black/50 border border-slate-200 rounded-lg p-2.5 text-xs text-slate-600 placeholder:text-slate-600 focus:outline-none focus:ring-1 focus:ring-cyan-500 focus:border-cyan-500 transition-all resize-none"
+                      className="w-full h-20 bg-black/50 border border-slate-200 rounded-lg p-2.5 text-xs text-slate-800 font-medium placeholder:text-slate-800 font-medium focus:outline-none focus:ring-1 focus:ring-cyan-500 focus:border-cyan-500 transition-all resize-none"
                     ></textarea>
                     <div className="flex justify-end">
                       <button className="px-3 py-1.5 bg-cyan-600 hover:bg-cyan-500 text-white text-[10px] font-bold rounded-md transition-colors flex items-center space-x-1 shadow-lg shadow-cyan-500/20">
@@ -687,11 +687,11 @@ function UstadDashboardComponent({
                       { date: "2026-08-01", author: "Ustad Bilal", text: "Excellent concentration during manzil sessions today." }
                     ].map((note, idx) => (
                       <div key={idx} className="p-2.5 bg-white border border-slate-900 rounded-lg text-[10px] space-y-1">
-                        <div className="flex justify-between text-slate-500">
+                        <div className="flex justify-between text-slate-700 font-medium">
                           <span className="font-semibold text-cyan-500/80">{note.author}</span>
-                          <span className="font-mono text-slate-500">{note.date}</span>
+                          <span className="font-mono text-slate-700 font-medium">{note.date}</span>
                         </div>
-                        <p className="text-slate-600 leading-relaxed italic">"{note.text}"</p>
+                        <p className="text-slate-800 font-medium leading-relaxed italic">"{note.text}"</p>
                       </div>
                     ))}
                   </div>
@@ -702,7 +702,7 @@ function UstadDashboardComponent({
               <div className="pt-4 border-t border-slate-200 mt-6">
                 <button 
                   onClick={() => setSelectedComplaintStudent(null)}
-                  className="w-full py-2.5 bg-white border border-slate-200 hover:border-slate-200 hover:bg-slate-800 text-xs font-semibold rounded-xl text-slate-600 transition-colors"
+                  className="w-full py-2.5 bg-white border border-slate-200 hover:border-slate-200 hover:bg-slate-800 text-xs font-semibold rounded-xl text-slate-800 font-medium transition-colors"
                 >
                   Close Profile View
                 </button>

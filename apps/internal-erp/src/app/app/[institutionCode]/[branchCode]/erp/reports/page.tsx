@@ -42,8 +42,8 @@ export default function AnalyticsReportsDashboard() {
           <div className="flex items-center gap-2 text-cyan-400 text-xs font-semibold uppercase tracking-wider mb-1">
             <span className="w-2 h-2 rounded-full bg-cyan-400"></span> Cross-Tenant Analytics Engine
           </div>
-          <h1 className="text-2xl md:text-3xl font-black text-slate-800 tracking-tight">Intelligence & Audit Reports</h1>
-          <p className="text-xs md:text-sm text-slate-500 mt-1">
+          <h1 className="text-2xl md:text-3xl font-black text-black font-semibold tracking-tight">Intelligence & Audit Reports</h1>
+          <p className="text-xs md:text-sm text-slate-700 font-medium mt-1">
             Academic Sabaq Trajectory • Revenue Forecasting • Retention Telemetry
           </p>
         </div>
@@ -57,7 +57,7 @@ export default function AnalyticsReportsDashboard() {
                 className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
                   timeRange === range
                     ? 'bg-cyan-500 text-slate-950 shadow-glow-cyan'
-                    : 'text-slate-500 hover:text-white'
+                    : 'text-slate-700 font-medium hover:text-white'
                 }`}
               >
                 {range}
@@ -77,35 +77,35 @@ export default function AnalyticsReportsDashboard() {
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         <div className="glass-card p-5 rounded-2xl border border-slate-200">
-          <div className="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">Overall Retention Rate</div>
+          <div className="text-[11px] font-bold text-slate-700 font-medium uppercase tracking-wider mb-1">Overall Retention Rate</div>
           <div className="text-2xl font-black text-emerald-400 tracking-tight">98.4%</div>
           <div className="text-[10px] text-emerald-300/80 mt-1">+2.1% from previous term</div>
         </div>
 
         <div className="glass-card p-5 rounded-2xl border border-slate-200">
-          <div className="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">Avg Sabaq Memorization</div>
+          <div className="text-[11px] font-bold text-slate-700 font-medium uppercase tracking-wider mb-1">Avg Sabaq Memorization</div>
           <div className="text-2xl font-black text-cyan-400 tracking-tight">1.25 Pages/Day</div>
           <div className="text-[10px] text-cyan-300/80 mt-1">Target: 1.00 Page/Day</div>
         </div>
 
         <div className="glass-card p-5 rounded-2xl border border-slate-200">
-          <div className="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">Graduated Huffaz (2026)</div>
-          <div className="text-2xl font-black text-slate-800 tracking-tight">48 Huffaz</div>
-          <div className="text-[10px] text-slate-500 mt-1">Sanad Certified</div>
+          <div className="text-[11px] font-bold text-slate-700 font-medium uppercase tracking-wider mb-1">Graduated Huffaz (2026)</div>
+          <div className="text-2xl font-black text-black font-semibold tracking-tight">48 Huffaz</div>
+          <div className="text-[10px] text-slate-700 font-medium mt-1">Sanad Certified</div>
         </div>
 
         <div className="glass-card p-5 rounded-2xl border border-slate-200">
-          <div className="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">Fee Collection Velocity</div>
+          <div className="text-[11px] font-bold text-slate-700 font-medium uppercase tracking-wider mb-1">Fee Collection Velocity</div>
           <div className="text-2xl font-black text-indigo-300 tracking-tight">94.2%</div>
-          <div className="text-[10px] text-slate-500 mt-1">Auto-reconciliation active</div>
+          <div className="text-[10px] text-slate-700 font-medium mt-1">Auto-reconciliation active</div>
         </div>
       </div>
 
       <div className="glass-panel rounded-2xl p-6 border border-slate-200">
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h2 className="text-lg font-bold text-slate-800">Hifz Completion & Student Influx Velocity</h2>
-            <p className="text-xs text-slate-500">Visual comparison of new student enrollments vs active Para memorization pace.</p>
+            <h2 className="text-lg font-bold text-black font-semibold">Hifz Completion & Student Influx Velocity</h2>
+            <p className="text-xs text-slate-700 font-medium">Visual comparison of new student enrollments vs active Para memorization pace.</p>
           </div>
           <div className="flex items-center gap-4 text-xs">
             <div className="flex items-center gap-2 text-cyan-400 font-semibold">
@@ -136,7 +136,7 @@ export default function AnalyticsReportsDashboard() {
                     className="w-1/2 max-w-[40px] rounded-t-lg bg-gradient-to-t from-emerald-600 to-emerald-400 shadow-glow-emerald group-hover:brightness-125 transition-all duration-300"
                   ></div>
                 </div>
-                <div className="text-xs font-semibold text-slate-500 font-mono mt-2">
+                <div className="text-xs font-semibold text-slate-700 font-medium font-mono mt-2">
                   {item.label}
                 </div>
               </div>

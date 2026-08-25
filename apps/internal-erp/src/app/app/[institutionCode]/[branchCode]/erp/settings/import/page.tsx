@@ -16,7 +16,7 @@ export default function ImportWizardPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#09090b] text-slate-800 p-6 max-w-5xl mx-auto space-y-6">
+    <div className="min-h-screen bg-[#09090b] text-black font-semibold p-6 max-w-5xl mx-auto space-y-6">
       
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between p-6 bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.05)] rounded-2xl backdrop-blur-xl gap-4">
@@ -25,7 +25,7 @@ export default function ImportWizardPage() {
             <UploadCloud className="h-6 w-6 text-blue-400" />
             <span>Data Import Wizard</span>
           </h1>
-          <p className="text-sm text-slate-500 mt-1">Bulk import records via CSV into the ecosystem securely.</p>
+          <p className="text-sm text-slate-700 font-medium mt-1">Bulk import records via CSV into the ecosystem securely.</p>
         </div>
       </div>
 
@@ -45,11 +45,11 @@ export default function ImportWizardPage() {
                 }`}
               >
                 <div className={`h-6 w-6 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${
-                  isCompleted ? "bg-blue-500 text-white" : isCurrent ? "bg-blue-500/30 text-blue-300 border border-blue-500/50" : "bg-slate-800 text-slate-500"
+                  isCompleted ? "bg-blue-500 text-white" : isCurrent ? "bg-blue-500/30 text-blue-300 border border-blue-500/50" : "bg-slate-800 text-slate-700 font-medium"
                 }`}>
                   {isCompleted ? <CheckCircle className="h-4 w-4" /> : stepNum}
                 </div>
-                <span className={`text-sm ${isCurrent ? "text-blue-300 font-bold" : isCompleted ? "text-slate-600" : "text-slate-500"}`}>
+                <span className={`text-sm ${isCurrent ? "text-blue-300 font-bold" : isCompleted ? "text-slate-800 font-medium" : "text-slate-700 font-medium"}`}>
                   {step}
                 </span>
               </div>
@@ -64,7 +64,7 @@ export default function ImportWizardPage() {
             
             {currentStep === 1 && (
               <div className="mt-8 space-y-4">
-                <p className="text-slate-500 text-sm mb-4">Select the type of data you wish to import.</p>
+                <p className="text-slate-700 font-medium text-sm mb-4">Select the type of data you wish to import.</p>
                 {["Students", "Staff", "Parents", "Opening Balances", "Previous Sabaq Records"].map(type => (
                   <label key={type} className={`flex items-center space-x-3 p-4 border rounded-xl cursor-pointer transition-colors ${importType === type ? 'bg-blue-500/10 border-blue-500/50' : 'bg-black/5 border-slate-200 hover:border-slate-300'}`}>
                     <input 
@@ -84,7 +84,7 @@ export default function ImportWizardPage() {
             {currentStep === 2 && (
               <div className="mt-8 flex flex-col items-center justify-center p-12 bg-black/5 border border-slate-200 border-dashed rounded-2xl space-y-4">
                 <FileText className="h-16 w-16 text-blue-400/50" />
-                <p className="text-slate-600 text-center max-w-sm">Download the standardized CSV template for <strong>{importType}</strong> to ensure your data maps correctly.</p>
+                <p className="text-slate-800 font-medium text-center max-w-sm">Download the standardized CSV template for <strong>{importType}</strong> to ensure your data maps correctly.</p>
                 <button className="mt-4 flex items-center space-x-2 px-4 py-2 bg-slate-800 hover:bg-slate-700 rounded-xl text-sm transition-colors">
                   <Download className="h-4 w-4" />
                   <span>Download {importType}.csv</span>
@@ -94,10 +94,10 @@ export default function ImportWizardPage() {
 
             {currentStep === 3 && (
               <div className="mt-8 flex flex-col items-center justify-center p-12 bg-black/5 border border-slate-200 border-dashed rounded-2xl space-y-4 cursor-pointer hover:bg-black/30 hover:border-slate-300 transition-all">
-                <UploadCloud className="h-16 w-16 text-slate-500" />
+                <UploadCloud className="h-16 w-16 text-slate-700 font-medium" />
                 <div className="text-center">
-                  <p className="text-slate-600 font-medium">Drag and drop your filled CSV file here</p>
-                  <p className="text-slate-500 text-sm mt-1">or click to browse from your computer</p>
+                  <p className="text-slate-800 font-medium font-medium">Drag and drop your filled CSV file here</p>
+                  <p className="text-slate-700 font-medium text-sm mt-1">or click to browse from your computer</p>
                 </div>
               </div>
             )}
@@ -113,7 +113,7 @@ export default function ImportWizardPage() {
                 </div>
                 
                 <div className="overflow-x-auto border border-slate-200 rounded-xl">
-                  <table className="w-full text-left text-sm text-slate-500">
+                  <table className="w-full text-left text-sm text-slate-700 font-medium">
                     <thead className="bg-black/5 text-xs uppercase">
                       <tr>
                         <th className="px-4 py-3">Row</th>
@@ -124,12 +124,12 @@ export default function ImportWizardPage() {
                     <tbody className="divide-y divide-white/5 bg-black/5">
                       <tr>
                         <td className="px-4 py-3 font-mono">#42</td>
-                        <td className="px-4 py-3 font-medium text-slate-600">Phone Number</td>
+                        <td className="px-4 py-3 font-medium text-slate-800 font-medium">Phone Number</td>
                         <td className="px-4 py-3 text-amber-400">Duplicate phone number found in system.</td>
                       </tr>
                       <tr>
                         <td className="px-4 py-3 font-mono">#89</td>
-                        <td className="px-4 py-3 font-medium text-slate-600">Date of Birth</td>
+                        <td className="px-4 py-3 font-medium text-slate-800 font-medium">Date of Birth</td>
                         <td className="px-4 py-3 text-rose-400">Invalid date format (Required: YYYY-MM-DD).</td>
                       </tr>
                     </tbody>
@@ -145,7 +145,7 @@ export default function ImportWizardPage() {
                 </div>
                 <div>
                   <h3 className="text-xl font-bold text-slate-100">Ready to Import</h3>
-                  <p className="text-slate-500 text-sm mt-2 max-w-md">
+                  <p className="text-slate-700 font-medium text-sm mt-2 max-w-md">
                     You are about to securely inject 142 valid {importType} records into the ecosystem. This action will trigger background indexing.
                   </p>
                 </div>
@@ -158,7 +158,7 @@ export default function ImportWizardPage() {
             <button 
               onClick={() => setCurrentStep(Math.max(1, currentStep - 1))}
               disabled={currentStep === 1}
-              className="flex items-center space-x-2 px-4 py-2 rounded-xl text-sm font-medium text-slate-500 hover:text-slate-200 hover:bg-black/5 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex items-center space-x-2 px-4 py-2 rounded-xl text-sm font-medium text-slate-700 font-medium hover:text-slate-200 hover:bg-black/5 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <ArrowLeft className="h-4 w-4" />
               <span>Back</span>

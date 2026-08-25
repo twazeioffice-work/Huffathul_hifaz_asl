@@ -16,8 +16,8 @@ export default function ComplaintsPage() {
     <div className="space-y-6 animate-in fade-in duration-700">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-2xl font-bold text-slate-800">Complaints & Grievances</h1>
-          <p className="text-sm text-slate-500">Centralized ticket management and resolution system.</p>
+          <h1 className="text-2xl font-bold text-black font-semibold">Complaints & Grievances</h1>
+          <p className="text-sm text-slate-700 font-medium">Centralized ticket management and resolution system.</p>
         </div>
       </div>
 
@@ -25,20 +25,20 @@ export default function ComplaintsPage() {
         <table className="w-full text-left">
           <thead className="bg-black/5 border-b border-slate-200">
             <tr>
-              <th className="p-4 text-slate-500 font-medium">Ticket ID</th>
-              <th className="p-4 text-slate-500 font-medium">Reporter</th>
-              <th className="p-4 text-slate-500 font-medium">Subject</th>
-              <th className="p-4 text-slate-500 font-medium">Severity</th>
-              <th className="p-4 text-slate-500 font-medium">Status</th>
-              <th className="p-4 text-slate-500 font-medium text-right">Action</th>
+              <th className="p-4 text-slate-700 font-medium font-medium">Ticket ID</th>
+              <th className="p-4 text-slate-700 font-medium font-medium">Reporter</th>
+              <th className="p-4 text-slate-700 font-medium font-medium">Subject</th>
+              <th className="p-4 text-slate-700 font-medium font-medium">Severity</th>
+              <th className="p-4 text-slate-700 font-medium font-medium">Status</th>
+              <th className="p-4 text-slate-700 font-medium font-medium text-right">Action</th>
             </tr>
           </thead>
           <tbody>
             {MOCK_COMPLAINTS.map(ticket => (
               <tr key={ticket.id} className="border-b border-slate-200 hover:bg-black/5">
-                <td className="p-4 text-slate-500">{ticket.id}</td>
-                <td className="p-4 text-slate-800">{ticket.from}</td>
-                <td className="p-4 text-slate-800 font-medium">{ticket.subject}</td>
+                <td className="p-4 text-slate-700 font-medium">{ticket.id}</td>
+                <td className="p-4 text-black font-semibold">{ticket.from}</td>
+                <td className="p-4 text-black font-semibold font-medium">{ticket.subject}</td>
                 <td className="p-4">
                   <Badge variant={ticket.severity === 'high' ? 'danger' : ticket.severity === 'medium' ? 'warning' : 'default'}>
                     {ticket.severity.toUpperCase()}

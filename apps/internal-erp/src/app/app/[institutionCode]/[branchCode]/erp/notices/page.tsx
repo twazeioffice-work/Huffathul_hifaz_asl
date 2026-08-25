@@ -30,7 +30,7 @@ export default function NoticeBoardAdminPage() {
   ]);
 
   return (
-    <div className="min-h-screen bg-[#09090b] text-slate-800 p-6 space-y-6 max-w-7xl mx-auto">
+    <div className="min-h-screen bg-[#09090b] text-black font-semibold p-6 space-y-6 max-w-7xl mx-auto">
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between p-6 bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.05)] rounded-2xl backdrop-blur-xl gap-4">
         <div>
@@ -38,7 +38,7 @@ export default function NoticeBoardAdminPage() {
             <Megaphone className="h-6 w-6 text-indigo-400" />
             <span>Notice Board Admin</span>
           </h1>
-          <p className="text-sm text-slate-500 mt-1">Create and broadcast announcements to portals</p>
+          <p className="text-sm text-slate-700 font-medium mt-1">Create and broadcast announcements to portals</p>
         </div>
         <button className="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-xl text-sm font-medium transition-colors shadow-lg shadow-indigo-900/20 flex items-center space-x-2">
           <Plus className="h-4 w-4" />
@@ -49,7 +49,7 @@ export default function NoticeBoardAdminPage() {
       {/* Toolbar */}
       <div className="flex items-center space-x-4">
         <div className="flex-1 relative">
-          <Search className="h-5 w-5 absolute left-3 top-2.5 text-slate-500" />
+          <Search className="h-5 w-5 absolute left-3 top-2.5 text-slate-700 font-medium" />
           <input 
             type="text" 
             placeholder="Search notices..." 
@@ -68,23 +68,23 @@ export default function NoticeBoardAdminPage() {
                   {notice.priority && <Pin className="h-4 w-4 text-rose-400 fill-rose-400/20" />}
                   <h3 className="text-lg font-bold text-slate-100">{notice.title}</h3>
                 </div>
-                <button className="text-slate-500 hover:text-slate-600 transition-colors"><MoreHorizontal className="h-5 w-5"/></button>
+                <button className="text-slate-700 font-medium hover:text-slate-800 font-medium transition-colors"><MoreHorizontal className="h-5 w-5"/></button>
               </div>
-              <p className="text-sm text-slate-500 leading-relaxed">
+              <p className="text-sm text-slate-700 font-medium leading-relaxed">
                 {notice.body}
               </p>
             </div>
             
             <div className="flex items-center justify-between pt-4 border-t border-[rgba(255,255,255,0.05)]">
               <div className="flex space-x-2">
-                <span className="px-2 py-1 bg-slate-800 text-slate-600 rounded-md text-[10px] uppercase font-bold tracking-wider">
+                <span className="px-2 py-1 bg-slate-800 text-slate-800 font-medium rounded-md text-[10px] uppercase font-bold tracking-wider">
                   {notice.category}
                 </span>
                 <span className="px-2 py-1 bg-indigo-500/10 text-indigo-300 border border-indigo-500/20 rounded-md text-[10px] uppercase font-bold tracking-wider">
                   Target: {notice.audience}
                 </span>
               </div>
-              <div className="flex items-center space-x-1 text-xs text-slate-500 font-mono">
+              <div className="flex items-center space-x-1 text-xs text-slate-700 font-medium font-mono">
                 <Calendar className="h-3 w-3" />
                 <span>Exp: {notice.expiryDate}</span>
               </div>

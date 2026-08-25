@@ -11,8 +11,8 @@ export default function NazimDashboard({ institutionCode, branchCode }: { instit
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-slate-800">{branchCode.toUpperCase()} Nazim Operations</h1>
-          <p className="text-sm text-slate-500">Academic supervision, Ustad management, and triaging.</p>
+          <h1 className="text-2xl font-bold text-black font-semibold">{branchCode.toUpperCase()} Nazim Operations</h1>
+          <p className="text-sm text-slate-700 font-medium">Academic supervision, Ustad management, and triaging.</p>
         </div>
       </div>
 
@@ -47,7 +47,7 @@ export default function NazimDashboard({ institutionCode, branchCode }: { instit
 
       <div className="grid grid-cols-1 gap-6">
         <GlassCard>
-          <h2 className="text-sm font-semibold uppercase tracking-wider text-slate-500 mb-4">Pending Supervisor Actions</h2>
+          <h2 className="text-sm font-semibold uppercase tracking-wider text-slate-700 font-medium mb-4">Pending Supervisor Actions</h2>
           <div className="space-y-4">
             <div className="rounded-xl bg-amber-500/10 border border-amber-500/20 p-3">
               <h4 className="text-sm font-semibold text-amber-600">Pending Leave Approvals</h4>

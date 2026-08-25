@@ -91,8 +91,8 @@ export default function CommunityAffiliationsDashboard() {
         <div className="flex items-center gap-2 text-indigo-400 text-xs font-semibold uppercase tracking-wider mb-1">
           <span className="w-2 h-2 rounded-full bg-indigo-400"></span> Decentralized Community Network
         </div>
-        <h1 className="text-2xl md:text-3xl font-black text-slate-800 tracking-tight">Indian Madrasah Affiliations &amp; Forum</h1>
-        <p className="text-xs md:text-sm text-slate-500 mt-1">
+        <h1 className="text-2xl md:text-3xl font-black text-black font-semibold tracking-tight">Indian Madrasah Affiliations &amp; Forum</h1>
+        <p className="text-xs md:text-sm text-slate-700 font-medium mt-1">
           Cross-Madrasah Knowledge Sharing • Accreditation Approvals • Regional Teacher Forum (All India)
         </p>
       </div>
@@ -100,7 +100,7 @@ export default function CommunityAffiliationsDashboard() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-6">
           <div className="glass-panel p-6 rounded-2xl border border-slate-200">
-            <h3 className="text-sm font-bold text-slate-800 uppercase tracking-wider mb-4 flex items-center gap-2">
+            <h3 className="text-sm font-bold text-black font-semibold uppercase tracking-wider mb-4 flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-cyan-400"></span> Broadcast Regional Notice
             </h3>
             <form onSubmit={handleCreatePost} className="space-y-4">
@@ -109,14 +109,14 @@ export default function CommunityAffiliationsDashboard() {
                 value={newTitle}
                 onChange={e => setNewTitle(e.target.value)}
                 placeholder="Announcement Title (e.g. Karnataka Regional Hifz Workshop)..."
-                className="w-full bg-white border border-slate-200 rounded-xl px-4 py-2.5 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-indigo-400 transition-colors"
+                className="w-full bg-white border border-slate-200 rounded-xl px-4 py-2.5 text-xs text-black font-semibold placeholder-slate-400 focus:outline-none focus:border-indigo-400 transition-colors"
               />
               <textarea
                 value={newContent}
                 onChange={e => setNewContent(e.target.value)}
                 rows={3}
                 placeholder="Compose directive for affiliated teachers and administrators across India..."
-                className="w-full bg-white border border-slate-200 rounded-xl px-4 py-2.5 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-indigo-400 transition-colors resize-none"
+                className="w-full bg-white border border-slate-200 rounded-xl px-4 py-2.5 text-xs text-black font-semibold placeholder-slate-400 focus:outline-none focus:border-indigo-400 transition-colors resize-none"
               />
               <div className="flex justify-end">
                 <button
@@ -130,24 +130,24 @@ export default function CommunityAffiliationsDashboard() {
           </div>
 
           <div className="space-y-4">
-            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500">Community Broadcast Feed</h3>
+            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-700 font-medium">Community Broadcast Feed</h3>
             {posts.map(post => (
               <div key={post.id} className="glass-card p-6 rounded-2xl border border-slate-200 hover:border-slate-200 transition-all space-y-3">
                 <div className="flex items-center justify-between">
                   <div>
-                    <div className="font-bold text-slate-800 text-sm">{post.author}</div>
+                    <div className="font-bold text-black font-semibold text-sm">{post.author}</div>
                     <div className="text-xs text-indigo-400 font-semibold">{post.role} • {post.timestamp}</div>
                   </div>
                   <button
                     onClick={() => handleLike(post.id)}
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-slate-200 hover:border-rose-500/40 text-slate-500 hover:text-rose-400 text-xs transition-all"
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-slate-200 hover:border-rose-500/40 text-slate-700 font-medium hover:text-rose-400 text-xs transition-all"
                   >
                     <span>❤️</span>
                     <span className="font-bold">{post.likes}</span>
                   </button>
                 </div>
                 <h4 className="text-sm font-bold text-slate-200">{post.title}</h4>
-                <p className="text-xs text-slate-500 leading-relaxed">{post.content}</p>
+                <p className="text-xs text-slate-700 font-medium leading-relaxed">{post.content}</p>
               </div>
             ))}
           </div>
@@ -156,7 +156,7 @@ export default function CommunityAffiliationsDashboard() {
         <div className="space-y-6">
           <div className="glass-panel p-6 rounded-2xl border border-slate-200">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500">Affiliation Approvals</h3>
+              <h3 className="text-xs font-bold uppercase tracking-wider text-slate-700 font-medium">Affiliation Approvals</h3>
               <span className="text-[10px] px-2 py-0.5 rounded-full bg-amber-950 text-amber-400 border border-amber-500/30 font-bold">
                 {requests.filter(r => r.status === 'PENDING').length} Pending
               </span>
@@ -166,9 +166,9 @@ export default function CommunityAffiliationsDashboard() {
               {requests.map(req => (
                 <div key={req.id} className="p-4 rounded-xl bg-white/60 border border-slate-200/80 space-y-3">
                   <div>
-                    <div className="font-bold text-slate-800 text-sm">{req.madrasahName}</div>
-                    <div className="text-xs text-slate-500">{req.location} • <strong className="text-slate-600">{req.studentsCount} Students</strong></div>
-                    <div className="text-xs text-slate-500">Principal: <span className="text-cyan-400">{req.principalName}</span></div>
+                    <div className="font-bold text-black font-semibold text-sm">{req.madrasahName}</div>
+                    <div className="text-xs text-slate-700 font-medium">{req.location} • <strong className="text-slate-800 font-medium">{req.studentsCount} Students</strong></div>
+                    <div className="text-xs text-slate-700 font-medium">Principal: <span className="text-cyan-400">{req.principalName}</span></div>
                   </div>
 
                   <div className="flex items-center justify-between pt-2 border-t border-slate-200">
@@ -184,7 +184,7 @@ export default function CommunityAffiliationsDashboard() {
                       <div className="flex gap-2">
                         <button
                           onClick={() => handleReject(req.id, req.madrasahName)}
-                          className="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-rose-950 text-slate-500 hover:text-rose-400 text-[11px] font-semibold transition-all"
+                          className="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-rose-950 text-slate-700 font-medium hover:text-rose-400 text-[11px] font-semibold transition-all"
                         >
                           Decline
                         </button>

@@ -28,7 +28,7 @@ export default function StudentProfileERP() {
   };
 
   return (
-    <div className="min-h-screen bg-[#09090b] text-slate-800 p-6 space-y-6">
+    <div className="min-h-screen bg-[#09090b] text-black font-semibold p-6 space-y-6">
       
       {/* 1. Header & Identity Card */}
       <div className="p-6 bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.05)] rounded-2xl backdrop-blur-xl flex items-center justify-between">
@@ -38,11 +38,11 @@ export default function StudentProfileERP() {
           </div>
           <div>
             <h1 className="text-2xl font-bold tracking-tight text-slate-100">{student.name}</h1>
-            <p className="text-sm text-slate-500 font-mono">Roll: {student.rollNo} • Status: <span className="text-emerald-400">{student.status}</span></p>
+            <p className="text-sm text-slate-700 font-medium font-mono">Roll: {student.rollNo} • Status: <span className="text-emerald-400">{student.status}</span></p>
           </div>
         </div>
         <div className="px-6 py-3 bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.05)] rounded-xl text-center">
-          <span className="text-[10px] text-slate-500 uppercase font-mono tracking-widest block">Current Level</span>
+          <span className="text-[10px] text-slate-700 font-medium uppercase font-mono tracking-widest block">Current Level</span>
           <span className="text-xl font-bold text-cyan-400">Juz {student.currentJuz}</span>
         </div>
       </div>
@@ -52,7 +52,7 @@ export default function StudentProfileERP() {
         <button 
           onClick={() => setActiveTab("overview")}
           className={`flex items-center space-x-2 px-6 py-2 rounded-lg text-sm transition-all duration-200 ${
-            activeTab === "overview" ? "bg-[rgba(255,255,255,0.08)] text-slate-800 shadow-sm" : "text-slate-500 hover:text-slate-200"
+            activeTab === "overview" ? "bg-[rgba(255,255,255,0.08)] text-black font-semibold shadow-sm" : "text-slate-700 font-medium hover:text-slate-200"
           }`}
         >
           <User className="h-4 w-4" />
@@ -61,7 +61,7 @@ export default function StudentProfileERP() {
         <button 
           onClick={() => setActiveTab("academics")}
           className={`flex items-center space-x-2 px-6 py-2 rounded-lg text-sm transition-all duration-200 ${
-            activeTab === "academics" ? "bg-[rgba(255,255,255,0.08)] text-slate-800 shadow-sm" : "text-slate-500 hover:text-slate-200"
+            activeTab === "academics" ? "bg-[rgba(255,255,255,0.08)] text-black font-semibold shadow-sm" : "text-slate-700 font-medium hover:text-slate-200"
           }`}
         >
           <BookOpen className="h-4 w-4" />
@@ -70,7 +70,7 @@ export default function StudentProfileERP() {
         <button 
           onClick={() => setActiveTab("welfare")}
           className={`flex items-center space-x-2 px-6 py-2 rounded-lg text-sm transition-all duration-200 ${
-            activeTab === "welfare" ? "bg-[rgba(255,255,255,0.08)] text-slate-800 shadow-sm" : "text-slate-500 hover:text-slate-200"
+            activeTab === "welfare" ? "bg-[rgba(255,255,255,0.08)] text-black font-semibold shadow-sm" : "text-slate-700 font-medium hover:text-slate-200"
           }`}
         >
           <HeartPulse className="h-4 w-4" />
@@ -94,7 +94,7 @@ export default function StudentProfileERP() {
                     <Calendar className="h-5 w-5 text-cyan-400" />
                     <span>Active Hifz Plan</span>
                   </h2>
-                  <p className="text-xs text-slate-500 mt-1">Strategic memorization targets</p>
+                  <p className="text-xs text-slate-700 font-medium mt-1">Strategic memorization targets</p>
                 </div>
                 <span className="px-3 py-1 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded-md text-[10px] font-mono uppercase tracking-wider">
                   {hifzPlan.status}
@@ -103,19 +103,19 @@ export default function StudentProfileERP() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="p-4 bg-[rgba(0,0,0,0.2)] rounded-xl border border-[rgba(255,255,255,0.02)]">
-                  <span className="text-[10px] text-slate-500 uppercase font-mono block">Target Juz</span>
+                  <span className="text-[10px] text-slate-700 font-medium uppercase font-mono block">Target Juz</span>
                   <span className="text-xl font-bold text-slate-200">{hifzPlan.targetJuz}</span>
                 </div>
                 <div className="p-4 bg-[rgba(0,0,0,0.2)] rounded-xl border border-[rgba(255,255,255,0.02)]">
-                  <span className="text-[10px] text-slate-500 uppercase font-mono block">Target Date</span>
+                  <span className="text-[10px] text-slate-700 font-medium uppercase font-mono block">Target Date</span>
                   <span className="text-xl font-bold text-slate-200">{hifzPlan.targetDate}</span>
                 </div>
                 <div className="p-4 bg-[rgba(0,0,0,0.2)] rounded-xl border border-[rgba(255,255,255,0.02)]">
-                  <span className="text-[10px] text-slate-500 uppercase font-mono block">Daily New (Sabaq)</span>
+                  <span className="text-[10px] text-slate-700 font-medium uppercase font-mono block">Daily New (Sabaq)</span>
                   <span className="text-xl font-bold text-cyan-400">{hifzPlan.dailyNew} pgs</span>
                 </div>
                 <div className="p-4 bg-[rgba(0,0,0,0.2)] rounded-xl border border-[rgba(255,255,255,0.02)]">
-                  <span className="text-[10px] text-slate-500 uppercase font-mono block">Daily Revision (Sabqi/Manzil)</span>
+                  <span className="text-[10px] text-slate-700 font-medium uppercase font-mono block">Daily Revision (Sabqi/Manzil)</span>
                   <span className="text-xl font-bold text-purple-400">{hifzPlan.dailyRevision} pgs</span>
                 </div>
               </div>
@@ -143,13 +143,13 @@ export default function StudentProfileERP() {
                     <GraduationCap className="h-5 w-5 text-purple-400" />
                     <span>Completion Workflow</span>
                   </h2>
-                  <p className="text-xs text-slate-500 mt-1">Manage promotion and graduation</p>
+                  <p className="text-xs text-slate-700 font-medium mt-1">Manage promotion and graduation</p>
                 </div>
               </div>
 
               <div className="p-4 bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.05)] rounded-xl space-y-4">
                 <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium text-slate-600">Current Status:</span>
+                  <span className="text-sm font-medium text-slate-800 font-medium">Current Status:</span>
                   <span className="px-3 py-1 bg-amber-500/10 text-amber-400 border border-amber-500/20 rounded-md text-[10px] font-mono uppercase tracking-wider">
                     PENDING_REVIEW
                   </span>
@@ -170,7 +170,7 @@ export default function StudentProfileERP() {
             <div className="lg:col-span-2 p-6 bg-gradient-to-r from-[rgba(255,255,255,0.02)] to-[rgba(0,229,255,0.05)] border border-[rgba(0,229,255,0.1)] rounded-2xl backdrop-blur-xl flex items-center justify-between">
               <div>
                 <h3 className="text-lg font-semibold text-slate-100">Memorization Progress Tree</h3>
-                <p className="text-sm text-slate-500 mt-1">View the complete 30 Juz visual breakdown and history.</p>
+                <p className="text-sm text-slate-700 font-medium mt-1">View the complete 30 Juz visual breakdown and history.</p>
               </div>
               <a 
                 href={`/app/${params.institutionCode}/${params.branchCode}/erp/students/${student.rollNo}/progress`} 
@@ -186,14 +186,14 @@ export default function StudentProfileERP() {
 
         {/* OVERVIEW TAB PLACEHOLDER */}
         {activeTab === "overview" && (
-           <div className="p-12 text-center text-slate-500 border border-dashed border-[rgba(255,255,255,0.1)] rounded-2xl">
+           <div className="p-12 text-center text-slate-700 font-medium border border-dashed border-[rgba(255,255,255,0.1)] rounded-2xl">
              General overview content will appear here.
            </div>
         )}
 
         {/* WELFARE TAB PLACEHOLDER */}
         {activeTab === "welfare" && (
-           <div className="p-12 text-center text-slate-500 border border-dashed border-[rgba(255,255,255,0.1)] rounded-2xl flex flex-col items-center">
+           <div className="p-12 text-center text-slate-700 font-medium border border-dashed border-[rgba(255,255,255,0.1)] rounded-2xl flex flex-col items-center">
              <AlertTriangle className="h-8 w-8 text-amber-500/50 mb-3" />
              Health and safeguarding records will appear here.
            </div>

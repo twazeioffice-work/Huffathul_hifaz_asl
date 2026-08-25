@@ -74,7 +74,7 @@ export default function Center360Dashboard() {
 
   if (loading || !data) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-[#0A0A0C] text-slate-800">
+      <div className="flex items-center justify-center min-h-screen bg-[#0A0A0C] text-black font-semibold">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-cyan-400"></div>
       </div>
     );
@@ -100,7 +100,7 @@ export default function Center360Dashboard() {
         </div>
         <div className="mt-4 md:mt-0 flex items-center gap-3 bg-white/[0.03] border border-white/[0.08] rounded-xl px-4 py-2">
           <Shield className="w-5 h-5 text-cyan-400" />
-          <span className="text-sm font-medium text-slate-600">RLS Boundary Enforced</span>
+          <span className="text-sm font-medium text-slate-800 font-medium">RLS Boundary Enforced</span>
         </div>
       </div>
 
@@ -110,17 +110,17 @@ export default function Center360Dashboard() {
         <div className="space-y-4">
           <div className="bg-white/80 border border-white/[0.06] rounded-2xl p-6 relative overflow-hidden backdrop-blur-xl">
             <DollarSign className="absolute right-4 top-4 w-12 h-12 text-emerald-500/10" />
-            <h3 className="text-sm font-medium text-slate-500">Total Incoming Cash</h3>
+            <h3 className="text-sm font-medium text-slate-700 font-medium">Total Incoming Cash</h3>
             <p className="text-3xl font-bold text-emerald-400 mt-2">${data.financial_summary.total_revenue.toLocaleString()}</p>
           </div>
           <div className="bg-white/80 border border-white/[0.06] rounded-2xl p-6 relative overflow-hidden backdrop-blur-xl">
             <DollarSign className="absolute right-4 top-4 w-12 h-12 text-rose-500/10" />
-            <h3 className="text-sm font-medium text-slate-500">Total Operating Expenses</h3>
+            <h3 className="text-sm font-medium text-slate-700 font-medium">Total Operating Expenses</h3>
             <p className="text-3xl font-bold text-rose-400 mt-2">${data.financial_summary.total_expenses.toLocaleString()}</p>
           </div>
           <div className="bg-white/80 border border-white/[0.06] rounded-2xl p-6 relative overflow-hidden backdrop-blur-xl">
             <TrendingUp className="absolute right-4 top-4 w-12 h-12 text-cyan-500/10" />
-            <h3 className="text-sm font-medium text-slate-500">Net Campus Surplus</h3>
+            <h3 className="text-sm font-medium text-slate-700 font-medium">Net Campus Surplus</h3>
             <p className={`text-3xl font-bold mt-2 ${data.financial_summary.net_surplus >= 0 ? "text-cyan-400" : "text-rose-500"}`}>
               ${data.financial_summary.net_surplus.toLocaleString()}
             </p>
@@ -129,7 +129,7 @@ export default function Center360Dashboard() {
 
         {/* Visual Incoming Cash Segmentation (Pie Chart) */}
         <div className="bg-white/80 border border-white/[0.06] rounded-2xl p-6 backdrop-blur-xl flex flex-col items-center justify-center">
-          <h3 className="text-sm font-semibold tracking-wider text-slate-500 uppercase self-start">Revenue Allocation</h3>
+          <h3 className="text-sm font-semibold tracking-wider text-slate-700 font-medium uppercase self-start">Revenue Allocation</h3>
           <div className="w-full h-48 mt-4">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
@@ -146,7 +146,7 @@ export default function Center360Dashboard() {
             {pieData.map((p) => (
               <div key={p.name} className="flex items-center gap-2">
                 <span className="w-3 h-3 rounded-full" style={{ backgroundColor: p.color }} />
-                <span className="text-xs text-slate-600 font-medium">{p.name}: ${p.value.toLocaleString()}</span>
+                <span className="text-xs text-slate-800 font-medium font-medium">{p.name}: ${p.value.toLocaleString()}</span>
               </div>
             ))}
           </div>
@@ -155,17 +155,17 @@ export default function Center360Dashboard() {
         {/* Ustad Efficiency Standings */}
         <div className="bg-white/80 border border-white/[0.06] rounded-2xl p-6 backdrop-blur-xl">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-sm font-semibold tracking-wider text-slate-500 uppercase">Ustad Teaching Standings</h3>
+            <h3 className="text-sm font-semibold tracking-wider text-slate-700 font-medium uppercase">Ustad Teaching Standings</h3>
             <Award className="w-4 h-4 text-cyan-400" />
           </div>
           <div className="space-y-4 max-h-[220px] overflow-y-auto pr-2 custom-scrollbar">
             {data.ustad_efficiency.map((u, idx) => (
               <div key={u.id} className="flex items-center justify-between bg-white/[0.02] border border-white/[0.04] rounded-xl p-3">
                 <div className="flex items-center gap-3">
-                  <span className="text-xs font-bold text-slate-500">#{idx + 1}</span>
+                  <span className="text-xs font-bold text-slate-700 font-medium">#{idx + 1}</span>
                   <div>
-                    <p className="text-sm font-semibold text-slate-800">{u.name}</p>
-                    <p className="text-xs text-slate-500">{u.pages_taught} pages taught</p>
+                    <p className="text-sm font-semibold text-black font-semibold">{u.name}</p>
+                    <p className="text-xs text-slate-700 font-medium">{u.pages_taught} pages taught</p>
                   </div>
                 </div>
                 <span className="px-3 py-1 bg-cyan-400/10 border border-cyan-400/20 text-cyan-400 rounded-lg text-xs font-extrabold uppercase">
@@ -180,13 +180,13 @@ export default function Center360Dashboard() {
       {/* Grid Block B: Student-wise Metric Ratings Table */}
       <div className="bg-white/80 border border-white/[0.06] rounded-2xl p-6 backdrop-blur-xl">
         <div className="flex items-center justify-between mb-6">
-          <h3 className="text-sm font-semibold tracking-wider text-slate-500 uppercase">Student Metrics Matrix</h3>
+          <h3 className="text-sm font-semibold tracking-wider text-slate-700 font-medium uppercase">Student Metrics Matrix</h3>
           <Users className="w-4 h-4 text-cyan-400" />
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="border-b border-white/[0.08] text-xs font-bold text-slate-500 uppercase tracking-wider">
+              <tr className="border-b border-white/[0.08] text-xs font-bold text-slate-700 font-medium uppercase tracking-wider">
                 <th className="pb-3">Student Name</th>
                 <th className="pb-3 text-center">Hifz Speed (GPA)</th>
                 <th className="pb-3 text-center">Adab Rating</th>
@@ -196,7 +196,7 @@ export default function Center360Dashboard() {
             <tbody className="divide-y divide-white/[0.04] text-sm">
               {data.student_ratings.map((s) => (
                 <tr key={s.id} className="hover:bg-white/[0.01] transition-colors">
-                  <td className="py-4 font-semibold text-slate-800 flex items-center gap-2">
+                  <td className="py-4 font-semibold text-black font-semibold flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
                     {s.student_name}
                   </td>
@@ -218,7 +218,7 @@ export default function Center360Dashboard() {
                       {s.discipline_rating} / 10.0
                     </span>
                   </td>
-                  <td className="py-4 text-right text-xs text-slate-500 font-medium">Active Roster</td>
+                  <td className="py-4 text-right text-xs text-slate-700 font-medium font-medium">Active Roster</td>
                 </tr>
               ))}
             </tbody>

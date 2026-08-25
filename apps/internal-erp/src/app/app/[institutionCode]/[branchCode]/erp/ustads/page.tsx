@@ -16,8 +16,8 @@ export default function UstadsPage() {
     <div className="space-y-6 animate-in fade-in duration-700">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-2xl font-bold text-slate-800">Ustads Management</h1>
-          <p className="text-sm text-slate-500">Manage teaching staff, assigned Halqas, and performance metrics.</p>
+          <h1 className="text-2xl font-bold text-black font-semibold">Ustads Management</h1>
+          <p className="text-sm text-slate-700 font-medium">Manage teaching staff, assigned Halqas, and performance metrics.</p>
         </div>
         <Button variant="primary">Add Ustad</Button>
       </div>
@@ -30,23 +30,23 @@ export default function UstadsPage() {
                 {ustad.name.charAt(0)}
               </div>
               <div>
-                <h3 className="text-lg font-bold text-slate-800">{ustad.name}</h3>
-                <p className="text-sm text-slate-500">{ustad.id}</p>
+                <h3 className="text-lg font-bold text-black font-semibold">{ustad.name}</h3>
+                <p className="text-sm text-slate-700 font-medium">{ustad.id}</p>
               </div>
             </div>
             
             <div className="space-y-3 mt-6">
-              <div className="flex items-center justify-between text-slate-600">
+              <div className="flex items-center justify-between text-slate-800 font-medium">
                 <div className="flex items-center gap-2"><BookOpen size={16} className="text-indigo-400"/> Halqa</div>
-                <span className="text-slate-800 font-medium">{ustad.halqa}</span>
+                <span className="text-black font-semibold font-medium">{ustad.halqa}</span>
               </div>
-              <div className="flex items-center justify-between text-slate-600">
+              <div className="flex items-center justify-between text-slate-800 font-medium">
                 <div className="flex items-center gap-2"><Users size={16} className="text-indigo-400"/> Students</div>
-                <span className="text-slate-800 font-medium">{ustad.students} assigned</span>
+                <span className="text-black font-semibold font-medium">{ustad.students} assigned</span>
               </div>
-              <div className="flex items-center justify-between text-slate-600">
+              <div className="flex items-center justify-between text-slate-800 font-medium">
                 <div className="flex items-center gap-2"><Star size={16} className="text-yellow-400"/> Rating</div>
-                <span className="text-slate-800 font-medium">{ustad.rating} / 5.0</span>
+                <span className="text-black font-semibold font-medium">{ustad.rating} / 5.0</span>
               </div>
             </div>
             

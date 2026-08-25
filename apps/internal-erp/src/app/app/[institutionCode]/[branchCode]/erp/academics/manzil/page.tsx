@@ -44,8 +44,8 @@ export default function ManzilPage() {
     <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-slate-800">Daily Manzil (Old Revision)</h1>
-          <p className="text-sm text-slate-500">Track and evaluate comprehensive old revisions.</p>
+          <h1 className="text-2xl font-bold text-black font-semibold">Daily Manzil (Old Revision)</h1>
+          <p className="text-sm text-slate-700 font-medium">Track and evaluate comprehensive old revisions.</p>
         </div>
       </div>
 
@@ -53,22 +53,22 @@ export default function ManzilPage() {
         <GlassCard className="p-4 flex items-center space-x-4">
           <div className="p-3 bg-blue-500/20 text-blue-400 rounded-lg"><User size={24} /></div>
           <div>
-            <p className="text-sm text-slate-500">Total Students</p>
-            <p className="text-2xl font-bold text-slate-800">15</p>
+            <p className="text-sm text-slate-700 font-medium">Total Students</p>
+            <p className="text-2xl font-bold text-black font-semibold">15</p>
           </div>
         </GlassCard>
         <GlassCard className="p-4 flex items-center space-x-4">
           <div className="p-3 bg-green-500/20 text-green-400 rounded-lg"><CheckCircle size={24} /></div>
           <div>
-            <p className="text-sm text-slate-500">Manzil Heard</p>
-            <p className="text-2xl font-bold text-slate-800">2</p>
+            <p className="text-sm text-slate-700 font-medium">Manzil Heard</p>
+            <p className="text-2xl font-bold text-black font-semibold">2</p>
           </div>
         </GlassCard>
         <GlassCard className="p-4 flex items-center space-x-4">
           <div className="p-3 bg-amber-500/20 text-amber-400 rounded-lg"><Clock size={24} /></div>
           <div>
-            <p className="text-sm text-slate-500">Pending</p>
-            <p className="text-2xl font-bold text-slate-800">13</p>
+            <p className="text-sm text-slate-700 font-medium">Pending</p>
+            <p className="text-2xl font-bold text-black font-semibold">13</p>
           </div>
         </GlassCard>
       </div>
@@ -79,11 +79,11 @@ export default function ManzilPage() {
         <GlassCard className="lg:col-span-1 p-0 overflow-hidden flex flex-col h-[600px]">
           <div className="p-4 border-b border-slate-200">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 w-4 h-4" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-700 font-medium w-4 h-4" />
               <input 
                 type="text" 
                 placeholder="Search students..." 
-                className="w-full bg-black/5 border border-slate-200 rounded-md py-2 pl-9 pr-4 text-sm text-slate-800 focus:outline-none focus:ring-1 focus:ring-indigo-500 transition-all"
+                className="w-full bg-black/5 border border-slate-200 rounded-md py-2 pl-9 pr-4 text-sm text-black font-semibold focus:outline-none focus:ring-1 focus:ring-indigo-500 transition-all"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
@@ -101,8 +101,8 @@ export default function ManzilPage() {
                 }`}
               >
                 <div>
-                  <p className="text-sm font-medium text-slate-800">{student.name}</p>
-                  <p className="text-xs text-slate-500">{student.id}</p>
+                  <p className="text-sm font-medium text-black font-semibold">{student.name}</p>
+                  <p className="text-xs text-slate-700 font-medium">{student.id}</p>
                 </div>
                 {getStatusBadge(student.status)}
               </button>
@@ -116,18 +116,18 @@ export default function ManzilPage() {
             <GlassCard className="p-6 h-full flex flex-col">
               <div className="flex items-center justify-between border-b border-slate-200 pb-4 mb-6">
                 <div>
-                  <h2 className="text-xl font-semibold text-slate-800">{activeStudent.name}</h2>
-                  <p className="text-sm text-slate-500">ID: {activeStudent.id}</p>
+                  <h2 className="text-xl font-semibold text-black font-semibold">{activeStudent.name}</h2>
+                  <p className="text-sm text-slate-700 font-medium">ID: {activeStudent.id}</p>
                 </div>
                 <div className="text-right">
-                  <p className="text-xs text-slate-500 mb-1">Total Memorized</p>
+                  <p className="text-xs text-slate-700 font-medium mb-1">Total Memorized</p>
                   <Badge variant="default">{activeStudent.memorizedJuz} Juz</Badge>
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-6 mb-6">
                 <div>
-                  <label className="block text-sm font-medium text-slate-600 mb-2">Starting Juz</label>
+                  <label className="block text-sm font-medium text-slate-800 font-medium mb-2">Starting Juz</label>
                   <Input 
                     type="number" 
                     placeholder="e.g. 1" 
@@ -136,7 +136,7 @@ export default function ManzilPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-slate-600 mb-2">Ending Juz</label>
+                  <label className="block text-sm font-medium text-slate-800 font-medium mb-2">Ending Juz</label>
                   <Input 
                     type="number" 
                     placeholder="e.g. 2" 
@@ -148,7 +148,7 @@ export default function ManzilPage() {
 
               <div className="grid grid-cols-2 gap-6 mb-8">
                 <div>
-                  <label className="block text-sm font-medium text-slate-600 mb-2">Mistakes / Hesitations</label>
+                  <label className="block text-sm font-medium text-slate-800 font-medium mb-2">Mistakes / Hesitations</label>
                   <Input 
                     type="number" 
                     value={formData.mistakes}
@@ -156,9 +156,9 @@ export default function ManzilPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-slate-600 mb-2">Grade</label>
+                  <label className="block text-sm font-medium text-slate-800 font-medium mb-2">Grade</label>
                   <select 
-                    className="w-full bg-black/5 border border-slate-200 rounded-md px-3 py-2 text-slate-800 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                    className="w-full bg-black/5 border border-slate-200 rounded-md px-3 py-2 text-black font-semibold focus:outline-none focus:ring-1 focus:ring-indigo-500"
                     value={formData.grade}
                     onChange={(e) => setFormData({...formData, grade: e.target.value})}
                   >
@@ -183,8 +183,8 @@ export default function ManzilPage() {
               <div className="p-4 bg-indigo-500/10 rounded-full mb-4">
                 <Layers className="w-8 h-8 text-indigo-400" />
               </div>
-              <h2 className="text-xl font-semibold text-slate-800 mb-2">Select a Student</h2>
-              <p className="text-slate-500 max-w-md">
+              <h2 className="text-xl font-semibold text-black font-semibold mb-2">Select a Student</h2>
+              <p className="text-slate-700 font-medium max-w-md">
                 Choose a student to log their daily Manzil evaluation.
               </p>
             </GlassCard>

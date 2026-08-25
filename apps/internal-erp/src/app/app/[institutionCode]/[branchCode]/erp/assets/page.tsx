@@ -62,8 +62,8 @@ export default function AssetManagementDashboard() {
           <div className="flex items-center gap-2 text-emerald-400 text-xs font-semibold uppercase tracking-wider mb-1">
             <span className="w-2 h-2 rounded-full bg-emerald-400"></span> Physical Asset &amp; Fleet Ledger
           </div>
-          <h1 className="text-2xl md:text-3xl font-black text-slate-800 tracking-tight">Enterprise Infrastructure (Indian Registry)</h1>
-          <p className="text-xs md:text-sm text-slate-500 mt-1">
+          <h1 className="text-2xl md:text-3xl font-black text-black font-semibold tracking-tight">Enterprise Infrastructure (Indian Registry)</h1>
+          <p className="text-xs md:text-sm text-slate-700 font-medium mt-1">
             IoT GPS Bus Telemetry • Dormitory Bed Allocations • Automated MACRS Asset Depreciation
           </p>
         </div>
@@ -82,27 +82,27 @@ export default function AssetManagementDashboard() {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="glass-card p-6 rounded-2xl border border-slate-200 hover:border-emerald-500/40 transition-all">
-          <div className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Total Portfolio Value</div>
+          <div className="text-xs font-bold text-slate-700 font-medium uppercase tracking-wider mb-2">Total Portfolio Value</div>
           <div className="text-3xl font-black text-emerald-400 tracking-tight mb-1">
             ₹{(totalValue / 100000).toFixed(2)} Lakhs
           </div>
-          <p className="text-xs text-slate-500">Combined book value across Indian campus categories (₹{totalValue.toLocaleString('en-IN')}).</p>
+          <p className="text-xs text-slate-700 font-medium">Combined book value across Indian campus categories (₹{totalValue.toLocaleString('en-IN')}).</p>
         </div>
 
         <div className="glass-card p-6 rounded-2xl border border-slate-200 hover:border-cyan-500/40 transition-all">
-          <div className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Active Transport Fleet</div>
+          <div className="text-xs font-bold text-slate-700 font-medium uppercase tracking-wider mb-2">Active Transport Fleet</div>
           <div className="text-3xl font-black text-cyan-400 tracking-tight mb-1">
             12 Vehicles
           </div>
-          <p className="text-xs text-slate-500">10 Operational • 2 Under Maintenance (IoT Active in Bengaluru &amp; Hyderabad).</p>
+          <p className="text-xs text-slate-700 font-medium">10 Operational • 2 Under Maintenance (IoT Active in Bengaluru &amp; Hyderabad).</p>
         </div>
 
         <div className="glass-card p-6 rounded-2xl border border-slate-200 hover:border-indigo-500/40 transition-all">
-          <div className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Dormitory Bed Capacity</div>
+          <div className="text-xs font-bold text-slate-700 font-medium uppercase tracking-wider mb-2">Dormitory Bed Capacity</div>
           <div className="text-3xl font-black text-indigo-400 tracking-tight mb-1">
             94% Filled
           </div>
-          <p className="text-xs text-slate-500">220 / 235 Residential Hifz Beds Occupied across campuses.</p>
+          <p className="text-xs text-slate-700 font-medium">220 / 235 Residential Hifz Beds Occupied across campuses.</p>
         </div>
       </div>
 
@@ -113,20 +113,20 @@ export default function AssetManagementDashboard() {
               <button
                 key={cat}
                 onClick={() => setSelectedCategory(cat)}
-                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${selectedCategory === cat ? 'bg-emerald-500 text-slate-950 font-bold shadow-glow-emerald' : 'text-slate-500 hover:text-white bg-white border border-slate-200'}`}
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${selectedCategory === cat ? 'bg-emerald-500 text-slate-950 font-bold shadow-glow-emerald' : 'text-slate-700 font-medium hover:text-white bg-white border border-slate-200'}`}
               >
                 {cat}
               </button>
             ))}
           </div>
-          <div className="text-xs text-slate-500">
-            Showing <strong className="text-slate-800">{filteredAssets.length}</strong> Registered Indian Assets
+          <div className="text-xs text-slate-700 font-medium">
+            Showing <strong className="text-black font-semibold">{filteredAssets.length}</strong> Registered Indian Assets
           </div>
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs text-slate-600">
-            <thead className="bg-white/80 text-[10px] uppercase font-bold text-slate-500 border-b border-slate-200">
+          <table className="w-full text-left text-xs text-slate-800 font-medium">
+            <thead className="bg-white/80 text-[10px] uppercase font-bold text-slate-700 font-medium border-b border-slate-200">
               <tr>
                 <th className="py-3.5 px-6">Asset Tag</th>
                 <th className="py-3.5 px-6">Asset Specification</th>
@@ -140,13 +140,13 @@ export default function AssetManagementDashboard() {
               {filteredAssets.map(asset => (
                 <tr key={asset.id} className="hover:bg-white/40 transition-colors">
                   <td className="py-4 px-6 font-mono font-bold text-cyan-400">{asset.id}</td>
-                  <td className="py-4 px-6 font-semibold text-slate-800">{asset.name}</td>
+                  <td className="py-4 px-6 font-semibold text-black font-semibold">{asset.name}</td>
                   <td className="py-4 px-6">
-                    <span className="px-2 py-0.5 rounded-full bg-slate-800 text-slate-600 border border-slate-200 text-[10px]">
+                    <span className="px-2 py-0.5 rounded-full bg-slate-800 text-slate-800 font-medium border border-slate-200 text-[10px]">
                       {asset.category}
                     </span>
                   </td>
-                  <td className="py-4 px-6 text-slate-500">{asset.assignedTo}</td>
+                  <td className="py-4 px-6 text-slate-700 font-medium">{asset.assignedTo}</td>
                   <td className="py-4 px-6 font-mono font-bold text-emerald-400">
                     ₹{asset.currentBookValue.toLocaleString('en-IN')}
                   </td>

@@ -36,7 +36,7 @@ export default function AttendancePage() {
   ]);
 
   return (
-    <div className="min-h-screen bg-[#09090b] text-slate-800 p-6 space-y-6 max-w-7xl mx-auto">
+    <div className="min-h-screen bg-[#09090b] text-black font-semibold p-6 space-y-6 max-w-7xl mx-auto">
       {/* Header */}
       <div className="flex items-center justify-between p-6 bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.05)] rounded-2xl backdrop-blur-xl">
         <div className="flex items-center space-x-4">
@@ -44,18 +44,18 @@ export default function AttendancePage() {
             onClick={() => router.push(`/app/${institutionCode}/${branchCode}/erp/hr`)}
             className="p-2 hover:bg-[rgba(255,255,255,0.05)] rounded-lg transition-colors"
           >
-            <ArrowLeft className="h-5 w-5 text-slate-600" />
+            <ArrowLeft className="h-5 w-5 text-slate-800 font-medium" />
           </button>
           <div>
             <h1 className="text-2xl font-bold tracking-tight text-slate-100 flex items-center space-x-2">
               <Calendar className="h-6 w-6 text-emerald-400" />
               <span>Attendance & Leaves</span>
             </h1>
-            <p className="text-sm text-slate-500 mt-1">Track daily staff check-ins and manage leave requests</p>
+            <p className="text-sm text-slate-700 font-medium mt-1">Track daily staff check-ins and manage leave requests</p>
           </div>
         </div>
         <div className="flex space-x-3">
-          <button className="bg-[rgba(255,255,255,0.05)] hover:bg-[rgba(255,255,255,0.1)] text-slate-800 px-4 py-2 rounded-xl text-sm font-medium transition-colors border border-[rgba(255,255,255,0.1)]">
+          <button className="bg-[rgba(255,255,255,0.05)] hover:bg-[rgba(255,255,255,0.1)] text-black font-semibold px-4 py-2 rounded-xl text-sm font-medium transition-colors border border-[rgba(255,255,255,0.1)]">
             View Leaves
           </button>
           <button className="bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2 rounded-xl text-sm font-medium transition-colors shadow-lg shadow-emerald-900/20">
@@ -67,7 +67,7 @@ export default function AttendancePage() {
       {/* Toolbar */}
       <div className="flex items-center space-x-4">
         <div className="flex-1 relative">
-          <Search className="h-5 w-5 absolute left-3 top-2.5 text-slate-500" />
+          <Search className="h-5 w-5 absolute left-3 top-2.5 text-slate-700 font-medium" />
           <input 
             type="text" 
             placeholder="Search by staff name or ID..." 
@@ -79,7 +79,7 @@ export default function AttendancePage() {
       {/* Data Table */}
       <div className="bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.05)] rounded-2xl backdrop-blur-xl overflow-hidden">
         <table className="w-full text-sm text-left">
-          <thead className="text-xs text-slate-500 bg-[rgba(255,255,255,0.02)] border-b border-[rgba(255,255,255,0.05)] uppercase">
+          <thead className="text-xs text-slate-700 font-medium bg-[rgba(255,255,255,0.02)] border-b border-[rgba(255,255,255,0.05)] uppercase">
             <tr>
               <th className="px-6 py-4 font-medium tracking-wider">Staff Member</th>
               <th className="px-6 py-4 font-medium tracking-wider">Date</th>
@@ -93,11 +93,11 @@ export default function AttendancePage() {
               <tr key={record.id} className="hover:bg-[rgba(255,255,255,0.01)] transition-colors">
                 <td className="px-6 py-4">
                   <div className="font-semibold text-slate-200">{record.staffName}</div>
-                  <div className="text-xs text-slate-500 font-mono mt-0.5">{record.id}</div>
+                  <div className="text-xs text-slate-700 font-medium font-mono mt-0.5">{record.id}</div>
                 </td>
-                <td className="px-6 py-4 text-slate-500 font-mono">{record.date}</td>
-                <td className="px-6 py-4 text-slate-600 font-mono">{record.checkIn}</td>
-                <td className="px-6 py-4 text-slate-600 font-mono">{record.checkOut}</td>
+                <td className="px-6 py-4 text-slate-700 font-medium font-mono">{record.date}</td>
+                <td className="px-6 py-4 text-slate-800 font-medium font-mono">{record.checkIn}</td>
+                <td className="px-6 py-4 text-slate-800 font-medium font-mono">{record.checkOut}</td>
                 <td className="px-6 py-4">
                   <span className={`inline-flex items-center space-x-1 px-2.5 py-1 rounded-full text-[10px] font-bold tracking-wide uppercase ${
                     record.status === 'PRESENT' 

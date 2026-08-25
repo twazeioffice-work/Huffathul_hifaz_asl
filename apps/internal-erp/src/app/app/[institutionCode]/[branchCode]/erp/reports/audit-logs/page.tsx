@@ -75,7 +75,7 @@ export default function AuditLogsPage() {
     <div className="space-y-6 p-6">
       {/* Header */}
       <div>
-        <h1 className="text-lg font-bold text-slate-800 tracking-wide flex items-center gap-2">
+        <h1 className="text-lg font-bold text-black font-semibold tracking-wide flex items-center gap-2">
           <Shield className="w-5 h-5 text-primary" />
           SYSTEM AUDIT TRAIL
         </h1>
@@ -93,7 +93,7 @@ export default function AuditLogsPage() {
             placeholder="Search by actor, operation, or resource..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-10 pr-4 py-2.5 bg-card border border-border rounded text-xs text-slate-800 placeholder:text-muted-foreground focus:outline-none focus:border-primary/50"
+            className="w-full pl-10 pr-4 py-2.5 bg-card border border-border rounded text-xs text-black font-semibold placeholder:text-muted-foreground focus:outline-none focus:border-primary/50"
           />
         </div>
         <button className="flex items-center gap-1.5 bg-card border border-border px-3 py-2 rounded text-xs text-muted-foreground hover:border-primary/40 transition-colors">

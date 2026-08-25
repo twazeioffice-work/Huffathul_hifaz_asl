@@ -44,7 +44,7 @@ export default function AuditLogsPage() {
   ]);
 
   return (
-    <div className="min-h-screen bg-[#09090b] text-slate-800 p-6 max-w-7xl mx-auto space-y-6">
+    <div className="min-h-screen bg-[#09090b] text-black font-semibold p-6 max-w-7xl mx-auto space-y-6">
       
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between p-6 bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.05)] rounded-2xl backdrop-blur-xl gap-4">
@@ -53,9 +53,9 @@ export default function AuditLogsPage() {
             <Database className="h-6 w-6 text-orange-400" />
             <span>System Audit Logs</span>
           </h1>
-          <p className="text-sm text-slate-500 mt-1">Immutable trail of all security events and critical modifications.</p>
+          <p className="text-sm text-slate-700 font-medium mt-1">Immutable trail of all security events and critical modifications.</p>
         </div>
-        <button className="bg-black/5 hover:bg-white/20 text-slate-800 px-4 py-2 border border-slate-200 rounded-xl text-sm font-medium transition-colors flex items-center space-x-2">
+        <button className="bg-black/5 hover:bg-white/20 text-black font-semibold px-4 py-2 border border-slate-200 rounded-xl text-sm font-medium transition-colors flex items-center space-x-2">
           <Download className="h-4 w-4" />
           <span>Export CSV</span>
         </button>
@@ -64,7 +64,7 @@ export default function AuditLogsPage() {
       {/* Filters Toolbar */}
       <div className="flex flex-col md:flex-row gap-4 p-4 bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.05)] rounded-2xl backdrop-blur-xl">
         <div className="flex-1 relative">
-          <Search className="h-5 w-5 absolute left-3 top-2.5 text-slate-500" />
+          <Search className="h-5 w-5 absolute left-3 top-2.5 text-slate-700 font-medium" />
           <input 
             type="text" 
             placeholder="Search by User, Action, or Entity..." 
@@ -72,19 +72,19 @@ export default function AuditLogsPage() {
           />
         </div>
         <div className="flex gap-2">
-          <select className="bg-black/5 border border-slate-200 rounded-xl py-2 px-4 text-sm text-slate-600 focus:outline-none appearance-none">
+          <select className="bg-black/5 border border-slate-200 rounded-xl py-2 px-4 text-sm text-slate-800 font-medium focus:outline-none appearance-none">
             <option>All Modules</option>
             <option>Students</option>
             <option>Finance</option>
             <option>Settings</option>
           </select>
-          <select className="bg-black/5 border border-slate-200 rounded-xl py-2 px-4 text-sm text-slate-600 focus:outline-none appearance-none">
+          <select className="bg-black/5 border border-slate-200 rounded-xl py-2 px-4 text-sm text-slate-800 font-medium focus:outline-none appearance-none">
             <option>All Actions</option>
             <option>CREATE</option>
             <option>UPDATE</option>
             <option>DELETE</option>
           </select>
-          <button className="p-2 bg-black/5 hover:bg-black/5 border border-slate-200 rounded-xl text-slate-600 transition-colors">
+          <button className="p-2 bg-black/5 hover:bg-black/5 border border-slate-200 rounded-xl text-slate-800 font-medium transition-colors">
             <Filter className="h-5 w-5" />
           </button>
         </div>
@@ -93,8 +93,8 @@ export default function AuditLogsPage() {
       {/* Audit Table */}
       <div className="bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.05)] rounded-2xl backdrop-blur-xl overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm text-slate-600">
-            <thead className="bg-black/5 text-xs uppercase font-semibold text-slate-500">
+          <table className="w-full text-left text-sm text-slate-800 font-medium">
+            <thead className="bg-black/5 text-xs uppercase font-semibold text-slate-700 font-medium">
               <tr>
                 <th className="px-6 py-4">Timestamp</th>
                 <th className="px-6 py-4">User / Actor</th>
@@ -107,7 +107,7 @@ export default function AuditLogsPage() {
             <tbody className="divide-y divide-white/5">
               {logs.map((log) => (
                 <tr key={log.id} className="hover:bg-black/5 transition-colors">
-                  <td className="px-6 py-4 whitespace-nowrap text-slate-500 font-mono text-xs">{log.time}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-slate-700 font-medium font-mono text-xs">{log.time}</td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span className="font-medium text-blue-300">{log.user}</span>
                   </td>
@@ -123,11 +123,11 @@ export default function AuditLogsPage() {
                   <td className="px-6 py-4 whitespace-nowrap text-slate-200">{log.entity}</td>
                   <td className="px-6 py-4 min-w-[250px]">
                     <div className="flex flex-col space-y-1 text-xs">
-                      <span className="text-slate-500 line-through">{log.oldValue}</span>
+                      <span className="text-slate-700 font-medium line-through">{log.oldValue}</span>
                       <span className="text-emerald-400">{log.newValue}</span>
                     </div>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-xs text-slate-500">
+                  <td className="px-6 py-4 whitespace-nowrap text-xs text-slate-700 font-medium">
                     <div className="flex flex-col space-y-1">
                       <div className="flex items-center space-x-1">
                         <Globe className="h-3 w-3" /> <span>{log.ip}</span>

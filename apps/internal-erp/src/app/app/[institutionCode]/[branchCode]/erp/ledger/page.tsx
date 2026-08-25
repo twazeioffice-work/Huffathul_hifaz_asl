@@ -15,7 +15,7 @@ export default function Page() {
   return (
     <div className="p-8 w-full">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold text-slate-800">General Ledger</h1>
+        <h1 className="text-2xl font-bold text-black font-semibold">General Ledger</h1>
         <Link href={`/app/${institutionCode}/${branchCode}/erp/ledger/create-voucher`} className="px-4 py-2 bg-[#00F0FF] text-black font-semibold rounded-md hover:bg-cyan-400 transition-colors">
           Create Journal Voucher
         </Link>
@@ -24,7 +24,7 @@ export default function Page() {
       <div className="bg-[#111827] border border-[#1F2937] p-4 rounded-md mb-6 flex gap-4">
         <Input placeholder="Search vouchers..." className="w-64" />
         <Input type="date" className="w-48" />
-        <Button variant="flat" color="primary" className="bg-[#1F2937] text-slate-800">Export CSV</Button>
+        <Button variant="flat" color="primary" className="bg-[#1F2937] text-black font-semibold">Export CSV</Button>
       </div>
 
       <Tabs aria-label="Ledger Tabs" color="primary" variant="underlined">
@@ -41,24 +41,24 @@ export default function Page() {
               <TableBody>
                 <TableRow key="1">
                   <TableCell className="text-[#00F0FF] font-mono">REC-A1B2C3D4</TableCell>
-                  <TableCell className="text-slate-500">2026-08-18</TableCell>
+                  <TableCell className="text-slate-700 font-medium">2026-08-18</TableCell>
                   <TableCell><span className="px-2 py-1 bg-green-900/50 text-green-400 rounded-full text-xs">Receipt</span></TableCell>
-                  <TableCell className="text-slate-800">Fee collection. Student ID: 1042</TableCell>
-                  <TableCell className="text-slate-800 font-mono">Rs 5,000.00</TableCell>
+                  <TableCell className="text-black font-semibold">Fee collection. Student ID: 1042</TableCell>
+                  <TableCell className="text-black font-semibold font-mono">Rs 5,000.00</TableCell>
                 </TableRow>
                 <TableRow key="2">
                   <TableCell className="text-[#00F0FF] font-mono">JV-2026-0042</TableCell>
-                  <TableCell className="text-slate-500">2026-08-17</TableCell>
+                  <TableCell className="text-slate-700 font-medium">2026-08-17</TableCell>
                   <TableCell><span className="px-2 py-1 bg-purple-900/50 text-purple-400 rounded-full text-xs">Journal</span></TableCell>
-                  <TableCell className="text-slate-800">Monthly utility expense accrued</TableCell>
-                  <TableCell className="text-slate-800 font-mono">Rs 12,500.00</TableCell>
+                  <TableCell className="text-black font-semibold">Monthly utility expense accrued</TableCell>
+                  <TableCell className="text-black font-semibold font-mono">Rs 12,500.00</TableCell>
                 </TableRow>
               </TableBody>
             </Table>
           </div>
         </Tab>
         <Tab key="coa" title="Chart of Accounts">
-          <div className="bg-[#111827] border border-[#1F2937] p-6 rounded-md mt-4 text-slate-600 font-mono text-sm">
+          <div className="bg-[#111827] border border-[#1F2937] p-6 rounded-md mt-4 text-slate-800 font-medium font-mono text-sm">
             <div className="pl-4 border-l border-gray-700 pb-2">
               <span className="text-[#00F0FF] font-bold">100000 - Assets</span>
               <div className="pl-8 pt-2">101000 - Cash in Hand</div>

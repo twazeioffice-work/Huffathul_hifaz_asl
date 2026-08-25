@@ -48,10 +48,10 @@ export default function CollectFeePage() {
             <div className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
               <span className="text-3xl">✓</span>
             </div>
-            <h2 className="text-2xl font-bold text-slate-800 mb-2">Payment Collected</h2>
-            <p className="text-slate-500 mb-6">The transaction was successfully posted to the ledger.</p>
+            <h2 className="text-2xl font-bold text-black font-semibold mb-2">Payment Collected</h2>
+            <p className="text-slate-700 font-medium mb-6">The transaction was successfully posted to the ledger.</p>
             <div className="bg-[#1F2937] p-4 rounded-md mb-8">
-              <p className="text-sm text-slate-500 uppercase tracking-wide">Receipt Reference</p>
+              <p className="text-sm text-slate-700 font-medium uppercase tracking-wide">Receipt Reference</p>
               <p className="text-xl font-mono text-[#00F0FF] mt-1">{receiptId}</p>
             </div>
             <div className="flex justify-center space-x-4">
@@ -70,7 +70,7 @@ export default function CollectFeePage() {
 
   return (
     <div className="p-8 w-full max-w-3xl mx-auto">
-      <h1 className="text-2xl font-bold text-slate-800 mb-6">Collect Fee Payment</h1>
+      <h1 className="text-2xl font-bold text-black font-semibold mb-6">Collect Fee Payment</h1>
       
       <Card className="bg-[#111827] border border-[#1F2937]">
         <CardBody className="p-6">

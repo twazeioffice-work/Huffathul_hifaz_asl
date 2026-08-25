@@ -14,7 +14,7 @@ export default function ExportCenterPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#09090b] text-slate-800 p-6 max-w-6xl mx-auto space-y-6">
+    <div className="min-h-screen bg-[#09090b] text-black font-semibold p-6 max-w-6xl mx-auto space-y-6">
       
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between p-6 bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.05)] rounded-2xl backdrop-blur-xl gap-4">
@@ -23,7 +23,7 @@ export default function ExportCenterPage() {
             <FileOutput className="h-6 w-6 text-purple-400" />
             <span>Export Center</span>
           </h1>
-          <p className="text-sm text-slate-500 mt-1">Generate and download structural data reports from the ERP.</p>
+          <p className="text-sm text-slate-700 font-medium mt-1">Generate and download structural data reports from the ERP.</p>
         </div>
       </div>
 
@@ -37,7 +37,7 @@ export default function ExportCenterPage() {
               </div>
               <div>
                 <h3 className="font-bold text-slate-200">{mod.title}</h3>
-                <p className="text-sm text-slate-500 mt-1 leading-snug">{mod.desc}</p>
+                <p className="text-sm text-slate-700 font-medium mt-1 leading-snug">{mod.desc}</p>
               </div>
             </div>
             <div className="flex items-center space-x-2 pt-4">

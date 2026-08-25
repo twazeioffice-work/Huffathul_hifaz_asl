@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
@@ -16,8 +16,15 @@ const MOCK_STUDENTS = [
 ];
 
 export default function AdabPage() {
-  const [search, setSearch] = useState("");
+    const [search, setSearch] = useState("");
   const [selectedStudent, setSelectedStudent] = useState<string | null>(null);
+  const [remarks, setRemarks] = useState("");
+  const [behaviorScore, setBehaviorScore] = useState<number>(10);
+
+  useEffect(() => {
+    setRemarks("");
+    setBehaviorScore(10);
+  }, [selectedStudent]);
   
   const filteredStudents = MOCK_STUDENTS.filter(s => 
     s.name.toLowerCase().includes(search.toLowerCase()) || s.id.toLowerCase().includes(search.toLowerCase())
@@ -37,8 +44,8 @@ export default function AdabPage() {
     <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-slate-800">Adab & Tarbiyah</h1>
-          <p className="text-sm text-slate-500">Monitor student behavior, discipline, and moral development.</p>
+          <h1 className="text-2xl font-bold text-black font-semibold">Adab & Tarbiyah</h1>
+          <p className="text-sm text-slate-700 font-medium">Monitor student behavior, discipline, and moral development.</p>
         </div>
       </div>
 
@@ -48,11 +55,11 @@ export default function AdabPage() {
         <GlassCard className="lg:col-span-1 p-0 overflow-hidden flex flex-col h-[600px]">
           <div className="p-4 border-b border-slate-200">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 w-4 h-4" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-700 font-medium w-4 h-4" />
               <input 
                 type="text" 
                 placeholder="Search students..." 
-                className="w-full bg-black/5 border border-slate-200 rounded-md py-2 pl-9 pr-4 text-sm text-slate-800 focus:outline-none focus:ring-1 focus:ring-indigo-500 transition-all"
+                className="w-full bg-black/5 border border-slate-200 rounded-md py-2 pl-9 pr-4 text-sm text-black font-semibold focus:outline-none focus:ring-1 focus:ring-indigo-500 transition-all"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
@@ -70,8 +77,8 @@ export default function AdabPage() {
                 }`}
               >
                 <div>
-                  <p className="text-sm font-medium text-slate-800">{student.name}</p>
-                  <p className="text-xs text-slate-500">{student.id}</p>
+                  <p className="text-sm font-medium text-black font-semibold">{student.name}</p>
+                  <p className="text-xs text-slate-700 font-medium">{student.id}</p>
                 </div>
                 {getBehaviorBadge(student.behavior)}
               </button>
@@ -85,35 +92,37 @@ export default function AdabPage() {
             <GlassCard className="p-6 h-full flex flex-col">
               <div className="flex items-center justify-between border-b border-slate-200 pb-4 mb-6">
                 <div>
-                  <h2 className="text-xl font-semibold text-slate-800">{activeStudent.name}</h2>
-                  <p className="text-sm text-slate-500">ID: {activeStudent.id}</p>
+                  <h2 className="text-xl font-semibold text-black font-semibold">{activeStudent.name}</h2>
+                  <p className="text-sm text-slate-700 font-medium">ID: {activeStudent.id}</p>
                 </div>
               </div>
 
               <div className="grid grid-cols-1 gap-6 mb-6">
                 <div>
-                  <label className="block text-sm font-medium text-slate-600 mb-2">Behavior Evaluation</label>
-                  <div className="grid grid-cols-3 gap-3">
-                    <button className="p-4 rounded-lg bg-green-500/10 border border-green-500/30 text-green-400 flex flex-col items-center justify-center gap-2 hover:bg-green-500/20 transition-all">
-                      <Star size={24} />
-                      <span className="text-sm font-medium">Excellent</span>
-                    </button>
-                    <button className="p-4 rounded-lg bg-blue-500/10 border border-blue-500/30 text-blue-400 flex flex-col items-center justify-center gap-2 hover:bg-blue-500/20 transition-all">
-                      <CheckCircle size={24} />
-                      <span className="text-sm font-medium">Satisfactory</span>
-                    </button>
-                    <button className="p-4 rounded-lg bg-red-500/10 border border-red-500/30 text-red-400 flex flex-col items-center justify-center gap-2 hover:bg-red-500/20 transition-all">
-                      <ShieldAlert size={24} />
-                      <span className="text-sm font-medium">Needs Attention</span>
-                    </button>
+                  <label className="block text-sm font-medium text-slate-800 font-medium mb-2">Behavior Evaluation</label>
+                                    <div className="pt-4 pb-2 px-2">
+                    <input 
+                      type="range" 
+                      min="0" 
+                      max="10" 
+                      value={behaviorScore}
+                      onChange={(e) => setBehaviorScore(Number(e.target.value))}
+                      className="w-full h-3 rounded-lg appearance-none cursor-pointer"
+                      style={{ background: 'linear-gradient(to right, #ef4444, #eab308, #22c55e)' }}
+                    />
+                    <div className="flex justify-between text-xs font-bold text-slate-700 mt-2">
+                      <span className="text-red-600">Needs Attention (0)</span>
+                      <span className="text-amber-600">Satisfactory (5)</span>
+                      <span className="text-green-600">Excellent (10)</span>
+                    </div>
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-slate-600 mb-2">Remarks / Observations</label>
-                  <textarea 
+                  <label className="block text-sm font-medium text-slate-800 font-medium mb-2">Remarks / Observations</label>
+                  <textarea value={remarks} onChange={(e) => setRemarks(e.target.value)} 
                     rows={4}
-                    className="w-full bg-black/5 border border-slate-200 rounded-md px-3 py-2 text-slate-800 focus:outline-none focus:ring-1 focus:ring-indigo-500 custom-scrollbar"
+                    className="w-full bg-black/5 border border-slate-200 rounded-md px-3 py-2 text-black font-semibold focus:outline-none focus:ring-1 focus:ring-indigo-500 custom-scrollbar"
                     placeholder="Enter notes on student's character, discipline, or punctuality..."
                   ></textarea>
                 </div>
@@ -131,8 +140,8 @@ export default function AdabPage() {
               <div className="p-4 bg-indigo-500/10 rounded-full mb-4">
                 <Heart className="w-8 h-8 text-indigo-400" />
               </div>
-              <h2 className="text-xl font-semibold text-slate-800 mb-2">Select a Student</h2>
-              <p className="text-slate-500 max-w-md">
+              <h2 className="text-xl font-semibold text-black font-semibold mb-2">Select a Student</h2>
+              <p className="text-slate-700 font-medium max-w-md">
                 Choose a student to log their behavioral and moral development progress.
               </p>
             </GlassCard>

@@ -12,8 +12,8 @@ export default function CenterAdminDashboard({ institutionCode, branchCode }: { 
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-slate-800">{branchCode.toUpperCase()} Center Operations Dashboard</h1>
-          <p className="text-sm text-slate-500">Administrative insights, financial metrics, and academic records for your assigned boundary.</p>
+          <h1 className="text-2xl font-bold text-black font-semibold">{branchCode.toUpperCase()} Center Operations Dashboard</h1>
+          <p className="text-sm text-slate-700 font-medium">Administrative insights, financial metrics, and academic records for your assigned boundary.</p>
         </div>
         <div className="flex gap-3">
           <Button variant="secondary">Send Announcement</Button>
@@ -78,7 +78,7 @@ export default function CenterAdminDashboard({ institutionCode, branchCode }: { 
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <GlassCard className="col-span-1 lg:col-span-2">
-          <h2 className="text-sm font-semibold uppercase tracking-wider text-slate-500 mb-4">Quick Actions</h2>
+          <h2 className="text-sm font-semibold uppercase tracking-wider text-slate-700 font-medium mb-4">Quick Actions</h2>
           <div className="flex gap-4">
              <Button variant="secondary">Create Voucher</Button>
              <Button variant="secondary">Add Ustad</Button>
@@ -86,7 +86,7 @@ export default function CenterAdminDashboard({ institutionCode, branchCode }: { 
         </GlassCard>
         
         <GlassCard className="col-span-1">
-          <h2 className="text-sm font-semibold uppercase tracking-wider text-slate-500 mb-4">Recent Alerts</h2>
+          <h2 className="text-sm font-semibold uppercase tracking-wider text-slate-700 font-medium mb-4">Recent Alerts</h2>
           <div className="space-y-4">
             <div className="rounded-xl bg-amber-500/10 border border-amber-500/20 p-3">
               <h4 className="text-sm font-semibold text-amber-400">Financial auditing delay</h4>

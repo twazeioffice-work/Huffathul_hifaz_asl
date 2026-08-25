@@ -42,7 +42,7 @@ export default function StudentProgressReportPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-lg font-bold text-slate-800 tracking-wide">
+          <h1 className="text-lg font-bold text-black font-semibold tracking-wide">
             STUDENT PROGRESS REPORTS
           </h1>
           <p className="text-xs text-muted-foreground mt-1">
@@ -67,7 +67,7 @@ export default function StudentProgressReportPage() {
           placeholder="Search by name or class..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="w-full pl-10 pr-4 py-2.5 bg-card border border-border rounded text-xs text-slate-800 placeholder:text-muted-foreground focus:outline-none focus:border-primary/50"
+          className="w-full pl-10 pr-4 py-2.5 bg-card border border-border rounded text-xs text-black font-semibold placeholder:text-muted-foreground focus:outline-none focus:border-primary/50"
         />
       </div>
 
@@ -111,7 +111,7 @@ export default function StudentProgressReportPage() {
                     className="rounded border-border"
                   />
                 </td>
-                <td className="px-4 py-2.5 text-slate-800 font-medium">{student.name}</td>
+                <td className="px-4 py-2.5 text-black font-semibold font-medium">{student.name}</td>
                 <td className="px-4 py-2.5 text-muted-foreground">{student.class}</td>
                 <td className="px-4 py-2.5">
                   <span
@@ -122,7 +122,7 @@ export default function StudentProgressReportPage() {
                     {student.attendance}%
                   </span>
                 </td>
-                <td className="px-4 py-2.5 text-slate-800 font-bold">{student.grade}</td>
+                <td className="px-4 py-2.5 text-black font-semibold font-bold">{student.grade}</td>
                 <td className="px-4 py-2.5">
                   <button
                     onClick={() => setActiveTaskId(`single-${student.id}-${Date.now()}`)}

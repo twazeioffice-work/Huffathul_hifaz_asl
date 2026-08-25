@@ -16,8 +16,8 @@ export default function KitchenPage() {
     <div className="space-y-6 animate-in fade-in duration-700">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-2xl font-bold text-slate-800">Kitchen & Inventory</h1>
-          <p className="text-sm text-slate-500">Manage mess inventory, grocery stock levels, and consumption.</p>
+          <h1 className="text-2xl font-bold text-black font-semibold">Kitchen & Inventory</h1>
+          <p className="text-sm text-slate-700 font-medium">Manage mess inventory, grocery stock levels, and consumption.</p>
         </div>
         <Button variant="primary" className="flex gap-2 items-center"><Plus size={16}/> Add Stock</Button>
       </div>
@@ -26,21 +26,21 @@ export default function KitchenPage() {
         <table className="w-full text-left">
           <thead className="bg-black/5 border-b border-slate-200">
             <tr>
-              <th className="p-4 text-slate-500 font-medium">Item Code</th>
-              <th className="p-4 text-slate-500 font-medium">Description</th>
-              <th className="p-4 text-slate-500 font-medium text-center">Current Qty</th>
-              <th className="p-4 text-slate-500 font-medium text-center">Min Threshold</th>
-              <th className="p-4 text-slate-500 font-medium">Status</th>
-              <th className="p-4 text-slate-500 font-medium text-right">Action</th>
+              <th className="p-4 text-slate-700 font-medium font-medium">Item Code</th>
+              <th className="p-4 text-slate-700 font-medium font-medium">Description</th>
+              <th className="p-4 text-slate-700 font-medium font-medium text-center">Current Qty</th>
+              <th className="p-4 text-slate-700 font-medium font-medium text-center">Min Threshold</th>
+              <th className="p-4 text-slate-700 font-medium font-medium">Status</th>
+              <th className="p-4 text-slate-700 font-medium font-medium text-right">Action</th>
             </tr>
           </thead>
           <tbody>
             {MOCK_INVENTORY.map(item => (
               <tr key={item.id} className="border-b border-slate-200 hover:bg-black/5">
-                <td className="p-4 text-slate-500">{item.id}</td>
-                <td className="p-4 text-slate-800 font-medium">{item.item}</td>
-                <td className="p-4 text-slate-800 text-center font-bold">{item.qty}</td>
-                <td className="p-4 text-slate-500 text-center">{item.min}</td>
+                <td className="p-4 text-slate-700 font-medium">{item.id}</td>
+                <td className="p-4 text-black font-semibold font-medium">{item.item}</td>
+                <td className="p-4 text-black font-semibold text-center font-bold">{item.qty}</td>
+                <td className="p-4 text-slate-700 font-medium text-center">{item.min}</td>
                 <td className="p-4">
                   <Badge variant={item.status === 'healthy' ? 'success' : item.status === 'low' ? 'warning' : 'danger'}>
                     {item.status.toUpperCase()}

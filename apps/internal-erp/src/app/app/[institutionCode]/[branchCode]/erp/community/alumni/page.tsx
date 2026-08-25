@@ -55,10 +55,10 @@ export default function GlobalAlumniRegistry() {
           <span className="text-xs font-bold tracking-widest text-cyan-400 uppercase block mb-1 flex items-center">
             <Users className="h-3 w-3 mr-1" /> Phase 8: Community Hub
           </span>
-          <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-slate-800 flex items-center">
+          <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-black font-semibold flex items-center">
             Global Alumni Registry
           </h1>
-          <p className="text-sm text-slate-500 mt-1 max-w-2xl">
+          <p className="text-sm text-slate-700 font-medium mt-1 max-w-2xl">
             A zero-trust protected, multi-tenant directory of all graduates. PII (contact details) are AES-256-GCM encrypted at rest and require active multi-factor authorization to view.
           </p>
         </div>
@@ -80,8 +80,8 @@ export default function GlobalAlumniRegistry() {
             <ShieldCheck className="h-5 w-5 text-cyan-400" />
           </div>
           <div>
-            <h4 className="text-xs font-bold text-slate-800 uppercase">Tenant Isolation Active</h4>
-            <p className="text-[10px] text-slate-500 mt-0.5">
+            <h4 className="text-xs font-bold text-black font-semibold uppercase">Tenant Isolation Active</h4>
+            <p className="text-[10px] text-slate-700 font-medium mt-0.5">
               Row-Level Security (RLS) is engaged. You are viewing records strictly bounded to your institutional jurisdiction.
             </p>
           </div>
@@ -95,13 +95,13 @@ export default function GlobalAlumniRegistry() {
 
       {/* Search & Filter */}
       <div className="relative">
-        <Search className="absolute left-4 top-3.5 h-4 w-4 text-slate-500" />
+        <Search className="absolute left-4 top-3.5 h-4 w-4 text-slate-700 font-medium" />
         <input 
           type="text" 
           placeholder="Search by name, city, or graduation year..." 
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-full bg-[#0B0F27] border border-slate-200 rounded-xl pl-11 pr-4 py-3 text-sm text-slate-200 focus:outline-none focus:border-cyan-500/50 transition-all placeholder:text-slate-600"
+          className="w-full bg-[#0B0F27] border border-slate-200 rounded-xl pl-11 pr-4 py-3 text-sm text-slate-200 focus:outline-none focus:border-cyan-500/50 transition-all placeholder:text-slate-800 font-medium"
         />
       </div>
 
@@ -115,10 +115,10 @@ export default function GlobalAlumniRegistry() {
             {/* Top row */}
             <div className="flex justify-between items-start mb-4">
               <div>
-                <h3 className="text-lg font-bold text-slate-800 group-hover:text-cyan-300 transition-colors">
+                <h3 className="text-lg font-bold text-black font-semibold group-hover:text-cyan-300 transition-colors">
                   {alumni.name}
                 </h3>
-                <span className="text-xs font-mono text-slate-500 mt-1 block">
+                <span className="text-xs font-mono text-slate-700 font-medium mt-1 block">
                   {alumni.id}
                 </span>
               </div>
@@ -129,15 +129,15 @@ export default function GlobalAlumniRegistry() {
 
             {/* Meta details */}
             <div className="space-y-2.5 mb-6">
-              <div className="flex items-center text-xs text-slate-600">
+              <div className="flex items-center text-xs text-slate-800 font-medium">
                 <MapPin className="h-3.5 w-3.5 mr-2 text-cyan-400" />
                 {alumni.location}
               </div>
-              <div className="flex items-center text-xs text-slate-600">
+              <div className="flex items-center text-xs text-slate-800 font-medium">
                 <Briefcase className="h-3.5 w-3.5 mr-2 text-amber-400" />
                 {alumni.career}
               </div>
-              <div className="flex items-center text-xs text-slate-600">
+              <div className="flex items-center text-xs text-slate-800 font-medium">
                 <GraduationCap className="h-3.5 w-3.5 mr-2 text-emerald-400" />
                 {alumni.education}
               </div>
@@ -147,16 +147,16 @@ export default function GlobalAlumniRegistry() {
             <div className="pt-4 border-t border-slate-200">
               {alumni.piiAccess ? (
                 <div className="space-y-2">
-                  <div className="flex items-center text-[11px] text-slate-500">
+                  <div className="flex items-center text-[11px] text-slate-700 font-medium">
                     <Mail className="h-3 w-3 mr-2" /> {alumni.email}
                   </div>
-                  <div className="flex items-center text-[11px] text-slate-500">
+                  <div className="flex items-center text-[11px] text-slate-700 font-medium">
                     <Phone className="h-3 w-3 mr-2" /> {alumni.phone}
                   </div>
                 </div>
               ) : (
                 <div className="bg-[#0B0F27] border border-slate-200/80 rounded-lg p-2.5 flex items-center justify-between">
-                  <span className="text-[10px] text-slate-500 flex items-center">
+                  <span className="text-[10px] text-slate-700 font-medium flex items-center">
                     <ShieldCheck className="h-3 w-3 mr-1.5" /> PII Encrypted (AES-256)
                   </span>
                   <button className="text-[10px] text-cyan-400 font-semibold hover:text-cyan-300 flex items-center">

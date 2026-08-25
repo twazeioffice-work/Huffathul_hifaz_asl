@@ -5,7 +5,7 @@ import { Settings, Shield, Globe, Database, Activity, Lock, Users, Save } from "
 
 export default function SuperAdminSettingsPage() {
   return (
-    <div className="min-h-screen bg-[#09090b] text-slate-800 p-6 space-y-6 max-w-5xl mx-auto">
+    <div className="min-h-screen bg-[#09090b] text-black font-semibold p-6 space-y-6 max-w-5xl mx-auto">
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between p-6 bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.05)] rounded-2xl backdrop-blur-xl gap-4">
         <div>
@@ -13,7 +13,7 @@ export default function SuperAdminSettingsPage() {
             <Shield className="h-6 w-6 text-red-500" />
             <span>Super Admin Settings</span>
           </h1>
-          <p className="text-sm text-slate-500 mt-1">Global configuration, security, and system integrations</p>
+          <p className="text-sm text-slate-700 font-medium mt-1">Global configuration, security, and system integrations</p>
         </div>
         <button className="bg-red-600 hover:bg-red-500 text-white px-4 py-2 rounded-xl text-sm font-medium transition-colors shadow-lg shadow-red-900/20 flex items-center space-x-2">
           <Save className="h-4 w-4" />
@@ -25,23 +25,23 @@ export default function SuperAdminSettingsPage() {
         {/* Sidebar Nav */}
         <div className="md:col-span-1 space-y-2">
           <button className="w-full flex items-center space-x-3 p-3 bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.1)] rounded-xl text-slate-200 transition-colors">
-            <Globe className="h-4 w-4 text-slate-500" />
+            <Globe className="h-4 w-4 text-slate-700 font-medium" />
             <span className="text-sm font-medium">Institutions & Branches</span>
           </button>
-          <button className="w-full flex items-center space-x-3 p-3 hover:bg-[rgba(255,255,255,0.02)] border border-transparent hover:border-[rgba(255,255,255,0.05)] rounded-xl text-slate-500 hover:text-slate-200 transition-colors">
-            <Users className="h-4 w-4 text-slate-500" />
+          <button className="w-full flex items-center space-x-3 p-3 hover:bg-[rgba(255,255,255,0.02)] border border-transparent hover:border-[rgba(255,255,255,0.05)] rounded-xl text-slate-700 font-medium hover:text-slate-200 transition-colors">
+            <Users className="h-4 w-4 text-slate-700 font-medium" />
             <span className="text-sm font-medium">Global Roles & Junction</span>
           </button>
-          <button className="w-full flex items-center space-x-3 p-3 hover:bg-[rgba(255,255,255,0.02)] border border-transparent hover:border-[rgba(255,255,255,0.05)] rounded-xl text-slate-500 hover:text-slate-200 transition-colors">
-            <Lock className="h-4 w-4 text-slate-500" />
+          <button className="w-full flex items-center space-x-3 p-3 hover:bg-[rgba(255,255,255,0.02)] border border-transparent hover:border-[rgba(255,255,255,0.05)] rounded-xl text-slate-700 font-medium hover:text-slate-200 transition-colors">
+            <Lock className="h-4 w-4 text-slate-700 font-medium" />
             <span className="text-sm font-medium">Permission Matrix</span>
           </button>
-          <button className="w-full flex items-center space-x-3 p-3 hover:bg-[rgba(255,255,255,0.02)] border border-transparent hover:border-[rgba(255,255,255,0.05)] rounded-xl text-slate-500 hover:text-slate-200 transition-colors">
-            <Database className="h-4 w-4 text-slate-500" />
+          <button className="w-full flex items-center space-x-3 p-3 hover:bg-[rgba(255,255,255,0.02)] border border-transparent hover:border-[rgba(255,255,255,0.05)] rounded-xl text-slate-700 font-medium hover:text-slate-200 transition-colors">
+            <Database className="h-4 w-4 text-slate-700 font-medium" />
             <span className="text-sm font-medium">Audit Logs & Backup</span>
           </button>
-          <button className="w-full flex items-center space-x-3 p-3 hover:bg-[rgba(255,255,255,0.02)] border border-transparent hover:border-[rgba(255,255,255,0.05)] rounded-xl text-slate-500 hover:text-slate-200 transition-colors">
-            <Activity className="h-4 w-4 text-slate-500" />
+          <button className="w-full flex items-center space-x-3 p-3 hover:bg-[rgba(255,255,255,0.02)] border border-transparent hover:border-[rgba(255,255,255,0.05)] rounded-xl text-slate-700 font-medium hover:text-slate-200 transition-colors">
+            <Activity className="h-4 w-4 text-slate-700 font-medium" />
             <span className="text-sm font-medium">System Health & Integrations</span>
           </button>
         </div>
@@ -54,7 +54,7 @@ export default function SuperAdminSettingsPage() {
               <div className="flex justify-between items-center">
                 <div>
                   <h3 className="font-medium text-slate-200">Global Tenant Lock</h3>
-                  <p className="text-xs text-slate-500 mt-1">Prevent new branch creation temporarily across the ecosystem.</p>
+                  <p className="text-xs text-slate-700 font-medium mt-1">Prevent new branch creation temporarily across the ecosystem.</p>
                 </div>
                 <div className="w-10 h-5 bg-slate-700 rounded-full flex items-center p-1 cursor-pointer">
                   <div className="w-3.5 h-3.5 bg-slate-400 rounded-full"></div>
@@ -66,7 +66,7 @@ export default function SuperAdminSettingsPage() {
               <div className="flex justify-between items-center">
                 <div>
                   <h3 className="font-medium text-slate-200">Enforce 2FA Globally</h3>
-                  <p className="text-xs text-slate-500 mt-1">Require two-factor authentication for all Admin and Nazim roles.</p>
+                  <p className="text-xs text-slate-700 font-medium mt-1">Require two-factor authentication for all Admin and Nazim roles.</p>
                 </div>
                 <div className="w-10 h-5 bg-red-500/20 border border-red-500/50 rounded-full flex items-center justify-end p-1 cursor-pointer">
                   <div className="w-3.5 h-3.5 bg-red-400 rounded-full"></div>

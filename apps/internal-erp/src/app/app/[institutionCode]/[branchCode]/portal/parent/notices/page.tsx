@@ -28,14 +28,14 @@ export default function StudentNoticesPage() {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between p-6 bg-black/50 border border-slate-200 rounded-2xl backdrop-blur-xl gap-4">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-slate-800 flex items-center space-x-2">
+          <h1 className="text-2xl font-bold tracking-tight text-black font-semibold flex items-center space-x-2">
             <Megaphone className="h-6 w-6 text-indigo-400" />
             <span>Notice Board</span>
           </h1>
-          <p className="text-sm text-slate-500 mt-1">Official announcements and updates from the center</p>
+          <p className="text-sm text-slate-700 font-medium mt-1">Official announcements and updates from the center</p>
         </div>
         <div className="relative w-full md:w-64">
-          <Search className="h-5 w-5 absolute left-3 top-2.5 text-slate-500" />
+          <Search className="h-5 w-5 absolute left-3 top-2.5 text-slate-700 font-medium" />
           <input 
             type="text" 
             placeholder="Search notices..." 
@@ -56,10 +56,10 @@ export default function StudentNoticesPage() {
                 <div>
                   <h3 className="text-lg font-bold text-slate-100">{notice.title}</h3>
                   <div className="flex items-center space-x-2 mt-1">
-                    <span className="px-2 py-0.5 bg-black/5 text-slate-500 rounded text-[10px] uppercase font-bold tracking-wider">
+                    <span className="px-2 py-0.5 bg-black/5 text-slate-700 font-medium rounded text-[10px] uppercase font-bold tracking-wider">
                       {notice.category}
                     </span>
-                    <span className="text-xs text-slate-500 flex items-center space-x-1">
+                    <span className="text-xs text-slate-700 font-medium flex items-center space-x-1">
                       <Calendar className="h-3 w-3" />
                       <span>{notice.posted}</span>
                     </span>
@@ -67,7 +67,7 @@ export default function StudentNoticesPage() {
                 </div>
               </div>
             </div>
-            <p className="text-sm text-slate-600 leading-relaxed mt-4 pl-12">
+            <p className="text-sm text-slate-800 font-medium leading-relaxed mt-4 pl-12">
               {notice.body}
             </p>
           </div>
