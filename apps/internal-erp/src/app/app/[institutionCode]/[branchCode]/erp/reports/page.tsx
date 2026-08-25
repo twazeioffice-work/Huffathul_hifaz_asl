@@ -1,6 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, Legend } from 'recharts';
+
 
 export default function AnalyticsReportsDashboard() {
   const [timeRange, setTimeRange] = useState<'30D' | 'Q1' | 'YTD'>('30D');
@@ -102,48 +104,39 @@ export default function AnalyticsReportsDashboard() {
       </div>
 
       <div className="glass-panel rounded-2xl p-6 border border-slate-200">
-        <div className="flex items-center justify-between mb-8">
-          <div>
-            <h2 className="text-lg font-bold text-black font-semibold">Hifz Completion & Student Influx Velocity</h2>
-            <p className="text-xs text-slate-700 font-medium">Visual comparison of new student enrollments vs active Para memorization pace.</p>
-          </div>
-          <div className="flex items-center gap-4 text-xs">
-            <div className="flex items-center gap-2 text-cyan-400 font-semibold">
-              <span className="w-3 h-3 rounded bg-cyan-400"></span> Total Enrollment
-            </div>
-            <div className="flex items-center gap-2 text-emerald-400 font-semibold">
-              <span className="w-3 h-3 rounded bg-emerald-400"></span> Hifz Milestones
+        <div className="flex items-center justify-between mb-2">
+            <div>
+              <h2 className="text-lg font-bold text-black font-semibold">Hifz Completion & Student Influx Velocity</h2>
+              <p className="text-xs text-slate-700 font-medium">Visual comparison of new student enrollments vs active Para memorization pace.</p>
             </div>
           </div>
-        </div>
-
-        <div className="h-64 flex items-end justify-between gap-6 px-4 pb-2 border-b border-slate-200">
-          {chartData.map((item, idx) => {
-            const heightPct1 = Math.round((item.value / maxVal) * 100);
-            const heightPct2 = Math.round((item.hifz / maxVal) * 100);
-            return (
-              <div key={idx} className="flex-1 flex flex-col items-center gap-2 h-full justify-end group">
-                <div className="text-[10px] font-mono text-cyan-300 opacity-0 group-hover:opacity-100 transition-opacity font-bold">
-                  {item.value} / {item.hifz}
-                </div>
-                <div className="w-full flex items-end justify-center gap-2 h-44">
-                  <div
-                    style={{ height: `${heightPct1}%` }}
-                    className="w-1/2 max-w-[40px] rounded-t-lg bg-gradient-to-t from-cyan-600 to-cyan-400 shadow-glow-cyan group-hover:brightness-125 transition-all duration-300"
-                  ></div>
-                  <div
-                    style={{ height: `${heightPct2}%` }}
-                    className="w-1/2 max-w-[40px] rounded-t-lg bg-gradient-to-t from-emerald-600 to-emerald-400 shadow-glow-emerald group-hover:brightness-125 transition-all duration-300"
-                  ></div>
-                </div>
-                <div className="text-xs font-semibold text-slate-700 font-medium font-mono mt-2">
-                  {item.label}
-                </div>
-              </div>
-            );
-          })}
+          <div className="h-72 mt-4">
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart data={chartData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+                <defs>
+                  <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#22d3ee" stopOpacity={0.8}/>
+                    <stop offset="95%" stopColor="#22d3ee" stopOpacity={0}/>
+                  </linearGradient>
+                  <linearGradient id="colorHifz" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#34d399" stopOpacity={0.8}/>
+                    <stop offset="95%" stopColor="#34d399" stopOpacity={0}/>
+                  </linearGradient>
+                </defs>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
+                <XAxis dataKey="label" axisLine={false} tickLine={false} tick={{fill: '#64748b', fontSize: 12}} dy={10} />
+                <YAxis axisLine={false} tickLine={false} tick={{fill: '#64748b', fontSize: 12}} dx={-10} />
+                <RechartsTooltip 
+                  contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)' }}
+                  labelStyle={{ color: '#0f172a', fontWeight: 'bold', marginBottom: '4px' }}
+                />
+                <Legend iconType="circle" wrapperStyle={{ paddingTop: '20px' }} />
+                <Area type="monotone" name="Total Enrollment" dataKey="value" stroke="#06b6d4" strokeWidth={3} fillOpacity={1} fill="url(#colorValue)" />
+                <Area type="monotone" name="Hifz Milestones" dataKey="hifz" stroke="#059669" strokeWidth={3} fillOpacity={1} fill="url(#colorHifz)" />
+              </AreaChart>
+            </ResponsiveContainer>
+            </div>
         </div>
       </div>
-    </div>
   );
 }
