@@ -40,7 +40,7 @@ export default function CreateVoucherPage() {
 
   return (
     <div className="p-8 w-full max-w-5xl mx-auto">
-      <h1 className="text-2xl font-bold text-white mb-6">Create Journal Voucher</h1>
+      <h1 className="text-2xl font-bold text-slate-800 mb-6">Create Journal Voucher</h1>
       
       <Card className="bg-[#111827] border border-[#1F2937]">
         <CardBody className="p-6">
@@ -53,9 +53,9 @@ export default function CreateVoucherPage() {
           />
 
           <div className="bg-[#1F2937] p-4 rounded-md mb-4 flex">
-            <div className="w-1/2 font-semibold text-gray-300">Account Head</div>
-            <div className="w-1/4 font-semibold text-gray-300 text-right pr-4">Debit (Rs)</div>
-            <div className="w-1/4 font-semibold text-gray-300 text-right pr-4">Credit (Rs)</div>
+            <div className="w-1/2 font-semibold text-slate-600">Account Head</div>
+            <div className="w-1/4 font-semibold text-slate-600 text-right pr-4">Debit (Rs)</div>
+            <div className="w-1/4 font-semibold text-slate-600 text-right pr-4">Credit (Rs)</div>
             <div className="w-10"></div>
           </div>
 
@@ -102,19 +102,19 @@ export default function CreateVoucherPage() {
 
           <div className="flex justify-end items-center gap-8 mb-8">
             <div className="text-right">
-              <p className="text-sm text-gray-400">Total Debit</p>
-              <p className="text-xl font-mono text-white">Rs {totalDebit.toFixed(2)}</p>
+              <p className="text-sm text-slate-500">Total Debit</p>
+              <p className="text-xl font-mono text-slate-800">Rs {totalDebit.toFixed(2)}</p>
             </div>
             <div className="text-right">
-              <p className="text-sm text-gray-400">Total Credit</p>
-              <p className={`text-xl font-mono ${isBalanced ? 'text-white' : 'text-red-500'}`}>Rs {totalCredit.toFixed(2)}</p>
+              <p className="text-sm text-slate-500">Total Credit</p>
+              <p className={`text-xl font-mono ${isBalanced ? 'text-slate-800' : 'text-red-500'}`}>Rs {totalCredit.toFixed(2)}</p>
             </div>
           </div>
 
           <div className="flex justify-end gap-4">
             <Button variant="light" color="danger" onPress={() => router.back()}>Cancel</Button>
             <Button 
-              className={`font-semibold ${isBalanced ? 'bg-[#00F0FF] text-black' : 'bg-gray-600 text-gray-400 cursor-not-allowed'}`}
+              className={`font-semibold ${isBalanced ? 'bg-[#00F0FF] text-black' : 'bg-gray-600 text-slate-500 cursor-not-allowed'}`}
               disabled={!isBalanced}
               onPress={handleSubmit}
             >

@@ -30,17 +30,17 @@ export default function MemorizationProgressTree() {
   });
 
   return (
-    <div className="min-h-screen bg-[#09090b] text-white p-6 space-y-6 max-w-4xl mx-auto">
+    <div className="min-h-screen bg-[#09090b] text-slate-800 p-6 space-y-6 max-w-4xl mx-auto">
       <div className="flex items-center space-x-4 mb-8">
         <Link 
           href={`/app/${params.institutionCode}/${params.branchCode}/erp/students/${params.studentId}`}
           className="p-2 bg-[rgba(255,255,255,0.05)] hover:bg-[rgba(255,255,255,0.08)] rounded-lg transition-colors"
         >
-          <ChevronLeft className="h-5 w-5 text-slate-300" />
+          <ChevronLeft className="h-5 w-5 text-slate-600" />
         </Link>
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-slate-100">Memorization Tree</h1>
-          <p className="text-sm text-slate-400">Student: {params.studentId}</p>
+          <p className="text-sm text-slate-500">Student: {params.studentId}</p>
         </div>
       </div>
 

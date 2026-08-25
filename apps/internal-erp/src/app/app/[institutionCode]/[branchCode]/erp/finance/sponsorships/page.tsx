@@ -30,7 +30,7 @@ export default function SponsorshipsPage() {
   ]);
 
   return (
-    <div className="min-h-screen bg-[#09090b] text-white p-6 space-y-6 max-w-7xl mx-auto">
+    <div className="min-h-screen bg-[#09090b] text-slate-800 p-6 space-y-6 max-w-7xl mx-auto">
       {/* Header */}
       <div className="flex items-center justify-between p-6 bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.05)] rounded-2xl backdrop-blur-xl">
         <div className="flex items-center space-x-4">
@@ -38,14 +38,14 @@ export default function SponsorshipsPage() {
             onClick={() => router.push(`/app/${institutionCode}/${branchCode}/erp/finance`)}
             className="p-2 hover:bg-[rgba(255,255,255,0.05)] rounded-lg transition-colors"
           >
-            <ArrowLeft className="h-5 w-5 text-slate-300" />
+            <ArrowLeft className="h-5 w-5 text-slate-600" />
           </button>
           <div>
             <h1 className="text-2xl font-bold tracking-tight text-slate-100 flex items-center space-x-2">
               <Users className="h-6 w-6 text-cyan-400" />
               <span>Sponsorship Lifecycle</span>
             </h1>
-            <p className="text-sm text-slate-400 mt-1">Manage external sponsorships for enrolled students</p>
+            <p className="text-sm text-slate-500 mt-1">Manage external sponsorships for enrolled students</p>
           </div>
         </div>
         <button className="flex items-center space-x-2 bg-cyan-600 hover:bg-cyan-500 text-white px-4 py-2 rounded-xl text-sm font-medium transition-colors shadow-lg shadow-cyan-900/20">
@@ -69,7 +69,7 @@ export default function SponsorshipsPage() {
       {/* Data Table */}
       <div className="bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.05)] rounded-2xl backdrop-blur-xl overflow-hidden">
         <table className="w-full text-sm text-left">
-          <thead className="text-xs text-slate-400 bg-[rgba(255,255,255,0.02)] border-b border-[rgba(255,255,255,0.05)] uppercase">
+          <thead className="text-xs text-slate-500 bg-[rgba(255,255,255,0.02)] border-b border-[rgba(255,255,255,0.05)] uppercase">
             <tr>
               <th className="px-6 py-4 font-medium tracking-wider">Sponsor Name</th>
               <th className="px-6 py-4 font-medium tracking-wider">Student</th>
@@ -86,9 +86,9 @@ export default function SponsorshipsPage() {
                   <div className="font-semibold text-slate-200">{sponsor.sponsorName}</div>
                   <div className="text-xs text-slate-500 font-mono mt-0.5">{sponsor.id}</div>
                 </td>
-                <td className="px-6 py-4 text-slate-300">{sponsor.studentName}</td>
+                <td className="px-6 py-4 text-slate-600">{sponsor.studentName}</td>
                 <td className="px-6 py-4">
-                  <div className="flex items-center space-x-2 text-slate-400">
+                  <div className="flex items-center space-x-2 text-slate-500">
                     <Phone className="h-3 w-3" />
                     <span>{sponsor.phone}</span>
                   </div>
@@ -103,13 +103,13 @@ export default function SponsorshipsPage() {
                   </span>
                 </td>
                 <td className="px-6 py-4">
-                  <div className="flex items-center space-x-2 text-slate-300">
+                  <div className="flex items-center space-x-2 text-slate-600">
                     <Calendar className="h-3.5 w-3.5 text-slate-500" />
                     <span>{sponsor.nextDue}</span>
                   </div>
                 </td>
                 <td className="px-6 py-4 text-right">
-                  <button className="text-slate-400 hover:text-cyan-400 transition-colors p-1">
+                  <button className="text-slate-500 hover:text-cyan-400 transition-colors p-1">
                     <MoreHorizontal className="h-5 w-5" />
                   </button>
                 </td>

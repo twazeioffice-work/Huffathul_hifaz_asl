@@ -14,7 +14,7 @@ export default function ExportCenterPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#09090b] text-white p-6 max-w-6xl mx-auto space-y-6">
+    <div className="min-h-screen bg-[#09090b] text-slate-800 p-6 max-w-6xl mx-auto space-y-6">
       
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between p-6 bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.05)] rounded-2xl backdrop-blur-xl gap-4">
@@ -23,7 +23,7 @@ export default function ExportCenterPage() {
             <FileOutput className="h-6 w-6 text-purple-400" />
             <span>Export Center</span>
           </h1>
-          <p className="text-sm text-slate-400 mt-1">Generate and download structural data reports from the ERP.</p>
+          <p className="text-sm text-slate-500 mt-1">Generate and download structural data reports from the ERP.</p>
         </div>
       </div>
 
@@ -37,15 +37,15 @@ export default function ExportCenterPage() {
               </div>
               <div>
                 <h3 className="font-bold text-slate-200">{mod.title}</h3>
-                <p className="text-sm text-slate-400 mt-1 leading-snug">{mod.desc}</p>
+                <p className="text-sm text-slate-500 mt-1 leading-snug">{mod.desc}</p>
               </div>
             </div>
             <div className="flex items-center space-x-2 pt-4">
-              <button className="flex-1 py-2 text-xs font-semibold bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg transition-colors flex items-center justify-center space-x-2">
+              <button className="flex-1 py-2 text-xs font-semibold bg-black/5 hover:bg-black/5 border border-slate-200 rounded-lg transition-colors flex items-center justify-center space-x-2">
                 <Download className="h-3 w-3" />
                 <span>CSV</span>
               </button>
-              <button className="flex-1 py-2 text-xs font-semibold bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg transition-colors flex items-center justify-center space-x-2">
+              <button className="flex-1 py-2 text-xs font-semibold bg-black/5 hover:bg-black/5 border border-slate-200 rounded-lg transition-colors flex items-center justify-center space-x-2">
                 <Download className="h-3 w-3" />
                 <span>PDF</span>
               </button>

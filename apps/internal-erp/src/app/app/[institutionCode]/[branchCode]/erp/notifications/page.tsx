@@ -45,7 +45,7 @@ export default function NotificationsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#09090b] text-white p-6 space-y-6 max-w-5xl mx-auto">
+    <div className="min-h-screen bg-[#09090b] text-slate-800 p-6 space-y-6 max-w-5xl mx-auto">
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between p-6 bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.05)] rounded-2xl backdrop-blur-xl gap-4">
         <div>
@@ -53,10 +53,10 @@ export default function NotificationsPage() {
             <Bell className="h-6 w-6 text-blue-400" />
             <span>Notification Inbox</span>
           </h1>
-          <p className="text-sm text-slate-400 mt-1">Manage all your system alerts, reminders, and requests</p>
+          <p className="text-sm text-slate-500 mt-1">Manage all your system alerts, reminders, and requests</p>
         </div>
         <div className="flex space-x-3">
-          <button className="bg-[rgba(255,255,255,0.05)] hover:bg-[rgba(255,255,255,0.1)] text-white px-4 py-2 rounded-xl text-sm font-medium transition-colors border border-[rgba(255,255,255,0.1)] flex items-center space-x-2">
+          <button className="bg-[rgba(255,255,255,0.05)] hover:bg-[rgba(255,255,255,0.1)] text-slate-800 px-4 py-2 rounded-xl text-sm font-medium transition-colors border border-[rgba(255,255,255,0.1)] flex items-center space-x-2">
             <Settings className="h-4 w-4" />
             <span>Preferences</span>
           </button>
@@ -71,11 +71,11 @@ export default function NotificationsPage() {
       <div className="flex items-center justify-between bg-[rgba(255,255,255,0.01)] border border-[rgba(255,255,255,0.05)] rounded-xl p-2">
         <div className="flex space-x-1">
           <button className="px-4 py-1.5 bg-[rgba(255,255,255,0.08)] rounded-lg text-sm font-medium text-slate-200 transition-colors">All</button>
-          <button className="px-4 py-1.5 hover:bg-[rgba(255,255,255,0.05)] rounded-lg text-sm font-medium text-slate-400 transition-colors">Unread (2)</button>
-          <button className="px-4 py-1.5 hover:bg-[rgba(255,255,255,0.05)] rounded-lg text-sm font-medium text-slate-400 transition-colors">Approvals</button>
+          <button className="px-4 py-1.5 hover:bg-[rgba(255,255,255,0.05)] rounded-lg text-sm font-medium text-slate-500 transition-colors">Unread (2)</button>
+          <button className="px-4 py-1.5 hover:bg-[rgba(255,255,255,0.05)] rounded-lg text-sm font-medium text-slate-500 transition-colors">Approvals</button>
         </div>
         <div className="flex space-x-2">
-          <button className="p-2 hover:bg-[rgba(255,255,255,0.05)] rounded-lg text-slate-400 transition-colors"><Filter className="h-4 w-4" /></button>
+          <button className="p-2 hover:bg-[rgba(255,255,255,0.05)] rounded-lg text-slate-500 transition-colors"><Filter className="h-4 w-4" /></button>
           <button className="p-2 hover:bg-[rgba(255,255,255,0.05)] rounded-lg text-rose-400/70 hover:text-rose-400 transition-colors"><Trash2 className="h-4 w-4" /></button>
         </div>
       </div>
@@ -96,12 +96,12 @@ export default function NotificationsPage() {
             </div>
             <div className="flex-1">
               <div className="flex justify-between items-start">
-                <h3 className={`text-sm ${notif.isRead ? 'text-slate-300 font-medium' : 'text-slate-100 font-bold'}`}>
+                <h3 className={`text-sm ${notif.isRead ? 'text-slate-600 font-medium' : 'text-slate-100 font-bold'}`}>
                   {notif.title}
                 </h3>
                 <span className="text-[10px] text-slate-500 font-mono">{notif.time}</span>
               </div>
-              <p className={`text-xs mt-1 leading-relaxed ${notif.isRead ? 'text-slate-500' : 'text-slate-300'}`}>
+              <p className={`text-xs mt-1 leading-relaxed ${notif.isRead ? 'text-slate-500' : 'text-slate-600'}`}>
                 {notif.body}
               </p>
             </div>

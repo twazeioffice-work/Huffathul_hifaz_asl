@@ -15,7 +15,7 @@ export default function FinanceDashboardPhase3() {
   const baseUrl = `/app/${institutionCode}/${branchCode}/erp/finance`;
 
   return (
-    <div className="min-h-screen bg-[#09090b] text-white p-6 space-y-6 max-w-7xl mx-auto">
+    <div className="min-h-screen bg-[#09090b] text-slate-800 p-6 space-y-6 max-w-7xl mx-auto">
       
       {/* 1. Header */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between p-6 bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.05)] rounded-2xl backdrop-blur-xl">
@@ -25,7 +25,7 @@ export default function FinanceDashboardPhase3() {
             <Landmark className="h-6 w-6 text-emerald-400" />
             <span>Financial Vault & Ledger Tracker</span>
           </h1>
-          <p className="text-sm text-slate-400 mt-1">Phase 3: Comprehensive Finance Module</p>
+          <p className="text-sm text-slate-500 mt-1">Phase 3: Comprehensive Finance Module</p>
         </div>
       </div>
 
@@ -85,7 +85,7 @@ export default function FinanceDashboardPhase3() {
             <span>Sponsorship Lifecycle</span>
             <ChevronRight className="h-4 w-4 text-slate-500 group-hover:text-cyan-400 transition-colors" />
           </h3>
-          <p className="text-xs text-slate-400 mt-2">Manage student sponsors, payment schedules, and progress updates.</p>
+          <p className="text-xs text-slate-500 mt-2">Manage student sponsors, payment schedules, and progress updates.</p>
         </div>
 
         {/* Expense Approvals */}
@@ -100,7 +100,7 @@ export default function FinanceDashboardPhase3() {
             <span>Expense Approvals</span>
             <ChevronRight className="h-4 w-4 text-slate-500 group-hover:text-rose-400 transition-colors" />
           </h3>
-          <p className="text-xs text-slate-400 mt-2">Review, approve, or reject branch expense requests workflows.</p>
+          <p className="text-xs text-slate-500 mt-2">Review, approve, or reject branch expense requests workflows.</p>
         </div>
 
         {/* Bank Reconciliation */}
@@ -115,7 +115,7 @@ export default function FinanceDashboardPhase3() {
             <span>Bank Reconciliation</span>
             <ChevronRight className="h-4 w-4 text-slate-500 group-hover:text-emerald-400 transition-colors" />
           </h3>
-          <p className="text-xs text-slate-400 mt-2">Reconcile internal double-entry ledgers with physical bank statements.</p>
+          <p className="text-xs text-slate-500 mt-2">Reconcile internal double-entry ledgers with physical bank statements.</p>
         </div>
 
         {/* Fee Structures & Invoices */}
@@ -129,7 +129,7 @@ export default function FinanceDashboardPhase3() {
             <span>Fee Structures & Invoicing</span>
             <ChevronRight className="h-4 w-4 text-slate-500 group-hover:text-purple-400 transition-colors" />
           </h3>
-          <p className="text-xs text-slate-400 mt-2">Manage fee heads, generate invoices, and log receipts/waivers.</p>
+          <p className="text-xs text-slate-500 mt-2">Manage fee heads, generate invoices, and log receipts/waivers.</p>
         </div>
 
         {/* Budget vs Actual */}
@@ -143,7 +143,7 @@ export default function FinanceDashboardPhase3() {
             <span>Budget vs Actual</span>
             <ChevronRight className="h-4 w-4 text-slate-500 group-hover:text-amber-400 transition-colors" />
           </h3>
-          <p className="text-xs text-slate-400 mt-2">View branch budget allocations and track actual expenses against them.</p>
+          <p className="text-xs text-slate-500 mt-2">View branch budget allocations and track actual expenses against them.</p>
         </div>
 
         {/* Accounting Periods */}
@@ -157,7 +157,7 @@ export default function FinanceDashboardPhase3() {
             <span>Accounting Periods</span>
             <ChevronRight className="h-4 w-4 text-slate-500 group-hover:text-blue-400 transition-colors" />
           </h3>
-          <p className="text-xs text-slate-400 mt-2">Lock and close financial periods to prevent retrospective tampering.</p>
+          <p className="text-xs text-slate-500 mt-2">Lock and close financial periods to prevent retrospective tampering.</p>
         </div>
 
       </div>

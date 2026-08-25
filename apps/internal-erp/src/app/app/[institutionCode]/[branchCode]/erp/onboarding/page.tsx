@@ -32,7 +32,7 @@ export default function OnboardingWizardPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#09090b] text-white p-6 max-w-5xl mx-auto space-y-6">
+    <div className="min-h-screen bg-[#09090b] text-slate-800 p-6 max-w-5xl mx-auto space-y-6">
       
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between p-6 bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.05)] rounded-2xl backdrop-blur-xl gap-4">
@@ -41,7 +41,7 @@ export default function OnboardingWizardPage() {
             <Rocket className="h-6 w-6 text-emerald-400" />
             <span>Branch Onboarding Wizard</span>
           </h1>
-          <p className="text-sm text-slate-400 mt-1">Complete these essential steps to activate your branch in the ecosystem.</p>
+          <p className="text-sm text-slate-500 mt-1">Complete these essential steps to activate your branch in the ecosystem.</p>
         </div>
         <div className="flex flex-col items-end">
           <span className="text-2xl font-bold text-emerald-400">{progress}%</span>
@@ -50,7 +50,7 @@ export default function OnboardingWizardPage() {
       </div>
 
       {/* Progress Bar */}
-      <div className="h-2 w-full bg-black/40 rounded-full overflow-hidden border border-white/5">
+      <div className="h-2 w-full bg-black/5 rounded-full overflow-hidden border border-slate-200">
         <div 
           className="h-full bg-emerald-500 transition-all duration-500 ease-in-out"
           style={{ width: `${progress}%` }}
@@ -78,7 +78,7 @@ export default function OnboardingWizardPage() {
                 ) : (
                   <Circle className="h-5 w-5 text-slate-600 shrink-0" />
                 )}
-                <span className={`text-sm ${isCurrent ? "text-emerald-300 font-bold" : isCompleted ? "text-slate-300" : "text-slate-500"}`}>
+                <span className={`text-sm ${isCurrent ? "text-emerald-300 font-bold" : isCompleted ? "text-slate-600" : "text-slate-500"}`}>
                   {step.label}
                 </span>
               </div>
@@ -93,12 +93,12 @@ export default function OnboardingWizardPage() {
               Step {currentStep} of {steps.length}
             </div>
             <h2 className="text-2xl font-bold text-slate-100 mb-2">{steps[currentStep - 1].label}</h2>
-            <p className="text-slate-400 text-sm leading-relaxed mb-8">
+            <p className="text-slate-500 text-sm leading-relaxed mb-8">
               This step requires you to input specific data required for the system to function. Completing this ensures all downstream modules like finance and reporting work correctly.
             </p>
 
             {/* Mock Form Area */}
-            <div className="bg-black/20 border border-white/5 rounded-xl p-6 flex items-center justify-center min-h-[200px]">
+            <div className="bg-black/5 border border-slate-200 rounded-xl p-6 flex items-center justify-center min-h-[200px]">
               <div className="text-center space-y-3">
                 <AlertCircle className="h-10 w-10 text-slate-600 mx-auto" />
                 <p className="text-slate-500 text-sm">Configuration interface for "{steps[currentStep - 1].label}" goes here.</p>
@@ -107,11 +107,11 @@ export default function OnboardingWizardPage() {
           </div>
 
           {/* Navigation Controls */}
-          <div className="flex items-center justify-between pt-6 border-t border-white/5 mt-8">
+          <div className="flex items-center justify-between pt-6 border-t border-slate-200 mt-8">
             <button 
               onClick={handlePrev}
               disabled={currentStep === 1}
-              className="flex items-center space-x-2 px-4 py-2 rounded-xl text-sm font-medium text-slate-400 hover:text-slate-200 hover:bg-white/5 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex items-center space-x-2 px-4 py-2 rounded-xl text-sm font-medium text-slate-500 hover:text-slate-200 hover:bg-black/5 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <ArrowLeft className="h-4 w-4" />
               <span>Back</span>

@@ -16,8 +16,8 @@ export default function AssetsFleetPage() {
     <div className="space-y-6 animate-in fade-in duration-700">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-2xl font-bold text-white">Assets & Fleet</h1>
-          <p className="text-sm text-zinc-400">Track institutional vehicles, maintenance, and routes.</p>
+          <h1 className="text-2xl font-bold text-slate-800">Assets & Fleet</h1>
+          <p className="text-sm text-slate-500">Track institutional vehicles, maintenance, and routes.</p>
         </div>
         <Button variant="primary">Register Asset</Button>
       </div>
@@ -27,25 +27,25 @@ export default function AssetsFleetPage() {
           <GlassCard key={vehicle.id} className="p-6">
             <div className="flex justify-between items-start mb-4">
               <div>
-                <h3 className="text-lg font-bold text-white">{vehicle.id}</h3>
-                <p className="text-sm text-zinc-400">{vehicle.type}</p>
+                <h3 className="text-lg font-bold text-slate-800">{vehicle.id}</h3>
+                <p className="text-sm text-slate-500">{vehicle.type}</p>
               </div>
               <Badge variant={vehicle.status === 'active' ? 'success' : 'warning'}>{vehicle.status.toUpperCase()}</Badge>
             </div>
             
             <div className="space-y-3 mt-6">
-              <div className="flex items-center gap-3 text-zinc-300">
+              <div className="flex items-center gap-3 text-slate-600">
                 <Truck size={16} className="text-indigo-400"/> <span>{vehicle.plate}</span>
               </div>
-              <div className="flex items-center gap-3 text-zinc-300">
+              <div className="flex items-center gap-3 text-slate-600">
                 <MapPin size={16} className="text-indigo-400"/> <span>{vehicle.route}</span>
               </div>
-              <div className="flex items-center gap-3 text-zinc-300">
+              <div className="flex items-center gap-3 text-slate-600">
                 <Wrench size={16} className="text-indigo-400"/> <span>Service: {vehicle.nextService}</span>
               </div>
             </div>
             
-            <div className="mt-6 pt-4 border-t border-white/10 flex gap-2">
+            <div className="mt-6 pt-4 border-t border-slate-200 flex gap-2">
               <Button variant="secondary" className="w-full">Log Trip</Button>
               <Button variant="secondary" className="w-full">Maintenance</Button>
             </div>

@@ -44,7 +44,7 @@ export default function AuditLogsPage() {
   ]);
 
   return (
-    <div className="min-h-screen bg-[#09090b] text-white p-6 max-w-7xl mx-auto space-y-6">
+    <div className="min-h-screen bg-[#09090b] text-slate-800 p-6 max-w-7xl mx-auto space-y-6">
       
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between p-6 bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.05)] rounded-2xl backdrop-blur-xl gap-4">
@@ -53,9 +53,9 @@ export default function AuditLogsPage() {
             <Database className="h-6 w-6 text-orange-400" />
             <span>System Audit Logs</span>
           </h1>
-          <p className="text-sm text-slate-400 mt-1">Immutable trail of all security events and critical modifications.</p>
+          <p className="text-sm text-slate-500 mt-1">Immutable trail of all security events and critical modifications.</p>
         </div>
-        <button className="bg-white/10 hover:bg-white/20 text-white px-4 py-2 border border-white/10 rounded-xl text-sm font-medium transition-colors flex items-center space-x-2">
+        <button className="bg-black/5 hover:bg-white/20 text-slate-800 px-4 py-2 border border-slate-200 rounded-xl text-sm font-medium transition-colors flex items-center space-x-2">
           <Download className="h-4 w-4" />
           <span>Export CSV</span>
         </button>
@@ -68,23 +68,23 @@ export default function AuditLogsPage() {
           <input 
             type="text" 
             placeholder="Search by User, Action, or Entity..." 
-            className="w-full bg-black/40 border border-white/5 rounded-xl py-2 pl-10 pr-4 text-sm text-slate-200 focus:outline-none focus:border-orange-500/50 transition-colors"
+            className="w-full bg-black/5 border border-slate-200 rounded-xl py-2 pl-10 pr-4 text-sm text-slate-200 focus:outline-none focus:border-orange-500/50 transition-colors"
           />
         </div>
         <div className="flex gap-2">
-          <select className="bg-black/40 border border-white/5 rounded-xl py-2 px-4 text-sm text-slate-300 focus:outline-none appearance-none">
+          <select className="bg-black/5 border border-slate-200 rounded-xl py-2 px-4 text-sm text-slate-600 focus:outline-none appearance-none">
             <option>All Modules</option>
             <option>Students</option>
             <option>Finance</option>
             <option>Settings</option>
           </select>
-          <select className="bg-black/40 border border-white/5 rounded-xl py-2 px-4 text-sm text-slate-300 focus:outline-none appearance-none">
+          <select className="bg-black/5 border border-slate-200 rounded-xl py-2 px-4 text-sm text-slate-600 focus:outline-none appearance-none">
             <option>All Actions</option>
             <option>CREATE</option>
             <option>UPDATE</option>
             <option>DELETE</option>
           </select>
-          <button className="p-2 bg-white/5 hover:bg-white/10 border border-white/5 rounded-xl text-slate-300 transition-colors">
+          <button className="p-2 bg-black/5 hover:bg-black/5 border border-slate-200 rounded-xl text-slate-600 transition-colors">
             <Filter className="h-5 w-5" />
           </button>
         </div>
@@ -93,8 +93,8 @@ export default function AuditLogsPage() {
       {/* Audit Table */}
       <div className="bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.05)] rounded-2xl backdrop-blur-xl overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm text-slate-300">
-            <thead className="bg-black/40 text-xs uppercase font-semibold text-slate-500">
+          <table className="w-full text-left text-sm text-slate-600">
+            <thead className="bg-black/5 text-xs uppercase font-semibold text-slate-500">
               <tr>
                 <th className="px-6 py-4">Timestamp</th>
                 <th className="px-6 py-4">User / Actor</th>
@@ -106,8 +106,8 @@ export default function AuditLogsPage() {
             </thead>
             <tbody className="divide-y divide-white/5">
               {logs.map((log) => (
-                <tr key={log.id} className="hover:bg-white/5 transition-colors">
-                  <td className="px-6 py-4 whitespace-nowrap text-slate-400 font-mono text-xs">{log.time}</td>
+                <tr key={log.id} className="hover:bg-black/5 transition-colors">
+                  <td className="px-6 py-4 whitespace-nowrap text-slate-500 font-mono text-xs">{log.time}</td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span className="font-medium text-blue-300">{log.user}</span>
                   </td>
@@ -127,7 +127,7 @@ export default function AuditLogsPage() {
                       <span className="text-emerald-400">{log.newValue}</span>
                     </div>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-xs text-slate-400">
+                  <td className="px-6 py-4 whitespace-nowrap text-xs text-slate-500">
                     <div className="flex flex-col space-y-1">
                       <div className="flex items-center space-x-1">
                         <Globe className="h-3 w-3" /> <span>{log.ip}</span>

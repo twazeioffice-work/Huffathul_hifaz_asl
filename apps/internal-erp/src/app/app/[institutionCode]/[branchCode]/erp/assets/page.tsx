@@ -51,19 +51,19 @@ export default function AssetManagementDashboard() {
   return (
     <div className="space-y-8 animate-in fade-in duration-500">
       {toastMessage && (
-        <div className="fixed bottom-6 right-6 z-50 flex items-center gap-3 px-5 py-3 rounded-xl bg-slate-900/90 border border-emerald-500/40 text-emerald-200 shadow-glow-emerald backdrop-blur-xl">
+        <div className="fixed bottom-6 right-6 z-50 flex items-center gap-3 px-5 py-3 rounded-xl bg-white/90 border border-emerald-500/40 text-emerald-200 shadow-glow-emerald backdrop-blur-xl">
           <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
           <span className="text-xs font-semibold">{toastMessage}</span>
         </div>
       )}
 
-      <div className="border-b border-slate-800/80 pb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="border-b border-slate-200/80 pb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2 text-emerald-400 text-xs font-semibold uppercase tracking-wider mb-1">
             <span className="w-2 h-2 rounded-full bg-emerald-400"></span> Physical Asset &amp; Fleet Ledger
           </div>
-          <h1 className="text-2xl md:text-3xl font-black text-white tracking-tight">Enterprise Infrastructure (Indian Registry)</h1>
-          <p className="text-xs md:text-sm text-slate-400 mt-1">
+          <h1 className="text-2xl md:text-3xl font-black text-slate-800 tracking-tight">Enterprise Infrastructure (Indian Registry)</h1>
+          <p className="text-xs md:text-sm text-slate-500 mt-1">
             IoT GPS Bus Telemetry • Dormitory Bed Allocations • Automated MACRS Asset Depreciation
           </p>
         </div>
@@ -72,7 +72,7 @@ export default function AssetManagementDashboard() {
           <button
             onClick={handleRunDepreciation}
             disabled={isDepreciating}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-900 border border-emerald-500/30 text-emerald-300 text-xs font-bold hover:bg-emerald-950/50 hover:border-emerald-400 transition-all shadow-glow-emerald active:scale-95 disabled:opacity-50"
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white border border-emerald-500/30 text-emerald-300 text-xs font-bold hover:bg-emerald-950/50 hover:border-emerald-400 transition-all shadow-glow-emerald active:scale-95 disabled:opacity-50"
           >
             <span className={`w-2 h-2 rounded-full ${isDepreciating ? 'bg-amber-400 animate-spin' : 'bg-emerald-400'}`}></span>
             {isDepreciating ? 'Calculating MACRS...' : '⚡ Run Depreciation Cycle'}
@@ -81,52 +81,52 @@ export default function AssetManagementDashboard() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="glass-card p-6 rounded-2xl border border-slate-800 hover:border-emerald-500/40 transition-all">
-          <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Total Portfolio Value</div>
+        <div className="glass-card p-6 rounded-2xl border border-slate-200 hover:border-emerald-500/40 transition-all">
+          <div className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Total Portfolio Value</div>
           <div className="text-3xl font-black text-emerald-400 tracking-tight mb-1">
             ₹{(totalValue / 100000).toFixed(2)} Lakhs
           </div>
-          <p className="text-xs text-slate-400">Combined book value across Indian campus categories (₹{totalValue.toLocaleString('en-IN')}).</p>
+          <p className="text-xs text-slate-500">Combined book value across Indian campus categories (₹{totalValue.toLocaleString('en-IN')}).</p>
         </div>
 
-        <div className="glass-card p-6 rounded-2xl border border-slate-800 hover:border-cyan-500/40 transition-all">
-          <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Active Transport Fleet</div>
+        <div className="glass-card p-6 rounded-2xl border border-slate-200 hover:border-cyan-500/40 transition-all">
+          <div className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Active Transport Fleet</div>
           <div className="text-3xl font-black text-cyan-400 tracking-tight mb-1">
             12 Vehicles
           </div>
-          <p className="text-xs text-slate-400">10 Operational • 2 Under Maintenance (IoT Active in Bengaluru &amp; Hyderabad).</p>
+          <p className="text-xs text-slate-500">10 Operational • 2 Under Maintenance (IoT Active in Bengaluru &amp; Hyderabad).</p>
         </div>
 
-        <div className="glass-card p-6 rounded-2xl border border-slate-800 hover:border-indigo-500/40 transition-all">
-          <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Dormitory Bed Capacity</div>
+        <div className="glass-card p-6 rounded-2xl border border-slate-200 hover:border-indigo-500/40 transition-all">
+          <div className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Dormitory Bed Capacity</div>
           <div className="text-3xl font-black text-indigo-400 tracking-tight mb-1">
             94% Filled
           </div>
-          <p className="text-xs text-slate-400">220 / 235 Residential Hifz Beds Occupied across campuses.</p>
+          <p className="text-xs text-slate-500">220 / 235 Residential Hifz Beds Occupied across campuses.</p>
         </div>
       </div>
 
-      <div className="glass-panel rounded-2xl border border-slate-800 overflow-hidden">
-        <div className="p-6 border-b border-slate-800/80 bg-slate-900/40 flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="glass-panel rounded-2xl border border-slate-200 overflow-hidden">
+        <div className="p-6 border-b border-slate-200/80 bg-white/40 flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="flex items-center gap-2">
             {['ALL', 'Fleet', 'Real Estate', 'Hardware'].map(cat => (
               <button
                 key={cat}
                 onClick={() => setSelectedCategory(cat)}
-                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${selectedCategory === cat ? 'bg-emerald-500 text-slate-950 font-bold shadow-glow-emerald' : 'text-slate-400 hover:text-white bg-slate-900 border border-slate-800'}`}
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${selectedCategory === cat ? 'bg-emerald-500 text-slate-950 font-bold shadow-glow-emerald' : 'text-slate-500 hover:text-white bg-white border border-slate-200'}`}
               >
                 {cat}
               </button>
             ))}
           </div>
-          <div className="text-xs text-slate-400">
-            Showing <strong className="text-white">{filteredAssets.length}</strong> Registered Indian Assets
+          <div className="text-xs text-slate-500">
+            Showing <strong className="text-slate-800">{filteredAssets.length}</strong> Registered Indian Assets
           </div>
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs text-slate-300">
-            <thead className="bg-slate-950/80 text-[10px] uppercase font-bold text-slate-400 border-b border-slate-800">
+          <table className="w-full text-left text-xs text-slate-600">
+            <thead className="bg-white/80 text-[10px] uppercase font-bold text-slate-500 border-b border-slate-200">
               <tr>
                 <th className="py-3.5 px-6">Asset Tag</th>
                 <th className="py-3.5 px-6">Asset Specification</th>
@@ -138,15 +138,15 @@ export default function AssetManagementDashboard() {
             </thead>
             <tbody className="divide-y divide-slate-800/50">
               {filteredAssets.map(asset => (
-                <tr key={asset.id} className="hover:bg-slate-900/40 transition-colors">
+                <tr key={asset.id} className="hover:bg-white/40 transition-colors">
                   <td className="py-4 px-6 font-mono font-bold text-cyan-400">{asset.id}</td>
-                  <td className="py-4 px-6 font-semibold text-white">{asset.name}</td>
+                  <td className="py-4 px-6 font-semibold text-slate-800">{asset.name}</td>
                   <td className="py-4 px-6">
-                    <span className="px-2 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700 text-[10px]">
+                    <span className="px-2 py-0.5 rounded-full bg-slate-800 text-slate-600 border border-slate-200 text-[10px]">
                       {asset.category}
                     </span>
                   </td>
-                  <td className="py-4 px-6 text-slate-400">{asset.assignedTo}</td>
+                  <td className="py-4 px-6 text-slate-500">{asset.assignedTo}</td>
                   <td className="py-4 px-6 font-mono font-bold text-emerald-400">
                     ₹{asset.currentBookValue.toLocaleString('en-IN')}
                   </td>

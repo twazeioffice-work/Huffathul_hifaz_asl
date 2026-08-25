@@ -44,8 +44,8 @@ export default function ManzilPage() {
     <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-white">Daily Manzil (Old Revision)</h1>
-          <p className="text-sm text-zinc-400">Track and evaluate comprehensive old revisions.</p>
+          <h1 className="text-2xl font-bold text-slate-800">Daily Manzil (Old Revision)</h1>
+          <p className="text-sm text-slate-500">Track and evaluate comprehensive old revisions.</p>
         </div>
       </div>
 
@@ -53,22 +53,22 @@ export default function ManzilPage() {
         <GlassCard className="p-4 flex items-center space-x-4">
           <div className="p-3 bg-blue-500/20 text-blue-400 rounded-lg"><User size={24} /></div>
           <div>
-            <p className="text-sm text-zinc-400">Total Students</p>
-            <p className="text-2xl font-bold text-white">15</p>
+            <p className="text-sm text-slate-500">Total Students</p>
+            <p className="text-2xl font-bold text-slate-800">15</p>
           </div>
         </GlassCard>
         <GlassCard className="p-4 flex items-center space-x-4">
           <div className="p-3 bg-green-500/20 text-green-400 rounded-lg"><CheckCircle size={24} /></div>
           <div>
-            <p className="text-sm text-zinc-400">Manzil Heard</p>
-            <p className="text-2xl font-bold text-white">2</p>
+            <p className="text-sm text-slate-500">Manzil Heard</p>
+            <p className="text-2xl font-bold text-slate-800">2</p>
           </div>
         </GlassCard>
         <GlassCard className="p-4 flex items-center space-x-4">
           <div className="p-3 bg-amber-500/20 text-amber-400 rounded-lg"><Clock size={24} /></div>
           <div>
-            <p className="text-sm text-zinc-400">Pending</p>
-            <p className="text-2xl font-bold text-white">13</p>
+            <p className="text-sm text-slate-500">Pending</p>
+            <p className="text-2xl font-bold text-slate-800">13</p>
           </div>
         </GlassCard>
       </div>
@@ -77,13 +77,13 @@ export default function ManzilPage() {
         
         {/* Left Column: Student List */}
         <GlassCard className="lg:col-span-1 p-0 overflow-hidden flex flex-col h-[600px]">
-          <div className="p-4 border-b border-white/5">
+          <div className="p-4 border-b border-slate-200">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500 w-4 h-4" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 w-4 h-4" />
               <input 
                 type="text" 
                 placeholder="Search students..." 
-                className="w-full bg-white/5 border border-white/10 rounded-md py-2 pl-9 pr-4 text-sm text-white focus:outline-none focus:ring-1 focus:ring-indigo-500 transition-all"
+                className="w-full bg-black/5 border border-slate-200 rounded-md py-2 pl-9 pr-4 text-sm text-slate-800 focus:outline-none focus:ring-1 focus:ring-indigo-500 transition-all"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
@@ -97,12 +97,12 @@ export default function ManzilPage() {
                 className={`w-full text-left p-3 rounded-lg transition-all flex items-center justify-between ${
                   selectedStudent === student.id 
                     ? "bg-indigo-500/20 border border-indigo-500/30" 
-                    : "hover:bg-white/5 border border-transparent"
+                    : "hover:bg-black/5 border border-transparent"
                 }`}
               >
                 <div>
-                  <p className="text-sm font-medium text-white">{student.name}</p>
-                  <p className="text-xs text-zinc-500">{student.id}</p>
+                  <p className="text-sm font-medium text-slate-800">{student.name}</p>
+                  <p className="text-xs text-slate-500">{student.id}</p>
                 </div>
                 {getStatusBadge(student.status)}
               </button>
@@ -114,20 +114,20 @@ export default function ManzilPage() {
         <div className="lg:col-span-2">
           {selectedStudent && activeStudent ? (
             <GlassCard className="p-6 h-full flex flex-col">
-              <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-6">
+              <div className="flex items-center justify-between border-b border-slate-200 pb-4 mb-6">
                 <div>
-                  <h2 className="text-xl font-semibold text-white">{activeStudent.name}</h2>
-                  <p className="text-sm text-zinc-400">ID: {activeStudent.id}</p>
+                  <h2 className="text-xl font-semibold text-slate-800">{activeStudent.name}</h2>
+                  <p className="text-sm text-slate-500">ID: {activeStudent.id}</p>
                 </div>
                 <div className="text-right">
-                  <p className="text-xs text-zinc-500 mb-1">Total Memorized</p>
+                  <p className="text-xs text-slate-500 mb-1">Total Memorized</p>
                   <Badge variant="default">{activeStudent.memorizedJuz} Juz</Badge>
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-6 mb-6">
                 <div>
-                  <label className="block text-sm font-medium text-zinc-300 mb-2">Starting Juz</label>
+                  <label className="block text-sm font-medium text-slate-600 mb-2">Starting Juz</label>
                   <Input 
                     type="number" 
                     placeholder="e.g. 1" 
@@ -136,7 +136,7 @@ export default function ManzilPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-zinc-300 mb-2">Ending Juz</label>
+                  <label className="block text-sm font-medium text-slate-600 mb-2">Ending Juz</label>
                   <Input 
                     type="number" 
                     placeholder="e.g. 2" 
@@ -148,7 +148,7 @@ export default function ManzilPage() {
 
               <div className="grid grid-cols-2 gap-6 mb-8">
                 <div>
-                  <label className="block text-sm font-medium text-zinc-300 mb-2">Mistakes / Hesitations</label>
+                  <label className="block text-sm font-medium text-slate-600 mb-2">Mistakes / Hesitations</label>
                   <Input 
                     type="number" 
                     value={formData.mistakes}
@@ -156,9 +156,9 @@ export default function ManzilPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-zinc-300 mb-2">Grade</label>
+                  <label className="block text-sm font-medium text-slate-600 mb-2">Grade</label>
                   <select 
-                    className="w-full bg-black/40 border border-white/10 rounded-md px-3 py-2 text-white focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                    className="w-full bg-black/5 border border-slate-200 rounded-md px-3 py-2 text-slate-800 focus:outline-none focus:ring-1 focus:ring-indigo-500"
                     value={formData.grade}
                     onChange={(e) => setFormData({...formData, grade: e.target.value})}
                   >
@@ -171,7 +171,7 @@ export default function ManzilPage() {
                 </div>
               </div>
 
-              <div className="mt-auto flex gap-4 justify-end pt-4 border-t border-white/10">
+              <div className="mt-auto flex gap-4 justify-end pt-4 border-t border-slate-200">
                 <Button variant="secondary" onClick={() => setSelectedStudent(null)}>Cancel</Button>
                 <Button variant="primary" className="flex items-center gap-2">
                   <CheckCircle className="w-4 h-4" /> Save Manzil Record
@@ -183,8 +183,8 @@ export default function ManzilPage() {
               <div className="p-4 bg-indigo-500/10 rounded-full mb-4">
                 <Layers className="w-8 h-8 text-indigo-400" />
               </div>
-              <h2 className="text-xl font-semibold text-white mb-2">Select a Student</h2>
-              <p className="text-zinc-400 max-w-md">
+              <h2 className="text-xl font-semibold text-slate-800 mb-2">Select a Student</h2>
+              <p className="text-slate-500 max-w-md">
                 Choose a student to log their daily Manzil evaluation.
               </p>
             </GlassCard>

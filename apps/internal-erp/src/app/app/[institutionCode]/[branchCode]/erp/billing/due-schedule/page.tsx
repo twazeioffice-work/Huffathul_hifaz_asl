@@ -17,7 +17,7 @@ export default function Page() {
   return (
     <div className="p-8 w-full">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold text-white">Student Due Schedules</h1>
+        <h1 className="text-2xl font-bold text-slate-800">Student Due Schedules</h1>
         <Link href={`/app/${institutionCode}/${branchCode}/erp/billing/collect`} className="px-4 py-2 bg-[#00F0FF] text-black font-semibold rounded-md hover:bg-cyan-400 transition-colors">
           Collect Payment
         </Link>
@@ -25,8 +25,8 @@ export default function Page() {
 
       <div className="bg-[#111827] border border-[#1F2937] p-4 rounded-md mb-6 flex gap-4">
         <Input placeholder="Search student name..." className="w-64" />
-        <Button variant="flat" color="primary" className="bg-[#1F2937] text-white">Filter by Batch</Button>
-        <Button variant="flat" color="primary" className="bg-[#1F2937] text-white">Status: Pending</Button>
+        <Button variant="flat" color="primary" className="bg-[#1F2937] text-slate-800">Filter by Batch</Button>
+        <Button variant="flat" color="primary" className="bg-[#1F2937] text-slate-800">Status: Pending</Button>
       </div>
 
       <div className="bg-[#111827] border border-[#1F2937] rounded-md overflow-hidden">
@@ -43,11 +43,11 @@ export default function Page() {
           <TableBody>
             {schedules.map((schedule) => (
               <TableRow key={schedule.id}>
-                <TableCell className="text-white">{schedule.student}</TableCell>
-                <TableCell className="text-gray-400">{schedule.grade}</TableCell>
-                <TableCell className="text-white">{schedule.dueAmount}</TableCell>
-                <TableCell className="text-white">{schedule.paidAmount}</TableCell>
-                <TableCell className="text-gray-400">{schedule.dueDate}</TableCell>
+                <TableCell className="text-slate-800">{schedule.student}</TableCell>
+                <TableCell className="text-slate-500">{schedule.grade}</TableCell>
+                <TableCell className="text-slate-800">{schedule.dueAmount}</TableCell>
+                <TableCell className="text-slate-800">{schedule.paidAmount}</TableCell>
+                <TableCell className="text-slate-500">{schedule.dueDate}</TableCell>
                 <TableCell>
                   <span className={`px-2 py-1 rounded-full text-xs font-semibold ${
                     schedule.status === 'Paid' ? 'bg-green-900/50 text-green-400' :

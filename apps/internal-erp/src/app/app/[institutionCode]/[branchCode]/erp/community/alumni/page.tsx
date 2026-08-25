@@ -48,23 +48,23 @@ export default function GlobalAlumniRegistry() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#0A0F1D] text-slate-100 p-6 space-y-6">
+    <div className="min-h-screen bg-transparent text-slate-100 p-6 space-y-6">
       {/* Header Block */}
       <div className="flex flex-col md:flex-row md:items-start justify-between border-b border-cyan-500/10 pb-6 gap-4">
         <div>
           <span className="text-xs font-bold tracking-widest text-cyan-400 uppercase block mb-1 flex items-center">
             <Users className="h-3 w-3 mr-1" /> Phase 8: Community Hub
           </span>
-          <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-white flex items-center">
+          <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-slate-800 flex items-center">
             Global Alumni Registry
           </h1>
-          <p className="text-sm text-slate-400 mt-1 max-w-2xl">
+          <p className="text-sm text-slate-500 mt-1 max-w-2xl">
             A zero-trust protected, multi-tenant directory of all graduates. PII (contact details) are AES-256-GCM encrypted at rest and require active multi-factor authorization to view.
           </p>
         </div>
         
         <div className="flex items-center space-x-3">
-          <button className="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center shadow-lg">
+          <button className="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-200 px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center shadow-lg">
             <Filter className="h-4 w-4 mr-2 text-cyan-400" /> Filter
           </button>
           <button className="bg-gradient-to-r from-cyan-500 to-emerald-500 hover:from-cyan-400 hover:to-emerald-400 text-slate-950 px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center shadow-glow-cyan">
@@ -80,8 +80,8 @@ export default function GlobalAlumniRegistry() {
             <ShieldCheck className="h-5 w-5 text-cyan-400" />
           </div>
           <div>
-            <h4 className="text-xs font-bold text-white uppercase">Tenant Isolation Active</h4>
-            <p className="text-[10px] text-slate-400 mt-0.5">
+            <h4 className="text-xs font-bold text-slate-800 uppercase">Tenant Isolation Active</h4>
+            <p className="text-[10px] text-slate-500 mt-0.5">
               Row-Level Security (RLS) is engaged. You are viewing records strictly bounded to your institutional jurisdiction.
             </p>
           </div>
@@ -101,7 +101,7 @@ export default function GlobalAlumniRegistry() {
           placeholder="Search by name, city, or graduation year..." 
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-full bg-[#0B0F27] border border-slate-800 rounded-xl pl-11 pr-4 py-3 text-sm text-slate-200 focus:outline-none focus:border-cyan-500/50 transition-all placeholder:text-slate-600"
+          className="w-full bg-[#0B0F27] border border-slate-200 rounded-xl pl-11 pr-4 py-3 text-sm text-slate-200 focus:outline-none focus:border-cyan-500/50 transition-all placeholder:text-slate-600"
         />
       </div>
 
@@ -110,12 +110,12 @@ export default function GlobalAlumniRegistry() {
         {alumniList.map(alumni => (
           <div 
             key={alumni.id} 
-            className="bg-[#0D1334]/50 border border-slate-800 hover:border-cyan-500/40 rounded-2xl p-5 transition-all group relative overflow-hidden"
+            className="bg-[#0D1334]/50 border border-slate-200 hover:border-cyan-500/40 rounded-2xl p-5 transition-all group relative overflow-hidden"
           >
             {/* Top row */}
             <div className="flex justify-between items-start mb-4">
               <div>
-                <h3 className="text-lg font-bold text-white group-hover:text-cyan-300 transition-colors">
+                <h3 className="text-lg font-bold text-slate-800 group-hover:text-cyan-300 transition-colors">
                   {alumni.name}
                 </h3>
                 <span className="text-xs font-mono text-slate-500 mt-1 block">
@@ -129,33 +129,33 @@ export default function GlobalAlumniRegistry() {
 
             {/* Meta details */}
             <div className="space-y-2.5 mb-6">
-              <div className="flex items-center text-xs text-slate-300">
+              <div className="flex items-center text-xs text-slate-600">
                 <MapPin className="h-3.5 w-3.5 mr-2 text-cyan-400" />
                 {alumni.location}
               </div>
-              <div className="flex items-center text-xs text-slate-300">
+              <div className="flex items-center text-xs text-slate-600">
                 <Briefcase className="h-3.5 w-3.5 mr-2 text-amber-400" />
                 {alumni.career}
               </div>
-              <div className="flex items-center text-xs text-slate-300">
+              <div className="flex items-center text-xs text-slate-600">
                 <GraduationCap className="h-3.5 w-3.5 mr-2 text-emerald-400" />
                 {alumni.education}
               </div>
             </div>
 
             {/* PII / Contact Block (Encryption Demo) */}
-            <div className="pt-4 border-t border-slate-800">
+            <div className="pt-4 border-t border-slate-200">
               {alumni.piiAccess ? (
                 <div className="space-y-2">
-                  <div className="flex items-center text-[11px] text-slate-400">
+                  <div className="flex items-center text-[11px] text-slate-500">
                     <Mail className="h-3 w-3 mr-2" /> {alumni.email}
                   </div>
-                  <div className="flex items-center text-[11px] text-slate-400">
+                  <div className="flex items-center text-[11px] text-slate-500">
                     <Phone className="h-3 w-3 mr-2" /> {alumni.phone}
                   </div>
                 </div>
               ) : (
-                <div className="bg-[#0B0F27] border border-slate-800/80 rounded-lg p-2.5 flex items-center justify-between">
+                <div className="bg-[#0B0F27] border border-slate-200/80 rounded-lg p-2.5 flex items-center justify-between">
                   <span className="text-[10px] text-slate-500 flex items-center">
                     <ShieldCheck className="h-3 w-3 mr-1.5" /> PII Encrypted (AES-256)
                   </span>
