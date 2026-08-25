@@ -78,25 +78,25 @@ export default function AnalyticsReportsDashboard() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <div className="glass-card p-5 rounded-2xl border border-slate-200">
+        <div className="bg-white p-5 rounded-2xl border-2 border-slate-300 shadow-sm cursor-pointer hover:border-cyan-500 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 active:scale-[0.98]">
           <div className="text-[11px] font-bold text-slate-700 font-medium uppercase tracking-wider mb-1">Overall Retention Rate</div>
           <div className="text-2xl font-black text-emerald-400 tracking-tight">98.4%</div>
           <div className="text-[10px] text-emerald-300/80 mt-1">+2.1% from previous term</div>
         </div>
 
-        <div className="glass-card p-5 rounded-2xl border border-slate-200">
+        <div className="bg-white p-5 rounded-2xl border-2 border-slate-300 shadow-sm cursor-pointer hover:border-cyan-500 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 active:scale-[0.98]">
           <div className="text-[11px] font-bold text-slate-700 font-medium uppercase tracking-wider mb-1">Avg Sabaq Memorization</div>
           <div className="text-2xl font-black text-cyan-400 tracking-tight">1.25 Pages/Day</div>
           <div className="text-[10px] text-cyan-300/80 mt-1">Target: 1.00 Page/Day</div>
         </div>
 
-        <div className="glass-card p-5 rounded-2xl border border-slate-200">
+        <div className="bg-white p-5 rounded-2xl border-2 border-slate-300 shadow-sm cursor-pointer hover:border-cyan-500 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 active:scale-[0.98]">
           <div className="text-[11px] font-bold text-slate-700 font-medium uppercase tracking-wider mb-1">Graduated Huffaz (2026)</div>
           <div className="text-2xl font-black text-black font-semibold tracking-tight">48 Huffaz</div>
           <div className="text-[10px] text-slate-700 font-medium mt-1">Sanad Certified</div>
         </div>
 
-        <div className="glass-card p-5 rounded-2xl border border-slate-200">
+        <div className="bg-white p-5 rounded-2xl border-2 border-slate-300 shadow-sm cursor-pointer hover:border-cyan-500 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 active:scale-[0.98]">
           <div className="text-[11px] font-bold text-slate-700 font-medium uppercase tracking-wider mb-1">Fee Collection Velocity</div>
           <div className="text-2xl font-black text-indigo-300 tracking-tight">94.2%</div>
           <div className="text-[10px] text-slate-700 font-medium mt-1">Auto-reconciliation active</div>
