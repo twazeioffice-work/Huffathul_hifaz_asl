@@ -125,7 +125,7 @@ export default function StaffDirectory() {
 
   return (
     <UniversalDashboardLayout
-      pageSchema={pageSchema}
+      schema={pageSchema}
       sidebarLinks={sidebarLinks}
       onSidebarClick={(id) => {
         window.location.href = `/app/${institutionCode}/${branchCode}/erp/${id === 'dashboard' ? '' : id}`;
