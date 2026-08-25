@@ -18,7 +18,8 @@ export default function AnalyticsReportsDashboard() {
     setTimeout(() => setToastMessage(null), 4000);
   };
 
-  const handleExportPDF = async () => {
+  const handleExportPDF = async (e?: React.MouseEvent) => {
+    if (e) e.preventDefault();
     setIsExporting(true);
     
     try {
@@ -130,7 +131,7 @@ export default function AnalyticsReportsDashboard() {
         <div className="flex items-center gap-3">
           <div className="flex rounded-xl bg-white border border-slate-200 p-1">
             {(['30D', 'Q1', 'YTD'] as const).map(range => (
-              <button
+              <button type="button"
                 key={range}
                 onClick={() => setTimeRange(range)}
                 className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
@@ -144,7 +145,7 @@ export default function AnalyticsReportsDashboard() {
             ))}
           </div>
 
-          <button
+          <button type="button"
             onClick={handleExportPDF}
             disabled={isExporting}
             className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-cyan-500 to-emerald-500 text-slate-950 font-bold text-xs hover:brightness-110 shadow-glow-cyan active:scale-95 disabled:opacity-50"
