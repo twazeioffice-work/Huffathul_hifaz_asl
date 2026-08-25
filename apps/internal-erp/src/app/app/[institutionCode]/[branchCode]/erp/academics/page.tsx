@@ -331,7 +331,7 @@ function UstadDashboardComponent({
             className={`whitespace-nowrap px-4 py-2.5 rounded-xl text-xs font-semibold tracking-wide border transition-all duration-200 ${
               activeTab === tab.id
                 ? "bg-cyan-500 border-cyan-400 text-slate-950 shadow-[0_0_15px_rgba(0,240,255,0.2)]"
-                : "bg-white/60 border-slate-200/80 text-slate-700 font-medium hover:border-slate-200 hover:text-white"
+                : "bg-white border-slate-200 text-slate-700 font-semibold hover:bg-slate-100 hover:text-slate-900"
             }`}
           >
             {tab.label}
@@ -642,10 +642,10 @@ function UstadDashboardComponent({
                   <span className="text-[9px] text-slate-700 font-medium font-mono uppercase tracking-wider block">Adab & Cleanliness Score</span>
                   <div className="flex items-center justify-between">
                     <span className="text-xs text-slate-800 font-medium">Active Score This Week:</span>
-                    <span className={`text-xs font-mono font-bold px-2 py-0.5 rounded ${
+                    <span className={`text-lg font-mono font-black px-4 py-1.5 rounded-lg shadow-sm ${
                       selectedStudent.adabScoreThisWeek < 3 
-                        ? "bg-rose-500/10 text-rose-400 border border-rose-500/30 animate-pulse"
-                        : "bg-emerald-500/10 text-emerald-400 border border-emerald-500/30"
+                        ? "bg-rose-100 text-rose-700 border border-rose-300 animate-pulse"
+                        : "bg-emerald-100 text-emerald-700 border border-emerald-300"
                     }`}>
                       {selectedStudent.adabScoreThisWeek} / 5 Stars
                     </span>
