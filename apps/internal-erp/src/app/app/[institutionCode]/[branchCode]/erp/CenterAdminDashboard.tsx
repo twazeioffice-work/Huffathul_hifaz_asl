@@ -17,7 +17,7 @@ export default function CenterAdminDashboard({ institutionCode, branchCode }: { 
         </div>
         <div className="flex gap-3">
           <Button variant="secondary">Send Announcement</Button>
-          <Button variant="primary">Add Student</Button>
+          
         </div>
       </div>
 
@@ -27,7 +27,7 @@ export default function CenterAdminDashboard({ institutionCode, branchCode }: { 
           value="312"
           trend="+12 this month"
           icon={<Users size={20} />}
-          onClick={() => window.location.href = `/app/${institutionCode}/${branchCode}/erp/students`}
+          onClick={() => window.location.href = `/app/${institutionCode}/${branchCode}/erp/batches`}
         />
         <KpiCard
           title="Active Ustads"
@@ -81,7 +81,7 @@ export default function CenterAdminDashboard({ institutionCode, branchCode }: { 
           <h2 className="text-sm font-semibold uppercase tracking-wider text-slate-700 font-medium mb-4">Quick Actions</h2>
           <div className="flex gap-4">
              <Button variant="secondary">Create Voucher</Button>
-             <Button variant="secondary">Add Ustad</Button>
+             <Button variant="secondary" onClick={() => window.location.href = `/app/${institutionCode}/${branchCode}/erp/staff/register`}>Add Ustad</Button>
           </div>
         </GlassCard>
         
