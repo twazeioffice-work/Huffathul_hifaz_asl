@@ -99,7 +99,7 @@ export const UniversalDashboardLayout: React.FC<LayoutProps> = ({
   const [profileOpen, setProfileOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-[#050506] font-sans antialiased text-neutral-200 selection:bg-blue-500/30 selection:text-blue-200">
+    <div className="min-h-screen bg-[#F4F1ED] font-sans antialiased text-slate-800 selection:bg-blue-500/30 selection:text-blue-200">
       
       {/* Real-Time Connection Alert Banner */}
       <ConnectionStatusBanner tenantId={schema.tenantName || "CALICUT-HUB"} enableLiveSync={true} />
@@ -112,10 +112,10 @@ export const UniversalDashboardLayout: React.FC<LayoutProps> = ({
           
           {/* Header Row */}
           <div>
-            <h1 className="text-2xl font-bold tracking-tight text-white">
+            <h1 className="text-2xl font-bold tracking-tight text-slate-900">
               {schema.pageTitle}
             </h1>
-            <p className="text-xs text-neutral-400 mt-1.5 leading-relaxed max-w-2xl">
+            <p className="text-xs text-slate-500 mt-1.5 leading-relaxed max-w-2xl">
               {schema.pageSubtitle}
             </p>
           </div>
@@ -128,23 +128,23 @@ export const UniversalDashboardLayout: React.FC<LayoutProps> = ({
                 <div
                   key={metric.id}
                   onClick={metric.onClick}
-                  className={`bg-[#0E0F12] border border-white/[0.06] rounded-2xl p-5 hover:border-neutral-700 transition-all duration-300 flex flex-col justify-between group ${
+                  className={`bg-white shadow-sm border border-slate-200 rounded-2xl p-5 hover:border-neutral-700 transition-all duration-300 flex flex-col justify-between group ${
                     metric.onClick ? "cursor-pointer" : ""
                   }`}
                 >
                   <div className="flex items-center justify-between">
-                    <div className="p-2.5 bg-white/[0.03] border border-white/[0.04] rounded-xl group-hover:bg-blue-500/10 group-hover:border-blue-500/20 transition-all duration-300">
-                      <MetricIcon className="h-5 w-5 text-neutral-400 group-hover:text-blue-400" />
+                    <div className="p-2.5 bg-slate-50 border border-slate-100 rounded-xl group-hover:bg-blue-500/10 group-hover:border-blue-500/20 transition-all duration-300">
+                      <MetricIcon className="h-5 w-5 text-slate-500 group-hover:text-blue-400" />
                     </div>
                     {metric.onClick && (
-                      <ChevronRight className="h-4 w-4 text-neutral-500 group-hover:translate-x-1 transition-all" />
+                      <ChevronRight className="h-4 w-4 text-slate-500 group-hover:translate-x-1 transition-all" />
                     )}
                   </div>
                   <div className="mt-5">
-                    <span className="text-[10px] font-bold text-neutral-500 uppercase tracking-widest block">
+                    <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest block">
                       {metric.title}
                     </span>
-                    <span className="text-2xl font-light tracking-tight text-white font-mono mt-1 block">
+                    <span className="text-2xl font-light tracking-tight text-slate-900 font-mono mt-1 block">
                       {metric.value}
                     </span>
                     <div className="flex items-center space-x-2 mt-2">
@@ -178,15 +178,15 @@ export const UniversalDashboardLayout: React.FC<LayoutProps> = ({
             
             {/* Primary Table Segment */}
             {schema.primaryTable && (
-              <div className="xl:col-span-2 bg-[#0E0F12] border border-white/[0.06] rounded-2xl overflow-hidden flex flex-col justify-between">
+              <div className="xl:col-span-2 bg-white shadow-sm border border-slate-200 rounded-2xl overflow-hidden flex flex-col justify-between">
                 <div>
-                  <div className="p-6 border-b border-white/[0.04] bg-white/[0.01] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                  <div className="p-6 border-b border-slate-100 bg-slate-50/50 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                     <div>
-                      <h3 className="text-sm font-bold text-white uppercase tracking-wider font-mono">
+                      <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider font-mono">
                         {schema.primaryTable.title}
                       </h3>
                       {schema.primaryTable.subtitle && (
-                        <p className="text-xs text-neutral-500 mt-1">
+                        <p className="text-xs text-slate-500 mt-1">
                           {schema.primaryTable.subtitle}
                         </p>
                       )}
@@ -201,11 +201,11 @@ export const UniversalDashboardLayout: React.FC<LayoutProps> = ({
                   <div className="overflow-x-auto">
                     <table className="w-full text-left border-collapse">
                       <thead>
-                        <tr className="border-b border-white/[0.04] bg-white/[0.01]">
+                        <tr className="border-b border-slate-100 bg-slate-50/50">
                           {schema.primaryTable.headers.map((header, idx) => (
                             <th 
                               key={idx} 
-                              className="px-6 py-3 text-[10px] font-bold tracking-widest text-neutral-500 uppercase font-mono"
+                              className="px-6 py-3 text-[10px] font-bold tracking-widest text-slate-500 uppercase font-mono"
                             >
                               {header}
                             </th>
@@ -221,12 +221,12 @@ export const UniversalDashboardLayout: React.FC<LayoutProps> = ({
                               if (onRowActionClick) onRowActionClick(row.id, row.metaData);
                               setSelectedRowId(row.id);
                             }}
-                            className="hover:bg-white/[0.01] transition-all cursor-pointer group"
+                            className="hover:bg-slate-50/50 transition-all cursor-pointer group"
                           >
                             {row.columns.map((col, idx) => (
                               <td 
                                 key={idx} 
-                                className={`px-6 py-4 text-xs font-semibold ${col.styleClass || "text-neutral-300"}`}
+                                className={`px-6 py-4 text-xs font-semibold ${col.styleClass || "text-slate-700"}`}
                               >
                                 {col.value}
                               </td>
@@ -239,7 +239,7 @@ export const UniversalDashboardLayout: React.FC<LayoutProps> = ({
                 </div>
 
                 {/* Table Footer */}
-                <div className="p-4 border-t border-white/[0.04] bg-white/[0.01] flex items-center justify-between text-[10px] text-neutral-500 font-mono">
+                <div className="p-4 border-t border-slate-100 bg-slate-50/50 flex items-center justify-between text-[10px] text-slate-500 font-mono">
                   <span>Displaying {schema.primaryTable.rows.length} Active Records</span>
                   <span>Press Row for Interactive Inspection</span>
                 </div>
@@ -254,11 +254,11 @@ export const UniversalDashboardLayout: React.FC<LayoutProps> = ({
                   return (
                     <div 
                       key={idx}
-                      className="bg-[#0E0F12] border border-white/[0.06] rounded-2xl p-6 space-y-4"
+                      className="bg-white shadow-sm border border-slate-200 rounded-2xl p-6 space-y-4"
                     >
-                      <div className="flex items-center space-x-2 border-b border-white/[0.04] pb-3">
+                      <div className="flex items-center space-x-2 border-b border-slate-100 pb-3">
                         <WidgetIcon className="h-4 w-4 text-blue-400" />
-                        <h4 className="text-xs font-bold text-white uppercase tracking-wider font-mono">
+                        <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider font-mono">
                           {widget.title}
                         </h4>
                       </div>
@@ -286,21 +286,21 @@ export const UniversalDashboardLayout: React.FC<LayoutProps> = ({
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "spring", damping: 25, stiffness: 180 }}
-              className="relative z-10 flex h-full w-full max-w-xl flex-col bg-[#08090B] border-l border-white/[0.08] text-neutral-100 shadow-2xl"
+              className="relative z-10 flex h-full w-full max-w-xl flex-col bg-white border-l border-slate-200 text-slate-800 shadow-2xl"
             >
               {/* Drawer Header */}
-              <div className="flex items-center justify-between border-b border-white/[0.06] p-6 bg-[#0B0C0E]">
+              <div className="flex items-center justify-between border-b border-slate-200 p-6 bg-slate-50">
                 <div>
                   <span className="text-[10px] font-bold tracking-widest text-blue-400 uppercase font-mono">
                     {schema.drawerSubtitle || "Audit Inspector"}
                   </span>
-                  <h2 className="text-base font-bold tracking-tight text-white mt-1">
+                  <h2 className="text-base font-bold tracking-tight text-slate-900 mt-1">
                     {schema.drawerTitle || "Verification Details"}
                   </h2>
                 </div>
                 <button
                   onClick={() => setSelectedRowId(null)}
-                  className="rounded-lg p-2 text-neutral-400 hover:bg-neutral-800 hover:text-white transition-all"
+                  className="rounded-lg p-2 text-slate-500 hover:bg-slate-100 hover:text-slate-900 transition-all"
                 >
                   <X className="h-4.5 w-4.5" />
                 </button>
@@ -312,10 +312,10 @@ export const UniversalDashboardLayout: React.FC<LayoutProps> = ({
               </div>
 
               {/* Drawer Footer */}
-              <div className="border-t border-white/[0.06] bg-[#0E0F12] p-6 flex justify-end space-x-3">
+              <div className="border-t border-slate-200 bg-white shadow-sm p-6 flex justify-end space-x-3">
                 <button
                   onClick={() => setSelectedRowId(null)}
-                  className="px-4 py-2 rounded-xl border border-white/[0.08] text-xs font-semibold text-neutral-400 hover:text-white hover:bg-white/[0.02] transition-all font-mono"
+                  className="px-4 py-2 rounded-xl border border-slate-200 text-xs font-semibold text-slate-500 hover:text-slate-900 hover:bg-slate-200 transition-all font-mono"
                 >
                   Close Pane
                 </button>
