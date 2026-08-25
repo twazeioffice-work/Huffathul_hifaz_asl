@@ -54,6 +54,7 @@ export default function AppShell({
 
   // Cmd+K Listener
   useEffect(() => {
+    if (role !== "SUPER_ADMIN") return;
     const down = (e: KeyboardEvent) => {
       if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
         e.preventDefault();
@@ -65,10 +66,10 @@ export default function AppShell({
     };
     document.addEventListener("keydown", down);
     return () => document.removeEventListener("keydown", down);
-  }, []);
+  }, [role]);
 
   const renderSearchPalette = () => {
-    if (!showSearch) return null;
+    if (!showSearch || role !== "SUPER_ADMIN") return null;
     return (
       <div className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm flex items-start justify-center pt-[15vh]">
         <div className="bg-white border border-black/5 rounded-2xl shadow-2xl w-full max-w-2xl overflow-hidden flex flex-col mx-4">
@@ -77,44 +78,20 @@ export default function AppShell({
             <input 
               autoFocus
               type="text" 
-              placeholder="Search students, staff, invoices, or type a command..." 
-              className="flex-1 bg-transparent border-none text-slate-100 placeholder:text-slate-500 focus:outline-none focus:ring-0 text-base"
+              placeholder="Search center names, usthad name, student name, finance..." 
+              className="flex-1 bg-transparent border-none text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-0 text-base"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
             <div className="flex items-center space-x-1">
-              <kbd className="bg-white/5 border border-black/5 rounded px-1.5 py-0.5 text-[10px] text-slate-100 font-mono">ESC</kbd>
+              <kbd className="bg-slate-100 border border-slate-200 rounded px-1.5 py-0.5 text-[10px] text-slate-500 font-mono">ESC</kbd>
             </div>
-            <button onClick={() => setShowSearch(false)} className="ml-3 p-1 hover:bg-white/10 rounded-lg text-slate-100 transition-colors">
+            <button onClick={() => setShowSearch(false)} className="ml-3 p-1 hover:bg-slate-100 rounded-lg text-slate-500 transition-colors">
               <X className="h-5 w-5" />
             </button>
           </div>
           <div className="p-2 max-h-[60vh] overflow-y-auto space-y-4">
-            {/* Mock Results */}
-            <div>
-              <div className="px-3 py-1.5 text-xs font-semibold text-slate-500 uppercase tracking-wider">Students</div>
-              <div className="px-3 py-2 hover:bg-blue-500/10 rounded-xl cursor-pointer flex items-center space-x-3 transition-colors text-slate-700 hover:text-blue-400">
-                <User className="h-4 w-4" /> <span>Bilal Ahmed</span>
-              </div>
-              <div className="px-3 py-2 hover:bg-blue-500/10 rounded-xl cursor-pointer flex items-center space-x-3 transition-colors text-slate-700 hover:text-blue-400">
-                <User className="h-4 w-4" /> <span>Bilal Khan</span>
-              </div>
-            </div>
-            <div>
-              <div className="px-3 py-1.5 text-xs font-semibold text-slate-500 uppercase tracking-wider">Invoices</div>
-              <div className="px-3 py-2 hover:bg-emerald-500/10 rounded-xl cursor-pointer flex items-center space-x-3 transition-colors text-slate-700 hover:text-emerald-400">
-                <FileText className="h-4 w-4" /> <span>INV-1023 <span className="text-slate-500 ml-2">₹4,500</span></span>
-              </div>
-            </div>
-            <div>
-              <div className="px-3 py-1.5 text-xs font-semibold text-slate-500 uppercase tracking-wider">Settings</div>
-              <div onClick={() => { setShowSearch(false); router.push(getHref('/erp/settings')); }} className="px-3 py-2 hover:bg-indigo-500/10 rounded-xl cursor-pointer flex items-center space-x-3 transition-colors text-slate-700 hover:text-indigo-400">
-                <Settings className="h-4 w-4" /> <span>Branch Settings</span>
-              </div>
-              <div onClick={() => { setShowSearch(false); router.push('/settings'); }} className="px-3 py-2 hover:bg-indigo-500/10 rounded-xl cursor-pointer flex items-center space-x-3 transition-colors text-slate-700 hover:text-indigo-400">
-                <User className="h-4 w-4" /> <span>Personal Profile Settings</span>
-              </div>
-            </div>
+            {/* Empty for now as per design */}
           </div>
         </div>
       </div>
@@ -151,21 +128,18 @@ export default function AppShell({
     </div>
   );
 
-  const renderSearchTrigger = () => (
-    <button 
-      onClick={() => setShowSearch(true)}
-      className="flex items-center space-x-2 bg-transparent hover:bg-white text-slate-600 hover:text-slate-900 border border-black/5 rounded-xl py-1.5 px-3 text-sm text-slate-100 transition-colors w-64 justify-between"
-    >
-      <div className="flex items-center space-x-2">
-        <Search className="h-4 w-4" />
-        <span>Search...</span>
-      </div>
-      <div className="flex items-center space-x-1">
-        <kbd className="bg-white/5 border border-black/5 rounded px-1.5 py-0.5 text-[10px] font-mono">Ctrl</kbd>
-        <kbd className="bg-white/5 border border-black/5 rounded px-1.5 py-0.5 text-[10px] font-mono">K</kbd>
-      </div>
-    </button>
-  );
+  const renderSearchTrigger = () => {
+    if (role !== "SUPER_ADMIN") return null;
+    return (
+      <button 
+        onClick={() => setShowSearch(true)}
+        className="flex items-center space-x-2 bg-white text-slate-800 hover:text-slate-900 border border-black/5 rounded-xl py-1.5 px-3 text-sm transition-colors w-[30rem] justify-start shadow-sm"
+      >
+        <Search className="h-4 w-4 text-slate-500" />
+        <span className="text-slate-500 truncate">Search center names, usthad name, student name, finance...</span>
+      </button>
+    );
+  };
 
   if (role === "STUDENT" || role === "PARENT") {
     return (
