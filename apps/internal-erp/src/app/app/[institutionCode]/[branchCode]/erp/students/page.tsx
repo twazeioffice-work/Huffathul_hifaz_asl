@@ -21,7 +21,7 @@ export default function StudentRoster() {
     }
   }, [institutionCode, branchCode]);
 
-  const tenant = ${institutionCode}-;
+  const tenant = `${institutionCode}-${branchCode}`;
 
   if (!tenant || tenant.trim() === "-") {
     return notFound();
@@ -98,12 +98,12 @@ export default function StudentRoster() {
       schema={pageSchema}
       sidebarLinks={sidebarLinks}
       onSidebarClick={(id) => {
-        if (id === 'dashboard') router.push(/app/ + institutionCode + / + branchCode + /erp);
-        if (id === 'finance') router.push(/app/ + institutionCode + / + branchCode + /erp/finance);
-        if (id === 'students') router.push(/app/ + institutionCode + / + branchCode + /erp/students);
+        if (id === 'dashboard') router.push(`/app/${institutionCode}/${branchCode}/erp`);
+        if (id === 'finance') router.push(`/app/${institutionCode}/${branchCode}/erp/finance`);
+        if (id === 'students') router.push(`/app/${institutionCode}/${branchCode}/erp/students`);
       }}
       onRowActionClick={(rowId, metaData) => {
-        router.push(/app/ + institutionCode + / + branchCode + /erp/students/ + rowId);
+        router.push(`/app/${institutionCode}/${branchCode}/erp/students/${rowId}`);
       }}
     />
   );
