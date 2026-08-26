@@ -63,6 +63,13 @@ model Employee {
   name String
   role String
   salary Float
+  joiningDate DateTime?
+  email String? @unique
+  phone String?
+  emergencyContact String?
+  education String?
+  cvUrl String?
+  userId String?
   branchId String
   createdAt DateTime @default(now())
 }
