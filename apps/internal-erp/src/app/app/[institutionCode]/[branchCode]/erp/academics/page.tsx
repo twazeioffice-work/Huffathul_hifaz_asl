@@ -1,4 +1,5 @@
 "use client";
+import { getLiveRoster } from "./actions";
 
 import React, { useState, useEffect, useTransition } from "react";
 import { useParams } from "next/navigation";
@@ -713,31 +714,34 @@ function UstadDashboardComponent({
   );
 }
 
-export default function AcademicsPage() {
-  const params = useParams();
+
+export default function AcademicsPage({ params }: { params: { institutionCode: string, branchCode: string } }) {
   const institutionCode = params.institutionCode as string || "suffat";
   const branchCode = params.branchCode as string || "main";
+  const [liveRoster, setLiveRoster] = useState<StudentRosterItem[] | null>(null);
 
-  // In a production app, these would be fetched securely from a Server Component.
-  // We mock them here to instantiate the client component seamlessly.
-  const mockRoster: StudentRosterItem[] = [
-    { id: "STU-001", name: "Ahmed Abdullah", rollNumber: "H-401", parentPhone: "555-1111", assignedUstadId: "U-1", adabScoreThisWeek: 4 },
-    { id: "STU-002", name: "Omar Farooq", rollNumber: "H-402", parentPhone: "555-2222", assignedUstadId: "U-1", adabScoreThisWeek: 5 },
-    { id: "STU-003", name: "Zaid Bin Harith", rollNumber: "H-403", parentPhone: "555-3333", assignedUstadId: "U-1", adabScoreThisWeek: 2 },
-    { id: "STU-004", name: "Ali Hassan", rollNumber: "H-404", parentPhone: "555-4444", assignedUstadId: "U-1", adabScoreThisWeek: 3 },
-    { id: "STU-005", name: "Bilal Rabah", rollNumber: "H-405", parentPhone: "555-5555", assignedUstadId: "U-1", adabScoreThisWeek: 5 },
-    { id: "STU-006", name: "Hamza Abdul", rollNumber: "H-406", parentPhone: "555-6666", assignedUstadId: "U-1", adabScoreThisWeek: 4 },
-    { id: "STU-007", name: "Tariq Jameel", rollNumber: "H-407", parentPhone: "555-7777", assignedUstadId: "U-1", adabScoreThisWeek: 3 },
-  ];
+  useEffect(() => {
+    getLiveRoster().then(setLiveRoster);
+  }, []);
+
+  if (!liveRoster) {
+    return (
+      <div className="flex h-screen items-center justify-center bg-teal-900 text-teal-100 font-mono animate-pulse">
+        Loading live roster from database...
+      </div>
+    );
+  }
 
   return (
     <UstadDashboardComponent
       institutionCode={institutionCode}
       branchCode={branchCode}
-      ustadName="Ustad Bilal"
-      halqaName="Halqa Abubakar"
+      ustadName="Assigned Ustad"
+      halqaName="Classified Halqa"
       sessionToken="mock_jwt_token"
-      initialRoster={mockRoster}
+      initialRoster={liveRoster}
     />
   );
 }
+
+
