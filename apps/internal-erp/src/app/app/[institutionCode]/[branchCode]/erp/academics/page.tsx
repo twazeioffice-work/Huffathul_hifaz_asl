@@ -283,7 +283,7 @@ function UstadDashboardComponent({
             <span className="h-2 w-2 rounded-full bg-cyan-400 animate-pulse-glow" />
             <span className="text-[10px] text-cyan-400 font-mono tracking-widest uppercase">{halqaName}</span>
           </div>
-          <h1 className="text-2xl font-bold tracking-tight text-black font-semibold">{ustadName}</h1>
+          <a href={`/app/${institutionCode}/${branchCode}/erp/settings`} className="text-2xl font-bold tracking-tight text-black font-semibold hover:text-cyan-600 hover:underline transition-colors">{ustadName}</a>
         </div>
 
         {/* Sync telemetry, date navigator controls */}
@@ -741,18 +741,18 @@ export default function AcademicsPage() {
   const params = useParams();
   const institutionCode = params.institutionCode as string || "suffat";
   const branchCode = params.branchCode as string || "main";
-  const [liveRoster, setLiveRoster] = useState<StudentRosterItem[] | null>(null);
+  const [liveData, setLiveData] = useState<{ roster: StudentRosterItem[], userProfile: any } | null>(null);
 
   useEffect(() => {
     getLiveRoster(branchCode)
-      .then(setLiveRoster)
+      .then(setLiveData)
       .catch((err) => {
         console.error("Failed to load roster:", err);
-        setLiveRoster([]);
+        setLiveData({ roster: [], userProfile: null });
       });
   }, []);
 
-  if (!liveRoster) {
+  if (!liveData) {
     return (
       <div className="flex h-screen items-center justify-center bg-teal-900 text-teal-100 font-mono animate-pulse">
         Loading live roster from database...
@@ -764,10 +764,10 @@ export default function AcademicsPage() {
     <UstadDashboardComponent
       institutionCode={institutionCode}
       branchCode={branchCode}
-      ustadName="Assigned Ustad"
-      halqaName="Classified Halqa"
+      ustadName={liveData.userProfile?.name || "Assigned Ustad"}
+      halqaName={liveData.userProfile?.branchName ? `${liveData.userProfile.branchName} Branch` : "Classified Halqa"}
       sessionToken="mock_jwt_token"
-      initialRoster={liveRoster}
+      initialRoster={liveData.roster}
     />
   );
 }

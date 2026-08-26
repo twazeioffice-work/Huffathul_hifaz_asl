@@ -75,10 +75,18 @@ export async function getLiveRoster(branchCode: string) {
       adabScoreThisWeek: 5
     }));
 
-    return mappedStudents;
+    return {
+      roster: mappedStudents,
+      userProfile: {
+        name: user.email, // Fallback to email if Employee is missing
+        email: user.email,
+        role: user.role,
+        branchName: currentBranch.name
+      }
+    };
 
   } catch (error) {
     logToFile("Failed to get live roster: " + (error as any).message);
-    return [];
+    return { roster: [], userProfile: null };
   }
 }
