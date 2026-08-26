@@ -227,39 +227,39 @@ export const WhatsAppTimelineDashboard: React.FC<{ tenantId: string }> = ({ tena
   const [showAiSettings, setShowAiSettings] = useState(false);
 
   return (
-    <div className="flex h-screen w-full overflow-hidden bg-[#050506] font-sans text-slate-100 relative">
+    <div className="flex h-[80vh] w-full overflow-hidden bg-white rounded-2xl shadow-sm border border-slate-200 font-sans text-slate-900 relative">
       
       {/* AI Settings Modal Overlay */}
       <AnimatePresence>
         {showAiSettings && (
           <motion.div 
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-            className="absolute inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
+            className="absolute inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm"
           >
             <motion.div 
               initial={{ scale: 0.95, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.95, opacity: 0 }}
-              className="w-full max-w-lg bg-[#0A0A0C] border border-neutral-800 rounded-2xl shadow-2xl p-6"
+              className="w-full max-w-lg bg-white border border-slate-200 rounded-2xl shadow-2xl p-6"
             >
               <div className="flex justify-between items-start mb-6">
                 <div>
-                  <h2 className="text-lg font-bold text-white flex items-center"><Bot className="mr-2 h-5 w-5 text-purple-400" /> WhatsApp AI Bot Settings</h2>
-                  <p className="text-xs text-neutral-400 mt-1">Configure your WATI Webhook and Gemini LLM parameters.</p>
+                  <h2 className="text-lg font-bold text-slate-900 flex items-center"><Bot className="mr-2 h-5 w-5 text-purple-400" /> WhatsApp AI Bot Settings</h2>
+                  <p className="text-xs text-slate-500 mt-1">Configure your WATI Webhook and Gemini LLM parameters.</p>
                 </div>
-                <button onClick={() => setShowAiSettings(false)} className="text-neutral-500 hover:text-white">&times;</button>
+                <button onClick={() => setShowAiSettings(false)} className="text-slate-400 hover:text-slate-900">&times;</button>
               </div>
 
               <div className="space-y-4">
                 <div>
-                  <label className="block text-[10px] uppercase font-bold text-neutral-500 mb-1.5">WATI Webhook URL (Paste in WATI Dashboard)</label>
+                  <label className="block text-[10px] uppercase font-bold text-slate-400 mb-1.5">WATI Webhook URL (Paste in WATI Dashboard)</label>
                   <div className="flex items-center space-x-2">
-                    <input readOnly value="https://your-domain.com/api/v1/webhooks/wati" className="flex-1 bg-[#151518] border border-neutral-800 rounded-lg px-3 py-2 text-xs text-slate-300 font-mono" />
-                    <button className="bg-neutral-800 hover:bg-neutral-700 px-3 py-2 rounded-lg text-xs font-bold transition-all">Copy</button>
+                    <input readOnly value="https://your-domain.com/api/v1/webhooks/wati" className="flex-1 bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-xs text-slate-700 font-mono" />
+                    <button className="bg-slate-200 hover:bg-slate-300 px-3 py-2 rounded-lg text-xs font-bold transition-all">Copy</button>
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-[10px] uppercase font-bold text-neutral-500 mb-1.5">Gemini System Prompt</label>
-                  <textarea readOnly rows={4} className="w-full bg-[#151518] border border-neutral-800 rounded-lg px-3 py-2 text-xs text-slate-300 font-mono" defaultValue="You are an empathetic, professional Islamic school coordinator... Write in WhatsApp Markdown." />
+                  <label className="block text-[10px] uppercase font-bold text-slate-400 mb-1.5">Gemini System Prompt</label>
+                  <textarea readOnly rows={4} className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-xs text-slate-700 font-mono" defaultValue="You are an empathetic, professional Islamic school coordinator... Write in WhatsApp Markdown." />
                 </div>
 
                 <div className="pt-2 flex items-center justify-between">
@@ -267,7 +267,7 @@ export const WhatsAppTimelineDashboard: React.FC<{ tenantId: string }> = ({ tena
                     <div className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
                     <span className="text-xs font-bold text-emerald-400">Service Active</span>
                   </div>
-                  <button onClick={() => setShowAiSettings(false)} className="bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold px-4 py-2 rounded-lg">Save Configuration</button>
+                  <button onClick={() => setShowAiSettings(false)} className="bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold px-4 py-2 rounded-lg">Save Configuration</button>
                 </div>
               </div>
             </motion.div>
@@ -276,11 +276,11 @@ export const WhatsAppTimelineDashboard: React.FC<{ tenantId: string }> = ({ tena
       </AnimatePresence>
       
       {/* LEFT COLUMN: RESOLVED THREADS LIST (Width 380px) */}
-      <div className="flex w-[380px] flex-col border-r border-neutral-800 bg-[#0A0A0C]">
+      <div className="flex w-[380px] flex-col border-r border-slate-200 bg-slate-50/50">
         
         {/* Navigation Header matches Apple-spec universal dashboard */}
-        <div className="h-16 px-6 border-b border-neutral-800 flex items-center justify-between">
-          <div className="flex items-center space-x-2 text-white font-semibold">
+        <div className="h-16 px-6 border-b border-slate-200 flex items-center justify-between">
+          <div className="flex items-center space-x-2 text-slate-900 font-semibold">
             <MessageSquare className="h-4 w-4 text-emerald-400" />
             <span>Omnichannel Helpdesk</span>
           </div>
@@ -294,15 +294,15 @@ export const WhatsAppTimelineDashboard: React.FC<{ tenantId: string }> = ({ tena
         </div>
 
         {/* Search header panel */}
-        <div className="p-4 border-b border-neutral-800">
-          <div className="relative flex items-center bg-[#151518] rounded-xl border border-neutral-800 focus-within:border-neutral-700 transition-all">
-            <Search className="absolute left-3.5 h-4 w-4 text-neutral-500" />
+        <div className="p-4 border-b border-slate-200">
+          <div className="relative flex items-center bg-slate-50 rounded-xl border border-slate-200 focus-within:border-neutral-700 transition-all">
+            <Search className="absolute left-3.5 h-4 w-4 text-slate-400" />
             <input
               type="text"
               placeholder="Search parent name or student ID..."
               value={searchText}
               onChange={(e) => setSearchText(e.target.value)}
-              className="w-full bg-transparent pl-10 pr-4 py-2.5 text-xs text-white placeholder-neutral-500 focus:outline-none"
+              className="w-full bg-transparent text-slate-900 pl-10 pr-4 py-2.5 text-xs text-slate-900 placeholder-neutral-500 focus:outline-none"
             />
           </div>
         </div>
@@ -315,37 +315,37 @@ export const WhatsAppTimelineDashboard: React.FC<{ tenantId: string }> = ({ tena
               <div
                 key={thread.id}
                 onClick={() => loadThreadTimeline(thread)}
-                className={`relative cursor-pointer p-4 transition-all duration-150 flex items-start space-x-3 hover:bg-[#121215] ${
-                  isActive ? "bg-[#16161C] border-l-2 border-royal-blue" : ""
+                className={`relative cursor-pointer p-4 transition-all duration-150 flex items-start space-x-3 hover:bg-slate-50 ${
+                  isActive ? "bg-teal-50/50 border-l-2 border-royal-blue" : ""
                 }`}
               >
                 {/* Visual Avatar Placeholder */}
-                <div className="relative flex-shrink-0 h-10 w-10 rounded-full bg-neutral-800 flex items-center justify-center font-mono font-bold text-xs text-slate-300">
+                <div className="relative flex-shrink-0 h-10 w-10 rounded-full bg-slate-200 flex items-center justify-center font-mono font-bold text-xs text-slate-700">
                   {thread.parentName.split(" ").map(n => n[0]).join("")}
                 </div>
 
                 <div className="flex-1 min-w-0">
                   <div className="flex justify-between items-baseline mb-0.5">
-                    <h4 className="text-xs font-semibold text-white truncate">
+                    <h4 className="text-xs font-semibold text-slate-900 truncate">
                       {thread.parentName}
                     </h4>
-                    <span className="text-[10px] text-neutral-500 font-mono">
+                    <span className="text-[10px] text-slate-400 font-mono">
                       {thread.lastMessageTime}
                     </span>
                   </div>
 
-                  <p className="text-[10px] text-neutral-400 truncate mb-1">
+                  <p className="text-[10px] text-slate-500 truncate mb-1">
                     Student: <span className="text-slate-200">{thread.studentName} ({thread.studentId})</span>
                   </p>
 
-                  <p className="text-xs text-neutral-500 truncate">
+                  <p className="text-xs text-slate-400 truncate">
                     {thread.lastMessage}
                   </p>
                 </div>
 
                 {/* Unread Message Pill Indicator */}
                 {thread.unreadCount > 0 && (
-                  <span className="flex-shrink-0 bg-blue-500 text-white font-mono font-bold text-[9px] px-1.5 py-0.5 rounded-full">
+                  <span className="flex-shrink-0 bg-blue-500 text-slate-900 font-mono font-bold text-[9px] px-1.5 py-0.5 rounded-full">
                     {thread.unreadCount}
                   </span>
                 )}
@@ -360,21 +360,21 @@ export const WhatsAppTimelineDashboard: React.FC<{ tenantId: string }> = ({ tena
         {activeThread ? (
           <>
             {/* Active Thread Meta Panel */}
-            <div className="h-16 border-b border-neutral-800 bg-[#0A0A0C] px-6 flex items-center justify-between">
+            <div className="h-16 border-b border-slate-200 bg-white px-6 flex items-center justify-between">
               <div>
                 <div className="flex items-center space-x-2">
-                  <h3 className="text-xs font-bold text-white">
+                  <h3 className="text-xs font-bold text-slate-900">
                     {activeThread.parentName}
                   </h3>
-                  <span className="text-[10px] font-mono bg-neutral-800 text-neutral-400 px-2 py-0.5 rounded-full">
+                  <span className="text-[10px] font-mono bg-slate-200 text-slate-500 px-2 py-0.5 rounded-full">
                     {activeThread.studentId}
                   </span>
                   <span className="text-[10px] font-mono text-emerald-400 flex items-center">
                     <Phone className="h-3 w-3 mr-1" /> {activeThread.parentPhone}
                   </span>
                 </div>
-                <p className="text-[10px] text-neutral-500 mt-0.5">
-                  Parent of <span className="text-slate-300 font-medium">{activeThread.studentName}</span> • Assigned to: <span className="text-neutral-400">{activeThread.assignedAgent || "Unassigned"}</span>
+                <p className="text-[10px] text-slate-400 mt-0.5">
+                  Parent of <span className="text-slate-700 font-medium">{activeThread.studentName}</span> • Assigned to: <span className="text-slate-500">{activeThread.assignedAgent || "Unassigned"}</span>
                 </p>
               </div>
 
@@ -398,7 +398,7 @@ export const WhatsAppTimelineDashboard: React.FC<{ tenantId: string }> = ({ tena
                   >
                     <div className={`max-w-[70%] space-y-1 ${isOutbound ? "items-end" : "items-start"}`}>
                       {/* Sender Meta Block */}
-                      <span className="text-[9px] font-mono text-neutral-500 block">
+                      <span className="text-[9px] font-mono text-slate-400 block">
                         {msg.senderName} • {msg.timestamp}
                       </span>
 
@@ -406,12 +406,12 @@ export const WhatsAppTimelineDashboard: React.FC<{ tenantId: string }> = ({ tena
                       <div
                         className={`p-3 rounded-2xl text-xs leading-relaxed ${
                           msg.senderType === "AI_ASSISTANT" 
-                            ? "bg-purple-900/20 border border-purple-500/25 text-purple-200" 
+                            ? "bg-purple-50 border border-purple-200 text-purple-800" 
                             : msg.senderType === "SYSTEM"
-                            ? "bg-neutral-800/40 border border-neutral-700/20 text-neutral-300"
+                            ? "bg-slate-200/40 border border-slate-200 text-slate-700"
                             : isOutbound
-                            ? "bg-[#0066cc] text-white" // Apple iOS Link Blue Accent
-                            : "bg-[#1C1C1E] text-slate-100"
+                            ? "bg-teal-500 text-white" // Apple iOS Link Blue Accent
+                            : "bg-slate-100 text-slate-900"
                         }`}
                       >
                         {msg.bodyText}
@@ -424,7 +424,7 @@ export const WhatsAppTimelineDashboard: React.FC<{ tenantId: string }> = ({ tena
                             {msg.deliveryStatus}
                           </span>
                           <CheckCheck className={`h-3 w-3 ${
-                            msg.deliveryStatus === "READ" ? "text-emerald-400" : "text-neutral-500"
+                            msg.deliveryStatus === "READ" ? "text-emerald-400" : "text-slate-400"
                           }`} />
                         </div>
                       )}
@@ -436,15 +436,15 @@ export const WhatsAppTimelineDashboard: React.FC<{ tenantId: string }> = ({ tena
             </div>
 
             {/* Inbound typing and message composition container */}
-            <div className="p-4 border-t border-neutral-800 bg-[#0A0A0C]">
-              <div className="flex items-center space-x-3 bg-[#151518] rounded-xl border border-neutral-800 px-3 py-2">
+            <div className="p-4 border-t border-slate-200 bg-white">
+              <div className="flex items-center space-x-3 bg-slate-50 rounded-xl border border-slate-200 px-3 py-2">
                 <input
                   type="text"
                   placeholder="Type an outbound WhatsApp message..."
                   value={inputMessage}
                   onChange={(e) => setInputMessage(e.target.value)}
                   onKeyDown={(e) => e.key === "Enter" && handleSend()}
-                  className="flex-1 bg-transparent border-none text-xs text-white placeholder-neutral-500 focus:outline-none"
+                  className="flex-1 bg-transparent text-slate-900 border-none text-xs text-slate-900 placeholder-neutral-500 focus:outline-none"
                 />
                 
                 {/* AI Helper Assistant Smart Hook */}
@@ -461,7 +461,7 @@ export const WhatsAppTimelineDashboard: React.FC<{ tenantId: string }> = ({ tena
                 <button
                   onClick={handleSend}
                   disabled={sending || !inputMessage.trim()}
-                  className="rounded-lg bg-[#0066cc] hover:bg-blue-600 text-white p-2 transition-all disabled:opacity-40 disabled:hover:bg-[#0066cc]"
+                  className="rounded-lg bg-teal-500 hover:bg-blue-600 text-slate-900 p-2 transition-all disabled:opacity-40 disabled:hover:bg-teal-500"
                 >
                   <Send className="h-4 w-4" />
                 </button>
@@ -472,8 +472,8 @@ export const WhatsAppTimelineDashboard: React.FC<{ tenantId: string }> = ({ tena
           /* Empty timeline placeholder view */
           <div className="flex-1 flex flex-col items-center justify-center text-center p-8">
             <MessageSquare className="h-12 w-12 text-neutral-700 animate-pulse mb-4" />
-            <h3 className="text-sm font-bold text-white">No Conversation Selected</h3>
-            <p className="text-xs text-neutral-500 mt-1.5 max-w-sm">
+            <h3 className="text-sm font-bold text-slate-900">No Conversation Selected</h3>
+            <p className="text-xs text-slate-400 mt-1.5 max-w-sm">
               Select an active conversation register from the left panel to review parent chat logs, student details, and dispatcher telemetry.
             </p>
           </div>
