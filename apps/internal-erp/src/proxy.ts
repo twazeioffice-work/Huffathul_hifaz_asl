@@ -56,8 +56,10 @@ export async function proxy(request: NextRequest) {
 
     return NextResponse.next();
   } catch (error) {
-    // Invalid token, redirect to login
-    return NextResponse.redirect(new URL("/login", request.url));
+    // Invalid token, clear it and redirect to login (or continue if already on login)
+    const response = isPublic ? NextResponse.next() : NextResponse.redirect(new URL("/login", request.url));
+    response.cookies.delete("access_token");
+    return response;
   }
 }
 
