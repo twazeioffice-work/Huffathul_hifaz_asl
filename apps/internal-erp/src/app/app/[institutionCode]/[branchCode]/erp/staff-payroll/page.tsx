@@ -9,8 +9,13 @@ import { Search, DollarSign, Users, CheckCircle, AlertCircle } from "lucide-reac
 
 
 import { useEffect } from 'react';
+import { useRouter, useParams } from 'next/navigation';
 
 export default function StaffPayrollPage() {
+  const router = useRouter();
+  const params = useParams();
+  const institutionCode = params.institutionCode as string;
+  const branchCode = params.branchCode as string;
   const [search, setSearch] = useState("");
   const [staffList, setStaffList] = useState<any[]>([]);
   useEffect(() => { fetch("/api/v1/erp/payroll").then(res => res.json()).then(data => setStaffList(data.length ? data : [{id:"EMP-001", name:"Ahmed Abdullah", role:"Ustad", salary:45000, status:"paid"}])) }, []);
@@ -57,7 +62,7 @@ export default function StaffPayrollPage() {
           </thead>
           <tbody>
             {staffList.map(staff => (
-              <tr key={staff.id} className="border-b border-slate-200 hover:bg-black/5">
+              <tr key={staff.id} onClick={() => router.push(`/app/${institutionCode}/${branchCode}/erp/staff-payroll/${staff.id}`)} className="border-b border-slate-200 hover:bg-black/5 cursor-pointer">
                 <td className="p-4 text-slate-700 font-medium">{staff.id}</td>
                 <td className="p-4 text-black font-semibold font-medium">{staff.name}</td>
                 <td className="p-4 text-slate-700 font-medium">{staff.role}</td>
@@ -74,6 +79,7 @@ export default function StaffPayrollPage() {
     </div>
   );
 }
+
 
 
 
