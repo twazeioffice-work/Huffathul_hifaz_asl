@@ -458,16 +458,16 @@ function UstadDashboardComponent({
                           <button
                             key={prayer}
                             onClick={() => cycleAttendance(student.id, prayer)}
-                            className={`flex-1 min-w-[70px] py-2 rounded-xl text-[10px] border font-bold capitalize transition-all duration-150 select-none ${
+                            className={`flex-1 min-w-[70px] py-2 rounded-xl border capitalize transition-all duration-150 select-none ${
                               status === "PRESENT"
-                                ? "bg-emerald-500/10 border-emerald-500 text-emerald-400"
+                                ? "bg-emerald-500/10 border-emerald-500 text-emerald-500"
                                 : status === "LATE"
-                                ? "bg-amber-500/10 border-amber-500 text-amber-400"
-                                : "bg-rose-500/10 border-rose-500 text-rose-400"
+                                ? "bg-amber-500/10 border-amber-500 text-amber-500"
+                                : "bg-rose-500/10 border-rose-500 text-rose-500"
                             }`}
                           >
-                            <span className="block opacity-60 text-[8px] uppercase font-mono">{prayer}</span>
-                            <span className="block mt-0.5">{status}</span>
+                            <span className="block text-xs font-black uppercase tracking-wider">{prayer}</span>
+                            <span className="block mt-0.5 text-[10px] font-bold opacity-80">{status}</span>
                           </button>
                         );
                       })}
