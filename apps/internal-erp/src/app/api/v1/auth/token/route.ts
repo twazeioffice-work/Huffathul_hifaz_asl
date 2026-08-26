@@ -3,7 +3,7 @@ import { SignJWT } from 'jose';
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
-const SECRET = new TextEncoder().encode("supersecretkey");
+const SECRET = new TextEncoder().encode(process.env.NEXT_PUBLIC_JWT_SECRET || "supersecretkey");
 
 export async function POST(req: Request) {
   try {

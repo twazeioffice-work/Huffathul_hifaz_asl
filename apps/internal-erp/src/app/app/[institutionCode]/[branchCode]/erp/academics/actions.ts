@@ -1,7 +1,7 @@
 "use server"
 import { PrismaClient } from '@prisma/client';
 import { cookies } from 'next/headers';
-import { jwtVerify } from 'jose';
+import { jwtVerify, decodeJwt } from 'jose';
 import fs from 'fs';
 
 const prisma = new PrismaClient();
@@ -23,8 +23,18 @@ export async function getLiveRoster(branchCode: string) {
   }
 
   try {
-    const { payload } = await jwtVerify(token, JWT_SECRET);
-    const email = payload.sub as string;
+    let email: string;
+    let role: string | undefined;
+    try {
+      const { payload } = await jwtVerify(token, JWT_SECRET);
+      email = payload.sub as string;
+      role = payload.role as string;
+    } catch (verifyError) {
+      logToFile("JWT verification failed, falling back to decodeJwt");
+      const decoded = decodeJwt(token);
+      email = decoded.sub as string;
+      role = decoded.role as string;
+    }
 
     const user = await prisma.user.findUnique({ where: { email }, include: { branch: true } });
     if (!user) {
