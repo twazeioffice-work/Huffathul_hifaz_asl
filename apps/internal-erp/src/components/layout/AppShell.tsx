@@ -158,8 +158,8 @@ export default function AppShell({
                   href={getHref(item.href)}
                   className={`rounded-xl border px-3 py-2 text-xs transition-colors ${
                     pathname?.includes(item.href)
-                      ? "border-cyan-500 bg-cyan-500/10 text-cyan-700"
-                      : "border-black/5 bg-transparent hover:bg-white text-slate-600 hover:text-slate-900"
+                      ? "border-cyan-400 bg-cyan-400/10 text-cyan-300"
+                      : "border-transparent bg-transparent hover:bg-white/10 text-slate-300 hover:text-white"
                   }`}
                 >
                   {item.label}
@@ -195,8 +195,8 @@ export default function AppShell({
                 href={getHref(item.href)}
                 className={`whitespace-nowrap rounded-xl border px-4 py-2 text-sm transition-colors ${
                   pathname?.includes(item.href)
-                    ? "border-cyan-500 bg-cyan-500/10 text-cyan-700"
-                    : "border-black/5 bg-transparent hover:bg-white text-slate-600 hover:text-slate-900"
+                    ? "border-cyan-400 bg-cyan-400/10 text-cyan-300"
+                    : "border-transparent bg-transparent hover:bg-white/10 text-slate-300 hover:text-white"
                 }`}
               >
                 {item.label}
@@ -231,7 +231,7 @@ export default function AppShell({
   return (
     <div className="flex min-h-screen bg-[#F4F1ED] text-slate-800">
       {renderSearchPalette()}
-      <aside className="w-72 flex flex-col border-r border-black/5 bg-[#F9F6F0] p-4 shadow-sm">
+      <aside className="w-72 flex flex-col border-r border-white/10 bg-[#184A45] text-slate-100 p-4 shadow-sm">
         <div className="mb-6 text-lg font-bold">SuffatCore</div>
         <nav className="flex-1 space-y-2">
           {sidebar.map((item) => {
@@ -242,8 +242,8 @@ export default function AppShell({
                 href={resolvedHref}
                 className={`block rounded-xl border px-3 py-2 text-sm transition-colors ${
                   pathname === resolvedHref || (item.href !== "/erp" && pathname?.includes(item.href))
-                    ? "border-cyan-500 bg-cyan-500/10 text-cyan-700"
-                    : "border-black/5 bg-transparent hover:bg-white text-slate-600 hover:text-slate-900"
+                    ? "border-cyan-400 bg-cyan-400/10 text-cyan-300"
+                    : "border-transparent bg-transparent hover:bg-white/10 text-slate-300 hover:text-white"
                 }`}
               >
                 {item.label}
@@ -254,14 +254,14 @@ export default function AppShell({
         <div className="mt-auto border-t border-black/5 pt-4 space-y-2">
           <button 
             onClick={() => router.push(role === "SUPER_ADMIN" ? "/app/suffat-hq/main/erp/settings" : getHref("/erp/settings"))}
-            className="w-full text-left rounded-xl border border-black/5 bg-transparent hover:bg-white px-3 py-2 text-sm text-slate-700 hover:bg-white text-slate-900 flex items-center justify-between"
+            className="w-full text-left rounded-xl border border-transparent bg-transparent hover:bg-white/10 px-3 py-2 text-sm text-slate-300 hover:text-white flex items-center justify-between"
           >
             <span>Settings</span>
             <Settings className="h-4 w-4" />
           </button>
           <button 
             onClick={handleLogout}
-            className="w-full text-left rounded-xl border border-red-500/30 bg-red-500/10 px-3 py-2 text-sm text-red-600 hover:bg-red-500/20"
+            className="w-full text-left rounded-xl border border-red-400/30 bg-red-400/10 px-3 py-2 text-sm text-red-400 hover:bg-red-400/20"
           >
             Sign Out
           </button>
@@ -289,3 +289,4 @@ export default function AppShell({
     </div>
   );
 }
+

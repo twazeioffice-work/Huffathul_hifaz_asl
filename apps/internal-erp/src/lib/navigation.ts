@@ -16,7 +16,6 @@ export interface NavItem {
 export const SUPER_ADMIN_NAV: NavItem[] = [
   { label: "Command Center", href: "/app/suffat-hq/main/erp" },
   { label: "Students (Global)", href: "/app/suffat-hq/main/erp/students" },
-  { label: "Academics (Global)", href: "/app/suffat-hq/main/erp/academics" },
   { label: "Staff & Payroll", href: "/app/suffat-hq/main/erp/staff-payroll" },
   { label: "Billing", href: "/app/suffat-hq/main/erp/billing" },
   { label: "Master Ledger", href: "/app/suffat-hq/main/erp/master-ledger" },
@@ -38,7 +37,6 @@ export const CENTER_ADMIN_NAV: NavItem[] = [
 
 export const NAZIM_NAV: NavItem[] = [
   { label: "Manage Ustads", href: "/erp/ustads" },
-  { label: "Academics", href: "/erp/academics" },
   { label: "Local WhatsApp Triaging", href: "/erp/whatsapp" },
   { label: "Kitchen & Headcount", href: "/erp/kitchen" }
 ];
@@ -57,4 +55,5 @@ export const PORTAL_NAV: NavItem[] = [
   { label: "Secure Grievance Registry", href: "/grievance" },
   { label: "Campus Notice Board", href: "/notices" }
 ];
+
 
