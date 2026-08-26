@@ -1,7 +1,8 @@
 import React from "react";
 import { cookies } from 'next/headers';
 import * as jose from 'jose';
-import CenterAdminDashboard from "./CenterAdminDashboard";
+import CenterAdminDashboard from './CenterAdminDashboard';
+import { getDashboardMetrics } from './actions';
 import NazimDashboard from "./NazimDashboard";
 
 const JWT_SECRET = new TextEncoder().encode(process.env.NEXT_PUBLIC_JWT_SECRET || "supersecretkey");
@@ -21,9 +22,12 @@ export default async function ERPDashboardPage({ params }: { params: Promise<{ i
   }
 
   if (role === 'NAZIM') {
-    return <NazimDashboard branchCode={branchCode} institutionCode={institutionCode} />;
+    const metrics = await getDashboardMetrics(branchCode);
+    return <NazimDashboard branchCode={branchCode} institutionCode={institutionCode} metrics={metrics} />;
   }
   
   // Default fallback for Center Admin, Super Admin, etc (Super Admin uses a different path but just in case)
-  return <CenterAdminDashboard branchCode={branchCode} institutionCode={institutionCode} />;
+  const metrics = await getDashboardMetrics(branchCode);
+  return <CenterAdminDashboard branchCode={branchCode} institutionCode={institutionCode} metrics={metrics} />;
 }
+

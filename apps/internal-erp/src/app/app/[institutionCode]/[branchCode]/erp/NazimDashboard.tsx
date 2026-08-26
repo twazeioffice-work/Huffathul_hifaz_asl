@@ -6,7 +6,7 @@ import { GlassCard } from "@/components/ui/GlassCard";
 import { Button } from "@/components/ui/Button";
 import { BookOpen, Users, MessageSquare, Utensils } from "lucide-react";
 
-export default function NazimDashboard({ institutionCode, branchCode }: { institutionCode: string; branchCode: string }) {
+export default function NazimDashboard({ institutionCode, branchCode, metrics }: { institutionCode: string; branchCode: string; metrics: any }) {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -19,7 +19,7 @@ export default function NazimDashboard({ institutionCode, branchCode }: { instit
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <KpiCard
           title="Active Ustads"
-          value="14"
+          value={metrics.activeUstads.toString()}
           icon={<BookOpen size={20} />}
           onClick={() => window.location.href = `/app/${institutionCode}/${branchCode}/erp/ustads`}
         />
@@ -38,7 +38,7 @@ export default function NazimDashboard({ institutionCode, branchCode }: { instit
         />
         <KpiCard
           title="Kitchen Headcount"
-          value="340"
+          value={metrics.kitchenHeadcount.toString()}
           trend="Today"
           icon={<Utensils size={20} />}
           onClick={() => window.location.href = `/app/${institutionCode}/${branchCode}/erp/kitchen`}
@@ -59,3 +59,4 @@ export default function NazimDashboard({ institutionCode, branchCode }: { instit
     </div>
   );
 }
+

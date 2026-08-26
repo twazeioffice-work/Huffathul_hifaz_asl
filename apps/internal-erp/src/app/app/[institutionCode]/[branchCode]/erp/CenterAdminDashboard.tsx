@@ -6,7 +6,7 @@ import { GlassCard } from "@/components/ui/GlassCard";
 import { Button } from "@/components/ui/Button";
 import { Users, BookOpen, Activity, AlertCircle, DollarSign, Utensils, MessageSquare } from "lucide-react";
 
-export default function CenterAdminDashboard({ institutionCode, branchCode }: { institutionCode: string; branchCode: string }) {
+export default function CenterAdminDashboard({ institutionCode, branchCode, metrics }: { institutionCode: string; branchCode: string; metrics: any }) {
 
   return (
     <div className="space-y-6">
@@ -24,27 +24,27 @@ export default function CenterAdminDashboard({ institutionCode, branchCode }: { 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <KpiCard
           title="Total Students"
-          value="312"
+          value={metrics.totalStudents.toString()}
           trend="+12 this month"
           icon={<Users size={20} />}
           onClick={() => window.location.href = `/app/${institutionCode}/${branchCode}/erp/batches`}
         />
         <KpiCard
           title="Active Ustads"
-          value="14"
+          value={metrics.activeUstads.toString()}
           icon={<BookOpen size={20} />}
           onClick={() => window.location.href = `/app/${institutionCode}/${branchCode}/erp/ustads`}
         />
         <KpiCard
           title="Attendance Today"
-          value="96.4%"
+          value={metrics.todayAttendance}
           trend="Target: 95%"
           icon={<Activity size={20} />}
           onClick={() => window.location.href = `/app/${institutionCode}/${branchCode}/erp/students?tab=attendance`}
         />
         <KpiCard
           title="Pending Welfare Cases"
-          value="3"
+          value={metrics.activeCases.toString()}
           trend="1 SLA breach"
           icon={<AlertCircle size={20} className="text-amber-400" />}
           onClick={() => window.location.href = `/app/${institutionCode}/${branchCode}/erp/complaints`}
@@ -63,14 +63,14 @@ export default function CenterAdminDashboard({ institutionCode, branchCode }: { 
         />
         <KpiCard
           title="Kitchen Headcount"
-          value="340"
+          value={metrics.kitchenHeadcount.toString()}
           trend="Today"
           icon={<Utensils size={20} />}
           onClick={() => window.location.href = `/app/${institutionCode}/${branchCode}/erp/kitchen`}
         />
         <KpiCard
           title="WhatsApp Unread"
-          value="12"
+          value={metrics.whatsappUnread.toString()}
           icon={<MessageSquare size={20} />}
           onClick={() => window.location.href = `/app/${institutionCode}/${branchCode}/erp/whatsapp`}
         />
@@ -102,3 +102,4 @@ export default function CenterAdminDashboard({ institutionCode, branchCode }: { 
     </div>
   );
 }
+
