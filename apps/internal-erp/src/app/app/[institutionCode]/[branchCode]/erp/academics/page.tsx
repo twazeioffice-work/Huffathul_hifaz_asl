@@ -721,9 +721,13 @@ export default function AcademicsPage() {
   // In a production app, these would be fetched securely from a Server Component.
   // We mock them here to instantiate the client component seamlessly.
   const mockRoster: StudentRosterItem[] = [
-    { id: "S-1001", name: "Zaid Ibrahim", rollNumber: "H-401", parentPhone: "555-1234", assignedUstadId: "U-1", adabScoreThisWeek: 4 },
-    { id: "S-1002", name: "Abdullah Tariq", rollNumber: "H-402", parentPhone: "555-5678", assignedUstadId: "U-1", adabScoreThisWeek: 2 },
-    { id: "S-1003", name: "Umar Farooq", rollNumber: "H-403", parentPhone: "555-9012", assignedUstadId: "U-1", adabScoreThisWeek: 5 },
+    { id: "STU-001", name: "Ahmed Abdullah", rollNumber: "H-401", parentPhone: "555-1111", assignedUstadId: "U-1", adabScoreThisWeek: 4 },
+    { id: "STU-002", name: "Omar Farooq", rollNumber: "H-402", parentPhone: "555-2222", assignedUstadId: "U-1", adabScoreThisWeek: 5 },
+    { id: "STU-003", name: "Zaid Bin Harith", rollNumber: "H-403", parentPhone: "555-3333", assignedUstadId: "U-1", adabScoreThisWeek: 2 },
+    { id: "STU-004", name: "Ali Hassan", rollNumber: "H-404", parentPhone: "555-4444", assignedUstadId: "U-1", adabScoreThisWeek: 3 },
+    { id: "STU-005", name: "Bilal Rabah", rollNumber: "H-405", parentPhone: "555-5555", assignedUstadId: "U-1", adabScoreThisWeek: 5 },
+    { id: "STU-006", name: "Hamza Abdul", rollNumber: "H-406", parentPhone: "555-6666", assignedUstadId: "U-1", adabScoreThisWeek: 4 },
+    { id: "STU-007", name: "Tariq Jameel", rollNumber: "H-407", parentPhone: "555-7777", assignedUstadId: "U-1", adabScoreThisWeek: 3 },
   ];
 
   return (
