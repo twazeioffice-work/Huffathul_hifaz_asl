@@ -513,10 +513,29 @@ function UstadDashboardComponent({
                         </button>
                       </div>
                     )}
-      </div>
+                  </div>
+                </div>
 
-      {/* ==============================================================================
-          4. FLOATING ACTION DOCK
+                {/* Collapsed/Expandable Note Footer */}
+                {activeTab !== "ATTENDANCE" && activeTab !== "ADAB" && activeTab !== "COMMUNICATION" && sBuffer && (
+                  <div className="mt-3 border-t border-slate-900 pt-3 flex items-center space-x-2">
+                    <span className="text-[10px] text-slate-700 font-medium uppercase font-mono select-none">Notes:</span>
+                    <input
+                      type="text"
+                      value={sBuffer.notes}
+                      onChange={(e) => updateSabaqField(student.id, "notes", e.target.value)}
+                      placeholder="📝 Makharij validation or memorization remarks..."
+                      className="flex-1 bg-transparent text-xs text-slate-800 font-medium border-b border-transparent hover:border-slate-200 focus:border-cyan-500 focus:outline-none pb-0.5 transition-colors"
+                    />
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+  
+        {/* ==============================================================================
+            4. FLOATING ACTION DOCK
           ============================================================================== */}
       <div className="fixed bottom-20 left-1/2 -translate-x-1/2 w-[90%] max-w-md bg-transparent/90 backdrop-blur-xl border border-white/[0.08] p-3 rounded-2xl flex items-center justify-between shadow-2xl z-40">
         <button
