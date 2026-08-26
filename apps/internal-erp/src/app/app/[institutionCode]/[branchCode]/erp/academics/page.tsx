@@ -2,7 +2,7 @@
 import { getLiveRoster } from "./actions";
 
 import React, { useState, useEffect, useTransition } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   BookOpen, Calendar, CheckSquare, Eye, Award, Sparkles, 
@@ -83,7 +83,10 @@ function UstadDashboardComponent({
   } = useBrowserSync(branchCode, sessionToken);
 
   // --- B. State Declarations ---
-  const [activeTab, setActiveTab] = useState<CommandTab>("SABAQ");
+  const searchParams = useSearchParams();
+  const queryTab = searchParams.get('tab') as CommandTab | null;
+  const [activeTab, setActiveTab] = useState<CommandTab>(queryTab || 'SABAQ');
+  useEffect(() => { if (queryTab) setActiveTab(queryTab); }, [queryTab]);
   const [selectedDate, setSelectedDate] = useState<string>(new Date().toISOString().split("T")[0]);
   const [roster, setRoster] = useState<StudentRosterItem[]>(initialRoster);
   const [pendingCount, setPendingCount] = useState<number>(0);
@@ -353,6 +356,16 @@ function UstadDashboardComponent({
           ============================================================================== */}
       <div className="space-y-4">
         {roster.length === 0 && (
+          <div className="flex flex-col items-center justify-center p-12 bg-white/40 border border-slate-200 rounded-2xl">
+            <Users className="h-12 w-12 text-slate-300 mb-4" />
+            <h3 className="text-slate-800 font-bold text-lg">No Students Found</h3>
+            <p className="text-slate-500 text-sm mt-2 text-center max-w-sm">
+              We couldn't find any students assigned to this criteria. Please verify your branch settings or Ustad assignments.
+            </p>
+          </div>
+        )}
+
+                {roster.length === 0 && (
           <div className="flex flex-col items-center justify-center p-12 bg-white/40 border border-slate-200 rounded-2xl">
             <Users className="h-12 w-12 text-slate-300 mb-4" />
             <h3 className="text-slate-800 font-bold text-lg">No Students Found</h3>
@@ -758,4 +771,6 @@ export default function AcademicsPage() {
     />
   );
 }
+
+
 
