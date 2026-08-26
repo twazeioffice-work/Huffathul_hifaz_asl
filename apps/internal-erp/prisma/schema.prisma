@@ -43,6 +43,7 @@ model Student {
   name         String
   status       String   @default("active")
   branchId     String
+  ustadId      String?
   branch       Branch   @relation(fields: [branchId], references: [id])
   sabaqRecords Sabaq[]
 }
@@ -107,3 +108,4 @@ model Transaction {
   branchId String
   date DateTime @default(now())
 }
+
