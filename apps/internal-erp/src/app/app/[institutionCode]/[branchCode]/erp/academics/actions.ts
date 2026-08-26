@@ -76,28 +76,10 @@ export async function getLiveRoster(branchCode: string) {
       adabScoreThisWeek: 5
     }));
 
-    if (mappedStudents.length === 0) {
-      return [{
-        id: "DEBUG-001",
-        name: `DEBUG: ${user?.email} (${user?.role}) branch=${currentBranch?.branchCode}`,
-        rollNumber: "DB-01",
-        parentPhone: "000",
-        assignedUstadId: "DEBUG",
-        adabScoreThisWeek: 5
-      }];
-    }
-
     return mappedStudents;
 
   } catch (error) {
     logToFile("Failed to get live roster: " + (error as any).message);
-    return [{
-      id: "DEBUG-ERR",
-      name: `ERROR: ${(error as any).message}`,
-      rollNumber: "ERR",
-      parentPhone: "000",
-      assignedUstadId: "ERR",
-      adabScoreThisWeek: 5
-    }];
+    return [];
   }
 }
