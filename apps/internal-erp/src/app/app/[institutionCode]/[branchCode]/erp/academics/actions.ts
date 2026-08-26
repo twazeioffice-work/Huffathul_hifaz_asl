@@ -7,7 +7,8 @@ const prisma = new PrismaClient();
 const JWT_SECRET = new TextEncoder().encode(process.env.NEXT_PUBLIC_JWT_SECRET || "supersecretkey");
 
 export async function getLiveRoster() {
-  const token = cookies().get("access_token")?.value;
+  const cookieStore = await cookies();
+  const token = cookieStore.get("access_token")?.value;
   if (!token) return [];
 
   try {

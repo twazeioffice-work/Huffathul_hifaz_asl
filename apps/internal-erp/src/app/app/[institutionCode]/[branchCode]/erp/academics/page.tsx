@@ -714,14 +714,19 @@ function UstadDashboardComponent({
   );
 }
 
-
-export default function AcademicsPage({ params }: { params: { institutionCode: string, branchCode: string } }) {
+export default function AcademicsPage() {
+  const params = useParams();
   const institutionCode = params.institutionCode as string || "suffat";
   const branchCode = params.branchCode as string || "main";
   const [liveRoster, setLiveRoster] = useState<StudentRosterItem[] | null>(null);
 
   useEffect(() => {
-    getLiveRoster().then(setLiveRoster);
+    getLiveRoster()
+      .then(setLiveRoster)
+      .catch((err) => {
+        console.error("Failed to load roster:", err);
+        setLiveRoster([]);
+      });
   }, []);
 
   if (!liveRoster) {
@@ -743,5 +748,4 @@ export default function AcademicsPage({ params }: { params: { institutionCode: s
     />
   );
 }
-
 
