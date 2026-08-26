@@ -61,9 +61,9 @@ export default function StaffPayrollPage() {
                 <td className="p-4 text-slate-700 font-medium">{staff.id}</td>
                 <td className="p-4 text-black font-semibold font-medium">{staff.name}</td>
                 <td className="p-4 text-slate-700 font-medium">{staff.role}</td>
-                <td className="p-4 text-black font-semibold text-right">${staff.salary.toLocaleString()}</td>
+                <td className="p-4 text-black font-semibold text-right">${(staff.salary || 0).toLocaleString()}</td>
                 <td className="p-4 text-center">
-                  <Badge variant={staff.status === 'paid' ? 'success' : 'warning'}>{staff.status.toUpperCase()}</Badge>
+                  <Badge variant={(staff.status || 'pending') === 'paid' ? 'success' : 'warning'}>{(staff.status || 'pending').toUpperCase()}</Badge>
                 </td>
                 <td className="p-4 text-right"><Button variant="secondary">View Slip</Button></td>
               </tr>
@@ -74,3 +74,5 @@ export default function StaffPayrollPage() {
     </div>
   );
 }
+
+
