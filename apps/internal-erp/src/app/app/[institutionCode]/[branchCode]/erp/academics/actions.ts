@@ -61,8 +61,7 @@ export async function getLiveRoster(branchCode: string) {
     }
 
     const students = await prisma.student.findMany({
-      where: whereClause,
-      take: 250 // Limit just in case
+      where: whereClause
     });
 
     logToFile(`Found ${students.length} students. Example student: ${students.length > 0 ? students[0].name : 'none'}`);

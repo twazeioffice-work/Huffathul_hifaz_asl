@@ -36,6 +36,7 @@
     "serialize-javascript": "^7.1.0"
   },
   "dependencies": {
-    "playwright": "^1.62.1"
+    "playwright": "^1.62.1",
+    "puppeteer": "^25.9.0"
   }
 }
