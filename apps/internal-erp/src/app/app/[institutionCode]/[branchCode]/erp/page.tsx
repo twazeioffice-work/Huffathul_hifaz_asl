@@ -22,12 +22,13 @@ export default async function ERPDashboardPage({ params }: { params: Promise<{ i
   }
 
   if (role === 'NAZIM') {
-    const metrics = await getDashboardMetrics(branchCode);
+    const metrics = await getDashboardMetrics(institutionCode, branchCode);
     return <NazimDashboard branchCode={branchCode} institutionCode={institutionCode} metrics={metrics} />;
   }
   
   // Default fallback for Center Admin, Super Admin, etc (Super Admin uses a different path but just in case)
-  const metrics = await getDashboardMetrics(branchCode);
+  const metrics = await getDashboardMetrics(institutionCode, branchCode);
   return <CenterAdminDashboard branchCode={branchCode} institutionCode={institutionCode} metrics={metrics} />;
 }
+
 

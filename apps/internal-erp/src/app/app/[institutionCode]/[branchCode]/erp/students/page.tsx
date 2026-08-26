@@ -1,17 +1,27 @@
 "use client";
 
-import React from "react";
-import { notFound, useParams } from "next/navigation";
+import React, { useEffect, useState } from "react";
+import { notFound, useParams, useRouter } from "next/navigation";
 import { UniversalDashboardLayout } from "@/components/dashboard/UniversalDashboardLayout";
 import { getSidebarLinks } from "@/components/dashboard/universal-page-schemas";
 import { Users, GraduationCap, CheckCircle, Clock } from "lucide-react";
+import { getStudentMetrics } from "../actions";
 
 export default function StudentRoster() {
   const params = useParams();
+  const router = useRouter();
   const institutionCode = params.institutionCode as string;
   const branchCode = params.branchCode as string;
 
-  const tenant = `${institutionCode}-${branchCode}`;
+  const [metrics, setMetrics] = useState<any>(null);
+
+  useEffect(() => {
+    if (institutionCode && branchCode) {
+      getStudentMetrics(institutionCode, branchCode).then(data => setMetrics(data));
+    }
+  }, [institutionCode, branchCode]);
+
+  const tenant = ${institutionCode}-;
 
   if (!tenant || tenant.trim() === "-") {
     return notFound();
@@ -26,7 +36,7 @@ export default function StudentRoster() {
       {
         id: "stu-m1",
         title: "Total Students",
-        value: "1,245",
+        value: metrics ? metrics.totalStudents.toLocaleString() : "...",
         changeLabel: "+5% YTD",
         isPositive: true,
         statusText: "Enrolled",
@@ -36,7 +46,7 @@ export default function StudentRoster() {
       {
         id: "stu-m2",
         title: "Active Batches",
-        value: "42",
+        value: metrics ? metrics.activeBatches.toString() : "...",
         changeLabel: "All divisions",
         isPositive: true,
         statusText: "Operational",
@@ -46,7 +56,7 @@ export default function StudentRoster() {
       {
         id: "stu-m3",
         title: "Average Attendance",
-        value: "94.2%",
+        value: metrics ? metrics.averageAttendance : "...",
         changeLabel: "Target: 95%",
         isPositive: false,
         statusText: "Warning",
@@ -58,17 +68,17 @@ export default function StudentRoster() {
       title: "Active Enrollment Directory",
       subtitle: "Current students across all active batches",
       headers: ["Admission #", "Name", "Batch", "Status", "Action"],
-      rows: [1, 2, 3, 4, 5].map(i => ({
-        id: `STU-100${i}`,
+      rows: metrics ? metrics.studentsList.map((student: any) => ({
+        id: student.id,
         columns: [
-          { key: "id", value: `ADM-100${i}`, styleClass: "font-mono text-blue-400 font-bold" },
-          { key: "name", value: `Student Name ${i}` },
+          { key: "id", value: student.id.slice(0, 8).toUpperCase(), styleClass: "font-mono text-blue-400 font-bold" },
+          { key: "name", value: student.name },
           { key: "batch", value: "Batch 2026", styleClass: "text-muted-foreground" },
           { key: "status", value: "ACTIVE", styleClass: "text-emerald-400 text-xs font-bold" },
           { key: "action", value: "View Record" }
         ],
-        metaData: { admissionDate: "2026-01-15" }
-      }))
+        metaData: { admissionDate: student.admissionDate || "2026-01-15" }
+      })) : []
     },
     sidebarWidget: {
       title: "Admissions Pipeline",
@@ -81,21 +91,19 @@ export default function StudentRoster() {
     }
   };
 
-  const sidebarLinks = getSidebarLinks("students");
+  const sidebarLinks = getSidebarLinks("students").filter(l => l.id !== 'academics'); // Ensure academics is removed here too
 
   return (
     <UniversalDashboardLayout
       schema={pageSchema}
       sidebarLinks={sidebarLinks}
       onSidebarClick={(id) => {
-        if (id === 'dashboard') window.location.href = `/app/${institutionCode}/${branchCode}/erp`;
-        if (id === 'academics') window.location.href = `/app/${institutionCode}/${branchCode}/erp/academics`;
-        if (id === 'finance') window.location.href = `/app/${institutionCode}/${branchCode}/erp/finance`;
-        if (id === 'students') window.location.href = `/app/${institutionCode}/${branchCode}/erp/students`;
+        if (id === 'dashboard') router.push(/app/ + institutionCode + / + branchCode + /erp);
+        if (id === 'finance') router.push(/app/ + institutionCode + / + branchCode + /erp/finance);
+        if (id === 'students') router.push(/app/ + institutionCode + / + branchCode + /erp/students);
       }}
       onRowActionClick={(rowId, metaData) => {
-        console.log(`[STUDENT RECORD] Tenant ${tenant} querying student: ${rowId}`, metaData);
-        window.location.href = `/app/${institutionCode}/${branchCode}/erp/students/${rowId}`;
+        router.push(/app/ + institutionCode + / + branchCode + /erp/students/ + rowId);
       }}
     />
   );

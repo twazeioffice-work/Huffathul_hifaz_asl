@@ -57,3 +57,4 @@ export const PORTAL_NAV: NavItem[] = [
   { label: "Secure Grievance Registry", href: "/grievance" },
   { label: "Campus Notice Board", href: "/notices" }
 ];
+

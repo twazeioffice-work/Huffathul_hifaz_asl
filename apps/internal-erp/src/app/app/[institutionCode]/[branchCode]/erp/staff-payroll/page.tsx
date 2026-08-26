@@ -27,15 +27,15 @@ export default function StaffPayrollPage() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <GlassCard className="p-4 flex items-center gap-4">
           <div className="p-3 bg-indigo-500/20 text-indigo-400 rounded-lg"><Users /></div>
-          <div><p className="text-sm text-slate-700 font-medium">Total Staff</p><p className="text-2xl font-bold text-black font-semibold">42</p></div>
+          <div><p className="text-sm text-slate-700 font-medium">Total Staff</p><p className="text-2xl font-bold text-black font-semibold">{staffList.length || "..."}</p></div>
         </GlassCard>
         <GlassCard className="p-4 flex items-center gap-4">
           <div className="p-3 bg-green-500/20 text-green-400 rounded-lg"><DollarSign /></div>
-          <div><p className="text-sm text-slate-700 font-medium">Total Disbursed</p><p className="text-2xl font-bold text-black font-semibold">$124,500</p></div>
+          <div><p className="text-sm text-slate-700 font-medium">Total Disbursed</p><p className="text-2xl font-bold text-black font-semibold">${staffList.length ? staffList.reduce((sum, staff) => sum + (staff.salary || 0), 0).toLocaleString() : "..."}</p></div>
         </GlassCard>
         <GlassCard className="p-4 flex items-center gap-4">
           <div className="p-3 bg-amber-500/20 text-amber-400 rounded-lg"><AlertCircle /></div>
-          <div><p className="text-sm text-slate-700 font-medium">Pending Clearances</p><p className="text-2xl font-bold text-black font-semibold">3</p></div>
+          <div><p className="text-sm text-slate-700 font-medium">Pending Clearances</p><p className="text-2xl font-bold text-black font-semibold">{staffList.length ? staffList.filter(s => (s.status || "pending") !== "paid").length : "..."}</p></div>
         </GlassCard>
       </div>
 
@@ -74,5 +74,6 @@ export default function StaffPayrollPage() {
     </div>
   );
 }
+
 
 
