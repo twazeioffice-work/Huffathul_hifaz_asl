@@ -44,12 +44,7 @@ export const NAZIM_NAV: NavItem[] = [
 ];
 
 export const USTAD_COMMAND_STRIP: NavItem[] = [
-  { label: 'Dashboard', href: '/erp/academics' },
-  { label: "Attendance & Prayers", href: "/erp/academics/attendance" },
-  { label: "Hifz Sabaq", href: "/erp/academics/hifz-sabaq" },
-  { label: "Sabqi", href: "/erp/academics/sabqi" },
-  { label: "Manzil", href: "/erp/academics/manzil" },
-  { label: "Adab & Behavior", href: "/erp/academics/adab" }
+  { label: 'Dashboard', href: '/erp/academics' }
 ];
 
 export const PORTAL_NAV: NavItem[] = [

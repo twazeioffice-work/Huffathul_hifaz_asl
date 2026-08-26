@@ -6,7 +6,7 @@ import { jwtVerify } from 'jose';
 const prisma = new PrismaClient();
 const JWT_SECRET = new TextEncoder().encode(process.env.NEXT_PUBLIC_JWT_SECRET || "supersecretkey");
 
-export async function getLiveRoster() {
+export async function getLiveRoster(branchCode: string) {
   const cookieStore = await cookies();
   const token = cookieStore.get("access_token")?.value;
   if (!token) return [];
@@ -16,22 +16,37 @@ export async function getLiveRoster() {
     const email = payload.sub as string;
 
     const user = await prisma.user.findUnique({ where: { email }, include: { branch: true } });
-    if (!user) return [];
+    if (!user) {
+      console.log("No user found for email:", email);
+      return [];
+    }
 
     let whereClause: any = {};
     
-    // If the user is an USTAD, only return their students.
+    // Find the branch from the URL branchCode
+    const currentBranch = await prisma.branch.findUnique({ where: { branchCode } });
+    if (!currentBranch) {
+      console.log("No branch found for branchCode:", branchCode);
+      return [];
+    }
+
     if (user.role === "USTAD") {
+      // Ustads only see their students
       whereClause.ustadId = user.id;
+    } else if (user.role === "SUPER_ADMIN") {
+      // Super admin sees all students to preview the database! 
+      // We remove branchId filter so it pulls from the 2500 seeded students.
     } else {
-      // If Nazim or Center Admin, they can see all students in their branch
-      whereClause.branchId = user.branchId;
+      // Nazims and others see students in their assigned branch
+      whereClause.branchId = user.branchId || currentBranch.id;
     }
 
     const students = await prisma.student.findMany({
       where: whereClause,
       take: 250 // Limit just in case
     });
+
+    console.log(`getLiveRoster: found ${students.length} students for user ${user.role} in branch ${branchCode}`);
 
     return students.map(s => ({
       id: s.id,

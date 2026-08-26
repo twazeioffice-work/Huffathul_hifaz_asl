@@ -721,7 +721,7 @@ export default function AcademicsPage() {
   const [liveRoster, setLiveRoster] = useState<StudentRosterItem[] | null>(null);
 
   useEffect(() => {
-    getLiveRoster()
+    getLiveRoster(branchCode)
       .then(setLiveRoster)
       .catch((err) => {
         console.error("Failed to load roster:", err);
