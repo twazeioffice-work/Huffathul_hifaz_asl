@@ -1,15 +1,18 @@
 {
   "expo": {
-    "name": "mobile-portal",
-    "slug": "mobile-portal",
+    "name": "Suffat Ul Huffaz ASL App",
+    "slug": "suffat-huffaz-app",
+    "scheme": "suffatapp",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "edu.suffat.huffaz.app"
     },
     "android": {
+      "package": "edu.suffat.huffaz.app",
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/android-icon-foreground.png",
