@@ -11,7 +11,7 @@ import {
 } from "@/lib/navigation";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { Bell, Search, User, FileText, Settings, X, Command } from "lucide-react";
+import { Bell, Search, User, Settings, X } from "lucide-react";
 
 export default function AppShell({
   role,
@@ -34,9 +34,9 @@ export default function AppShell({
   const getHref = (href: string) => {
     if (href.startsWith("/app/suffat-hq") || href.startsWith("/settings")) return href;
     if (role === "STUDENT" || role === "PARENT") {
-      return `/app/${institutionCode || "tenant"}/${branchCode || "branch"}/portal/${role.toLowerCase()}${href}`;
+      return `/app/${institutionCode || "suffat"}/${branchCode || "main"}/portal/${role.toLowerCase()}${href}`;
     }
-    return `/app/${institutionCode || "tenant"}/${branchCode || "branch"}${href}`;
+    return `/app/${institutionCode || "suffat"}/${branchCode || "main"}${href}`;
   };
 
   const handleLogout = async () => {
@@ -45,9 +45,10 @@ export default function AppShell({
     } catch (e) {
       console.error(e);
     }
-    // Also clear them locally just in case
-    if ('serviceWorker' in navigator) { navigator.serviceWorker.getRegistrations().then(r => r.forEach(x => x.unregister())); }
-      document.cookie = 'access_token=; Max-Age=0; path=/';
+    if ('serviceWorker' in navigator) { 
+      navigator.serviceWorker.getRegistrations().then(r => r.forEach(x => x.unregister())); 
+    }
+    document.cookie = 'access_token=; Max-Age=0; path=/';
     document.cookie = "__Host-Secure-Token=; Max-Age=0; path=/; Secure";
     window.location.href = "/login";
   };
@@ -90,16 +91,13 @@ export default function AppShell({
               <X className="h-5 w-5" />
             </button>
           </div>
-          <div className="p-2 max-h-[60vh] overflow-y-auto space-y-4">
-            {/* Empty for now as per design */}
-          </div>
         </div>
       </div>
     );
   };
 
   const renderNotificationBell = () => (
-    <div className="relative ml-4">
+    <div className="relative">
       <button 
         onClick={() => {
           if (role !== "STUDENT" && role !== "PARENT" && role !== "USTAD") {
@@ -108,20 +106,21 @@ export default function AppShell({
             setShowNotifications(!showNotifications);
           }
         }}
-        className="p-2 rounded-xl border border-black/5 bg-transparent hover:bg-white text-slate-600 hover:text-slate-900 text-slate-700 relative"
+        className="p-2 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 text-slate-200 transition-colors relative"
+        title="Notifications"
       >
-        <Bell className="h-5 w-5" />
-        <span className="absolute -top-1 -right-1 h-3 w-3 bg-rose-500 rounded-full animate-pulse border-2 border-zinc-950"></span>
+        <Bell className="h-4 w-4" />
+        <span className="absolute -top-0.5 -right-0.5 h-2.5 w-2.5 bg-rose-500 rounded-full animate-pulse"></span>
       </button>
       
-      {showNotifications && (role === "STUDENT" || role === "PARENT" || role === "USTAD") && (
-        <div className="absolute right-0 mt-2 w-80 bg-white border border-black/5 rounded-2xl shadow-xl z-50 overflow-hidden">
-          <div className="p-3 border-b border-black/5 flex justify-between items-center bg-[#184A45]">
-            <span className="font-bold text-sm">Notifications</span>
-            <button className="text-xs text-blue-400">Mark all read</button>
+      {showNotifications && (
+        <div className="absolute right-0 mt-2 w-80 bg-white border border-slate-200 rounded-2xl shadow-xl z-50 overflow-hidden text-slate-800">
+          <div className="p-3 border-b border-slate-100 flex justify-between items-center bg-[#184A45] text-white">
+            <span className="font-bold text-xs">Notifications</span>
+            <button onClick={() => setShowNotifications(false)} className="text-xs text-cyan-300">Close</button>
           </div>
-          <div className="p-3 text-sm text-slate-100 text-center">
-            You have 2 unread notifications.
+          <div className="p-4 text-xs text-slate-600 text-center">
+            All systems verified and operational.
           </div>
         </div>
       )}
@@ -133,32 +132,44 @@ export default function AppShell({
     return (
       <button 
         onClick={() => setShowSearch(true)}
-        className="flex items-center space-x-2 bg-white text-slate-800 hover:text-slate-900 border border-black/5 rounded-xl py-1.5 px-3 text-sm transition-colors w-[30rem] justify-start shadow-sm"
+        className="flex items-center space-x-2 bg-white text-slate-800 hover:text-slate-900 border border-black/5 rounded-xl py-1.5 px-3 text-sm transition-colors w-[26rem] justify-start shadow-sm"
       >
         <Search className="h-4 w-4 text-slate-500" />
-        <span className="text-slate-500 truncate">Search center names, usthad name, student name, finance...</span>
+        <span className="text-slate-500 truncate text-xs">Search center names, usthad name, student name, finance...</span>
       </button>
     );
   };
+
+  const renderUserProfileButton = () => (
+    <button 
+      onClick={() => router.push('/settings')} 
+      className="flex items-center space-x-2 p-1.5 pr-3 hover:bg-white/10 rounded-xl transition-colors text-slate-100 border border-white/10 bg-white/5"
+      title="View Profile & Settings"
+    >
+      <div className="h-6 w-6 rounded-lg bg-cyan-400/20 text-cyan-300 flex items-center justify-center font-bold text-xs font-mono">
+        <User className="h-3.5 w-3.5" />
+      </div>
+      <span className="text-xs font-medium text-slate-200 hidden sm:inline">Profile</span>
+    </button>
+  );
 
   if (role === "STUDENT" || role === "PARENT") {
     return (
       <div className="min-h-screen bg-[#F4F1ED] text-slate-800">
         {renderSearchPalette()}
-        <header className="sticky top-0 z-40 border-b border-black/5 bg-[#184A45] shadow-sm">
-          <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-4">
-            <div className="font-bold flex items-center space-x-4">
-              <span className="text-white">EPR Dashboard</span>
-            </div>
-            <nav className="flex gap-3 items-center">
-              {renderSearchTrigger()}
+        <header className="sticky top-0 z-40 border-b border-white/10 bg-[#184A45] shadow-sm">
+          <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
+            <Link href={`/app/${institutionCode || "suffat"}/${branchCode || "main"}/portal/${role.toLowerCase()}`} className="font-bold flex items-center space-x-2">
+              <span className="text-white font-bold text-base tracking-tight">Suffat {role === 'STUDENT' ? 'Student' : 'Parent'} Portal</span>
+            </Link>
+            <nav className="flex gap-2 items-center">
               {PORTAL_NAV.map((item) => (
                 <Link
                   key={item.href}
                   href={getHref(item.href)}
-                  className={`rounded-xl border px-3 py-2 text-xs transition-colors ${
+                  className={`rounded-xl border px-3 py-1.5 text-xs transition-colors ${
                     pathname?.includes(item.href)
-                      ? "border-cyan-400 bg-cyan-400/10 text-cyan-300"
+                      ? "border-cyan-400 bg-cyan-400/10 text-cyan-300 font-semibold"
                       : "border-transparent bg-transparent hover:bg-white/10 text-slate-300 hover:text-white"
                   }`}
                 >
@@ -166,16 +177,17 @@ export default function AppShell({
                 </Link>
               ))}
               {renderNotificationBell()}
+              {renderUserProfileButton()}
               <button 
                 onClick={handleLogout}
-                className="ml-4 rounded-xl border border-red-500/30 bg-red-500/10 px-3 py-2 text-xs text-red-600 hover:bg-red-500/20"
+                className="ml-2 rounded-xl border border-red-400/30 bg-red-400/10 px-3 py-1.5 text-xs text-red-300 hover:bg-red-400/20"
               >
                 Sign Out
               </button>
             </nav>
           </div>
         </header>
-        <main className="mx-auto max-w-5xl p-4">{children}</main>
+        <main className="mx-auto max-w-5xl p-6">{children}</main>
       </div>
     );
   }
@@ -184,18 +196,18 @@ export default function AppShell({
     return (
       <div className="min-h-screen bg-[#F4F1ED] text-slate-800">
         {renderSearchPalette()}
-        <header className="sticky top-0 z-40 border-b border-black/5 bg-[#184A45] shadow-sm flex items-center justify-between pr-4">
-          <div className="flex items-center pl-4">
-            {renderSearchTrigger()}
+        <header className="sticky top-0 z-40 border-b border-white/10 bg-[#184A45] shadow-sm flex items-center justify-between px-4 py-2.5">
+          <div className="flex items-center space-x-3">
+            <span className="font-bold text-white text-sm hidden md:inline">Ustad Console</span>
           </div>
-          <div className="flex gap-3 overflow-x-auto px-4 py-3 hide-scrollbar flex-1 justify-center">
+          <div className="flex gap-2 overflow-x-auto px-2 hide-scrollbar flex-1 justify-center">
             {USTAD_COMMAND_STRIP.map((item) => (
               <Link
                 key={item.href}
                 href={getHref(item.href)}
-                className={`whitespace-nowrap rounded-xl border px-4 py-2 text-sm transition-colors ${
-                  pathname?.includes(item.href)
-                    ? "border-cyan-400 bg-cyan-400/10 text-cyan-300"
+                className={`whitespace-nowrap rounded-xl border px-3 py-1.5 text-xs transition-colors ${
+                  pathname === getHref(item.href) || (item.href !== "/erp/academics" && pathname?.includes(item.href))
+                    ? "border-cyan-400 bg-cyan-400/10 text-cyan-300 font-semibold"
                     : "border-transparent bg-transparent hover:bg-white/10 text-slate-300 hover:text-white"
                 }`}
               >
@@ -204,16 +216,17 @@ export default function AppShell({
             ))}
           </div>
           <div className="flex items-center space-x-2">
+            {renderUserProfileButton()}
             {renderNotificationBell()}
             <button 
               onClick={handleLogout}
-              className="whitespace-nowrap rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-2 text-sm text-red-600 hover:bg-red-500/20"
+              className="whitespace-nowrap rounded-xl border border-red-400/30 bg-red-400/10 px-3 py-1.5 text-xs text-red-300 hover:bg-red-400/20"
             >
               Sign Out
             </button>
           </div>
         </header>
-        <main className="p-4">{children}</main>
+        <main className="p-6">{children}</main>
       </div>
     );
   }
@@ -233,16 +246,17 @@ export default function AppShell({
       {renderSearchPalette()}
       <aside className="w-72 flex flex-col border-r border-white/10 bg-[#184A45] text-slate-100 p-4 shadow-sm">
         <div className="mb-6 text-lg font-bold">SuffatCore</div>
-        <nav className="flex-1 space-y-2">
+        <nav className="flex-1 space-y-1.5">
           {sidebar.map((item) => {
             const resolvedHref = getHref(item.href);
+            const isActive = pathname === resolvedHref || (item.href !== "/erp" && item.href !== "/app/suffat-hq/main/erp" && pathname?.includes(item.href));
             return (
               <Link
                 key={item.href}
                 href={resolvedHref}
                 className={`block rounded-xl border px-3 py-2 text-sm transition-colors ${
-                  pathname === resolvedHref || (item.href !== "/erp" && pathname?.includes(item.href))
-                    ? "border-cyan-400 bg-cyan-400/10 text-cyan-300"
+                  isActive
+                    ? "border-cyan-400 bg-cyan-400/10 text-cyan-300 font-semibold"
                     : "border-transparent bg-transparent hover:bg-white/10 text-slate-300 hover:text-white"
                 }`}
               >
@@ -251,9 +265,9 @@ export default function AppShell({
             );
           })}
         </nav>
-        <div className="mt-auto border-t border-black/5 pt-4 space-y-2">
+        <div className="mt-auto border-t border-white/10 pt-4 space-y-2">
           <button 
-            onClick={() => router.push(role === "SUPER_ADMIN" ? "/app/suffat-hq/main/erp/settings" : getHref("/erp/settings"))}
+            onClick={() => router.push('/settings')}
             className="w-full text-left rounded-xl border border-transparent bg-transparent hover:bg-white/10 px-3 py-2 text-sm text-slate-300 hover:text-white flex items-center justify-between"
           >
             <span>Settings</span>
@@ -261,7 +275,7 @@ export default function AppShell({
           </button>
           <button 
             onClick={handleLogout}
-            className="w-full text-left rounded-xl border border-red-400/30 bg-red-400/10 px-3 py-2 text-sm text-red-400 hover:bg-red-400/20"
+            className="w-full text-left rounded-xl border border-red-400/30 bg-red-400/10 px-3 py-2 text-sm text-red-300 hover:bg-red-400/20"
           >
             Sign Out
           </button>
@@ -274,9 +288,7 @@ export default function AppShell({
             {renderSearchTrigger()}
           </div>
           <div className="flex items-center space-x-3">
-            <button onClick={() => router.push('/settings')} className="p-2 hover:bg-white/10 rounded-xl transition-colors text-slate-100">
-              <User className="h-5 w-5" />
-            </button>
+            {renderUserProfileButton()}
             {renderNotificationBell()}
           </div>
         </header>
@@ -289,4 +301,3 @@ export default function AppShell({
     </div>
   );
 }
-

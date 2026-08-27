@@ -1,67 +1,73 @@
 "use client";
 import React from 'react';
-import { Card, CardHeader, CardBody, Divider } from '@heroui/react';
+import { GlassCard } from "@/components/ui/GlassCard";
+import { Button } from "@/components/ui/Button";
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
+import { DollarSign, Receipt, Landmark, FileText, ArrowRight } from "lucide-react";
 
-export default function Page() {
+export default function BillingPage() {
   const { institutionCode, branchCode } = useParams() as { institutionCode: string; branchCode: string };
   
   return (
-    <div className="p-8 w-full">
-      <h1 className="text-2xl font-bold text-black font-semibold mb-6">Financial Billing & Analytics Dashboard</h1>
+    <div className="space-y-6 max-w-7xl mx-auto">
+      <div>
+        <h1 className="text-2xl font-bold text-slate-900 mb-1">Financial Billing & Invoicing</h1>
+        <p className="text-xs text-slate-500">Student fee collection, automated receipt generation, and fee schedules.</p>
+      </div>
       
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-        <Card className="bg-[#111827] border border-[#1F2937]">
-          <CardBody>
-            <p className="text-sm text-slate-700 font-medium">Total Dues Pending</p>
-            <p className="text-3xl font-bold text-[#00F0FF] mt-2">Rs 145,000</p>
-          </CardBody>
-        </Card>
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <GlassCard className="p-5">
+          <span className="text-[10px] text-slate-500 font-mono font-bold uppercase tracking-wider">Total Dues Pending</span>
+          <p className="text-2xl font-bold text-rose-600 mt-1">?1,45,000</p>
+          <span className="text-[10px] text-slate-400 mt-1 block">18 Students</span>
+        </GlassCard>
         
-        <Card className="bg-[#111827] border border-[#1F2937]">
-          <CardBody>
-            <p className="text-sm text-slate-700 font-medium">Collected Fees (MTD)</p>
-            <p className="text-3xl font-bold text-[#00F0FF] mt-2">Rs 852,500</p>
-          </CardBody>
-        </Card>
+        <GlassCard className="p-5">
+          <span className="text-[10px] text-slate-500 font-mono font-bold uppercase tracking-wider">Collected Fees (MTD)</span>
+          <p className="text-2xl font-bold text-emerald-600 mt-1">?8,52,500</p>
+          <span className="text-[10px] text-emerald-600 mt-1 block">94.2% On-Time</span>
+        </GlassCard>
 
-        <Card className="bg-[#111827] border border-[#1F2937]">
-          <CardBody>
-            <p className="text-sm text-slate-700 font-medium">Ledger Assets (Cash/Bank)</p>
-            <p className="text-3xl font-bold text-[#00F0FF] mt-2">Rs 2,150,000</p>
-          </CardBody>
-        </Card>
+        <GlassCard className="p-5">
+          <span className="text-[10px] text-slate-500 font-mono font-bold uppercase tracking-wider">Ledger Balance (SCB)</span>
+          <p className="text-2xl font-bold text-cyan-600 mt-1">?21,50,000</p>
+          <span className="text-[10px] text-slate-400 mt-1 block">Bank Reconciled</span>
+        </GlassCard>
 
-        <Card className="bg-[#111827] border border-[#1F2937]">
-          <CardBody>
-            <p className="text-sm text-slate-700 font-medium">Unreconciled Receipts</p>
-            <p className="text-3xl font-bold text-[#00F0FF] mt-2">14</p>
-          </CardBody>
-        </Card>
+        <GlassCard className="p-5">
+          <span className="text-[10px] text-slate-500 font-mono font-bold uppercase tracking-wider">Unreconciled Receipts</span>
+          <p className="text-2xl font-bold text-amber-600 mt-1">14</p>
+          <span className="text-[10px] text-amber-600 mt-1 block">Requires Review</span>
+        </GlassCard>
       </div>
       
-      <Divider className="my-8 bg-[#1F2937]" />
-      
-      <h2 className="text-xl font-semibold text-black font-semibold mb-4">Quick Actions</h2>
-      <div className="flex space-x-4">
-        <Link href={`/app/${institutionCode}/${branchCode}/erp/billing/collect`} className="px-4 py-2 bg-[#00F0FF] text-black font-semibold rounded-md hover:bg-cyan-400 transition-colors">
-          Collect Fee Payment
-        </Link>
-        <Link href={`/app/${institutionCode}/${branchCode}/erp/billing/due-schedule`} className="px-4 py-2 border border-[#00F0FF] text-[#00F0FF] font-semibold rounded-md hover:bg-[#00F0FF]/10 transition-colors">
-          View Student Due Schedules
-        </Link>
-        <Link href={`/app/${institutionCode}/${branchCode}/erp/ledger`} className="px-4 py-2 border border-gray-600 text-slate-800 font-medium font-semibold rounded-md hover:bg-gray-800 transition-colors">
-          View General Ledger
-        </Link>
-      </div>
-
-      <div className="mt-12 bg-[#111827] border border-[#1F2937] p-6 rounded-lg h-64 flex items-center justify-center">
-         <p className="text-gray-500 italic">Dynamic SVG Cash Inflow/Outflow Chart will be injected here</p>
+      <div className="p-6 bg-white border border-slate-200 rounded-2xl shadow-sm space-y-4">
+        <h2 className="text-sm font-bold text-slate-800 uppercase tracking-wider font-mono">Quick Billing Operations</h2>
+        <div className="flex flex-wrap gap-4">
+          <Link 
+            href={`/app/${institutionCode}/${branchCode}/erp/billing/collect`} 
+            className="px-5 py-2.5 bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-xs rounded-xl shadow-sm transition-colors flex items-center gap-2"
+          >
+            <Receipt className="h-4 w-4" />
+            <span>Collect Fee Payment</span>
+          </Link>
+          <Link 
+            href={`/app/${institutionCode}/${branchCode}/erp/billing/due-schedule`} 
+            className="px-5 py-2.5 bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-800 font-bold text-xs rounded-xl shadow-sm transition-colors flex items-center gap-2"
+          >
+            <FileText className="h-4 w-4" />
+            <span>View Student Due Schedules</span>
+          </Link>
+          <Link 
+            href={`/app/${institutionCode}/${branchCode}/erp/ledger`} 
+            className="px-5 py-2.5 bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-800 font-bold text-xs rounded-xl shadow-sm transition-colors flex items-center gap-2"
+          >
+            <Landmark className="h-4 w-4" />
+            <span>View General Ledger</span>
+          </Link>
+        </div>
       </div>
     </div>
   );
 }
-
-
-

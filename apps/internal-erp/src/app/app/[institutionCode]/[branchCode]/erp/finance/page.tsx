@@ -118,9 +118,7 @@ export default function FinanceDashboardPhase3() {
           <p className="text-xs text-slate-700 font-medium mt-2">Reconcile internal double-entry ledgers with physical bank statements.</p>
         </div>
 
-        {/* Fee Structures & Invoices */}
-        <div 
-          className="group cursor-pointer p-6 bg-[rgba(255,255,255,0.02)] hover:bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.05)] hover:border-purple-500/30 rounded-2xl backdrop-blur-xl transition-all duration-300"
+        {/* Fee Structures & Invoices */}`n        <div onClick={() => router.push(`/app/${institutionCode}/${branchCode}/erp/billing`)} className="group cursor-pointer p-6 bg-[rgba(255,255,255,0.02)] hover:bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.05)] hover:border-purple-500/30 rounded-2xl backdrop-blur-xl transition-all duration-300"
         >
           <div className="h-12 w-12 bg-purple-500/10 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
             <FileText className="h-6 w-6 text-purple-400" />
@@ -132,9 +130,7 @@ export default function FinanceDashboardPhase3() {
           <p className="text-xs text-slate-700 font-medium mt-2">Manage fee heads, generate invoices, and log receipts/waivers.</p>
         </div>
 
-        {/* Budget vs Actual */}
-        <div 
-          className="group cursor-pointer p-6 bg-[rgba(255,255,255,0.02)] hover:bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.05)] hover:border-amber-500/30 rounded-2xl backdrop-blur-xl transition-all duration-300"
+        {/* Budget vs Actual */}`n        <div onClick={() => router.push(`${baseUrl}/budgets`)} className="group cursor-pointer p-6 bg-[rgba(255,255,255,0.02)] hover:bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.05)] hover:border-amber-500/30 rounded-2xl backdrop-blur-xl transition-all duration-300"
         >
           <div className="h-12 w-12 bg-amber-500/10 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
             <PieChart className="h-6 w-6 text-amber-400" />
@@ -146,9 +142,7 @@ export default function FinanceDashboardPhase3() {
           <p className="text-xs text-slate-700 font-medium mt-2">View branch budget allocations and track actual expenses against them.</p>
         </div>
 
-        {/* Accounting Periods */}
-        <div 
-          className="group cursor-pointer p-6 bg-[rgba(255,255,255,0.02)] hover:bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.05)] hover:border-blue-500/30 rounded-2xl backdrop-blur-xl transition-all duration-300"
+        {/* Accounting Periods */}`n        <div onClick={() => router.push(`${baseUrl}/accounting-periods`)} className="group cursor-pointer p-6 bg-[rgba(255,255,255,0.02)] hover:bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.05)] hover:border-blue-500/30 rounded-2xl backdrop-blur-xl transition-all duration-300"
         >
           <div className="h-12 w-12 bg-blue-500/10 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
             <Activity className="h-6 w-6 text-blue-400" />
@@ -164,3 +158,4 @@ export default function FinanceDashboardPhase3() {
     </div>
   );
 }
+

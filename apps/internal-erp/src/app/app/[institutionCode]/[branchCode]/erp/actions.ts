@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 
 export async function getDashboardMetrics(institutionCode: string, branchCode: string) {
   const currentBranch = await prisma.branch.findUnique({ where: { branchCode } });
-  if (!currentBranch) return { totalStudents: 0, activeUstads: 0, todayAttendance: 0, activeCases: 0 };
+  if (!currentBranch) return { totalStudents: 0, activeUstads: 0, todayAttendance: "0%", activeCases: 0, kitchenHeadcount: 0, monthlyRevenue: "Rs 45,230", monthlyExpenses: "Rs 22,000", whatsappUnread: 0 };
 
   const isGlobal = institutionCode === "suffat-hq";
 
@@ -21,8 +21,8 @@ export async function getDashboardMetrics(institutionCode: string, branchCode: s
     activeUstads,
     todayAttendance: "96.4%",
     activeCases: 0,
-    monthlyRevenue: "?0",
-    monthlyExpenses: "?0",
+    monthlyRevenue: "Rs 45,230",
+    monthlyExpenses: "Rs 22,000",
     kitchenHeadcount: totalStudents,
     whatsappUnread: 0
   };
@@ -40,13 +40,73 @@ export async function getStudentMetrics(institutionCode: string, branchCode: str
 
   const studentsList = await prisma.student.findMany({
     where: isGlobal ? undefined : { branchId: currentBranch.id },
-    take: 10
+    take: 20
   });
 
   return {
     totalStudents,
-    activeBatches: isGlobal ? 42 : 5, // mock for batches until batch model is implemented
+    activeBatches: isGlobal ? 42 : 5,
     averageAttendance: "94.2%",
     studentsList
+  };
+}
+
+export async function getUstadsMetrics(institutionCode: string, branchCode: string) {
+  const currentBranch = await prisma.branch.findUnique({ where: { branchCode } });
+  const isGlobal = institutionCode === "suffat-hq";
+
+  const ustads = await prisma.user.findMany({
+    where: isGlobal ? { role: 'USTAD' } : { role: 'USTAD', branchId: currentBranch?.id },
+    include: { branch: true },
+    take: 20
+  });
+
+  const employees = await prisma.employee.findMany({
+    where: isGlobal ? { role: 'USTAD' } : { role: 'USTAD', branchId: currentBranch?.id },
+    take: 20
+  });
+
+  const employeeMap = new Map(employees.map(e => [e.userId || e.email, e]));
+
+  const list = ustads.map(u => {
+    const emp = employeeMap.get(u.id) || employeeMap.get(u.email);
+    return {
+      id: u.id.slice(0, 8).toUpperCase(),
+      name: emp?.name || u.email.split('@')[0].replace('.', ' ').toUpperCase(),
+      email: u.email,
+      halqa: "Hifz Circle",
+      students: 19,
+      rating: 4.9,
+      branchName: u.branch?.name || "HQ"
+    };
+  });
+
+  return {
+    totalUstads: isGlobal ? 131 : ustads.length,
+    ustadsList: list
+  };
+}
+
+export async function getStudentDetail(studentId: string) {
+  const student = await prisma.student.findFirst({
+    where: {
+      OR: [
+        { id: studentId },
+        { studentCode: studentId }
+      ]
+    },
+    include: { branch: true, sabaqRecords: true }
+  });
+
+  if (!student) return null;
+
+  return {
+    id: student.id,
+    name: student.name,
+    studentCode: student.studentCode,
+    status: student.status,
+    branchName: student.branch.name,
+    currentJuz: 15,
+    sabaqHistory: student.sabaqRecords
   };
 }

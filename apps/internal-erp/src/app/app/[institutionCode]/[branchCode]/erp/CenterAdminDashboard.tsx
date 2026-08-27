@@ -80,7 +80,7 @@ export default function CenterAdminDashboard({ institutionCode, branchCode, metr
         <GlassCard className="col-span-1 lg:col-span-2">
           <h2 className="text-sm font-semibold uppercase tracking-wider text-slate-700 font-medium mb-4">Quick Actions</h2>
           <div className="flex gap-4">
-             <Button variant="secondary">Create Voucher</Button>
+             <Button variant="secondary" onClick={() => window.location.href = `/app/${institutionCode}/${branchCode}/erp/ledger/create-voucher`}>Create Voucher</Button>
              <Button variant="secondary" onClick={() => window.location.href = `/app/${institutionCode}/${branchCode}/erp/staff/register`}>Add Ustad</Button>
           </div>
         </GlassCard>
@@ -102,4 +102,5 @@ export default function CenterAdminDashboard({ institutionCode, branchCode, metr
     </div>
   );
 }
+
 

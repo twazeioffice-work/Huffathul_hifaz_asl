@@ -8,18 +8,27 @@ const SECRET = new TextEncoder().encode(process.env.NEXT_PUBLIC_JWT_SECRET || "s
 export async function POST(req: Request) {
   try {
     const { username_or_email, password } = await req.json();
+    const query = (username_or_email || "").trim().toLowerCase();
 
-    const user = await prisma.user.findUnique({
-      where: { email: username_or_email },
+    // Support email lookup or student code lookup
+    let user = await prisma.user.findUnique({
+      where: { email: query },
       include: { tenant: true, branch: true }
     });
+
+    if (!user && !query.includes('@')) {
+      user = await prisma.user.findUnique({
+        where: { email: `${query}@suffat.edu` },
+        include: { tenant: true, branch: true }
+      });
+    }
 
     if (!user || user.hashedPassword !== password) {
       return NextResponse.json({ detail: "Incorrect email or password" }, { status: 400 });
     }
 
-    const institution_code = user.tenant?.institutionCode || "tenant";
-    const branch_code = user.branch?.branchCode || "branch";
+    const institution_code = user.tenant?.institutionCode || "suffat";
+    const branch_code = user.branch?.branchCode || "main";
 
     const token = await new SignJWT({
       sub: user.email,
@@ -29,11 +38,23 @@ export async function POST(req: Request) {
     })
       .setProtectedHeader({ alg: 'HS256' })
       .setIssuedAt()
-      .setExpirationTime('2h')
+      .setExpirationTime('24h')
       .sign(SECRET);
 
+    let landing_url = `/app/${institution_code}/${branch_code}/erp`;
+    if (user.role === 'SUPER_ADMIN') {
+      landing_url = '/app/suffat-hq/main/erp';
+    } else if (user.role === 'STUDENT') {
+      landing_url = `/app/${institution_code}/${branch_code}/portal/student`;
+    } else if (user.role === 'PARENT') {
+      landing_url = `/app/${institution_code}/${branch_code}/portal/parent/notices`;
+    } else if (user.role === 'USTAD') {
+      landing_url = `/app/${institution_code}/${branch_code}/erp/academics`;
+    }
+
     const response = NextResponse.json({
-      landing_url: user.role === 'SUPER_ADMIN' ? '/app/suffat-hq/main/erp' : `/app/${institution_code}/${branch_code}/erp`
+      landing_url,
+      role: user.role
     });
 
     response.cookies.set('access_token', token, {
@@ -45,6 +66,7 @@ export async function POST(req: Request) {
 
     return response;
   } catch (error) {
+    console.error("Auth Token Error:", error);
     return NextResponse.json({ detail: "Internal Server Error" }, { status: 500 });
   }
 }

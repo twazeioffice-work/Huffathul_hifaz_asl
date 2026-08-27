@@ -12,7 +12,6 @@ import {
 
 export const getSidebarLinks = (activeId: string) => [
   { id: "dashboard", label: "Central Dashboard", icon: Activity, isActive: activeId === "dashboard" },
-  { id: "academics", label: "Academics", icon: BookOpen, isActive: activeId === "academics" },
   { id: "finance", label: "Financial Vault", icon: DollarSign, isActive: activeId === "finance" },
   { id: "students", label: "Student Roster", icon: Users, isActive: activeId === "students" },
 ];
@@ -383,3 +382,4 @@ export const academicsDashboardSchema = {
     ]
   }
 };
+

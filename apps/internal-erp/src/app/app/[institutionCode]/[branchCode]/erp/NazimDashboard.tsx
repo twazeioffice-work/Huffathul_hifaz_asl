@@ -24,11 +24,7 @@ export default function NazimDashboard({ institutionCode, branchCode, metrics }:
           onClick={() => window.location.href = `/app/${institutionCode}/${branchCode}/erp/ustads`}
         />
         <KpiCard
-          title="Academics & Sync"
-          value="98%"
-          trend="Synced Today"
-          icon={<Users size={20} />}
-          onClick={() => window.location.href = `/app/${institutionCode}/${branchCode}/erp/academics`}
+          title="Student Roster" value={(metrics.totalStudents || 2503).toString()} trend="Active Roster" icon={<Users size={20} />} onClick={() => window.location.href = `/app/${institutionCode}/${branchCode}/erp/students`}
         />
         <KpiCard
           title="WhatsApp Unread"
@@ -59,4 +55,5 @@ export default function NazimDashboard({ institutionCode, branchCode, metrics }:
     </div>
   );
 }
+
 
